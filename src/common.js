@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { Button } from "@material-ui/core";
 
+// ※ 아래는 mui + styled-components 어떻게 사용할지에 대한 예제이고 나중에 삭제해도 됩니다.
+
 export const Wrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -20,8 +22,6 @@ export const BoxTwo = styled.div`
   width: 100px;
   height: 100px;
 `;
-
-// 박스가 겹치는 부분이 있기 때문에 공통화를 한다. // 박스가 겹치는 부분이 있기 때문에 공통화를 한다. // 박스가 겹치는 부분이 있기 때문에 공통화를 한다. // 박스가 겹치는 부분이 있기 때문에 공통화를 한다.// 박스가 겹치는 부분이 있기 때문에 공통화를 한다. // 박스가 겹치는 부분이 있기 때문에 공통화를 한다.
 
 export const Box = styled.div`
   background-color: ${(props) => props.backgroundcolor};
