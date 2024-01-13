@@ -1,4 +1,4 @@
-import styled , {keyframes} from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { Button } from "@material-ui/core";
 
 // ※ 아래는 mui + styled-components 어떻게 사용할지에 대한 예제이고 나중에 삭제해도 됩니다.
@@ -36,23 +36,26 @@ export const Circle = styled.div`
   width: 100px;
   height: 100px;
   border-radius: 50%;
-`
+`;
 
 // styled(Box)를 써주면 기본 html 태그 말고도 mui나 커스터마이징한 컴포넌트도 넣을 수 있다.
 export const CommonCircle = styled(Box)`
   border-radius: 50%;
-`
+`;
 
 // required 속성을 가진 input 태그를 만들어준다.
-export const Input = styled.input.attrs({ required:true })`
-    background-color: orange;
-    margin-right: 5px;
+export const Input = styled.input.attrs({ required: true })`
+  background-color: orange;
+  margin-right: 5px;
 `;
 
 // 여러 속성도 줄 수 있다.
-export const SecondInput = styled.input.attrs({ required:true, maxLength:10 })`
-    background-color: orange;
-    margin-right: 5px;
+export const SecondInput = styled.input.attrs({
+  required: true,
+  maxLength: 10,
+})`
+  background-color: orange;
+  margin-right: 5px;
 `;
 
 // 애니메이션 효과를 지정하고
@@ -76,7 +79,7 @@ const CircleAnimation = keyframes`
 // 이 때! 주의할 점은 애니메이션을 컴포넌트보다 먼저 정의해줘야한다.
 export const AnimationCircle = styled(CommonCircle)`
   animation: ${CircleAnimation} 3s linear infinite;
-`
+`;
 
 // &:hover를 사용하여 hover 효과를 줄 수 있다.
 export const SpanBox = styled(Box)`
@@ -85,15 +88,13 @@ export const SpanBox = styled(Box)`
   align-items: center;
 
   span {
-    background-color : black;
-    
+    background-color: black;
+
     &:hover {
-      background-color : white;
+      background-color: white;
     }
   }
-`
-
-
+`;
 
 export const CommonButton = styled(Button)`
   background-color: black;
