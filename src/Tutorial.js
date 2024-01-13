@@ -1,12 +1,6 @@
 import React from "react";
 import useStore from "./store/store";
-import {
-  Wrapper,
-  Box,
-  CommonCircle,
-  AnimationCircle,
-  SpanBox,
-} from "./common";
+import { Wrapper, Box, CommonCircle, AnimationCircle, SpanBox } from "./common";
 import { TokenAxios } from "./apis/CommonAxios";
 
 const Tutorial = () => {
@@ -17,10 +11,10 @@ const Tutorial = () => {
 
   // 공통 axios 사용 예제
   // accessToken으로 refreshToken 가져오는 함수
-  const testAxios = async() => {
-    const result = await TokenAxios.get("/redis")
+  const testAxios = async () => {
+    const result = await TokenAxios.get("/redis");
     console.log(result.data);
-  }
+  };
 
   return (
     <>
@@ -33,7 +27,7 @@ const Tutorial = () => {
           backgroundcolor={"#574b90"}
           onClick={() => alert("버튼이 클릭되었습니다.")}
         />
-        
+
         <CommonCircle backgroundcolor={"black"} />
 
         {/* Animation 적용 */}
@@ -50,7 +44,6 @@ const Tutorial = () => {
 
       {/* axios 사용 예제 */}
       <button onClick={testAxios}>Axios Test</button>
-
     </>
   );
 };

@@ -1,17 +1,17 @@
-const { createProxyMiddleware } = require('http-proxy-middleware');
+const { createProxyMiddleware } = require("http-proxy-middleware");
 
-module.exports = function(app){
+module.exports = function (app) {
   app.use(
-    createProxyMiddleware('/api', {
+    createProxyMiddleware("/api", {
       target: process.env.REACT_APP_SERVER_ADDRESS,
-      changeOrigin: true
-    })
-  )
-  
+      changeOrigin: true,
+    }),
+  );
+
   app.use(
-    createProxyMiddleware('/redis', {
+    createProxyMiddleware("/redis", {
       target: process.env.REACT_APP_SERVER_ADDRESS,
-      changeOrigin: true
-    })
-  )
+      changeOrigin: true,
+    }),
+  );
 };
