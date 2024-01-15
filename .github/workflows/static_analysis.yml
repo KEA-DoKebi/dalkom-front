@@ -1,4 +1,4 @@
-name: 정적 분석
+name: 정적 분석 
 
 on:
   push
