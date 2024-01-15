@@ -1,5 +1,5 @@
 import styled, { keyframes } from "styled-components";
-import { Button } from "@material-ui/core";
+import { Button } from "@mui/material";
 
 // ※ 아래는 mui + styled-components 어떻게 사용할지에 대한 예제이고 나중에 삭제해도 됩니다.
 
@@ -37,6 +37,8 @@ export const Circle = styled.div`
   height: 100px;
   border-radius: 50%;
 `;
+
+//  /Users/kimjuhye/Documents/GitHub/dalkom-front/src/common.js
 
 // styled(Box)를 써주면 기본 html 태그 말고도 mui나 커스터마이징한 컴포넌트도 넣을 수 있다.
 export const CommonCircle = styled(Box)`
