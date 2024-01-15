@@ -35,4 +35,3 @@ jobs:
         sonar-scanner \
           -Dsonar.projectKey=$SONAR_PROJECT_KEY \
           -Dsonar.host.url=$SONAR_HOST_URL
-          -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info # Update this if your project generates coverage reports in a different location
