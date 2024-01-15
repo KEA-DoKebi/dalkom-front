@@ -1,4 +1,4 @@
-name: 정적 분
+name: 정적 분석
 on:
   push
 
@@ -35,5 +35,4 @@ jobs:
         sonar-scanner \
           -Dsonar.projectKey=$SONAR_PROJECT_KEY \
           -Dsonar.host.url=$SONAR_HOST_URL
-          -Dsonar.token=$SONAR_TOKEN
           -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info # Update this if your project generates coverage reports in a different location
