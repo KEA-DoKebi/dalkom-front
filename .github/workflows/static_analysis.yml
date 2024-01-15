@@ -1,5 +1,4 @@
-name: 정적 분석 
-
+name: 정적 분
 on:
   push
 
@@ -9,22 +8,32 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
-        fetch-depth: 0 # Disable shallow clone to avoid missing SCM information
+        # Disable shallow clone to avoid missing SCM information
+        fetch-depth: 0 
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '16' # Set this to the Node.js version your project uses
+        node-version: '16' # Update this to the Node.js version your project uses
+        cache: 'npm'
     - name: Install dependencies
-      run: npm install
+      run: |
+        npm install
     - name: Build
-      run: npm run build # Replace this with your build command if different
+      run: |
+        npm run build # Assuming 'build' script is defined in your package.json
+    - name: Download SonarQube Scanner
+      run: |
+        curl -Lo sonar-scanner-cli.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip
+        unzip sonar-scanner-cli.zip
+        echo "PATH=$(pwd)/sonar-scanner-4.6.2.2472-linux/bin:$PATH" >> $GITHUB_ENV
     - name: Run SonarQube Scan
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         SONAR_PROJECT_KEY: ${{ secrets.SONAR_PROJECT_KEY }}
       run: |
-       npx sonar-scanner -X 
-       -Dsonar.projectKey=$SONAR_PROJECT_KEY \
-       -Dsonar.host.url=$SONAR_HOST_URL \
-       -Dsonar.token=$SONAR_TOKEN
+        sonar-scanner \
+          -Dsonar.projectKey=$SONAR_PROJECT_KEY \
+          -Dsonar.host.url=$SONAR_HOST_URL
+          -Dsonar.token=$SONAR_TOKEN
+          -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info # Update this if your project generates coverage reports in a different location
