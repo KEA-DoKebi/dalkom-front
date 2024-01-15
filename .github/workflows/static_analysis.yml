@@ -1,0 +1,31 @@
+name: 정적 분석
+
+on:
+  push
+
+jobs:
+  sonarqube_scan:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0 # Disable shallow clone to avoid missing SCM information
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16' # Set this to the Node.js version your project uses
+    - name: Install dependencies
+      run: npm install
+    - name: Build
+      run: npm run build # Replace this with your build command if different
+    - name: Run SonarQube Scan
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        SONAR_PROJECT_KEY: ${{ secrets.SONAR_PROJECT_KEY }}
+      run: |
+        npx sonar-scanner \
+          -Dsonar.projectKey=$SONAR_PROJECT_KEY \
+          -Dsonar.host.url=$SONAR_HOST_URL \
+          -Dsonar.token=$SONAR_TOKEN \
+          -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info # Update this path as per your project's coverage report path
