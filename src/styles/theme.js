@@ -2,15 +2,6 @@
 const calcRem = (size) => `${size / 16}rem`;
 
 const fontSizes = {
-  small: calcRem(14),
-  base: calcRem(16),
-  lg: calcRem(18),
-  xl: calcRem(20),
-  xxl: calcRem(22),
-  xxxl: calcRem(24),
-  titleSize: calcRem(50),
-
-  /* 아래 사이즈는 주혜님 디자인 가이드 참고 */
   small: calcRem(10),
   base: calcRem(15),
   lg: calcRem(20),
