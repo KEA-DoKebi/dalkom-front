@@ -7,6 +7,8 @@ import ProductDetail from "./pages/User/ProductDetail";
 import Cart from "./pages/User/Cart";
 import MyPage from "./pages/User/MyPage";
 import CustomerService from "./pages/User/CustomerService";
+import SignUp from "./pages/User/SignUp";
+
 
 const Router = () => {
   return (
@@ -20,6 +22,8 @@ const Router = () => {
         <Route path="/mypage/:userSeq" element={<MyPage />} />
         <Route path="/notice" element={<CustomerService />} />
         <Route path="/admin" element={<AdminPage />} />
+
+        <Route path="/signUp" element={<SignUp />} />
       </Routes>
     </BrowserRouter>
   );
