@@ -35,8 +35,13 @@ const Topbar = () => {
               marginRight: "100px",
             }}
           >
-            <Button sx={{ color: "black", width: "80px" }}>로그아웃</Button>|
-            <Button sx={{ color: "black", width: "80px" }}>마이페이지</Button>
+            <Button sx={{ color: "black", width: "80px" }}>
+              <Typography variant="h8">로그아웃</Typography>
+            </Button>
+            |
+            <Button sx={{ color: "black", width: "80px" }}>
+              <Typography variant="h8">마이페이지</Typography>
+            </Button>
           </div>
         </Grid>
       </Box>
