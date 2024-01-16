@@ -1,7 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Tutorial from "./Tutorial";
-import MainPage from "./pages/User/MainPage";
 import AdminPage from "./pages/Admin/AdminPage";
 import ProductList from "./pages/User/ProductList";
 import ProductDetail from "./pages/User/ProductDetail";

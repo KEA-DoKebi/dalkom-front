@@ -1,7 +1,13 @@
+import { Card } from "./Card";
 import React from "react";
 
 const Grid = () => {
-  return <div>Grid</div>;
+  return (
+    <div>
+      <Card />
+      Grid
+    </div>
+  );
 };
 
 export default Grid;
