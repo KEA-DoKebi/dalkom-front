@@ -13,7 +13,7 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '20' # Update this to the Node.js version your project uses
+        node-version: '20.11.0' # Update this to the Node.js version your project uses
         cache: 'npm'
     - name: Install dependencies
       run: |
