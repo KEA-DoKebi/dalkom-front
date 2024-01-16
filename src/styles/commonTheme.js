@@ -64,7 +64,7 @@ export const colors = {
   yellow_2: "#FFF59D",
   yellow_3: "#FFD465",
   yellow_4: "#FFE082",
-    // primary
+  // primary
   $primaryLight: "#E4E7EC",
   $primaryMain: "#909AB0",
   $primaryDark: "#203461",
@@ -125,4 +125,3 @@ export const theme = {
 };
 
 export default theme;
-
