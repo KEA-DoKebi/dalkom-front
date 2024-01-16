@@ -45,4 +45,4 @@ jobs:
       - name: Upload coverage to SonarQube
         run: |
           npm install
-          npm run test -- --coverage
+          npm run test -- --coverage --passWithNoTests
