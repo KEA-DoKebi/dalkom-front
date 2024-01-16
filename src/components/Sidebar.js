@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import Box from "@mui/material/Box";
-import Drawer from "@mui/material/Drawer";
-import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
 import ListItem from "@mui/material/ListItem";
@@ -45,7 +43,7 @@ const Sidebar = () => {
   };
 
   return (
-    <Box sx={{ width: "260px", height: "100%", mt: 10, ml: 3, border: "1px solid #ccc", borderRadius: "7px"}}>
+    <Box sx={{ width: "260px", height: "100%", mt: 5, ml: 3, border: "1px solid #ccc", borderRadius: "7px"}}>
         <Box sx={{ overflow: "auto"}}>
           <List>
             <ListItem>
