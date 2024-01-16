@@ -5,22 +5,21 @@ import {
   Box,
   Typography,
   IconButton,
-  Icon,
   Grid,
 } from "@mui/material";
 import { Input } from "@mui/joy";
 import { Link } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
-import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
-import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
+import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
+import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import MenuIcon from "@mui/icons-material/Menu";
 import "../font/font.css";
 
 const Topbar = () => {
   return (
-    <Box sx={{ width: "100%", height: "120px"}}>
+    <Box sx={{ width: "100%", height: "120px" }}>
       <Box sx={{ height: "30px" }}>
         <Grid
           container
@@ -33,16 +32,11 @@ const Topbar = () => {
               display: "flex",
               alignItems: "center",
               justifyContent: "flex-end",
-              marginRight:"100px"
+              marginRight: "100px",
             }}
           >
-            <Button sx={{ color: "black", width: "80px"}}>
-              로그아웃
-            </Button>
-            |
-            <Button sx={{ color: "black", width: "80px" }}>
-              마이페이지
-            </Button>
+            <Button sx={{ color: "black", width: "80px" }}>로그아웃</Button>|
+            <Button sx={{ color: "black", width: "80px" }}>마이페이지</Button>
           </div>
         </Grid>
       </Box>
@@ -104,7 +98,9 @@ const Topbar = () => {
               }}
             >
               <IconButton>
-                <ShoppingCartCheckoutIcon sx={{ fontSize: "40px", color: "black" }} />
+                <ShoppingCartCheckoutIcon
+                  sx={{ fontSize: "40px", color: "black" }}
+                />
               </IconButton>
               <Typography variant="body2">장바구니</Typography>
             </div>
@@ -116,7 +112,9 @@ const Topbar = () => {
               }}
             >
               <IconButton>
-                <LocalShippingOutlinedIcon sx={{ fontSize: "40px", color: "black" }} />
+                <LocalShippingOutlinedIcon
+                  sx={{ fontSize: "40px", color: "black" }}
+                />
               </IconButton>
               <Typography variant="body2">배송조회</Typography>
             </div>
@@ -142,26 +140,26 @@ const Topbar = () => {
               width: "200px",
             }}
           >
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <IconButton>
-              <AttachMoneyIcon sx={{ fontSize: "40px", color: "black" }} />
-            </IconButton>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <Typography sx={{ fontSize: "30px" }}> 1,200,000</Typography>
-          </div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <IconButton>
+                <AttachMoneyIcon sx={{ fontSize: "40px", color: "black" }} />
+              </IconButton>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <Typography sx={{ fontSize: "30px" }}> 1,200,000</Typography>
+            </div>
           </div>
         </Grid>
       </Box>
