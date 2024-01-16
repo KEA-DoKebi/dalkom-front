@@ -5,9 +5,7 @@ import { TokenAxios } from "./apis/CommonAxios";
 
 const Tutorial = () => {
   // zustand의 store 불러와서 사용.
-  const { bears, increasePopulation, removeAllBears } = useStore(
-    (state) => state,
-  );
+  const { bears, increasePopulation, removeAllBears } = useStore((state) => state);
 
   // 공통 axios 사용 예제
   // accessToken으로 refreshToken 가져오는 함수
