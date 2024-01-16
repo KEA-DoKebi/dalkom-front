@@ -8,7 +8,7 @@
 @font-face {
     font-family: "H1";
     font-style: normal;
-    font-weight: 100;
+    font-weight: 900;
     src: url("./Inter-Black.woff") format("woff");
   }
 
@@ -16,7 +16,7 @@
 @font-face {
     font-family: "H2";
     font-style: normal;
-    font-weight: 100;
+    font-weight: 800;
     src: url("./Inter-ExtraBold.woff") format("woff");
   }
 
@@ -24,42 +24,42 @@
 @font-face {
     font-family: "H3";
     font-style: normal;
-    font-weight: 100;
+    font-weight: 700;
     src: url("./Inter-Bold.woff") format("woff");
   }
 
 @font-face {
     font-family: "H4";
     font-style: normal;
-    font-weight: 100;
+    font-weight: 600;
     src: url("./Inter-SemiBold.woff") format("woff");
   }
 
 @font-face {
     font-family: "H5";
     font-style: normal;
-    font-weight: 100;
+    font-weight: 500;
     src: url("./Inter-Medium.woff") format("woff");
   }
 
 @font-face {
     font-family: "H6";
     font-style: normal;
-    font-weight: 100;
+    font-weight: 400;
     src: url("./Inter-Regular.woff") format("woff");
   }
 
 @font-face {
     font-family: "H7";
     font-style: normal;
-    font-weight: 100;
+    font-weight: 300;
     src: url("./Inter-Light.woff") format("woff");
   }
 
 @font-face {
     font-family: "H8";
     font-style: normal;
-    font-weight: 100;
+    font-weight: 200;
     src: url("./Inter-ExtraLight.woff") format("woff");
   }
 
