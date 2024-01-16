@@ -11,10 +11,10 @@ const fontSizes = {
   titleSize: calcRem(50),
 };
 
-const font = {
-  'font-family': 'Eighteous',
-  src: "url('./font/Righteous-Regular.woff') format('woff')"
-};
+// const font = {
+//   'font-family': 'Eighteous',
+//   src: "url('./font/Righteous-Regular.woff') format('woff')"
+// };
 
 const paddings = {
   small: calcRem(8),
