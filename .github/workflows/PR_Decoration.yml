@@ -28,15 +28,15 @@ jobs:
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@master
         env:
-            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            SONAR_PROJECT_KEY : ${{ secrets.SONAR_PROJECT_KEY }}
-            SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_PROJECT_KEY: ${{ secrets.SONAR_PROJECT_KEY }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         with:
           args: >
-            -Dsonar.host.url=$SONAR_HOST_URL
-            -Dsonar.login=$SONAR_TOKEN
-            -Dsonar.projectKey=$SONAR_PROJECT_KEY
+            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+            -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
             -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
             -Dsonar.pullrequest.base=${{ github.base_ref }}
             -Dsonar.pullrequest.branch=${{ github.head_ref }}
