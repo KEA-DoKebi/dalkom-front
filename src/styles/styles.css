@@ -1,0 +1,90 @@
+/* styles.css */
+
+/* user div */
+.user_top_bar {
+    margin: 4px;
+    padding: 4px;
+    width: 1920px;
+    height: 220px; 
+   /* width:auto;*/
+    border: 2px solid #2980b9;
+  }
+
+  .user_banner {
+    padding: 4px;
+    width: 1920px;
+    height: 350px;
+    border: 2px solid #27ae60;
+  }
+  
+  .user_category_main {
+    padding: 15px;
+    width: 1920px;
+    height: 180px;
+    border: 2px solid #c0392b;
+  }
+  
+  .user_body_main {
+    padding: 20px;
+   /* margin-left: 175px;
+    margin-right: 175px; */
+    width: 1570px;
+    height: 1800px;
+    border: 2px solid #d35400;
+  }
+  
+  .user_foot_bar {
+    padding: 15px;
+    margin: 10px;
+    width: 1920px;
+    height: 200px;
+    border: 2px solid #2c3e50;
+  }
+  
+  .user_sidebar_detail {
+    width: 360px;
+    height:860px;
+    border: 2px solid #2c3e50
+  }
+
+
+  /* modal */
+  .modal_S {
+    width: 600px;
+    height:200px;
+    border-radius: 7;
+  }
+
+  .modal_M {
+    width: 800px;
+    height:400px;
+    border-radius: 7;
+  }
+
+  .modal_L {
+    width: 1200px;
+    height:800px;
+    border-radius: 7;
+  }
+
+  /*admom div*/
+  .admin_top_bar{
+    padding: 4px;
+    width:1640px;
+    height: 100px; 
+    border: 2px solid #2980b9;
+  }
+
+  .admin_side_bar{
+    padding: 4px;
+    width:285px;
+    height: 1200px; 
+    border: 2px solid #109431;
+  }
+
+  .admin_body{
+    padding: 4px;
+    width:1600px;
+    height: 940px; 
+    border: 2px solid #e7701b;
+  }
