@@ -38,6 +38,8 @@ export const Circle = styled.div`
   border-radius: 50%;
 `;
 
+//  /Users/kimjuhye/Documents/GitHub/dalkom-front/src/common.js
+
 // styled(Box)를 써주면 기본 html 태그 말고도 mui나 커스터마이징한 컴포넌트도 넣을 수 있다.
 export const CommonCircle = styled(Box)`
   border-radius: 50%;
