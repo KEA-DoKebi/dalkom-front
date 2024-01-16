@@ -1,11 +1,9 @@
 /* DesignGuide.js */
 
 import React from "react";
-import "../../src/styles/styles.css"
-
+import "../../src/styles/styles.css";
 
 /* Div */
-
 
 /* user */
 export const User_TopBar = () => {
@@ -43,21 +41,18 @@ export const User_SideBar_Detail = () => {
   return <div className="user_sidebar_detail"> </div>;
 };
 
-
-
-/* model size */ 
+/* model size */
 export const Modal_S = () => {
-  return <div className="modal_S"></div>
-}
+  return <div className="modal_S"></div>;
+};
 
 export const Modal_M = () => {
-  return <div className="modal_M"></div>
-}
+  return <div className="modal_M"></div>;
+};
 
 export const Mmodal_L = () => {
-  return <div className="modal_L"></div>
-}
-
+  return <div className="modal_L"></div>;
+};
 
 /* admin */
 /* main page */

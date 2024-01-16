@@ -8,7 +8,7 @@ import Cart from "./pages/User/Cart";
 import MyPage from "./pages/User/MyPage";
 import CustomerService from "./pages/User/CustomerService";
 import SignUp from "./pages/User/SignUp";
-
+import Topbar from "./components/Topbar";
 
 const Router = () => {
   return (
@@ -24,6 +24,7 @@ const Router = () => {
         <Route path="/admin" element={<AdminPage />} />
 
         <Route path="/signUp" element={<SignUp />} />
+        <Route path="/topbar" element={<Topbar />} />
       </Routes>
     </BrowserRouter>
   );

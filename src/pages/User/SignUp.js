@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import {colors} from "../../styles/commonTheme";
 import signUpImage from "../../images/signUpPage.png"
+import "../../font/font.css"
 
 const Base = styled.div`
   width:1920px;
@@ -17,6 +18,7 @@ const Body = styled.div`
   width: 1300px;
   height: 800px;
   display: flex;
+  flex-direction: column;
   justify-content: flex-start;
   background-color: ${colors.white};
   border-radius: 20px;
@@ -39,6 +41,25 @@ const Img_ = styled.img`
   transform: translate(-31%, 45%);
 `;
 
+const Title_small = styled.h2`
+  font-size: 30px;
+  fontFamily: Logo;
+`;
+
+const Title_Large = styled.h1`
+  font-size: 35px;
+  fontFamily: Logo;
+`;
+
+const Container = styled.div`
+  margin-left: 20%;
+  margin-top: 10%;
+  display: flex;
+  align-items: left;
+  justify-content: center;
+  background-color:  ${colors.$grey100};
+
+`;
 
 const SignUp = () => {
   return (
@@ -47,6 +68,10 @@ const SignUp = () => {
         <Img>
           <Img_ src = {signUpImage} />
         </Img>
+        <Container>
+            <Title_small>Welcome to </Title_small>
+            <Title_Large>DalKom.Shop</Title_Large>
+          </Container>
       </Body>
     </Base>
   );
