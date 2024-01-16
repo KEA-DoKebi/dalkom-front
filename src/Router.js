@@ -21,7 +21,7 @@ const Router = () => {
         <Route path="/mypage/:userSeq" element={<MyPage />} />
         <Route path="/notice" element={<CustomerService />} />
         <Route path="/admin" element={<AdminPage />} />
-        <Route path="/topbar" element={< Topbar/>} />
+        <Route path="/topbar" element={<Topbar />} />
       </Routes>
     </BrowserRouter>
   );
