@@ -1,7 +1,7 @@
 // 여기서 공통 스타일링 진행하고 프로젝트 시작
-const calcRem = (size) => `${size / 16}rem`;
+export const calcRem = (size) => `${size / 16}rem`;
 
-const fontSizes = {
+export const fontSizes = {
   small: calcRem(10),
   base: calcRem(15),
   lg: calcRem(20),
@@ -16,7 +16,7 @@ const fontSizes = {
 //   src: "url('./font/Righteous-Regular.woff') format('woff')"
 // };
 
-const paddings = {
+export const paddings = {
   small: calcRem(8),
   base: calcRem(10),
   lg: calcRem(12),
@@ -25,7 +25,7 @@ const paddings = {
   xxxl: calcRem(18),
 };
 
-const margins = {
+export const margins = {
   small: calcRem(8),
   base: calcRem(10),
   lg: calcRem(12),
@@ -34,18 +34,18 @@ const margins = {
   xxxl: calcRem(18),
 };
 
-const interval = {
+export const interval = {
   base: calcRem(50),
   lg: calcRem(100),
   xl: calcRem(150),
   xxl: calcRem(200),
 };
 
-const verticalInterval = {
+export const verticalInterval = {
   base: `${calcRem(10)} 0 ${calcRem(10)} 0`,
 };
 
-const deviceSizes = {
+export const deviceSizes = {
   mobileS: "320px",
   mobileM: "375px",
   mobileL: "450px",
@@ -53,7 +53,7 @@ const deviceSizes = {
   tabletL: "1024px",
 };
 
-const colors = {
+export const colors = {
   black: "#000000",
   white: "#FFFFFF",
   gray_1: "#222222",
@@ -105,7 +105,7 @@ const colors = {
   $grey900: "#121926",
 };
 
-const device = {
+export const device = {
   mobileS: `only screen and (max-width: ${deviceSizes.mobileS})`,
   mobileM: `only screen and (max-width: ${deviceSizes.mobileM})`,
   mobileL: `only screen and (max-width: ${deviceSizes.mobileL})`,
@@ -113,7 +113,7 @@ const device = {
   tabletL: `only screen and (max-width: ${deviceSizes.tabletL})`,
 };
 
-const theme = {
+export const theme = {
   fontSizes,
   colors,
   deviceSizes,
