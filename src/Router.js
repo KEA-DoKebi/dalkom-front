@@ -8,6 +8,8 @@ import Cart from "./pages/User/Cart";
 import MyPage from "./pages/User/MyPage";
 import CustomerService from "./pages/User/CustomerService";
 import Topbar from "./components/Topbar";
+import SideBar from "./components/Sidebar";
+import Bar from "./components/Bar";
 
 const Router = () => {
   return (
@@ -22,6 +24,8 @@ const Router = () => {
         <Route path="/notice" element={<CustomerService />} />
         <Route path="/admin" element={<AdminPage />} />
         <Route path="/topbar" element={<Topbar />} />
+        <Route path="/sidebar" element={<SideBar />} />
+        <Route path="/bar" element={<Bar />} />
       </Routes>
     </BrowserRouter>
   );

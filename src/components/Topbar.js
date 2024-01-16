@@ -168,6 +168,7 @@ const Topbar = () => {
           </div>
         </Grid>
       </Box>
+      <Divider sx={{color: "#000000"}}/>
     </Box>
   );
 };
