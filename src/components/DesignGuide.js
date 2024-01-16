@@ -2,7 +2,6 @@
 
 import React from "react";
 import "../../src/styles/styles.css"
-import Button from '@mui/material/Button';
 
 
 /* Div */
@@ -73,17 +72,3 @@ export const Admin_SideBar = () => {
 export const Admin_Body = () => {
   return <div className="admin_body"> </div>;
 };
-
-
-// /* MUI */
-// export default function BasicButtons_Contained({color, text}) {
-//   return (
-//     <Button variant="contained" color = {color}>{text}</Button>    
-//   );
-// }
-
-// export default function BasicButtons_Outlined({color, text}) {
-//   return (
-//     <Button variant="outlined" color = {color}>{text}</Button>
-//   );
-// }
