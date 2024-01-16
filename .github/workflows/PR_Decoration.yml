@@ -4,7 +4,7 @@ on:
   pull_request
 
 jobs:
-  sonarqube_scan:
+  pr_decoration :
     name: SonarQube Scan
     runs-on: ubuntu-latest
 
