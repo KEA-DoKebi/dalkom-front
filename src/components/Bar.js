@@ -7,7 +7,6 @@ const Bar = () => {
   return (
     <Paper>
       <Topbar />
-      
     </Paper>
   );
 };

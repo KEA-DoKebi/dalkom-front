@@ -11,5 +11,4 @@ const useStore = create(
   process.env.REACT_APP_NODE_ENV !== "production" ? devtools(store) : store,
 );
 
-
 export default useStore;

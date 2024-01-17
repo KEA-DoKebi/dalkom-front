@@ -1,14 +1,7 @@
 import React from "react";
-import { CustomButton } from "../../common";
-import { Link } from "react-router-dom";
+import DefaultLayout from "../../components/layout/DefaultLayout";
 const Cart = () => {
-
-
-  return (
-    <>
-      <Link to="/">메인페이지로 이동</Link>
-    </>
-  )
+  return <DefaultLayout>장바구니 페이지</DefaultLayout>;
 };
 
 export default Cart;

@@ -7,16 +7,16 @@ import { Input, Link } from "@mui/joy";
 
 export const CustomButton = styled(Button)`
   background-color: black;
-  color : white;
+  color: white;
   &:hover {
     background-color: gray;
   }
 `;
 
 export const CustomLink = styled(Link)`
-  background-color : black;
-  color : white;
-`
+  background-color: black;
+  color: white;
+`;
 
 export const Dwa = styled(Button)`
   background-color: orange;
@@ -40,4 +40,3 @@ export const StyledDateInput = styled(Input)`
     display: none;
   }
 `;
-

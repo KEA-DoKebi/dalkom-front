@@ -1,15 +1,13 @@
-import Test from "../../components/Test";
-import Layout from "../../components/layout/Layout";
-
-
+import CardGrid from "../../components/CardGrid";
+import SidebarLayout from "../../components/layout/SidebarLayout";
+import Layout from "../../components/layout/SidebarLayout";
 
 const ProductList = () => {
   return (
-    <Layout>
-      <Test />
-    </Layout>
-    
-  )
+    <SidebarLayout>
+      <CardGrid />
+    </SidebarLayout>
+  );
 };
 
 export default ProductList;
