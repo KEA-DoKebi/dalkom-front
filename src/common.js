@@ -1,7 +1,10 @@
 import styled, { keyframes } from "styled-components";
 import theme from "./styles/commonTheme";
+import { Button } from "@mui/material";
 
 // ※ 아래는 mui + styled-components 어떻게 사용할지에 대한 예제이고 나중에 삭제해도 됩니다.
+
+export const CustomButton = styled(Button)``;
 
 export const Wrapper = styled.div`
   display: flex;
@@ -36,6 +39,12 @@ export const Circle = styled.div`
   width: 100px;
   height: 100px;
   border-radius: 50%;
+`;
+
+export const testCircle = styled(Circle)`
+  &:hover {
+    background-color: "";
+  }
 `;
 
 //  /Users/kimjuhye/Documents/GitHub/dalkom-front/src/common.js

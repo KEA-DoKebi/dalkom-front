@@ -1,7 +1,10 @@
 import React from "react";
+import Topbar from "../../components/Topbar";
 
 const MyPage = () => {
-  return <div>MyPage</div>;
+  return (
+    <Topbar />
+  )
 };
 
 export default MyPage;
