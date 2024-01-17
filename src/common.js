@@ -1,5 +1,6 @@
 import styled, { keyframes } from "styled-components";
 import theme from "./styles/commonTheme";
+import { Input as MuiJoyInput } from "@mui/joy";
 
 // ※ 아래는 mui + styled-components 어떻게 사용할지에 대한 예제이고 나중에 삭제해도 됩니다.
 
@@ -38,7 +39,35 @@ export const Circle = styled.div`
   border-radius: 50%;
 `;
 
-//  /Users/kimjuhye/Documents/GitHub/dalkom-front/src/common.js
+// input창
+export const InputBoxS = styled(MuiJoyInput)`
+  background-color: #EEF2F6;
+  border-radius: 50%;
+  width: ${theme.inputsize.InputS.width};
+  height: ${theme.inputsize.InputS.height};
+`;
+
+export const InputBoxM = styled(MuiJoyInput)`
+  background-color: #EEF2F6;
+  border-radius: 50%;
+  width: ${theme.inputsize.InputM.width};
+  height: ${theme.inputsize.InputM.height};
+`;
+
+export const InputBoxL = styled(MuiJoyInput)`
+  background-color: #EEF2F6;
+  border-radius: 50%;
+  width: ${theme.inputsize.InputL.width};
+  height: ${theme.inputsize.InputL.height};
+`;
+
+export const InputBoxXL = styled(MuiJoyInput)`
+  background-color: #EEF2F6;
+  border-radius: 50%;
+  width: ${theme.inputsize.InputXL.width};
+  height: ${theme.inputsize.InputXL.height};
+`;
+
 
 // styled(Box)를 써주면 기본 html 태그 말고도 mui나 커스터마이징한 컴포넌트도 넣을 수 있다.
 export const CommonCircle = styled(Box)`

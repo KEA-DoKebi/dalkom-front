@@ -113,6 +113,25 @@ export const device = {
   tabletL: `only screen and (max-width: ${deviceSizes.tabletL})`,
 };
 
+const inputsize = {
+  InputS: {
+    width: '520px',
+    height: '50px'
+  },
+  InputM:{
+    width: '820px',
+    height: '50px'
+  },
+  InputL: {
+    width: '1060px',
+    height: '50px'
+  },
+  InputXL: {
+    width: '960px',
+    height: '140px'
+  }
+}
+
 export const theme = {
   fontSizes,
   colors,
@@ -122,6 +141,7 @@ export const theme = {
   margins,
   interval,
   verticalInterval,
+  inputsize,
 };
 
 export default theme;
