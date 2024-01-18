@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import {colors} from "../../styles/commonTheme";
+import {colors, fontSizes} from "../../styles/commonTheme";
 import signUpImage from "../../images/signUpPage.png"
 import "../../font/font.css"
+import FloatingLabelInput from "../../components/FloatingLabelInput"
+import AddressField from "../../components/AddressField";
+import BasicDatePicker from "../../components/BasicDatePicker";
+import StyledButton from "../../components/StyledButton";
 
 const Base = styled.div`
   width:1920px;
@@ -18,7 +22,7 @@ const Body = styled.div`
   width: 1300px;
   height: 800px;
   display: flex;
-  flex-direction: column;
+
   justify-content: flex-start;
   background-color: ${colors.white};
   border-radius: 20px;
@@ -31,7 +35,6 @@ const Img = styled.div`
   height: 800px;
   background-color: ${colors.yellow_1};
 
-  position: relative;
 `;
 
 const Img_ = styled.img`
@@ -44,24 +47,65 @@ const Img_ = styled.img`
 const Title_small = styled.h2`
   font-size: 30px;
   fontFamily: Logo;
+  line-height: 35px;
 `;
 
 const Title_Large = styled.h1`
   font-size: 35px;
   fontFamily: Logo;
+  line-height: 35px;
 `;
 
 const Container = styled.div`
-  margin-left: 20%;
-  margin-top: 10%;
+  margin-left: 5%;
   display: flex;
-  align-items: left;
-  justify-content: center;
-  background-color:  ${colors.$grey100};
-
+  align-items: flex-start;
+  flex-direction: column;;
+`;
+const Title_Wrapper = styled.div`
+  margin-top:5%;
+  display: flex;
+  flex-direction: row;
 `;
 
+const InputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center; /* 추가: 요소를 수직으로 가운데 정렬 */
+  gap: 10px;  
+  margin-bottom: 7px;
+`;
+
+const ErrorMsg = styled.p`
+  color: red;
+  font-size: 14px;
+  margin: 0;
+`;
+
+
 const SignUp = () => {
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  
+  const handlePasswordChange = (value) => {
+    setPassword(value);
+    // Reset password error when password is being changed
+    setPasswordError("");
+  };
+
+  const handleConfirmPasswordChange = (value) => {
+    setConfirmPassword(value);
+    // Check if password and confirm password match
+    if (password !== value) {
+      setPasswordError("비밀번호가 일치하지 않습니다.");
+    } else {
+      setPasswordError("");
+    }
+  };
+
+
   return (
     <Base>
       <Body>
@@ -69,9 +113,23 @@ const SignUp = () => {
           <Img_ src = {signUpImage} />
         </Img>
         <Container>
-            <Title_small>Welcome to </Title_small>
+          <Title_Wrapper>
+            <Title_small>Welcome to</Title_small>&nbsp;
             <Title_Large>DalKom.Shop</Title_Large>
-          </Container>
+          </Title_Wrapper>
+          <InputWrapper>
+           <FloatingLabelInput inputType="email" label="이메일" placeholder="이메일를 입력하세요" />
+           <FloatingLabelInput inputType="text" label="닉네임" placeholder="닉네임를 입력하세요" />
+           <FloatingLabelInput inputType="password" label="비밀번호" placeholder="비밀번호를 입력하세요" onChange={handlePasswordChange}/>
+           <FloatingLabelInput inputType="password" label="비밀번호 확인" placeholder="비밀번호 확인"  onChange={handleConfirmPasswordChange}/>
+           {passwordError && <ErrorMsg>{passwordError}</ErrorMsg>}
+           <FloatingLabelInput inputType="text" label="이름" placeholder="이름을 입력하세요." />
+           <FloatingLabelInput inputType="text" label="사원번호" placeholder="사원번호를 입력하세요" />
+           <BasicDatePicker/>
+           <AddressField />
+           <StyledButton/>
+          </InputWrapper>
+        </Container>
       </Body>
     </Base>
   );

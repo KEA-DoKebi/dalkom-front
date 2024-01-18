@@ -9,6 +9,7 @@ import MyPage from "./pages/User/MyPage";
 import CustomerService from "./pages/User/CustomerService";
 import SignUp from "./pages/User/SignUp";
 import Topbar from "./components/Topbar";
+import Login from "./pages/User/Login";
 
 const Router = () => {
   return (
@@ -25,6 +26,7 @@ const Router = () => {
 
         <Route path="/signUp" element={<SignUp />} />
         <Route path="/topbar" element={<Topbar />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </BrowserRouter>
   );
