@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import {colors} from "../../styles/commonTheme";
+import { colors } from "../../styles/commonTheme";
 import signUpImage from "../../images/signUpPage.png"
 import "../../font/font.css"
 import FloatingLabelInput from "../../components/FloatingLabelInput"
@@ -85,32 +85,11 @@ const ErrorMsg = styled.p`
 
 
 const SignUp = () => {
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  
-  const handlePasswordChange = (value) => {
-    setPassword(value);
-    // Reset password error when password is being changed
-    setPasswordError("");
-  };
-
-  const handleConfirmPasswordChange = (value) => {
-    setConfirmPassword(value);
-    // Check if password and confirm password match
-    if (password !== value) {
-      setPasswordError("비밀번호가 일치하지 않습니다.");
-    } else {
-      setPasswordError("");
-    }
-  };
-
-
   return (
     <Base>
       <Body>
         <Img>
-          <Img2 src = {signUpImage} />
+          <Img2 src={signUpImage} />
         </Img>
         <Container>
           <TitleWrapper>
@@ -118,16 +97,15 @@ const SignUp = () => {
             <TitleLarge>DalKom.Shop</TitleLarge>
           </TitleWrapper>
           <InputWrapper>
-           <FloatingLabelInput inputType="email" label="이메일" placeholder="이메일를 입력하세요" />
-           <FloatingLabelInput inputType="text" label="닉네임" placeholder="닉네임를 입력하세요" />
-           <FloatingLabelInput inputType="password" label="비밀번호" placeholder="비밀번호를 입력하세요" onChange={handlePasswordChange}/>
-           <FloatingLabelInput inputType="password" label="비밀번호 확인" placeholder="비밀번호 확인"  onChange={handleConfirmPasswordChange}/>
-           {passwordError && <ErrorMsg>{passwordError}</ErrorMsg>}
-           <FloatingLabelInput inputType="text" label="이름" placeholder="이름을 입력하세요." />
-           <FloatingLabelInput inputType="text" label="사원번호" placeholder="사원번호를 입력하세요" />
-           <BasicDatePicker/>
-           <AddressField />
-           <StyledButton/>
+            <FloatingLabelInput inputType="email" label="이메일" placeholder="이메일를 입력하세요" />
+            <FloatingLabelInput inputType="text" label="닉네임" placeholder="닉네임를 입력하세요" />
+            <FloatingLabelInput inputType="password" label="비밀번호" placeholder="비밀번호를 입력하세요" />
+            <FloatingLabelInput inputType="password" label="비밀번호 확인" placeholder="비밀번호 확인" />
+            <FloatingLabelInput inputType="text" label="이름" placeholder="이름을 입력하세요." />
+            <FloatingLabelInput inputType="text" label="사원번호" placeholder="사원번호를 입력하세요" />
+            <BasicDatePicker />
+            <AddressField />
+            <StyledButton />
           </InputWrapper>
         </Container>
       </Body>
