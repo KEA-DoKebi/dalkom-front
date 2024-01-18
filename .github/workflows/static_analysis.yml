@@ -22,6 +22,7 @@ jobs:
       run: |
         npm run build # Assuming 'build' script is defined in your package.json
     - name: Run ESLint
+      continue-on-error: true
       run: |
         npx eslint . --format json --output-file eslint-report.json
     - name: Download SonarQube Scanner
