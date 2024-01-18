@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import {
   AppBar,
@@ -6,6 +6,7 @@ import {
   Typography,
   IconButton,
   Divider,
+  Paper,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
@@ -14,24 +15,40 @@ import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 import { PigMoney } from "tabler-icons-react";
 import MenuIcon from "@mui/icons-material/Menu";
 import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
 import Input from "@mui/joy/Input";
 import "../font/font.css";
 import { Link } from "react-router-dom";
 
-const ITEM_HEIGHT = 48;
+const SubMenu = ({ subMenu, top, left, onSubMenuItemClick }) => {
+  return (
+    <Paper
+      sx={{
+        position: "absolute",
+        top: top + 5,
+        left: left + 140,
+        width: "300px",
+        boxShadow: "none",
+        fontFamily: "H5",
+        fontSize: "20px",
+      }}
+    >
+      {subMenu.map((item, index) => (
+        <div
+          key={index}
+          onClick={() => onSubMenuItemClick(item)}
+          style={{ fontWeight: "normal" }}
+        >
+          {item}
+        </div>
+      ))}
+    </Paper>
+  );
+};
+
 
 const Topbar = () => {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [subMenuPosition, setSubMenuPosition] = useState({ top: 0, left: 0 });
 
   const menuItems = [
     {
@@ -54,9 +71,33 @@ const Topbar = () => {
     { label: "카카오굿즈", subMenu: [] },
   ];
 
+  const handleCategoryClick = (index) => {
+    setSelectedCategory(selectedCategory === index ? null : index);
+    setSubMenuPosition({ top: 0, left: 0 }); // Reset subMenuPosition when a category is selected.
+
+    // 선택된 메뉴의 정보를 콘솔에 출력
+    console.log('Selected Menu:', menuItems[index]);
+  };
+
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [, setMenuPosition] = useState({ top: 0, left: 0 });
+
+  // MenuIcon 클릭 시 실행될 함수
+  const handleMenuClick = (event) => {
+    const { top, left } = event.currentTarget.getBoundingClientRect();
+    setMenuPosition({ top, left });
+    setMenuOpen(!menuOpen);
+  };
+
+  const handleSubMenuItemClick = (subMenuItem) => {
+    console.log('Selected SubMenu:', subMenuItem);
+    // 여기에서 선택한 서브 메뉴에 대한 추가적인 로직을 수행할 수 있습니다.
+  };
+
+
+
   return (
     <AppBar
-      position="static"
       sx={{
         backgroundColor: "#FFFFFF",
         color: "#000000",
@@ -83,83 +124,60 @@ const Topbar = () => {
       </Toolbar>
       <Divider />
       <Toolbar sx={{ justifyContent: "space-between" }}>
-        <div>
+      <div>
           <IconButton
             aria-label="menu"
             edge="start"
-            onClick={handleClick}
+            onClick={handleMenuClick}
             sx={{ mr: 2 }}
           >
             <MenuIcon />
           </IconButton>
           <Menu
-            id="long-menu"
-            MenuListProps={{
-              "aria-labelledby": "long-button",
+            anchorEl={document.getElementById('menu-icon')}
+            open={menuOpen}
+            onClose={() => setMenuOpen(false)}
+            anchorOrigin={{
+              vertical: 'top',  // Set the vertical origin to 'bottom'
+              horizontal: 'left',
             }}
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            PaperProps={{
-              style: {
-                maxHeight: ITEM_HEIGHT * 4.5,
-                width: "20ch",
-              },
-            }}
+            sx={{mt:"10vh"}}
           >
-            {menuItems.map((menuItem) => (
-              <div
-                key={menuItem.label}
-                onMouseEnter={() => setAnchorEl(true)}
-                onMouseLeave={handleClose}
-              >
-                <MenuItem>
-                  <Typography variant="body1">{menuItem.label}</Typography>
-                </MenuItem>
-                {menuItem.subMenu.length > 0 && (
-                  <Menu
-                    id={`submenu-${menuItem.label.toLowerCase()}`}
-                    anchorEl={anchorEl}
-                    open={Boolean(anchorEl)}
-                    onClose={handleClose}
-                    PaperProps={{
-                      style: {
-                        maxHeight: ITEM_HEIGHT * 4.5,
-                        width: "20ch",
-                      },
-                    }}
-                  >
-                    {menuItem.subMenu.map((subItem) => (
-                      <MenuItem
-                        key={subItem}
-                        selected={subItem === "Pyxis"}
-                        onClick={handleClose}
-                      >
-                        {subItem}
-                      </MenuItem>
-                    ))}
-                  </Menu>
-                )}
-              </div>
-            ))}
+            <Paper sx={{ width: "250px", height: "220px", boxShadow: "none", fontFamily: "H5", fontSize: "20px", marginLeft: "10px", letterSpacing: "1px", lineHeight: "1.5",   }}>
+              {menuItems.map((item, index) => (
+                <div key={index} onMouseEnter={() => handleCategoryClick(index)}>
+                  {item.label}
+                  {selectedCategory === index && (
+                    <>
+                      <SubMenu
+                        subMenu={item.subMenu}
+                        top={subMenuPosition.top}
+                        left={subMenuPosition.left}
+                        onSubMenuItemClick={handleSubMenuItemClick}
+                      />
+                    </>
+                  )}
+                </div>
+              ))}
+            </Paper>
           </Menu>
         </div>
-
-        <Typography
-          variant="h6"
-          noWrap
-          component="div"
-          sx={{ fontFamily: "Logo", fontSize: "40px" }}
-        >
-          <CustomLink to="/">DalKom.Shop</CustomLink>
-        </Typography>
-
+        <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            sx={{ fontFamily: "Logo", fontSize: "40px" }}
+          >
+            DalKom.Shop
+          </Typography>
+        </Link>
         <Input
           disabled={false}
           placeholder="원하시는 상품을 검색해주세요"
           startDecorator={<SearchIcon />}
           variant="outlined"
-          sx={{ width: "720px", height: "50px", borderRadius: "50px" }}
+          sx={{ width: "30vw", height: "50px", borderRadius: "50px" }}
         />
 
         <div
