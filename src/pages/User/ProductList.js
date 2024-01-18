@@ -1,7 +1,12 @@
-import React from "react";
+import CardGrid from "../../components/CardGrid";
+import SidebarLayout from "../../components/layout/SidebarLayout";
 
 const ProductList = () => {
-  return <div>ProductList</div>;
+  return (
+    <SidebarLayout>
+      <CardGrid />
+    </SidebarLayout>
+  );
 };
 
 export default ProductList;
