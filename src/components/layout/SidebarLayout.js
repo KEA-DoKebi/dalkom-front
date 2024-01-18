@@ -6,7 +6,7 @@ import Sidebar from "../Sidebar";
 
 const SidebarLayout = ({ children }) => {
   return (
-    <Layout1>
+    <LayoutContainer>
       <Header />
       <Main>
         <Grid container spacing={1}>
@@ -20,11 +20,11 @@ const SidebarLayout = ({ children }) => {
         </Grid>
       </Main>
       <Footer />
-    </Layout1>
+    </LayoutContainer>
   );
 };
 
-const Layout1 = styled.div`
+const LayoutContainer = styled.div`
   padding-top: 15vh;
 `;
 

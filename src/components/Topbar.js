@@ -1,11 +1,11 @@
 import React from "react";
+import styled from "styled-components";
 import {
   AppBar,
   Toolbar,
   Typography,
   IconButton,
   Divider,
-  Button,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
@@ -69,8 +69,17 @@ const Topbar = () => {
         variant="dense"
         sx={{ justifyContent: "flex-end", maxHeight: "3vh" }}
       >
-        <Button sx={{ color: "black" }}>로그아웃</Button>|
-        <Button sx={{ color: "black" }}>마이페이지</Button>
+        {/* <Button sx={{ color: "black" }}>로그아웃</Button>|
+        <Button sx={{ color: "black" }}>마이페이지</Button> */}
+        <CustomLink
+          to="/login"
+          style={{ fontSize: "12px", marginRight: "5px" }}
+        >
+          로그아웃
+        </CustomLink>
+        <CustomLink to="/mypage/1" style={{ fontSize: "12px" }}>
+          마이페이지
+        </CustomLink>
       </Toolbar>
       <Divider />
       <Toolbar sx={{ justifyContent: "space-between" }}>
@@ -142,9 +151,7 @@ const Topbar = () => {
           component="div"
           sx={{ fontFamily: "Logo", fontSize: "40px" }}
         >
-          <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
-            DalKom.Shop
-          </Link>
+          <CustomLink to="/">DalKom.Shop</CustomLink>
         </Typography>
 
         <Input
@@ -171,12 +178,14 @@ const Topbar = () => {
               alignItems: "center",
             }}
           >
-            <IconButton>
-              <ShoppingCartCheckoutIcon
-                sx={{ fontSize: "40px", color: "black" }}
-              />
-            </IconButton>
-            <Typography variant="body2">장바구니</Typography>
+            <CustomLink to="/cart/1">
+              <IconButton>
+                <ShoppingCartCheckoutIcon
+                  sx={{ fontSize: "40px", color: "black" }}
+                />
+              </IconButton>
+              <Typography variant="body2">장바구니</Typography>
+            </CustomLink>
           </div>
           <div
             style={{
@@ -185,12 +194,14 @@ const Topbar = () => {
               alignItems: "center",
             }}
           >
-            <IconButton>
-              <LocalShippingOutlinedIcon
-                sx={{ fontSize: "40px", color: "black" }}
-              />
-            </IconButton>
-            <Typography variant="body2">배송조회</Typography>
+            <CustomLink to="/mypage/1">
+              <IconButton>
+                <LocalShippingOutlinedIcon
+                  sx={{ fontSize: "40px", color: "black" }}
+                />
+              </IconButton>
+              <Typography variant="body2">배송조회</Typography>
+            </CustomLink>
           </div>
           <div
             style={{
@@ -199,10 +210,12 @@ const Topbar = () => {
               alignItems: "center",
             }}
           >
-            <IconButton>
-              <SupportAgentIcon sx={{ fontSize: "40px", color: "black" }} />
-            </IconButton>
-            <Typography variant="body2">고객센터</Typography>
+            <CustomLink to="/notice">
+              <IconButton>
+                <SupportAgentIcon sx={{ fontSize: "40px", color: "black" }} />
+              </IconButton>
+              <Typography variant="body2">고객센터</Typography>
+            </CustomLink>
           </div>
         </div>
         <div
@@ -237,5 +250,10 @@ const Topbar = () => {
     </AppBar>
   );
 };
+
+const CustomLink = styled(Link)`
+  textdecoration: none;
+  color: inherit;
+`;
 
 export default Topbar;
