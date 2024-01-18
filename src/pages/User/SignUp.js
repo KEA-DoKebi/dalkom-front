@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import {colors, fontSizes} from "../../styles/commonTheme";
+import {colors} from "../../styles/commonTheme";
 import signUpImage from "../../images/signUpPage.png"
 import "../../font/font.css"
 import FloatingLabelInput from "../../components/FloatingLabelInput"
@@ -37,20 +37,20 @@ const Img = styled.div`
 
 `;
 
-const Img_ = styled.img`
+const Img2 = styled.img`
   width: 10%
   height: auto
   position: absolute;
   transform: translate(-31%, 45%);
 `;
 
-const Title_small = styled.h2`
+const TitleSmall = styled.h2`
   font-size: 30px;
   fontFamily: Logo;
   line-height: 35px;
 `;
 
-const Title_Large = styled.h1`
+const TitleLarge = styled.h1`
   font-size: 35px;
   fontFamily: Logo;
   line-height: 35px;
@@ -62,7 +62,7 @@ const Container = styled.div`
   align-items: flex-start;
   flex-direction: column;;
 `;
-const Title_Wrapper = styled.div`
+const TitleWrapper = styled.div`
   margin-top:5%;
   display: flex;
   flex-direction: row;
@@ -110,13 +110,13 @@ const SignUp = () => {
     <Base>
       <Body>
         <Img>
-          <Img_ src = {signUpImage} />
+          <Img2 src = {signUpImage} />
         </Img>
         <Container>
-          <Title_Wrapper>
-            <Title_small>Welcome to</Title_small>&nbsp;
-            <Title_Large>DalKom.Shop</Title_Large>
-          </Title_Wrapper>
+          <TitleWrapper>
+            <TitleSmall>Welcome to</TitleSmall>&nbsp;
+            <TitleLarge>DalKom.Shop</TitleLarge>
+          </TitleWrapper>
           <InputWrapper>
            <FloatingLabelInput inputType="email" label="이메일" placeholder="이메일를 입력하세요" />
            <FloatingLabelInput inputType="text" label="닉네임" placeholder="닉네임를 입력하세요" />
