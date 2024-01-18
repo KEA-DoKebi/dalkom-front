@@ -1,21 +1,22 @@
-import React, { useState } from 'react';
-import DaumPostcode from 'react-daum-postcode';
+import React, { useState } from "react";
+import DaumPostcode from "react-daum-postcode";
 
 const PopupPostCode = (props) => {
-  const [selectedAddress, setSelectedAddress] = useState('');
+  const [selectedAddress, setSelectedAddress] = useState("");
 
   const handlePostCode = (data) => {
     let fullAddress = data.address;
-    let extraAddress = '';
+    let extraAddress = "";
 
-    if (data.addressType === 'R') {
-      if (data.bname !== '') {
+    if (data.addressType === "R") {
+      if (data.bname !== "") {
         extraAddress += data.bname;
       }
-      if (data.buildingName !== '') {
-        extraAddress += (extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName);
+      if (data.buildingName !== "") {
+        extraAddress +=
+          extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
       }
-      fullAddress += (extraAddress !== '' ? ` (${extraAddress})` : '');
+      fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
     }
 
     console.log(data);
@@ -37,24 +38,28 @@ const PopupPostCode = (props) => {
   };
 
   const postCodeStyle = {
-    display: 'block',
-    position: 'absolute',
-    top: '10%',
-    width: '600px',
-    height: '600px',
-    padding: '7px',
+    display: "block",
+    position: "absolute",
+    top: "10%",
+    width: "600px",
+    height: "600px",
+    padding: "7px",
   };
 
   return (
     <div>
       <DaumPostcode style={postCodeStyle} onComplete={handlePostCode} />
-      
+
       {/* 선택한 주소를 표시하는 input 추가 */}
       <input type="text" value={selectedAddress} readOnly />
 
       {/* 닫기 버튼은 props.onClose가 제공되는 경우에만 표시 */}
       {props.onClose && (
-        <button type="button" onClick={() => props.onClose()} className="postCode_btn">
+        <button
+          type="button"
+          onClick={() => props.onClose()}
+          className="postCode_btn"
+        >
           닫기
         </button>
       )}
