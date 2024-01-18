@@ -59,7 +59,7 @@ const StyledButton = () => {
     setTimeout(() => {
       // useNavigate를 사용하여 프로그래밍적으로 페이지 이동
       navigate("/login");
-    }, 1000);
+    }, 1500);
   };
 
   return (
