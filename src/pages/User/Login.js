@@ -73,7 +73,7 @@ const Login = () => {
                 <TextButton left to="/signUp" text="회원가입" />
                 <TextButton right to="/signUp" text="이메일 | 비밀번호 찾기" />
                 </Find>
-                <CustomButton variant="contained" component={Link} to="/mainPage">
+                <CustomButton variant="contained" component={Link} to="/">
                     로그인
                 </CustomButton>
                 
