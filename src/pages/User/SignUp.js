@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { colors } from "../../styles/commonTheme";
 import signUpImage from "../../images/signUpPage.png"
@@ -76,13 +76,6 @@ const InputWrapper = styled.div`
   gap: 10px;  
   margin-bottom: 7px;
 `;
-
-const ErrorMsg = styled.p`
-  color: red;
-  font-size: 14px;
-  margin: 0;
-`;
-
 
 const SignUp = () => {
   return (
