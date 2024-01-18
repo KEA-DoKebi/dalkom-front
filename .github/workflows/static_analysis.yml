@@ -17,6 +17,7 @@ jobs:
     - name: Install dependencies
       run: |
         npm install
+        npm install --save-dev @babel/plugin-proposal-private-property-in-object
     - name: Build
       run: |
         npm run build # Assuming 'build' script is defined in your package.json
@@ -38,3 +39,5 @@ jobs:
           -Dsonar.projectKey=$SONAR_PROJECT_KEY \
           -Dsonar.host.url=$SONAR_HOST_URL \
           -Dsonar.eslint.reportPaths=eslint-report.json
+
+              - name: Install dependencies
