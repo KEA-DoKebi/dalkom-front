@@ -7,9 +7,6 @@ import Cart from "./pages/User/Cart";
 import MyPage from "./pages/User/MyPage";
 import CustomerService from "./pages/User/CustomerService";
 import AdminPage from "./pages/Admin/AdminPage";
-import Topbar from "./components/Topbar";
-import SideBar from "./components/Sidebar";
-import Bar from "./components/Bar";
 
 const Router = () => {
   return (

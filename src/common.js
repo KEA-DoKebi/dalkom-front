@@ -1,5 +1,4 @@
-import styled, { keyframes } from "styled-components";
-import theme from "./styles/commonTheme";
+import styled from "styled-components";
 import { Button } from "@mui/material";
 import { Input, Link } from "@mui/joy";
 
