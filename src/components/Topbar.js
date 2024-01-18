@@ -80,7 +80,7 @@ const Topbar = () => {
   };
 
   const [menuOpen, setMenuOpen] = useState(false);
-  const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
+  const [, setMenuPosition] = useState({ top: 0, left: 0 });
 
   // MenuIcon 클릭 시 실행될 함수
   const handleMenuClick = (event) => {
