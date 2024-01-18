@@ -4,21 +4,16 @@ import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
-import '../font/font.css';
+import "../font/font.css";
 
 const menuData = [
   {
     title: "MY 쇼핑",
-    items: [
-      { label: "주문목록/배송조회" },
-      { label: "취소/교환/반품/환불" },
-    ],
+    items: [{ label: "주문목록/배송조회" }, { label: "취소/교환/반품/환불" }],
   },
   {
     title: "마일리지",
-    items: [
-      { label: "마일리지 조회/충전하기" },
-    ],
+    items: [{ label: "마일리지 조회/충전하기" }],
   },
   {
     title: "MY 활동",
@@ -30,9 +25,7 @@ const menuData = [
   },
   {
     title: "나의 회원 정보",
-    items: [
-      { label: "개인정보 확인/수정" },
-    ],
+    items: [{ label: "개인정보 확인/수정" }],
   },
 ];
 
@@ -52,8 +45,17 @@ const Sidebar = () => {
   };
 
   return (
-    <Box sx={{ width: "260px", height: "100%", mt: 5, ml: 3, border: "1px solid #ccc", borderRadius: "7px"}}>
-      <Box sx={{ overflow: "auto"}}>
+    <Box
+      sx={{
+        width: "260px",
+        height: "100%",
+        mt: 5,
+        ml: 3,
+        border: "1px solid #ccc",
+        borderRadius: "7px",
+      }}
+    >
+      <Box sx={{ overflow: "auto" }}>
         <List>
           {menuData.map((menuGroup) => (
             <React.Fragment key={menuGroup.title}>

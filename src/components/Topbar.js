@@ -1,5 +1,12 @@
 import React from "react";
-import { AppBar, Toolbar, Typography, IconButton, Divider, Button } from "@mui/material";
+import styled from "styled-components";
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  IconButton,
+  Divider,
+} from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
 import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
@@ -10,6 +17,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Input from "@mui/joy/Input";
 import "../font/font.css";
+import { Link } from "react-router-dom";
 
 const ITEM_HEIGHT = 48;
 
@@ -49,12 +57,29 @@ const Topbar = () => {
   return (
     <AppBar
       position="static"
-      sx={{ backgroundColor: "#FFFFFF", color: "#000000", boxShadow: 'none', mt:"-13px" }}
+      sx={{
+        backgroundColor: "#FFFFFF",
+        color: "#000000",
+        boxShadow: "none",
+        mt: "-13px",
+        position: "fixed",
+      }}
     >
-      <Toolbar variant="dense" sx={{justifyContent: "flex-end", maxHeight: "3vh"}} >
-        <Button sx={{color: "black"}}>로그아웃</Button>
-        |
-        <Button sx={{color: "black"}}>마이페이지</Button>
+      <Toolbar
+        variant="dense"
+        sx={{ justifyContent: "flex-end", maxHeight: "3vh" }}
+      >
+        {/* <Button sx={{ color: "black" }}>로그아웃</Button>|
+        <Button sx={{ color: "black" }}>마이페이지</Button> */}
+        <CustomLink
+          to="/login"
+          style={{ fontSize: "12px", marginRight: "5px" }}
+        >
+          로그아웃
+        </CustomLink>
+        <CustomLink to="/mypage/1" style={{ fontSize: "12px" }}>
+          마이페이지
+        </CustomLink>
       </Toolbar>
       <Divider />
       <Toolbar sx={{ justifyContent: "space-between" }}>
@@ -126,17 +151,16 @@ const Topbar = () => {
           component="div"
           sx={{ fontFamily: "Logo", fontSize: "40px" }}
         >
-          DalKom.Shop
+          <CustomLink to="/">DalKom.Shop</CustomLink>
         </Typography>
-        
-        <Input
-            disabled={false}
-            placeholder="원하시는 상품을 검색해주세요"
-            startDecorator={<SearchIcon />}
-            variant="outlined"
 
-            sx={{ width: "720px", height: "50px", borderRadius:"50px" }}
-          />
+        <Input
+          disabled={false}
+          placeholder="원하시는 상품을 검색해주세요"
+          startDecorator={<SearchIcon />}
+          variant="outlined"
+          sx={{ width: "720px", height: "50px", borderRadius: "50px" }}
+        />
 
         <div
           style={{
@@ -154,12 +178,14 @@ const Topbar = () => {
               alignItems: "center",
             }}
           >
-            <IconButton>
-              <ShoppingCartCheckoutIcon
-                sx={{ fontSize: "40px", color: "black" }}
-              />
-            </IconButton>
-            <Typography variant="body2">장바구니</Typography>
+            <CustomLink to="/cart/1">
+              <IconButton>
+                <ShoppingCartCheckoutIcon
+                  sx={{ fontSize: "40px", color: "black" }}
+                />
+              </IconButton>
+              <Typography variant="body2">장바구니</Typography>
+            </CustomLink>
           </div>
           <div
             style={{
@@ -168,12 +194,14 @@ const Topbar = () => {
               alignItems: "center",
             }}
           >
-            <IconButton>
-              <LocalShippingOutlinedIcon
-                sx={{ fontSize: "40px", color: "black" }}
-              />
-            </IconButton>
-            <Typography variant="body2">배송조회</Typography>
+            <CustomLink to="/mypage/1">
+              <IconButton>
+                <LocalShippingOutlinedIcon
+                  sx={{ fontSize: "40px", color: "black" }}
+                />
+              </IconButton>
+              <Typography variant="body2">배송조회</Typography>
+            </CustomLink>
           </div>
           <div
             style={{
@@ -182,10 +210,12 @@ const Topbar = () => {
               alignItems: "center",
             }}
           >
-            <IconButton>
-              <SupportAgentIcon sx={{ fontSize: "40px", color: "black" }} />
-            </IconButton>
-            <Typography variant="body2">고객센터</Typography>
+            <CustomLink to="/notice">
+              <IconButton>
+                <SupportAgentIcon sx={{ fontSize: "40px", color: "black" }} />
+              </IconButton>
+              <Typography variant="body2">고객센터</Typography>
+            </CustomLink>
           </div>
         </div>
         <div
@@ -218,8 +248,12 @@ const Topbar = () => {
         </div>
       </Toolbar>
     </AppBar>
-
   );
 };
+
+const CustomLink = styled(Link)`
+  textdecoration: none;
+  color: inherit;
+`;
 
 export default Topbar;
