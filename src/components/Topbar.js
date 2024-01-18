@@ -1,11 +1,11 @@
 import React, { useState } from "react";
+import styled from "styled-components";
 import {
   AppBar,
   Toolbar,
   Typography,
   IconButton,
   Divider,
-  Button,
   Paper,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
@@ -15,7 +15,6 @@ import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 import { PigMoney } from "tabler-icons-react";
 import MenuIcon from "@mui/icons-material/Menu";
 import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
 import Input from "@mui/joy/Input";
 import "../font/font.css";
 import { Link } from "react-router-dom";
@@ -99,20 +98,29 @@ const Topbar = () => {
 
   return (
     <AppBar
-      position="static"
       sx={{
         backgroundColor: "#FFFFFF",
         color: "#000000",
         boxShadow: "none",
         mt: "-13px",
+        position: "fixed",
       }}
     >
       <Toolbar
         variant="dense"
         sx={{ justifyContent: "flex-end", maxHeight: "3vh" }}
       >
-        <Button sx={{ color: "black" }}>로그아웃</Button>|
-        <Button sx={{ color: "black" }}>마이페이지</Button>
+        {/* <Button sx={{ color: "black" }}>로그아웃</Button>|
+        <Button sx={{ color: "black" }}>마이페이지</Button> */}
+        <CustomLink
+          to="/login"
+          style={{ fontSize: "12px", marginRight: "5px" }}
+        >
+          로그아웃
+        </CustomLink>
+        <CustomLink to="/mypage/1" style={{ fontSize: "12px" }}>
+          마이페이지
+        </CustomLink>
       </Toolbar>
       <Divider />
       <Toolbar sx={{ justifyContent: "space-between" }}>
@@ -129,8 +137,13 @@ const Topbar = () => {
             anchorEl={document.getElementById('menu-icon')}
             open={menuOpen}
             onClose={() => setMenuOpen(false)}
+            anchorOrigin={{
+              vertical: 'top',  // Set the vertical origin to 'bottom'
+              horizontal: 'left',
+            }}
+            sx={{mt:"10vh"}}
           >
-            <Paper sx={{ width: "250px", height: "220px", boxShadow: "none", fontFamily: "H5", fontSize: "20px", marginLeft: "10px", letterSpacing: "1px", lineHeight: "1.5"  }}>
+            <Paper sx={{ width: "250px", height: "220px", boxShadow: "none", fontFamily: "H5", fontSize: "20px", marginLeft: "10px", letterSpacing: "1px", lineHeight: "1.5",   }}>
               {menuItems.map((item, index) => (
                 <div key={index} onMouseEnter={() => handleCategoryClick(index)}>
                   {item.label}
@@ -183,12 +196,14 @@ const Topbar = () => {
               alignItems: "center",
             }}
           >
-            <IconButton>
-              <ShoppingCartCheckoutIcon
-                sx={{ fontSize: "40px", color: "black" }}
-              />
-            </IconButton>
-            <Typography variant="body2">장바구니</Typography>
+            <CustomLink to="/cart/1">
+              <IconButton>
+                <ShoppingCartCheckoutIcon
+                  sx={{ fontSize: "40px", color: "black" }}
+                />
+              </IconButton>
+              <Typography variant="body2">장바구니</Typography>
+            </CustomLink>
           </div>
           <div
             style={{
@@ -197,12 +212,14 @@ const Topbar = () => {
               alignItems: "center",
             }}
           >
-            <IconButton>
-              <LocalShippingOutlinedIcon
-                sx={{ fontSize: "40px", color: "black" }}
-              />
-            </IconButton>
-            <Typography variant="body2">배송조회</Typography>
+            <CustomLink to="/mypage/1">
+              <IconButton>
+                <LocalShippingOutlinedIcon
+                  sx={{ fontSize: "40px", color: "black" }}
+                />
+              </IconButton>
+              <Typography variant="body2">배송조회</Typography>
+            </CustomLink>
           </div>
           <div
             style={{
@@ -211,10 +228,12 @@ const Topbar = () => {
               alignItems: "center",
             }}
           >
-            <IconButton>
-              <SupportAgentIcon sx={{ fontSize: "40px", color: "black" }} />
-            </IconButton>
-            <Typography variant="body2">고객센터</Typography>
+            <CustomLink to="/notice">
+              <IconButton>
+                <SupportAgentIcon sx={{ fontSize: "40px", color: "black" }} />
+              </IconButton>
+              <Typography variant="body2">고객센터</Typography>
+            </CustomLink>
           </div>
         </div>
         <div
@@ -249,5 +268,10 @@ const Topbar = () => {
     </AppBar>
   );
 };
+
+const CustomLink = styled(Link)`
+  textdecoration: none;
+  color: inherit;
+`;
 
 export default Topbar;
