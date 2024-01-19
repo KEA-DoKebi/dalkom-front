@@ -5,7 +5,7 @@ import ProductList from "./pages/User/ProductList";
 import ProductDetail from "./pages/User/ProductDetail";
 import Cart from "./pages/User/Cart";
 import MyPage from "./pages/User/MyPage";
-import CustomerService from "./pages/User/CustomerService";
+import CustomerService from "./components/CustomerService"
 import SignUp from "./pages/User/SignUp";
 import AdminPage from "./pages/Admin/AdminPage";
 import Login from "./pages/User/Login";
@@ -24,6 +24,7 @@ const Router = () => {
 
         <Route path="/signUp" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
+        <Route path ="/customerService" element={<CustomerService />} />
       </Routes>
     </BrowserRouter>
   );
