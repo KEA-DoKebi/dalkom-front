@@ -16,7 +16,7 @@ const Top = styled.div`
 
 `;
 
-const Text_L = styled.h1`
+const TextL = styled.h1`
   font-size: 30px;
 `;
 
@@ -43,10 +43,7 @@ const Body = styled.div`
   margin-top: 20px;
 `;
 
-const Content1 = styled.div`
-  display: ${(props) => (props.active ? "block" : "none")};
-  /* Content1에 해당하는 스타일 */
-`;
+
 
 const Content2 = styled.div`
   display: ${(props) => (props.active ? "block" : "none")};
@@ -69,7 +66,7 @@ const CustomerService = () => {
     return (
       <DefaultLayout>
         <Top>
-          <Text_L>고객센터</Text_L>
+          <TextL>고객센터</TextL>
           <Choice>
             <StyledButton onClick={() => handleButtonClick("이용안내")}>
               이용안내
