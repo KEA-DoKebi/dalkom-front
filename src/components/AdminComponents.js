@@ -271,7 +271,7 @@ export const MuiColorChip = ({ status }) => {
   const getColor = (status) => {
     switch (status) {
       case "waiting":
-        return "primary";
+        return "warning";
       case "completed":
         return "success";
       default:
