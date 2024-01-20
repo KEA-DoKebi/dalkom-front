@@ -41,8 +41,6 @@ const ProductRegisterPage = () => {
 
 
   const onUpload = (e) => {
-    console.log("@@");
-    console.log(e)
     const file = e.target.files[0];
 
     if (file) {
