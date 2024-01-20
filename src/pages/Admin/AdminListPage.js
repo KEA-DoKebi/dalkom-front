@@ -9,43 +9,13 @@ import {
   List,
   ListItem,
   Typography,
-  Button,
   IconButton,
 } from "@mui/material";
 import AdminBar from "../../components/AdminBar";
-import { Input } from "@mui/joy";
 import SearchIcon from "@mui/icons-material/Search";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { InputBoxS, AdminButton } from "../../components/AdminComponents";
 
-const InputBox = styled(Input)`
-  width: 30vw;
-  height: 50px;
-`;
-
-const AddButton = styled(Button)`
-  background-color: #fce8ef;
-  color: #ec407a;
-  width: 124px;
-  height: 46px;
-  text-align: center;
-  font-weight: 500;
-  line-height: 48px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 7px;
-  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
-
-  &:hover {
-    background-color: #fce8ef;
-    color: #ec407a;
-  }
-
-  &:active {
-    color: #ffffff;
-    background-color: #e42a5d;
-  }
-`;
 const dataList = [
   {
     번호: "1",
@@ -137,6 +107,8 @@ const ListItemStyled = styled(ListItem)`
   width: 100%;
   padding: 12px;
 `;
+
+// 간격 일정하게 만드는 거
 const getColumnWidth = (label) => {
   // Define your width ranges for each column label
   const widthRanges = {
@@ -164,8 +136,12 @@ export default function AdminListPage() {
   }, []);
 
   return (
+    //전체 화면
     <Paper sx={{ display: "flex", height: "100vh" }}>
+      
+      {/* 사이드 바 */}
       <AdminBar selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
+      {/* 뒤에 배경 */}
       <Box
         sx={{
           display: "flex",
@@ -175,7 +151,9 @@ export default function AdminListPage() {
           flexGrow: 1,
         }}
       >
+        {/* 이거는 써야 위에 간격이 맞더라구요 꼭 포함시키고 해주세요 */}
         <Toolbar />
+        {/* 하얀 박스 입니당 <- 이 안에 작업 해주시면 됩니다! */}
         <Box
           component="main"
           justifyContent="center"
@@ -191,8 +169,9 @@ export default function AdminListPage() {
         >
           <Toolbar sx={{ justifyContent: "space-between", width: "100%" }}>
             {/* 왼쪽에는 빈 공간을 만들어 가운데 정렬을 유지하고, 오른쪽에 등록 버튼을 추가합니다. */}
+            {/* 이 디브 있어야 검색창 가운데에 옵니당 왜 그런지는 잘 모르겠어요,,*/}
             <div></div>
-            <InputBox
+            <InputBoxS
               color="neutral"
               disabled={false}
               startDecorator={<SearchIcon />}
@@ -200,7 +179,7 @@ export default function AdminListPage() {
               variant="soft"
               sx={{ mb: 4 }}
             />
-            <AddButton variant="contained">+ 관리자 등록</AddButton>
+            <AdminButton variant="contained">+ 관리자 등록</AdminButton>
           </Toolbar>
 
           <StyledList aria-label="mailbox folders">
