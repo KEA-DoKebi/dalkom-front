@@ -8,19 +8,23 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
-        # Disable shallow clone to avoid missing SCM information
         fetch-depth: 0 
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '20.11.0' # Update this to the Node.js version your project uses
+        node-version: '20.11.0'
         cache: 'npm'
     - name: Install dependencies
       run: |
         npm install
+        npm install --save-dev @babel/plugin-proposal-private-property-in-object
     - name: Build
       run: |
         npm run build # Assuming 'build' script is defined in your package.json
+    - name: Run ESLint
+      continue-on-error: true
+      run: |
+        npx eslint . --format json --output-file eslint-report.json
     - name: Download SonarQube Scanner
       run: |
         curl -Lo sonar-scanner-cli.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip
@@ -34,4 +38,5 @@ jobs:
       run: |
         sonar-scanner \
           -Dsonar.projectKey=$SONAR_PROJECT_KEY \
-          -Dsonar.host.url=$SONAR_HOST_URL
+          -Dsonar.host.url=$SONAR_HOST_URL \
+          -Dsonar.eslint.reportPaths=eslint-report.json
