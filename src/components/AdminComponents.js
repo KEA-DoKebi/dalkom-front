@@ -88,7 +88,7 @@ export function OXButton() {
 }
 
 // On/Off 스위치 - (OnOffSwitch) 가져다가 쓰면 됩니당
-const PinkSwitch = styled(Switch)(({ theme }) => ({
+export const PinkSwitch = styled(Switch)(({ theme }) => ({
   "& .MuiSwitch-switchBase.Mui-checked": {
     color: pink[600],
     "&:hover": {
