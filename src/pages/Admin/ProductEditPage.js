@@ -24,26 +24,28 @@ const ProductEditPage = () => {
     setSelectedMenu("상품 수정/삭제");
   }, []);
 
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedCategoryDetail, setSelectedCategoryDetail] = useState("");
   const [selectedOption, setSelectedOption] = useState("");
+  const [selectedOptionDetail, setSelectedOptionDetail] = useState("");
+  const [selectedProduct, setSelectedProduct] = useState("");
   const options = [
     { label: "Option 1", value: "option1" },
     { label: "Option 2", value: "option2" },
     // Add more options as needed
   ];
 
-  const [selectedImage, setSelectedImage] = useState(null);
   const [imagePreview, setImagePreview] = useState("https://nayemdevs.com/wp-content/uploads/2020/03/default-product-image.png");
 
 
   const onUpload = (e) => {
     const file = e.target.files[0];
-
+  
     if (file) {
-      setSelectedImage(file);
-
       const reader = new FileReader();
+  
       reader.readAsDataURL(file);
-
+  
       reader.onload = () => {
         setImagePreview(reader.result);
       };
@@ -59,6 +61,31 @@ const ProductEditPage = () => {
       ...state,
       [event.target.name]: event.target.checked,
     });
+  };
+
+  const selectCategory = (event) => {
+    const selectedValue = event.target.value;
+    setSelectedCategory(selectedValue);
+  };
+
+  const selectCategoryDetail = (event) => {
+    const selectedValue = event.target.value;
+    setSelectedCategoryDetail(selectedValue);
+  };
+
+  const selectOption = (event) => {
+    const selectedValue = event.target.value;
+    setSelectedOption(selectedValue);
+  };
+
+  const selectOptionDetail = (event) => {
+    const selectedValue = event.target.value;
+    setSelectedOptionDetail(selectedValue);
+  };
+
+  const selectProduct = (event) => {
+    const selectedValue = event.target.value;
+    setSelectedProduct(selectedValue);
   };
 
   return (
@@ -91,8 +118,8 @@ const ProductEditPage = () => {
           <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center', mb: 10 }}>
             <CustomSelect
               options={options}
-              value={selectedOption}
-              onChange size="l"
+              value={selectedProduct}
+              onChange={selectProduct} size="l"
               sx={{ mr: 3 }} />
           </Grid>
           <Grid container spacing={2}>
@@ -118,13 +145,13 @@ const ProductEditPage = () => {
                 </Typography>
                 <CustomSelect
                   options={options}
-                  value={selectedOption}
-                  onChange size="m"
+                  value={selectedCategory}
+                  onChange={selectCategory} size="m"
                   sx={{ mr: 6 }} />
                 <CustomSelect
                   options={options}
-                  value={selectedOption}
-                  onChange size="m"
+                  value={selectedCategoryDetail}
+                  onChange={selectCategoryDetail} size="m"
                   sx={{ mr: 6 }} />
               </div>
               <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -173,12 +200,12 @@ const ProductEditPage = () => {
                     <CustomSelect
                       options={options}
                       value={selectedOption}
-                      onChange size="s"
+                      onChange={selectOption} size="s"
                       sx={{ mr: 3 }} />
                     <CustomSelect
                       options={options}
-                      value={selectedOption}
-                      onChange size="s"
+                      value={selectedOptionDetail}
+                      onChange={selectOptionDetail} size="s"
                       sx={{ mr: 3 }} />
                     <InputBoxXS
                       color="neutral"
