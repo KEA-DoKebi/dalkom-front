@@ -23,6 +23,12 @@ const ProductRegisterPage = () => {
   // Declare selectedMenu and setSelectedMenu using useState
   const [selectedMenu, setSelectedMenu] = useState("상품 등록");
 
+  useEffect(() => {
+    // 각 페이지가 마운트될 때 selectedMenu를 업데이트
+    // setSelectedMenu 함수를 호출하여 상태를 업데이트
+    setSelectedMenu("상품 등록");
+  }, []);
+
   const [selectedOption, setSelectedOption] = useState("");
   const options = [
       { label: "Option 1", value: "option1" },
@@ -35,6 +41,8 @@ const ProductRegisterPage = () => {
 
   
   const onUpload = (e) => {
+    console.log("@@");
+    console.log(e)
     const file = e.target.files[0];
   
     if (file) {
@@ -50,11 +58,7 @@ const ProductRegisterPage = () => {
   };
   
 
-  useEffect(() => {
-    // 각 페이지가 마운트될 때 selectedMenu를 업데이트
-    // setSelectedMenu 함수를 호출하여 상태를 업데이트
-    setSelectedMenu("상품 등록");
-  }, []);
+  
 
   const PinkSwitch = styled(Switch)(({ theme }) => ({
     "& .MuiSwitch-switchBase.Mui-checked": {
@@ -67,6 +71,17 @@ const ProductRegisterPage = () => {
       backgroundColor: pink[600],
     },
   }));
+
+  const [state, setState] = React.useState({
+    option: false
+  });
+
+  const handleChange = (event) => {
+    setState({
+      ...state,
+      [event.target.name]: event.target.checked,
+    });
+  };
 
   const CustomSelect = ({ options, onChange, value, size, sx }) => {
     const getSizeStyles = (size) => {
@@ -96,6 +111,7 @@ const ProductRegisterPage = () => {
     );
   };
 
+  
 
   return (
     <Paper sx={{ display: "flex", height: "100vh" }}>
@@ -126,19 +142,19 @@ const ProductRegisterPage = () => {
         >
           <Grid container spacing={2}>
             <Grid item xs={5}>
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <img src={imagePreview} alt="Preview" style={{ maxWidth: '100%', maxHeight: '200px' }} />
-                <input
-                  accept="image/*"
-                  style={{ display: 'none' }}
-                  id="photo-upload"
-                  type="file"
-                  onChange={onUpload}
-                />
-                <label htmlFor="photo-upload">
-                  <AdminButton variant="contained">첨부하기</AdminButton>
-                </label>
-              </div>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <img src={imagePreview} alt="Preview" style={{ maxWidth: '100%', maxHeight: '500px' }} />
+              <input
+                accept="image/*"
+                style={{ display: 'none' }}
+                id="photo-upload"
+                type="file"
+                onChange={onUpload}
+              />
+              <label htmlFor="photo-upload">
+                <AdminButton variant="contained" component="span">첨부하기</AdminButton>
+              </label>
+            </div>
             </Grid>
             <Grid item xs={7}>
               <div style={{ display: 'flex', alignItems: 'center', marginBottom: '40px' }}>
@@ -192,27 +208,31 @@ const ProductRegisterPage = () => {
                   sx={{ mb: 4 }}
                 />
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', marginBottom: '40px'}}>
-                <Typography variant="h6" fontWeight="bold" sx={{ width: '10%', mr : 3 }}>
+              <div style={{ display: 'flex', alignItems: 'center', marginBottom: '40px', marginTop: '10px'}}>
+                <Typography variant="h6" fontWeight="bold" sx={{ width: '10%', mr : 2 }}>
                   옵션
                 </Typography>
-                <PinkSwitch sx={{ mr : 5 }} />
-                <CustomSelect 
-                  options={options} 
-                  value={selectedOption}
-                  onChange size="s"
-                  sx={{ mr : 5 }} />
-                <CustomSelect 
-                  options={options}
-                  value={selectedOption}
-                  onChange size="s"
-                  sx={{ mr : 5 }} />
-                <InputBoxXS
-                  color="neutral"
-                  disabled={false}
-                  placeholder="수량"
-                  variant="soft"
-                />
+                <PinkSwitch sx={{ mr : 2 }} checked={state.option} onChange={handleChange} name="option" />
+                {state.option && (
+                  <>
+                    <CustomSelect 
+                      options={options} 
+                      value={selectedOption}
+                      onChange size="s"
+                      sx={{ mr : 3 }} />
+                    <CustomSelect 
+                      options={options}
+                      value={selectedOption}
+                      onChange size="s"
+                      sx={{ mr : 3 }} />
+                    <InputBoxXS
+                      color="neutral"
+                      disabled={false}
+                      placeholder="수량"
+                      variant="soft"
+                    />
+                  </>
+            )}
                 
               </div>
               <div style={{ display: 'flex', alignItems: 'center', marginBottom: '40px' }}>
@@ -239,6 +259,11 @@ const ProductRegisterPage = () => {
                 />
               </div>
             </Grid>
+          </Grid>
+          <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center', mt : 10 }}>
+            <AdminButton variant="contained" component="span">
+              등록
+            </AdminButton>
           </Grid>
         </Box>
       </Box>
