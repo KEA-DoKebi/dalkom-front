@@ -27,6 +27,10 @@ import ShippingInfoPage from "./pages/Admin/ShippingInfoPage";
 import UserListPage from "./pages/Admin/UserListPage";
 import UserRegisterPage from "./pages/Admin/UserRegisterPage";
 import Login from "./pages/User/Login";
+import CustomerServiceMenu from "./components/CustomerServiceMenu";
+import Notice from "./pages/User/Notice"
+import Manual from "./pages/User/Manual";
+
 
 const Router = () => {
   return (
@@ -61,6 +65,10 @@ const Router = () => {
         <Route path="/login" element={<Login />} />
 
         <Route path ="/customerService" element={<CustomerService />} />
+        <Route path = "/customerServiceMenu" element={<CustomerServiceMenu />} />
+        <Route path = "/manual" element={<Manual />} />
+        <Route path = "/notice" element={<Notice />} />
+
       </Routes>
     </BrowserRouter>
   );
