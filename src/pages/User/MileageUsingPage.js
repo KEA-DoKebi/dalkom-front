@@ -1,7 +1,7 @@
 import React from "react";
 import SidebarLayout from "components/layout/SidebarLayout";
 import { Box } from "@mui/material";
-import { Grid,   Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 
 const MileageUsingPage = () => {
   return (
@@ -22,7 +22,7 @@ const MileageUsingPage = () => {
           }}
         >
           <thead>
-          <tr>
+            <tr>
               <Grid container spacing={2} justifyContent="space-between">
                 <Grid
                   item
@@ -80,144 +80,173 @@ const MileageUsingPage = () => {
           </thead>
           <tbody>
             <td style={{ border: "1px solid black", padding: "5px" }}>
-                    <Grid container spacing={2} justifyContent="space-between">
-                    <Grid item xs={2} style={{ textAlign: "center" }}>
-                        <Typography style={{ fontWeight: "bold" }}>
-                        상품 정보
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={2} style={{ textAlign: "center" }}>
-                        <Typography style={{ fontWeight: "bold" }}>
-                        상품 가격
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={2} style={{ textAlign: "center" }}>
-                        <Typography style={{ fontWeight: "bold" }}>
-                        상품 수량
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={2} style={{ textAlign: "center" }}>
-                        <Typography style={{ fontWeight: "bold" }}>
-                        배송비
-                        </Typography>
-                    </Grid>
-                    <Grid
-                        item
-                        xs={2}
-                        style={{ textAlign: "center", paddingLeft: "10px" }}
-                    >
-                        <Typography style={{ fontWeight: "bold" }}>
-                        최종가격
-                        </Typography>
-                    </Grid>
-                    </Grid>
-                </td>
-                <tr  >
-                    <Grid container spacing={2} justifyContent="space-between">
-                    <Grid item xs={2} style={{ textAlign: "center" }}>
-                    <Typography>갤럭시 s24</Typography>
+              <Grid container spacing={2} justifyContent="space-between">
+                <Grid item xs={2} style={{ textAlign: "center" }}>
+                  <Typography style={{ fontWeight: "bold" }}>
+                    상품 정보
+                  </Typography>
+                </Grid>
+                <Grid item xs={2} style={{ textAlign: "center" }}>
+                  <Typography style={{ fontWeight: "bold" }}>
+                    상품 가격
+                  </Typography>
+                </Grid>
+                <Grid item xs={2} style={{ textAlign: "center" }}>
+                  <Typography style={{ fontWeight: "bold" }}>
+                    상품 수량
+                  </Typography>
+                </Grid>
+                <Grid item xs={2} style={{ textAlign: "center" }}>
+                  <Typography style={{ fontWeight: "bold" }}>배송비</Typography>
+                </Grid>
+                <Grid
+                  item
+                  xs={2}
+                  style={{ textAlign: "center", paddingLeft: "10px" }}
+                >
+                  <Typography style={{ fontWeight: "bold" }}>
+                    최종가격
+                  </Typography>
+                </Grid>
+              </Grid>
+            </td>
+            <tr>
+              <Grid container spacing={2} justifyContent="space-between">
+                <Grid item xs={2} style={{ textAlign: "center" }}>
+                  <Typography>갤럭시 s24</Typography>
                   <Typography>(옵션: 블랙)</Typography>
-                    </Grid>
-                    <Grid item xs={2} style={{ textAlign: "center" , marginTop: "1%" }}>
-                    <Typography>1,000,000</Typography>
-                    </Grid>
-                    <Grid item xs={2} style={{ textAlign: "center", marginTop: "1%"  }}>
-                        <Typography >
-                        1
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={2} style={{ textAlign: "center", marginTop: "1%"  }}>
-                        <Typography >
-                        배송비 무료
-                        </Typography>
-                    </Grid>
-                    <Grid
-                        item
-                        xs={2}
-                        style={{ textAlign: "center", paddingLeft: "10px", marginTop: "1%"  }}
-                    >
-                        <Typography>
-                        1,000,000
-                        </Typography>
-                    </Grid>
-                    </Grid>
-                </tr>
-                <tr  >
-                    <Grid container spacing={2} justifyContent="space-between">
-                    <Grid item xs={2} style={{ textAlign: "center" }}>
-                    <Typography>갤럭시 s24</Typography>
+                </Grid>
+                <Grid
+                  item
+                  xs={2}
+                  style={{ textAlign: "center", marginTop: "1%" }}
+                >
+                  <Typography>1,000,000</Typography>
+                </Grid>
+                <Grid
+                  item
+                  xs={2}
+                  style={{ textAlign: "center", marginTop: "1%" }}
+                >
+                  <Typography>1</Typography>
+                </Grid>
+                <Grid
+                  item
+                  xs={2}
+                  style={{ textAlign: "center", marginTop: "1%" }}
+                >
+                  <Typography>배송비 무료</Typography>
+                </Grid>
+                <Grid
+                  item
+                  xs={2}
+                  style={{
+                    textAlign: "center",
+                    paddingLeft: "10px",
+                    marginTop: "1%",
+                  }}
+                >
+                  <Typography>1,000,000</Typography>
+                </Grid>
+              </Grid>
+            </tr>
+            <tr>
+              <Grid container spacing={2} justifyContent="space-between">
+                <Grid item xs={2} style={{ textAlign: "center" }}>
+                  <Typography>갤럭시 s24</Typography>
                   <Typography>(옵션: 블랙)</Typography>
-                    </Grid>
-                    <Grid item xs={2} style={{ textAlign: "center" , marginTop: "1%" }}>
-                    <Typography>1,000,000</Typography>
-                    </Grid>
-                    <Grid item xs={2} style={{ textAlign: "center", marginTop: "1%"  }}>
-                        <Typography >
-                        1
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={2} style={{ textAlign: "center", marginTop: "1%"  }}>
-                        <Typography >
-                        배송비 무료
-                        </Typography>
-                    </Grid>
-                    <Grid
-                        item
-                        xs={2}
-                        style={{ textAlign: "center", paddingLeft: "10px", marginTop: "1%"  }}
-                    >
-                        <Typography>
-                        1,000,000
-                        </Typography>
-                    </Grid>
-                    </Grid>
-                </tr>
-                <tr  >
-                    <Grid container spacing={2} justifyContent="space-between">
-                    <Grid item xs={2} style={{ textAlign: "center" }}>
-                    <Typography>갤럭시 s24</Typography>
+                </Grid>
+                <Grid
+                  item
+                  xs={2}
+                  style={{ textAlign: "center", marginTop: "1%" }}
+                >
+                  <Typography>1,000,000</Typography>
+                </Grid>
+                <Grid
+                  item
+                  xs={2}
+                  style={{ textAlign: "center", marginTop: "1%" }}
+                >
+                  <Typography>1</Typography>
+                </Grid>
+                <Grid
+                  item
+                  xs={2}
+                  style={{ textAlign: "center", marginTop: "1%" }}
+                >
+                  <Typography>배송비 무료</Typography>
+                </Grid>
+                <Grid
+                  item
+                  xs={2}
+                  style={{
+                    textAlign: "center",
+                    paddingLeft: "10px",
+                    marginTop: "1%",
+                  }}
+                >
+                  <Typography>1,000,000</Typography>
+                </Grid>
+              </Grid>
+            </tr>
+            <tr>
+              <Grid container spacing={2} justifyContent="space-between">
+                <Grid item xs={2} style={{ textAlign: "center" }}>
+                  <Typography>갤럭시 s24</Typography>
                   <Typography>(옵션: 블랙)</Typography>
-                    </Grid>
-                    <Grid item xs={2} style={{ textAlign: "center" , marginTop: "1%" }}>
-                    <Typography>1,000,000</Typography>
-                    </Grid>
-                    <Grid item xs={2} style={{ textAlign: "center", marginTop: "1%"  }}>
-                        <Typography >
-                        1
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={2} style={{ textAlign: "center", marginTop: "1%"  }}>
-                        <Typography >
-                        배송비 무료
-                        </Typography>
-                    </Grid>
-                    <Grid
-                        item
-                        xs={2}
-                        style={{ textAlign: "center", paddingLeft: "10px", marginTop: "1%"  }}
-                    >
-                        <Typography>
-                        1,000,000
-                        </Typography>
-                    </Grid>
-                    </Grid>
-                </tr>
-                
-                
+                </Grid>
+                <Grid
+                  item
+                  xs={2}
+                  style={{ textAlign: "center", marginTop: "1%" }}
+                >
+                  <Typography>1,000,000</Typography>
+                </Grid>
+                <Grid
+                  item
+                  xs={2}
+                  style={{ textAlign: "center", marginTop: "1%" }}
+                >
+                  <Typography>1</Typography>
+                </Grid>
+                <Grid
+                  item
+                  xs={2}
+                  style={{ textAlign: "center", marginTop: "1%" }}
+                >
+                  <Typography>배송비 무료</Typography>
+                </Grid>
+                <Grid
+                  item
+                  xs={2}
+                  style={{
+                    textAlign: "center",
+                    paddingLeft: "10px",
+                    marginTop: "1%",
+                  }}
+                >
+                  <Typography>1,000,000</Typography>
+                </Grid>
+              </Grid>
+            </tr>
           </tbody>
           <tfoot>
-          <td style={{ border: "1px solid black", padding: "5px",textAlign:"center" }} >
-                    <Grid container spacing={2} justifyContent="space-between">
-                        <Grid item
-                        xs={12}>
-                            <h3>
-                                총 상품 가격 3,000,000 + 총 배송비 0 = 총 주문금액 3,000,000
-                            </h3>
-                        </Grid>
-                     
-                    
-                    </Grid>
-                </td>
+            <td
+              style={{
+                border: "1px solid black",
+                padding: "5px",
+                textAlign: "center",
+              }}
+            >
+              <Grid container spacing={2} justifyContent="space-between">
+                <Grid item xs={12}>
+                  <h3>
+                    총 상품 가격 3,000,000 + 총 배송비 0 = 총 주문금액 3,000,000
+                  </h3>
+                </Grid>
+              </Grid>
+            </td>
           </tfoot>
         </table>
 
@@ -226,7 +255,5 @@ const MileageUsingPage = () => {
     </SidebarLayout>
   );
 };
-
- 
 
 export default MileageUsingPage;

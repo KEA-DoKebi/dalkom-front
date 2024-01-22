@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const Inquiry = () => {
-  return (
-    <div>Inquiry</div>
-  )
-}
+  return <div>Inquiry</div>;
+};
 
-export default Inquiry
+export default Inquiry;

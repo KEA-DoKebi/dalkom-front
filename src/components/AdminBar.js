@@ -50,7 +50,11 @@ const menuData = [
   {
     title: "사용자 관리",
     items: [
-      { label: "사용자 목록", path: "/admin/user/list", component: UserListPage },
+      {
+        label: "사용자 목록",
+        path: "/admin/user/list",
+        component: UserListPage,
+      },
       {
         label: "사용자 등록",
         path: "/admin/user/register",
@@ -71,7 +75,11 @@ const menuData = [
   {
     title: "상품 관리",
     items: [
-      { label: "상품 목록", path: "/admin/product/list", component: ProductListPage },
+      {
+        label: "상품 목록",
+        path: "/admin/product/list",
+        component: ProductListPage,
+      },
       {
         label: "상품 등록",
         path: "/admin/product/register",
@@ -92,7 +100,11 @@ const menuData = [
   {
     title: "주문 관리",
     items: [
-      { label: "주문 목록", path: "/admin/order/list", component: OrderListPage },
+      {
+        label: "주문 목록",
+        path: "/admin/order/list",
+        component: OrderListPage,
+      },
     ],
   },
   {
@@ -118,7 +130,11 @@ const menuData = [
   {
     title: "고객센터",
     items: [
-      { label: "공지사항", path: "/admin/cs/announcement", component: AnnouncementPage },
+      {
+        label: "공지사항",
+        path: "/admin/cs/announcement",
+        component: AnnouncementPage,
+      },
       { label: "FAQ", path: "/admin/cs/faq", component: FAQPage },
       {
         label: "마일리지 안내",
@@ -164,7 +180,7 @@ const MenuItem = ({ label, selectedMenu, onClick, path }) => (
   </ListItem>
 );
 
-export default function AdminBar({ selectedMenu, setSelectedMenu }) {
+function AdminBar({ selectedMenu, setSelectedMenu }) {
   const handleMenuClick = (menu) => {
     setSelectedMenu(menu);
     // Add any additional logic or actions you want to perform on menu click
@@ -256,3 +272,5 @@ export default function AdminBar({ selectedMenu, setSelectedMenu }) {
     </Paper>
   );
 }
+
+export default AdminBar;

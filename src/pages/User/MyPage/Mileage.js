@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const Mileage = () => {
-  return (
-    <div>Mileage</div>
-  )
-}
+  return <div>Mileage</div>;
+};
 
-export default Mileage
+export default Mileage;
