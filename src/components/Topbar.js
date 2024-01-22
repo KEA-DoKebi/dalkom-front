@@ -45,7 +45,6 @@ const SubMenu = ({ subMenu, top, left, onSubMenuItemClick }) => {
   );
 };
 
-
 const Topbar = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [subMenuPosition, setSubMenuPosition] = useState({ top: 0, left: 0 });
@@ -76,7 +75,7 @@ const Topbar = () => {
     setSubMenuPosition({ top: 0, left: 0 }); // Reset subMenuPosition when a category is selected.
 
     // 선택된 메뉴의 정보를 콘솔에 출력
-    console.log('Selected Menu:', menuItems[index]);
+    console.log("Selected Menu:", menuItems[index]);
   };
 
   const [menuOpen, setMenuOpen] = useState(false);
@@ -90,11 +89,9 @@ const Topbar = () => {
   };
 
   const handleSubMenuItemClick = (subMenuItem) => {
-    console.log('Selected SubMenu:', subMenuItem);
+    console.log("Selected SubMenu:", subMenuItem);
     // 여기에서 선택한 서브 메뉴에 대한 추가적인 로직을 수행할 수 있습니다.
   };
-
-
 
   return (
     <AppBar
@@ -124,7 +121,7 @@ const Topbar = () => {
       </Toolbar>
       <Divider />
       <Toolbar sx={{ justifyContent: "space-between" }}>
-      <div>
+        <div>
           <IconButton
             aria-label="menu"
             edge="start"
@@ -134,18 +131,32 @@ const Topbar = () => {
             <MenuIcon />
           </IconButton>
           <Menu
-            anchorEl={document.getElementById('menu-icon')}
+            anchorEl={document.getElementById("menu-icon")}
             open={menuOpen}
             onClose={() => setMenuOpen(false)}
             anchorOrigin={{
-              vertical: 'top',  // Set the vertical origin to 'bottom'
-              horizontal: 'left',
+              vertical: "top", // Set the vertical origin to 'bottom'
+              horizontal: "left",
             }}
-            sx={{mt:"10vh"}}
+            sx={{ mt: "10vh" }}
           >
-            <Paper sx={{ width: "250px", height: "220px", boxShadow: "none", fontFamily: "H5", fontSize: "20px", marginLeft: "10px", letterSpacing: "1px", lineHeight: "1.5",   }}>
+            <Paper
+              sx={{
+                width: "250px",
+                height: "220px",
+                boxShadow: "none",
+                fontFamily: "H5",
+                fontSize: "20px",
+                marginLeft: "10px",
+                letterSpacing: "1px",
+                lineHeight: "1.5",
+              }}
+            >
               {menuItems.map((item, index) => (
-                <div key={index} onMouseEnter={() => handleCategoryClick(index)}>
+                <div
+                  key={index}
+                  onMouseEnter={() => handleCategoryClick(index)}
+                >
                   {item.label}
                   {selectedCategory === index && (
                     <>
