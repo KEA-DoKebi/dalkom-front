@@ -7,30 +7,26 @@ import { Link } from "react-router-dom";
 
 // MainBody코드
 const MainBody = () => {
-
   return (
     <div>
-      <StyledCarousel>   
-
-        <StyledPaper sx={{backgroundColor : "#F5F7FB"}}>
-            <Link to="/category/1">
-              <BannerImage src="/images/MainPage/kakaofriends.webp"/>
-            </Link>
+      <StyledCarousel>
+        <StyledPaper sx={{ backgroundColor: "#F5F7FB" }}>
+          <Link to="/category/1">
+            <BannerImage src="/images/MainPage/kakaofriends.webp" />
+          </Link>
         </StyledPaper>
 
-        <StyledPaper sx={{backgroundColor : "#F0CD4C"}}>
-            <Link to="/category/1">
-              <BannerImage src="/images/MainPage/kakao2.jpeg"/>
-            </Link>
+        <StyledPaper sx={{ backgroundColor: "#F0CD4C" }}>
+          <Link to="/category/1">
+            <BannerImage src="/images/MainPage/kakao2.jpeg" />
+          </Link>
         </StyledPaper>
-
       </StyledCarousel>
-      
     </div>
   );
 };
 
-const StyledCarousel = styled(Carousel)`  
+const StyledCarousel = styled(Carousel)`
   justify-content: center;
   align-items: center;
   margin-top: 5px; /* Carousel 상단 여백 조절 */
@@ -44,10 +40,9 @@ const StyledPaper = styled(Paper)`
 `;
 
 const BannerImage = styled.img`
-  display : flex;
+  display: flex;
   justify-content: center;
-  height : 300px;
-`
-
+  height: 300px;
+`;
 
 export default MainBody;

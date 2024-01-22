@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import styled from "@emotion/styled";
 import { Card, Typography } from "@mui/material";
 import FokerCard from "../assets/images/card.jpg";
@@ -8,7 +8,7 @@ const CustomCard = () => {
     <SungjunCard>
       <CardImage src={FokerCard} alt="카드 이미지" />
       <HoverCardContent>
-        <HoverCardTitle/>
+        <HoverCardTitle />
       </HoverCardContent>
       <CardContent>
         <CardTitle>카드 제목</CardTitle>
@@ -33,7 +33,6 @@ const CardImage = styled.img`
   width: 100%;
   height: 175px;
   object-fit: cover;
-
 `;
 
 const CardContent = styled.div`
@@ -66,9 +65,9 @@ const HoverCardContent = styled.div`
   background-color: rgba(0, 0, 0, 0.85); /* 검정색, 투명도 조절 가능 */
   opacity: 0; /* 초기에는 투명하게 */
   transition: opacity 0.3s ease; /* 투명도 변경 시 부드럽게 변화하도록 설정 */
-  
+
   &:hover {
-    opacity : 1;
+    opacity: 1;
   }
 `;
 
@@ -77,6 +76,5 @@ const HoverCardTitle = styled(Typography)`
   font-size: 24px;
   font-weight: bold;
 `;
-
 
 export default CustomCard;

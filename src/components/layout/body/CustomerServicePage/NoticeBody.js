@@ -1,3 +1,1 @@
-export const NoticeBody = () => {
-    
-}
+export const NoticeBody = () => {};
