@@ -111,12 +111,11 @@ const Router = () => {
             <Route path="/admin/cs/faq" element={<FAQPage />} />
             <Route path="/admin/cs/mile" element={<MileageInfoPage />} />
             <Route path="/admin/cs/shipping" element={<ShippingInfoPage />} />
-
           </Route>
         </Route>
       </Routes>
     </BrowserRouter>
-  );
+  );  
 };
 
 export default Router;
