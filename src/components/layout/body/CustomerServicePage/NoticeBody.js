@@ -130,6 +130,7 @@ const Main = styled.div`
     flex-direction: column;
     text-align: left;
     width: 70%;
+    height: auto;
 `;
 
 const Body = styled.div`

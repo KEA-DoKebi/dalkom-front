@@ -43,7 +43,7 @@ const Router = () => {
     <BrowserRouter>
       <Routes>
         {/* 사용자 */}
-        <Route path="/" element={<MainPage />} />
+          <Route path="/" element={<MainPage />} />
           <Route path="/signUp" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
 
@@ -63,6 +63,7 @@ const Router = () => {
             <Route path="/mypage/:userSeq/inquiry/history" element={<InquiryHistory />} />
             <Route path="/mypage/:userSeq/review" element={<Review />} />
             <Route path="/mypage/:userSeq/myinfo" element={<MyInfo />} />
+          </Route>  
         
 
           <Route path="/cs">
@@ -70,7 +71,7 @@ const Router = () => {
             <Route path="/cs/notice" element={<NoticePage />} />
             <Route path="/cs/user-faq" element={<UserFAQPage />} />
           </Route>
-        </Route>
+        
 
         {/* 관리자 */}
         <Route path="/admin">
