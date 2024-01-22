@@ -30,8 +30,6 @@ import { ManualPage } from "pages/User/CustomerService/ManualPage";
 import { NoticePage } from "pages/User/CustomerService/NoticePage";
 import { UserFAQPage } from "pages/User/CustomerService/UserFAQPage";
 
-
-
 const Router = () => {
   return (
     <BrowserRouter>
@@ -63,10 +61,9 @@ const Router = () => {
         <Route path="/user-register" element={<UserRegisterPage />} />
         <Route path="/signUp" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
-        <Route path = "/manual" element={<ManualPage />} />
-        <Route path = "/notice" element={<NoticePage />} />
-        <Route path = "/user-faq" element={<UserFAQPage />} />
-
+        <Route path="/manual" element={<ManualPage />} />
+        <Route path="/notice" element={<NoticePage />} />
+        <Route path="/user-faq" element={<UserFAQPage />} />
       </Routes>
     </BrowserRouter>
   );

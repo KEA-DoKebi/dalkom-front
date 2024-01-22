@@ -1,53 +1,102 @@
 import React from "react";
 import Carousel from "react-material-ui-carousel";
-import { Paper } from "@mui/material";
-import styled from "@emotion/styled";
+import { Paper, Box, Avatar, Typography } from "@mui/material";
+import styled, { css } from "styled-components";
 import { Link } from "react-router-dom";
 // import KaKaoFriendsImage from "/images/kakaofriends/webp"
 
 // MainBody코드
 const MainBody = () => {
-
   return (
-    <div>
-      <StyledCarousel>   
-
-        <StyledPaper sx={{backgroundColor : "#F5F7FB"}}>
-            <Link to="/category/1">
-              <BannerImage src="/images/MainPage/kakaofriends.webp"/>
-            </Link>
+    <StyledBox>
+      <StyledCarousel>
+        <StyledPaper sx={{ backgroundColor: "#F5F7FB" }}>
+          <Link to="/category/1">
+            <BannerImage src="/images/MainPage/kakaofriends.webp" />
+          </Link>
         </StyledPaper>
 
-        <StyledPaper sx={{backgroundColor : "#F0CD4C"}}>
-            <Link to="/category/1">
-              <BannerImage src="/images/MainPage/kakao2.jpeg"/>
-            </Link>
+        <StyledPaper sx={{ backgroundColor: "#F0CD4C" }}>
+          <Link to="/category/1">
+            <BannerImage src="/images/MainPage/kakao2.jpeg" />
+          </Link>
         </StyledPaper>
-
       </StyledCarousel>
-      
-    </div>
+      <CategoryBox>
+        <ImageBox>
+          <StyledAvartar src="/images/MainPage/hanger.png" />
+          <Typography>패션/뷰티</Typography>
+        </ImageBox>
+
+        <ImageBox>
+          <StyledAvartar src="/images/MainPage/life.png" />
+          <Typography>생활</Typography>
+        </ImageBox>
+
+        <ImageBox>
+          <StyledAvartar src="/images/MainPage/digital.png" />
+          <Typography>디지털/가전</Typography>
+        </ImageBox>
+
+        <ImageBox>
+          <StyledAvartar src="/images/MainPage/baby.png" />
+          <Typography>출산/유아동</Typography>
+        </ImageBox>
+
+        <ImageBox>
+          <StyledAvartar src="/images/MainPage/sports.png" />
+          <Typography>스포츠/레저</Typography>
+        </ImageBox>
+
+        <ImageBox>
+          <StyledAvartar src="/images/MainPage/chunsik2.png" />
+          <Typography>카카오굿즈</Typography>
+        </ImageBox>
+      </CategoryBox>
+    </StyledBox>
   );
 };
 
-const StyledCarousel = styled(Carousel)`  
+const centerFlex = css`
+  display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 5px; /* Carousel 상단 여백 조절 */
+`;
+
+const StyledBox = styled(Box)`
+  margin: 0;
+`;
+
+const StyledCarousel = styled(Carousel)`
+  justify-content: center;
+  align-items: center;
+  // margin-top : -5vh;
 `;
 
 const StyledPaper = styled(Paper)`
-  display: flex;
-  height: 350px;
-  justify-content: center;
-  align-items: center;
+  ${centerFlex}
 `;
 
 const BannerImage = styled.img`
-  display : flex;
-  justify-content: center;
+  ${centerFlex}
   height : 300px;
-`
+`;
 
+const CategoryBox = styled(Box)`
+  ${centerFlex}
+`;
+
+const ImageBox = styled(Box)`
+  ${centerFlex}
+  flex-direction : column;
+`;
+
+const StyledAvartar = styled(Avatar)`
+  width: 100px;
+  height: 100px;
+  margin: 40px 50px 10px 50px;
+  background-color: #f5f7fb;
+  border: 1px solid gray;
+`;
 
 export default MainBody;
