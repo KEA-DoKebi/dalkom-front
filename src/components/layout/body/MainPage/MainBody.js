@@ -1,6 +1,6 @@
 import React from "react";
 import Carousel from "react-material-ui-carousel";
-import { Paper, Box } from "@mui/material";
+import { Paper } from "@mui/material";
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
 // import KaKaoFriendsImage from "/images/kakaofriends/webp"
