@@ -29,6 +29,7 @@ import Login from "pages/User/Login";
 import { ManualPage } from "pages/User/CustomerService/ManualPage";
 import { NoticePage } from "pages/User/CustomerService/NoticePage";
 import { UserFAQPage } from "pages/User/CustomerService/UserFAQPage";
+import OrderDetailPage from "pages/User/OrderDetailPage";
 
 
 
@@ -61,6 +62,7 @@ const Router = () => {
         <Route path="/shipping-info" element={<ShippingInfoPage />} />
         <Route path="/user-list" element={<UserListPage />} />
         <Route path="/user-register" element={<UserRegisterPage />} />
+        <Route path="/order-detail" element={<OrderDetailPage />} />
         <Route path="/signUp" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
         <Route path = "/manual" element={<ManualPage />} />
