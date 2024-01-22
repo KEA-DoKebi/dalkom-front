@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import benefit from "../../assets/images/benefit.png";
-import pay from "../../assets/images/pay.png";
-import delivery from "../../assets/images/delivery.png";
-import cancel from "../../assets/images/cancel.png"
+import benefit from "assets/images/benefit.png";
+import pay from "assets/images/pay.png";
+import delivery from "assets/images/delivery.png";
+import cancel from "assets/images/cancel.png"
 
 const Body = styled.div`
   display: flex;

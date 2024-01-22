@@ -1,4 +1,4 @@
-import DefaultLayout from "../../components/layout/DefaultLayout";
+import DefaultLayout from "components/layout/DefaultLayout";
 import styled from "styled-components";
 import { Link } from "react-router-dom/dist";
 import Button from "@mui/material/Button";

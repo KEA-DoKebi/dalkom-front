@@ -1,6 +1,6 @@
 import React from "react";
-import DefaultLayout from "../../components/layout/DefaultLayout";
-import MainBody from "../../components/layout/body/MainPage/MainBody";
+import DefaultLayout from "components/layout/DefaultLayout";
+import MainBody from "components/layout/body/MainPage/MainBody";
 
 const MainPage = () => {
   // const testAxios = async() => {

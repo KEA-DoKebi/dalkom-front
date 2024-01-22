@@ -1,5 +1,5 @@
 import React from "react";
-import Topbar from "../../Topbar";
+import Topbar from "components/Topbar";
 import styled from "@emotion/styled";
 const Header = () => {
   return (
