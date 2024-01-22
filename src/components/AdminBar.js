@@ -13,25 +13,25 @@ import {
   Button,
   Paper,
 } from "@mui/material";
-import AdminListPage from "../pages/Admin/AdminListPage";
-import AdminRegisterPage from "../pages/Admin/AdminRegisterPage";
-import AnnouncementPage from "../pages/Admin/AnnouncementPage";
-import BannerManagementPage from "../pages/Admin/BannerManagementPage";
-import FAQPage from "../pages/Admin/FAQPage";
-import InventoryManagePage from "../pages/Admin/InventoryManagePage";
-import MileageApprovalPage from "../pages/Admin/MileageApprovalPage";
-import MileageHistoryPage from "../pages/Admin/MileageHistoryPage";
-import MileageInfoPage from "../pages/Admin/MileageInfoPage";
-import OrderInquiryPage from "../pages/Admin/OrderInquiryPage";
-import OrderListPage from "../pages/Admin/OrderListPage";
-import PaymentInquiryPage from "../pages/Admin/PaymentInquiryPage";
-import ProductInquiryPage from "../pages/Admin/ProductInquiryPage";
-import ProductListPage from "../pages/Admin/ProductListPage";
-import ProductRegisterPage from "../pages/Admin/ProductRegisterPage";
-import ShippingInfoPage from "../pages/Admin/ShippingInfoPage";
-import UserListPage from "../pages/Admin/UserListPage";
-import UserRegisterPage from "../pages/Admin/UserRegisterPage";
-import ProductEditPage from "../pages/Admin/ProductEditPage";
+import AdminListPage from "pages/Admin/AdminListPage";
+import AdminRegisterPage from "pages/Admin/AdminRegisterPage";
+import AnnouncementPage from "pages/Admin/AnnouncementPage";
+import BannerManagementPage from "pages/Admin/BannerManagementPage";
+import FAQPage from "pages/Admin/FAQPage";
+import InventoryManagePage from "pages/Admin/InventoryManagePage";
+import MileageApprovalPage from "pages/Admin/MileageApprovalPage";
+import MileageHistoryPage from "pages/Admin/MileageHistoryPage";
+import MileageInfoPage from "pages/Admin/MileageInfoPage";
+import OrderInquiryPage from "pages/Admin/OrderInquiryPage";
+import OrderListPage from "pages/Admin/OrderListPage";
+import PaymentInquiryPage from "pages/Admin/PaymentInquiryPage";
+import ProductInquiryPage from "pages/Admin/ProductInquiryPage";
+import ProductListPage from "pages/Admin/ProductListPage";
+import ProductRegisterPage from "pages/Admin/ProductRegisterPage";
+import ShippingInfoPage from "pages/Admin/ShippingInfoPage";
+import UserListPage from "pages/Admin/UserListPage";
+import UserRegisterPage from "pages/Admin/UserRegisterPage";
+import ProductEditPage from "pages/Admin/ProductEditPage";
 
 const drawerWidth = 260;
 

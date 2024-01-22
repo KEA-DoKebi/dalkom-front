@@ -1,5 +1,5 @@
 import React from "react";
-import SidebarLayout from "../../components/layout/SidebarLayout";
+import SidebarLayout from "components/layout/SidebarLayout";
 
 const MyPage = () => {
   return (

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import PopupDom from "./PopupDom";
-import PopupPostCode from "./PopupPostCode";
+import PopupDom from "components/PopupDom";
+import PopupPostCode from "components/PopupPostCode";
 
 const Post = () => {
   // 팝업창 상태 관리

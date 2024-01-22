@@ -1,12 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-import LoginPage from "../../assets/images/LoginPage.jpg"
-import character from "../../assets/images/character.png"
-import "../../font/font.css"
-import SwitchLabels from "../../components/SwitchLabels";
-import FloatingLabelInput from "../../components/FloatingLabelInput";
+import LoginPage from "assets/images/LoginPage.jpg"
+import character from "assets/images/character.png"
+import "assets/font/font.css"
+import SwitchLabels from "components/SwitchLabels";
+import FloatingLabelInput from "components/FloatingLabelInput";
 import Button from "@mui/material/Button";
-import TextButton from "../../components/TextButton";
+import TextButton from "components/TextButton";
 import { Link } from "react-router-dom";
 import { styled as muiStyled } from "@mui/system";
 

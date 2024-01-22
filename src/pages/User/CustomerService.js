@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import DefaultLayout from "../../components/layout/DefaultLayout";
+import DefaultLayout from "components/layout/DefaultLayout";
 import styled from "styled-components";
 import Button from "@mui/material/Button";
-import Manual from "./Manual";
+import Manual from "Manual";
 import { Link } from "react-router-dom/dist";
 
 const Top = styled.div`
