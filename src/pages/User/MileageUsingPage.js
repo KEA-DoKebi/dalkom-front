@@ -32,7 +32,6 @@ const MileageUsingPage = () => {
                     textAlign: "center",
                     borderBottom: "2px solid black",
                     marginLeft: "1.4%",
-                    textAlign: "left",
                   }}
                 >
                   <h3>배송지정보</h3>

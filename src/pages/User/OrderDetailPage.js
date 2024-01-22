@@ -152,7 +152,6 @@ const OrderDetailPage = () => {
                     borderTop: "2px solid black",
                     marginLeft: "1.4%",
                     marginTop: "3%",
-                    textAlign: "left",
                   }}
                 >
                   <h3>배송지정보</h3>
@@ -209,7 +208,6 @@ const OrderDetailPage = () => {
                     borderBottom: "2px solid black",
                     marginLeft: "1.4%",
                     marginTop: "1%",
-                    textAlign: "left",
                   }}
                 >
                   <h3>주문 정보</h3>
