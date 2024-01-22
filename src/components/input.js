@@ -9,9 +9,9 @@ const InputField = ({ Label, Text }) => {
   return (
     <FormControl>
       <FormLabel>{Label}</FormLabel>
-      <Input placeholder={Text} sx={{width: "500px", height: "50px"}}/>
+      <Input placeholder={Text} sx={{ width: "500px", height: "50px" }} />
     </FormControl>
   );
 };
 
-export default InputField
+export default InputField;
