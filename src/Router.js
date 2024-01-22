@@ -65,7 +65,6 @@ const Router = () => {
         <Route path = "/manual" element={<ManualPage />} />
         <Route path = "/notice" element={<NoticePage />} />
         <Route path = "/user-faq" element={<UserFAQPage />} />
-        <Route path="/customerService" element={<CustomerService />} />
 
       </Routes>
     </BrowserRouter>
