@@ -36,6 +36,7 @@ const Router = () => {
   return (
     <BrowserRouter>
       <Routes>
+        {/* 사용자 */}
         <Route path="/" element={<MainPage />} />
         <Route path="/category/:categorySeq" element={<ProductList />} />
         <Route path="/product/:productSeq" element={<ProductDetail />} />
