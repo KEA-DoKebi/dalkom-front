@@ -20,7 +20,6 @@ const LayoutContainer = styled.div`
 `;
 
 const Main = styled.main`
-  margin-top: 5vh;
   min-height: 67vh;
 `;
 
