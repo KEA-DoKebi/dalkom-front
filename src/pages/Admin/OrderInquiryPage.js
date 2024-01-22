@@ -11,9 +11,6 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import {
   Box,
   Divider,
-  Dialog,
-  DialogTitle,
-  DialogContent,
   Paper,
   Toolbar,
   Pagination,
@@ -22,13 +19,23 @@ import {
   Typography,
   IconButton,
 } from "@mui/material";
+import Grid from '@mui/material/Grid';
+import TextField from '@mui/material/TextField';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import Modal from '@mui/material/Modal'
+
+const mockData = {
+  제목 : "안녕하세요. 문의글입니다.",
+  내용 : "문의 내용테스트 글 입니다.문의 내용테스트 글  내용테스트 글 입니다.",
+  사진 : "src/images/benefit.png" 
+}
 
 const dataList = [
   {
     문의번호: "1001",
     문의일시: "2024-01-21 10:30",
     문의글:
-      "주문문의주문문의주문문의주문문의주문문의주문문의주문문의주문문의주문문의주문문의",
+      "주문주문주문주문주문주문주문주문주문주문주문주문주문주문주문",
     답변여부: "대기중",
   },
   {
@@ -105,6 +112,29 @@ const ListItemStyled = styled(ListItem)`
   padding: 12px;
 `;
 
+const ModalBoxStyled = styled(Box)`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 1200px;
+  height: 800px;
+  
+  padding-left: 150px;
+  padding-right: 150px;
+  padding-bottom: 10px;
+
+
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  gap: 5px; 
+  background-color: white; // 백그라운드 색상 추
+  border-radius: 10px; // 모서리 둥글게
+  border: 2px solid white; // 테두리를 흰색으로 변경
+`;
+
 // 간격 일정하게 만드는 거
 const getColumnWidth = (label) => {
   // Define your width ranges for each column label
@@ -122,44 +152,10 @@ const getColumnWidth = (label) => {
   return `calc(${width}% - 8px)`; // Adjust 8px for spacing
 };
 
-const Modal = ({ open, onClose, title, contents }) => {
-  const [content, setContent] = useState(contents || "");
-
-  const handleClose = () => {
-    onClose();
-    setContent("");
-  };
-
-  const handleSubmit = () => {
-    console.log("Submitting modal content:", content);
-    handleClose();
-  };
-
-  const modalDimensions = { width: 600, height: 200 };
-
-  return (
-    <Dialog open={open} onClose={handleClose} maxWidth="false">
-      <DialogContent style={modalDimensions}>
-        {title && (
-          <DialogTitle
-            sx={{ fontWeight: "bold", fontSize: "1.5rem", textAlign: "center" }}
-          >
-            {title}
-          </DialogTitle>
-        )}
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
-          <AdminButton variant="contained" onClick={handleSubmit}>
-            닫기
-          </AdminButton>
-        </Box>
-      </DialogContent>
-    </Dialog>
-  );
-};
 
 const OrderInquiryPage = () => {
   // Declare selectedMenu and setSelectedMenu using useState
-  const [selectedMenu, setSelectedMenu] = useState("주문 문의");
+  const [selectedMenu, setSelectedMenu] = useState("");
 
   useEffect(() => {
     // 각 페이지가 마운트될 때 selectedMenu를 업데이트
@@ -167,18 +163,9 @@ const OrderInquiryPage = () => {
     setSelectedMenu("주문 문의");
   }, []);
 
-  // Modal의 상태를 관리하는 state
-  const [modalOpen, setModalOpen] = useState(false);
-  const [modalTitle, setModalTitle] = useState("");
-
-  const openModal = (ID, nickname) => {
-    setModalOpen(true);
-    setModalTitle(`주문문의 모달`);
-  };
-
-  const closeModal = () => {
-    setModalOpen(false);
-  };
+  const [openModal, setOpenModal] = useState(false);
+  const handleOpenModal = () => setOpenModal(true);
+  const handleCloseModal = () => setOpenModal(false);
 
   return (
     <Paper sx={{ display: "flex", height: "100vh" }}>
@@ -267,7 +254,7 @@ const OrderInquiryPage = () => {
                     ),
                   )}
 
-                  <IconButton onClick={() => openModal(item.ID, item.닉네임)}>
+                  <IconButton onClick={handleOpenModal}>
                     <InfoOutlinedIcon />
                   </IconButton>
                 </ListItemStyled>
@@ -281,10 +268,62 @@ const OrderInquiryPage = () => {
           <Pagination count={10} />
 
           <Modal
-            open={modalOpen}
-            onClose={() => closeModal()}
-            title={modalTitle}
-          />
+              open={openModal}
+              onClose={handleCloseModal}
+              aria-labelledby="simple-modal-title"
+              aria-describedby="simple-modal-description"
+            >
+            <ModalBoxStyled>
+            
+            <IconButton onClick={handleCloseModal} sx={{ mt : 4, mr : 4}} style={{ position: 'absolute', right: 0, top: 0 }}>
+            <HighlightOffIcon>
+            </HighlightOffIcon>
+            </IconButton>
+            
+
+            <Grid container spacing={2}>
+            <Grid item xs={2}>
+              <Typography variant="h6" fontWeight="bold" sx={{ mb: 2 }}>
+                제목
+              </Typography>
+            </Grid>
+            <Grid item xs={10}>
+            <Typography>
+             {mockData.제목}
+            </Typography>
+            </Grid>
+            <Grid item xs={2}>
+              <Typography variant="h6" fontWeight="bold" sx={{ mb: 2 }}>
+                내용
+              </Typography>
+            </Grid>
+            <Grid item xs={10} style={{ height : '600px', maxHeight: '400px', overflowY: 'auto' }}>
+            <Typography>
+            {mockData.내용.repeat(100)}
+            </Typography>
+            </Grid>
+
+            <Grid item xs={12} style={{height :'20'}}>
+            </Grid>
+
+
+          </Grid>
+
+        
+              <TextField
+              id="outlined-textarea"
+              label="문의답변을 입력하세요"
+              placeholder="Placeholder"
+              maxrows={4}
+              rows={4}
+              multiline
+              sx={{mb: 4 , width: '100%', backgroundColor: '#f8fafc'}}
+              
+            />
+            <AdminButton variant="contained">저장</AdminButton>
+            
+            </ModalBoxStyled>
+            </Modal>
         </Box>
       </Box>
     </Paper>
