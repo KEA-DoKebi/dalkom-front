@@ -130,8 +130,6 @@ const getColumnWidth = (label) => {
   return `calc(${width}% - 8px)`; // Adjust 8px for spacing
 };
 
-
-
 const ConfirmModal = ({ open, onClose, title, contents }) => {
   const [content, setContent] = useState(contents || "");
 
@@ -177,16 +175,15 @@ export default function AdminListPage() {
     setSelectedMenu("관리자 목록");
   }, []);
 
-  useEffect(()=>{
-    testAxios()
-  },[])
+  useEffect(() => {
+    testAxios();
+  }, []);
 
-  const testAxios = async() => {
+  const testAxios = async () => {
     const res = await axios.get("/data/data.json");
     // console.log(res.data);
     setDataList(res.data);
-    
-  }
+  };
 
   // Modal의 상태를 관리하는 state
   const [modalOpen, setModalOpen] = useState(false);

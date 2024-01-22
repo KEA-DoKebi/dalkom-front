@@ -1,7 +1,7 @@
 import React from "react";
 import SidebarLayout from "components/layout/SidebarLayout";
 import { Box, Button } from "@mui/material";
-import { Grid,  Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 
 const OrderDetailPage = () => {
   return (
@@ -253,7 +253,5 @@ const OrderDetailPage = () => {
     </SidebarLayout>
   );
 };
-
- 
 
 export default OrderDetailPage;
