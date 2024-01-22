@@ -3,6 +3,9 @@ import styled from "styled-components";
 import { Box } from "@mui/system";
 import {
   Divider,
+  Dialog,
+  DialogTitle,
+  DialogContent,
   Paper,
   Toolbar,
   Pagination,
@@ -126,6 +129,41 @@ const getColumnWidth = (label) => {
   return `calc(${width}% - 8px)`; // Adjust 8px for spacing
 };
 
+const ConfirmModal = ({ open, onClose, title, contents }) => {
+  const [content, setContent] = useState(contents || "");
+
+  const handleClose = () => {
+    onClose();
+    setContent("");
+  };
+
+  const handleSubmit = () => {
+    console.log("Submitting modal content:", content);
+    handleClose();
+  };
+
+  const modalDimensions = { width: 600, height: 200 };
+
+  return (
+    <Dialog open={open} onClose={handleClose} maxWidth="false">
+      <DialogContent style={modalDimensions}>
+        {title && (
+          <DialogTitle
+            sx={{ fontWeight: "bold", fontSize: "1.5rem", textAlign: "center" }}
+          >
+            {title}
+          </DialogTitle>
+        )}
+        <Box sx={{ display: "flex", justifyContent: "center" }}>
+          <AdminButton variant="contained" onClick={handleSubmit}>
+            삭제
+          </AdminButton>
+        </Box>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
 export default function AdminListPage() {
   const [selectedMenu, setSelectedMenu] = useState("관리자 목록");
 
@@ -134,6 +172,19 @@ export default function AdminListPage() {
     // setSelectedMenu 함수를 호출하여 상태를 업데이트
     setSelectedMenu("관리자 목록");
   }, []);
+
+  // Modal의 상태를 관리하는 state
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalTitle, setModalTitle] = useState("");
+
+  const openModal = (ID, nickname) => {
+    setModalOpen(true);
+    setModalTitle(`정말 ${ID}(${nickname})님을 삭제하시겠습니까?`);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
 
   return (
     //전체 화면
@@ -176,7 +227,7 @@ export default function AdminListPage() {
               startDecorator={<SearchIcon />}
               placeholder="Search"
               variant="soft"
-              sx={{ mb: 4 }}
+              sx={{ mb: 4, mt: 4 }}
             />
             <AdminButton variant="contained">+ 관리자 등록</AdminButton>
           </Toolbar>
@@ -188,7 +239,7 @@ export default function AdminListPage() {
                   <Typography
                     variant="h6"
                     fontWeight="bold"
-                    sx={{ width: getColumnWidth(label) }}
+                    sx={{ width: getColumnWidth(label), textAlign: "center" }}
                   >
                     {label}
                   </Typography>
@@ -206,12 +257,12 @@ export default function AdminListPage() {
                     <Typography
                       variant="body1"
                       key={colIndex}
-                      sx={{ width: getColumnWidth(label) }}
+                      sx={{ width: getColumnWidth(label), textAlign: "center" }}
                     >
                       {item[label]}
                     </Typography>
                   ))}
-                  <IconButton>
+                  <IconButton onClick={() => openModal(item.ID, item.닉네임)}>
                     <DeleteIcon />
                   </IconButton>
                 </ListItemStyled>
@@ -223,6 +274,12 @@ export default function AdminListPage() {
           </StyledList>
 
           <Pagination count={10} />
+
+          <ConfirmModal
+            open={modalOpen}
+            onClose={() => closeModal()}
+            title={modalTitle}
+          />
         </Box>
       </Box>
     </Paper>
