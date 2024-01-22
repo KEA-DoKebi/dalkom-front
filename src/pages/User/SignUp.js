@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { colors } from "../../styles/commonTheme";
-import signUpImage from "../../images/signUpPage.png"
+import signUpImage from "../../assets/images/signUpPage.png"
 import "../../font/font.css"
 import FloatingLabelInput from "../../components/FloatingLabelInput"
 import AddressField from "../../components/AddressField";
