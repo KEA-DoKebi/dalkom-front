@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useEffect } from "react";
 
 // 토큰 담지 않고 그냥 axios
 export const DefaultAxios = axios.create({
@@ -8,6 +9,7 @@ export const DefaultAxios = axios.create({
     "Content-Type": "application/json",
   },
 });
+
 
 // header에 accessToken을 담아 요청 보내는 axios
 export const TokenAxios = axios.create({

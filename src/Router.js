@@ -32,14 +32,27 @@ const Router = () => {
   return (
     <BrowserRouter>
       <Routes>
+        {/* 사용자 */}
         <Route path="/" element={<MainPage />} />
         <Route path="/category/:categorySeq" element={<ProductList />} />
         <Route path="/product/:productSeq" element={<ProductDetail />} />
         <Route path="/cart/:userSeq" element={<Cart />} />
         <Route path="/mypage/:userSeq" element={<MyPage />} />
         <Route path="/notice" element={<CustomerService />} />
-        <Route path="/admin-list" element={<AdminListPage />} />
-        <Route path="/admin-register" element={<AdminRegisterPage />} />
+        <Route path="/signUp" element={<SignUp />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/customerService" element={<CustomerService />} />
+
+        {/* 관리자 */}
+        <Route path="/admin">
+          <Route path="/admin/list" element={<AdminListPage />} />
+          <Route path="/admin/register" element={<AdminRegisterPage />} />
+        </Route>
+        {/* <Route path="/">
+
+        </Route> */}
+        {/* <Route path="/admin-list" element={<AdminListPage />} />
+        <Route path="/admin-register" element={<AdminRegisterPage />} /> */}
         <Route path="/announcement" element={<AnnouncementPage />} />
         <Route path="/banner-management" element={<BannerManagementPage />} />
         <Route path="/faq" element={<FAQPage />} />
@@ -57,10 +70,9 @@ const Router = () => {
         <Route path="/shipping-info" element={<ShippingInfoPage />} />
         <Route path="/user-list" element={<UserListPage />} />
         <Route path="/user-register" element={<UserRegisterPage />} />
-        <Route path="/signUp" element={<SignUp />} />
-        <Route path="/login" element={<Login />} />
+        
 
-        <Route path="/customerService" element={<CustomerService />} />
+        
       </Routes>
     </BrowserRouter>
   );
