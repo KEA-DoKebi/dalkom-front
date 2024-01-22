@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { AdminButton, InputBoxS,CKEditorComponent, InputBoxM } from "../../../components/AdminComponents";
+import { AdminButton, InputBoxS, InputBoxM } from "../../../components/AdminComponents";
 import AdminBar from "../../../components/AdminBar";
 import SearchIcon from "@mui/icons-material/Search";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
@@ -152,9 +152,7 @@ const AnnouncementPage = () => {
 
   // Modal의 상태를 관리하는 state
   const [writeModalOpen, setWriteModalOpen] = useState(false);
-  const [writeModalTitle, setWriteModalTitle] = useState("");
   const [lookModalOpen,setLookModalOpen] = useState(false);
-  const [title, setTitle] = useState("");
 
 
   const handleWriteOpenModal = () => {
@@ -165,9 +163,7 @@ const AnnouncementPage = () => {
     setWriteModalOpen(false);
   };
 
-  const handleWriteTitleChange = (event) => {
-    setTitle(event.target.value);
-  };
+  
 
   const handleLookOpenModal = () => {
     setLookModalOpen(true)

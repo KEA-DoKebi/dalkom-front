@@ -18,7 +18,6 @@ import AdminBar from "components/AdminBar";
 import SearchIcon from "@mui/icons-material/Search";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { InputBoxS, AdminButton } from "components/AdminComponents";
-import axios from "axios";
 
 const dataList = [
   {
