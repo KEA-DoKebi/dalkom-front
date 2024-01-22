@@ -2,9 +2,9 @@ import React from "react";
 import styled from "styled-components";
 
 import { colors } from "styles/commonTheme";
-import signUpImage from "assets/images/signUpPage.png"
-import "assets/font/font.css"
-import FloatingLabelInput from "components/FloatingLabelInput"
+import signUpImage from "assets/images/signUpPage.png";
+import "assets/font/font.css";
+import FloatingLabelInput from "components/FloatingLabelInput";
 import AddressField from "components/AddressField";
 import BasicDatePicker from "components/BasicDatePicker";
 import StyledButton from "components/StyledButton";

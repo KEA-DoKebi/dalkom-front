@@ -3,32 +3,25 @@ import styled from "styled-components";
 import { Link } from "react-router-dom/dist";
 import Button from "@mui/material/Button";
 
-
-
 const Notice = () => {
-  
   return (
     <DefaultLayout>
-        <Top>
-          <TextL>고객센터</TextL>
-          <Choice>
-            <StyledButton>
-              <Link to="/manual">이용안내</Link> 
-            </StyledButton>
-            <StyledButton>
-              <Link to="/notice">공지사항</Link>
-            </StyledButton>
-            <StyledButton>
-              FAQ
-            </StyledButton>
-          </Choice>
-        </Top>
-        <Body>
-          공지사항 내용
-        </Body>
-      </DefaultLayout>
-  )
-}
+      <Top>
+        <TextL>고객센터</TextL>
+        <Choice>
+          <StyledButton>
+            <Link to="/manual">이용안내</Link>
+          </StyledButton>
+          <StyledButton>
+            <Link to="/notice">공지사항</Link>
+          </StyledButton>
+          <StyledButton>FAQ</StyledButton>
+        </Choice>
+      </Top>
+      <Body>공지사항 내용</Body>
+    </DefaultLayout>
+  );
+};
 
 const Top = styled.div`
   display: flex;
@@ -39,7 +32,6 @@ const Top = styled.div`
   align-items: center;
   margin-top: -8vh;
   margin-bottom: 30px;
-
 `;
 
 const TextL = styled.h1`

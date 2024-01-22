@@ -13,7 +13,6 @@ const Top = styled.div`
   align-items: center;
   margin-top: -8vh;
   margin-bottom: 30px;
-
 `;
 
 const TextL = styled.h1`
@@ -43,32 +42,27 @@ const Body = styled.div`
   margin-top: 20px;
 `;
 
-
-
 // CustomerService 컴포넌트에서 Body 부분 수정
-export const CustomerServiceLayout = ({children}) => {
-    // const [activeButton, setActiveButton] = useState("이용안내");
-    
-    return (
-      <DefaultLayout>
-        <Top>
-          <TextL>고객센터</TextL>
-          <Choice>
-            <StyledButton>
-              <Link to="/manual">이용안내</Link> 
-            </StyledButton>
-            <StyledButton>
-              <Link to="/notice">공지사항</Link>
-            </StyledButton>
-            <StyledButton>
-                <Link to="/user-faq">FAQ</Link>
-            </StyledButton>
-          </Choice>
-        </Top>
-        <Body>
-            {children}          
-        </Body>
-      </DefaultLayout>
-    );
-  };
-  
+export const CustomerServiceLayout = ({ children }) => {
+  // const [activeButton, setActiveButton] = useState("이용안내");
+
+  return (
+    <DefaultLayout>
+      <Top>
+        <TextL>고객센터</TextL>
+        <Choice>
+          <StyledButton>
+            <Link to="/manual">이용안내</Link>
+          </StyledButton>
+          <StyledButton>
+            <Link to="/notice">공지사항</Link>
+          </StyledButton>
+          <StyledButton>
+            <Link to="/user-faq">FAQ</Link>
+          </StyledButton>
+        </Choice>
+      </Top>
+      <Body>{children}</Body>
+    </DefaultLayout>
+  );
+};

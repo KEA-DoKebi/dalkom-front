@@ -1,3 +1,1 @@
-export const FAQBody = () => {
-    
-}
+export const FAQBody = () => {};

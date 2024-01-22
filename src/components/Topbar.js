@@ -105,17 +105,22 @@ const Topbar = () => {
     >
       <Toolbar
         variant="dense"
-        sx={{ justifyContent: "flex-end", maxHeight: "3vh" }}
+        sx={{ justifyContent: "flex-end", maxHeight: "5vh" }}
       >
         {/* <Button sx={{ color: "black" }}>로그아웃</Button>|
         <Button sx={{ color: "black" }}>마이페이지</Button> */}
         <CustomLink
           to="/login"
-          style={{ fontSize: "12px", marginRight: "5px" }}
+          style={{
+            display: "flex",
+            fontSize: "15px",
+            marginRight: "5px",
+            alignItems: "center",
+          }}
         >
           로그아웃
         </CustomLink>
-        <CustomLink to="/mypage/1" style={{ fontSize: "12px" }}>
+        <CustomLink to="/mypage/1" style={{ fontSize: "15px" }}>
           마이페이지
         </CustomLink>
       </Toolbar>
