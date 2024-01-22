@@ -41,7 +41,7 @@ export function OXButton() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        height: "100vh",
+        height: "3vh",
       }}
     >
       <Button
