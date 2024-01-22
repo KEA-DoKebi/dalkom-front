@@ -45,17 +45,6 @@ const Body = styled.div`
 `;
 
 
-
-const Content2 = styled.div`
-  display: ${(props) => (props.active ? "block" : "none")};
-  /* Content2에 해당하는 스타일 */
-`;
-
-const Content3 = styled.div`
-  display: ${(props) => (props.active ? "block" : "none")};
-  /* Content3에 해당하는 스타일 */
-`;
-
 // CustomerService 컴포넌트에서 Body 부분 수정
 const CustomerService = () => {
     const [activeButton, setActiveButton] = useState("이용안내");
