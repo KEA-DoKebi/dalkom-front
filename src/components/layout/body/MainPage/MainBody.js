@@ -1,6 +1,6 @@
 import React from "react";
 import Carousel from "react-material-ui-carousel";
-import { Paper, Box, Avatar, Typography, Divider } from "@mui/material";
+import { Paper, Box, Avatar, Typography, Divider, Grid } from "@mui/material";
 import styled, { css } from "styled-components";
 import { Link } from "react-router-dom";
 // import KaKaoFriendsImage from "/images/kakaofriends/webp"
@@ -52,6 +52,46 @@ const MainBody = () => {
           <Typography>카카오굿즈</Typography>
         </ImageBox>
       </CategoryBox>
+
+      <Paper>
+        상품 목록
+      </Paper>
+
+      <Paper>
+        <StyleGrid container spacing={2}>
+          <StyleGrid item xs={1}>
+          
+          </StyleGrid>
+          <StyleGrid item xs={2}>
+            <StyledAvartar src="/images/MainPage/chunsik2.png" />
+          </StyleGrid>
+          <StyleGrid item xs={8}>
+            <StyledAvartar src="/images/MainPage/chunsik2.png" />
+          </StyleGrid>
+        </StyleGrid>
+      </Paper>
+
+      <Paper>
+        상품 목록
+      </Paper>
+
+      <Paper>
+        상품 목록
+      </Paper>
+
+      <Paper>
+        상품 목록
+      </Paper>
+
+      <Paper>
+        상품 목록
+      </Paper>
+
+      <Paper>
+        상품 목록
+      </Paper>
+
+       
     </StyledBox>
   );
 };
@@ -83,6 +123,7 @@ const BannerImage = styled.img`
 
 const CategoryBox = styled(Box)`
   ${centerFlex}
+  margin-bottom : 10vh;
 `;
 
 const ImageBox = styled(Box)`
@@ -97,5 +138,26 @@ const StyledAvartar = styled(Avatar)`
   background-color: #f5f7fb;
   border: 1px solid gray;
 `;
+
+const StyleGrid = styled(Grid)` 
+  ${centerFlex}
+  overflow : scroll;
+  flex-direction : row;
+  border : 1px solid black;
+  && {
+    margin: 0;
+    padding: 0;
+  }
+`
+
+const GridBox = styled(Box)`
+  ${centerFlex}
+  margin : 0;
+  padding : 0;
+`
+
+const StyleTypoGrapy = styled(Typography)`
+  font-size : 30px;
+`
 
 export default MainBody;
