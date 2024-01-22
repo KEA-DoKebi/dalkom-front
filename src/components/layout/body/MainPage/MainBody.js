@@ -1,115 +1,102 @@
 import React from "react";
 import Carousel from "react-material-ui-carousel";
-import { Grid, Paper, Card, Typography } from "@mui/material";
-import styled from "@emotion/styled";
+import { Paper, Box, Avatar, Typography } from "@mui/material";
+import styled, { css } from "styled-components";
+import { Link } from "react-router-dom";
+// import KaKaoFriendsImage from "/images/kakaofriends/webp"
 
 // MainBody코드
 const MainBody = () => {
-
-  const bannerCardData = [
-    { image: "", title: "제목 1" },
-    { image: "이미지2의 경로", title: "제목 2" },
-    { image: "이미지3의 경로", title: "제목 3" },
-    // 필요에 따라 더 추가하세요
-  ];
-
   return (
-    <div>
+    <StyledBox>
       <StyledCarousel>
-      <StyledPaper>
-          <StyledGrid container spacing={3}>
-            {bannerCardData.map((card, index) => (
-              <BannerCard key={index} item xs={4} image={card.image} title={card.title} />
-            ))}
-          </StyledGrid>
+        <StyledPaper sx={{ backgroundColor: "#F5F7FB" }}>
+          <Link to="/category/1">
+            <BannerImage src="/images/MainPage/kakaofriends.webp" />
+          </Link>
         </StyledPaper>
 
-
-        <StyledPaper>
-            <StyledGrid container spacing={3}>
-                <BannerCard item xs={4}/>
-                <Grid item xs={1}></Grid>
-                <BannerCard item xs={4}/>
-                <Grid item xs={1}></Grid>
-                <BannerCard item xs={4}/>
-            </StyledGrid>
+        <StyledPaper sx={{ backgroundColor: "#F0CD4C" }}>
+          <Link to="/category/1">
+            <BannerImage src="/images/MainPage/kakao2.jpeg" />
+          </Link>
         </StyledPaper>
       </StyledCarousel>
-    </div>
+      <CategoryBox>
+        <ImageBox>
+          <StyledAvartar src="/images/MainPage/hanger.png" />
+          <Typography>패션/뷰티</Typography>
+        </ImageBox>
+
+        <ImageBox>
+          <StyledAvartar src="/images/MainPage/life.png" />
+          <Typography>생활</Typography>
+        </ImageBox>
+
+        <ImageBox>
+          <StyledAvartar src="/images/MainPage/digital.png" />
+          <Typography>디지털/가전</Typography>
+        </ImageBox>
+
+        <ImageBox>
+          <StyledAvartar src="/images/MainPage/baby.png" />
+          <Typography>출산/유아동</Typography>
+        </ImageBox>
+
+        <ImageBox>
+          <StyledAvartar src="/images/MainPage/sports.png" />
+          <Typography>스포츠/레저</Typography>
+        </ImageBox>
+
+        <ImageBox>
+          <StyledAvartar src="/images/MainPage/chunsik2.png" />
+          <Typography>카카오굿즈</Typography>
+        </ImageBox>
+      </CategoryBox>
+    </StyledBox>
   );
 };
 
-const StyledCarousel = styled(Carousel)`
-    height : 500px;  
-    justify-content: center;
+const centerFlex = css`
+  display: flex;
+  justify-content: center;
   align-items: center;
-  margin-top: 5px; /* Carousel 상단 여백 조절 */
+`;
+
+const StyledBox = styled(Box)`
+  margin: 0;
+`;
+
+const StyledCarousel = styled(Carousel)`
+  justify-content: center;
+  align-items: center;
+  // margin-top : -5vh;
 `;
 
 const StyledPaper = styled(Paper)`
-  display: flex;
-  height: 300px;
-  justify-content: center;
-  align-items: center;
+  ${centerFlex}
 `;
 
-const StyledGrid = styled(Grid)`
-  display: flex;
-  justify-content: center;
+const BannerImage = styled.img`
+  ${centerFlex}
+  height : 300px;
+`;
+
+const CategoryBox = styled(Box)`
+  ${centerFlex}
+`;
+
+const ImageBox = styled(Box)`
+  ${centerFlex}
+  flex-direction : column;
+`;
+
+const StyledAvartar = styled(Avatar)`
+  width: 100px;
+  height: 100px;
+  margin: 40px 50px 10px 50px;
+  background-color: #f5f7fb;
+  border: 1px solid gray;
 `;
 
 export default MainBody;
-
-// BannerCard 이미지를 
-const BannerCard = ({ image, title }) => {
-  return (
-    <SungjunCard>
-      <CardImage src={image} alt="카드 이미지" />
-      <CardContent>
-        <CardTitle>{title}</CardTitle>
-      </CardContent>
-    </SungjunCard>
-  );
-};
-
-const SungjunCard = styled(Card)`
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  position: relative; /* 상대 위치 설정 */
-
-  &:hover {
-    transform: translateY(-8px);
-  }
-`;
-
-const CardImage = styled.img`
-  width: 100%;
-  height: 250px;
-  object-fit: cover;
-`;
-
-const CardContent = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(0, 0, 0, 0.85); /* 검정색, 투명도 조절 가능 */
-  opacity: 0; /* 초기에는 투명하게 */
-  transition: opacity 0.7s ease; /* 투명도 변경 시 부드럽게 변화하도록 설정 */
-  
-  &:hover {
-    opacity : 1;
-  }
-`;
-
-const CardTitle = styled(Typography)`
-  color: white;
-  font-size: 24px;
-  font-weight: bold;
-`;

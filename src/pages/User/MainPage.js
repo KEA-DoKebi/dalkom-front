@@ -12,13 +12,11 @@ const MainPage = () => {
   //   testAxios();
   // })
 
-
-  return(
+  return (
     <DefaultLayout>
       <MainBody />
     </DefaultLayout>
-  ) 
-  
+  );
 };
 
 export default MainPage;

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Button, Card } from "@mui/material";
+import { Button } from "@mui/material";
 import { Input, Link } from "@mui/joy";
 
 // ※ 아래는 mui + styled-components 어떻게 사용할지에 대한 예제이고 나중에 삭제해도 됩니다.
@@ -16,7 +16,6 @@ export const CustomLink = styled(Link)`
   background-color: black;
   color: white;
 `;
-
 
 export const Dwa = styled(Button)`
   background-color: orange;
