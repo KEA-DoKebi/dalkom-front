@@ -138,7 +138,6 @@ export default function AdminListPage() {
   return (
     //전체 화면
     <Paper sx={{ display: "flex", height: "100vh" }}>
-      
       {/* 사이드 바 */}
       <AdminBar selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
       {/* 뒤에 배경 */}
