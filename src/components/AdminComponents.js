@@ -41,7 +41,7 @@ export function OXButton() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        height: "100vh",
+        height: "3vh",
       }}
     >
       <Button
@@ -291,7 +291,6 @@ export const MuiColorChip = ({ status }) => {
 // const waitingStatus = 'waiting';
 // const completedStatus = 'completed';
 // <MuiColorChip status={waitingStatus} />
-
 
 // CKEditor
 export const CKEditorComponent = () => {
