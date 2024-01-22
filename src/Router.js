@@ -5,6 +5,10 @@ import ProductList from "./pages/User/ProductList";
 import ProductDetail from "./pages/User/ProductDetail";
 import Cart from "./pages/User/Cart";
 import MyPage from "./pages/User/MyPage";
+<<<<<<< HEAD
+=======
+import CustomerService from "./components/CustomerService";
+>>>>>>> 794ff9cf6560d0e5c3793b39c4e7eb6933397f9b
 import SignUp from "./pages/User/SignUp";
 import AdminListPage from "./pages/Admin/AdminListPage";
 import AdminRegisterPage from "./pages/Admin/AdminRegisterPage";
@@ -66,6 +70,10 @@ const Router = () => {
         <Route path = "/notice" element={<NoticePage />} />
         <Route path = "/user-faq" element={<UserFAQPage />} />
 
+<<<<<<< HEAD
+=======
+        <Route path="/customerService" element={<CustomerService />} />
+>>>>>>> 794ff9cf6560d0e5c3793b39c4e7eb6933397f9b
       </Routes>
     </BrowserRouter>
   );

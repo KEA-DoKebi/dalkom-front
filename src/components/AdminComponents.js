@@ -41,7 +41,7 @@ export function OXButton() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        height: "100vh",
+        height: "3vh",
       }}
     >
       <Button
@@ -88,7 +88,7 @@ export function OXButton() {
 }
 
 // On/Off 스위치 - (OnOffSwitch) 가져다가 쓰면 됩니당
-const PinkSwitch = styled(Switch)(({ theme }) => ({
+export const PinkSwitch = styled(Switch)(({ theme }) => ({
   "& .MuiSwitch-switchBase.Mui-checked": {
     color: pink[600],
     "&:hover": {
@@ -207,7 +207,8 @@ export const Modal = ({ size, open, onClose, title, contents }) => {
 };
 
 // 선택창
-export const CustomSelect = ({ options, onChange, value, size }) => {
+// sx 추가 - margin 적용 시 입력
+export const CustomSelect = ({ options, onChange, value, size, sx }) => {
   const getSizeStyles = (size) => {
     switch (size) {
       case "s":
@@ -224,7 +225,7 @@ export const CustomSelect = ({ options, onChange, value, size }) => {
   const selectStyle = getSizeStyles(size);
 
   return (
-    <Select value={value} onChange={onChange} style={selectStyle}>
+    <Select value={value} onChange={onChange} style={selectStyle} sx={sx}>
       {options &&
         options.map((option, index) => (
           <MenuItem key={index} value={option.value}>
@@ -290,7 +291,6 @@ export const MuiColorChip = ({ status }) => {
 // const waitingStatus = 'waiting';
 // const completedStatus = 'completed';
 // <MuiColorChip status={waitingStatus} />
-
 
 // CKEditor
 export const CKEditorComponent = () => {
