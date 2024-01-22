@@ -1,6 +1,6 @@
-import Input from "@mui/joy/Input";
-import { styled } from "@mui/joy/styles";
 import * as React from "react";
+import { styled } from "@mui/joy/styles";
+import Input from "@mui/joy/Input";
 
 const StyledInput = styled("input")({
   border: "none", // remove the native input border
