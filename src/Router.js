@@ -5,7 +5,6 @@ import ProductList from "./pages/User/ProductList";
 import ProductDetail from "./pages/User/ProductDetail";
 import Cart from "./pages/User/Cart";
 import MyPage from "./pages/User/MyPage";
-import CustomerService from "./components/CustomerService";
 import SignUp from "./pages/User/SignUp";
 import AdminListPage from "./pages/Admin/AdminListPage";
 import AdminRegisterPage from "./pages/Admin/AdminRegisterPage";
@@ -27,6 +26,11 @@ import ShippingInfoPage from "./pages/Admin/ShippingInfoPage";
 import UserListPage from "./pages/Admin/UserListPage";
 import UserRegisterPage from "./pages/Admin/UserRegisterPage";
 import Login from "./pages/User/Login";
+import { ManualPage } from "./pages/User/CustomerService/ManualPage";
+import { NoticePage } from "./pages/User/CustomerService/NoticePage";
+import { UserFAQPage } from "./pages/User/CustomerService/UserFAQPage";
+
+
 
 const Router = () => {
   return (
@@ -38,21 +42,8 @@ const Router = () => {
         <Route path="/product/:productSeq" element={<ProductDetail />} />
         <Route path="/cart/:userSeq" element={<Cart />} />
         <Route path="/mypage/:userSeq" element={<MyPage />} />
-        <Route path="/notice" element={<CustomerService />} />
-        <Route path="/signUp" element={<SignUp />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/customerService" element={<CustomerService />} />
-
-        {/* 관리자 */}
-        <Route path="/admin">
-          <Route path="/admin/list" element={<AdminListPage />} />
-          <Route path="/admin/register" element={<AdminRegisterPage />} />
-        </Route>
-        {/* <Route path="/">
-
-        </Route> */}
-        {/* <Route path="/admin-list" element={<AdminListPage />} />
-        <Route path="/admin-register" element={<AdminRegisterPage />} /> */}
+        <Route path="/admin-list" element={<AdminListPage />} />
+        <Route path="/admin-register" element={<AdminRegisterPage />} />
         <Route path="/announcement" element={<AnnouncementPage />} />
         <Route path="/banner-management" element={<BannerManagementPage />} />
         <Route path="/faq" element={<FAQPage />} />
@@ -70,9 +61,12 @@ const Router = () => {
         <Route path="/shipping-info" element={<ShippingInfoPage />} />
         <Route path="/user-list" element={<UserListPage />} />
         <Route path="/user-register" element={<UserRegisterPage />} />
-        
+        <Route path="/signUp" element={<SignUp />} />
+        <Route path="/login" element={<Login />} />
+        <Route path = "/manual" element={<ManualPage />} />
+        <Route path = "/notice" element={<NoticePage />} />
+        <Route path = "/user-faq" element={<UserFAQPage />} />
 
-        
       </Routes>
     </BrowserRouter>
   );
