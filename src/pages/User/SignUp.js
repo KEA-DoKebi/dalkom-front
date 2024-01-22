@@ -1,15 +1,10 @@
 import React from "react";
 import styled from "styled-components";
+
 import { colors } from "../../styles/commonTheme";
-<<<<<<< HEAD
 import signUpImage from "../../assets/images/signUpPage.png"
 import "../../font/font.css"
 import FloatingLabelInput from "../../components/FloatingLabelInput"
-=======
-import signUpImage from "../../images/signUpPage.png";
-import "../../font/font.css";
-import FloatingLabelInput from "../../components/FloatingLabelInput";
->>>>>>> 794ff9cf6560d0e5c3793b39c4e7eb6933397f9b
 import AddressField from "../../components/AddressField";
 import BasicDatePicker from "../../components/BasicDatePicker";
 import StyledButton from "../../components/StyledButton";

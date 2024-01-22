@@ -1,14 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-<<<<<<< HEAD
 import LoginPage from "../../assets/images/LoginPage.jpg"
 import character from "../../assets/images/character.png"
 import "../../font/font.css"
-=======
-import LoginPage from "../../images/LoginPage.jpg";
-import character from "../../images/character.png";
-import "../../font/font.css";
->>>>>>> 794ff9cf6560d0e5c3793b39c4e7eb6933397f9b
 import SwitchLabels from "../../components/SwitchLabels";
 import FloatingLabelInput from "../../components/FloatingLabelInput";
 import Button from "@mui/material/Button";
