@@ -65,10 +65,11 @@ const MenuItem = ({ label, selectedMenu, onClick, path }) => (
         fontSize: selectedMenu === label ? "1.2em" : "1em",
         fontWeight: selectedMenu === label ? "bold" : "normal",
       }}
-    >{label}</Typography>
+    >
+      {label}
+    </Typography>
   </ListItemButton>
 );
-
 
 export default function CustomerServiceMenu({ selectedMenu, setSelectedMenu }) {
   const handleMenuClick = (menu) => {

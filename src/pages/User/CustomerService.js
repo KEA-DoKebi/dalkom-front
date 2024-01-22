@@ -43,7 +43,6 @@ const Body = styled.div`
   margin-top: 20px;
 `;
 
-
 // CustomerService 컴포넌트에서 Body 부분 수정
 const CustomerService = () => {
   const [activeButton, setActiveButton] = useState("이용안내");
@@ -63,19 +62,14 @@ const CustomerService = () => {
           <StyledButton>
             <Link to="/notice">공지사항</Link>
           </StyledButton>
-          <StyledButton>
-            FAQ
-          </StyledButton>
+          <StyledButton>FAQ</StyledButton>
         </Choice>
       </Top>
       <Body>
         <Manual active={activeButton === "이용안내"} />
-
       </Body>
     </DefaultLayout>
   );
 };
-
-
 
 export default CustomerService;

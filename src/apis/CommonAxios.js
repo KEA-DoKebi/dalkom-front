@@ -10,7 +10,6 @@ export const DefaultAxios = axios.create({
   },
 });
 
-
 // header에 accessToken을 담아 요청 보내는 axios
 export const TokenAxios = axios.create({
   // baseURL: `${process.env.REACT_APP_SERVER_ADDRESS}`,

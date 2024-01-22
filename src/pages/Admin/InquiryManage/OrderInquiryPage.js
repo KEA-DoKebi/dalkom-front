@@ -19,23 +19,22 @@ import {
   Typography,
   IconButton,
 } from "@mui/material";
-import Grid from '@mui/material/Grid';
-import TextField from '@mui/material/TextField';
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-import Modal from '@mui/material/Modal'
+import Grid from "@mui/material/Grid";
+import TextField from "@mui/material/TextField";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import Modal from "@mui/material/Modal";
 
 const mockData = {
-  제목 : "안녕하세요. 문의글입니다.",
-  내용 : "문의 내용테스트 글 입니다.문의 내용테스트 글  내용테스트 글 입니다.",
-  사진 : "src/images/benefit.png" 
-}
+  제목: "안녕하세요. 문의글입니다.",
+  내용: "문의 내용테스트 글 입니다.문의 내용테스트 글  내용테스트 글 입니다.",
+  사진: "src/images/benefit.png",
+};
 
 const dataList = [
   {
     문의번호: "1001",
     문의일시: "2024-01-21 10:30",
-    문의글:
-      "주문주문주문주문주문주문주문주문주문주문주문주문주문주문주문",
+    문의글: "주문주문주문주문주문주문주문주문주문주문주문주문주문주문주문",
     답변여부: "대기중",
   },
   {
@@ -119,17 +118,16 @@ const ModalBoxStyled = styled(Box)`
   transform: translate(-50%, -50%);
   width: 1200px;
   height: 800px;
-  
+
   padding-left: 150px;
   padding-right: 150px;
   padding-bottom: 10px;
-
 
   align-items: center;
   justify-content: center;
   display: flex;
   flex-direction: column;
-  gap: 5px; 
+  gap: 5px;
   background-color: white; // 백그라운드 색상 추
   border-radius: 10px; // 모서리 둥글게
   border: 2px solid white; // 테두리를 흰색으로 변경
@@ -151,7 +149,6 @@ const getColumnWidth = (label) => {
 
   return `calc(${width}% - 8px)`; // Adjust 8px for spacing
 };
-
 
 const OrderInquiryPage = () => {
   // Declare selectedMenu and setSelectedMenu using useState
@@ -268,62 +265,61 @@ const OrderInquiryPage = () => {
           <Pagination count={10} />
 
           <Modal
-              open={openModal}
-              onClose={handleCloseModal}
-              aria-labelledby="simple-modal-title"
-              aria-describedby="simple-modal-description"
-            >
+            open={openModal}
+            onClose={handleCloseModal}
+            aria-labelledby="simple-modal-title"
+            aria-describedby="simple-modal-description"
+          >
             <ModalBoxStyled>
-            
-            <IconButton onClick={handleCloseModal} sx={{ mt : 4, mr : 4}} style={{ position: 'absolute', right: 0, top: 0 }}>
-            <HighlightOffIcon>
-            </HighlightOffIcon>
-            </IconButton>
-            
+              <IconButton
+                onClick={handleCloseModal}
+                sx={{ mt: 4, mr: 4 }}
+                style={{ position: "absolute", right: 0, top: 0 }}
+              >
+                <HighlightOffIcon></HighlightOffIcon>
+              </IconButton>
 
-            <Grid container spacing={2}>
-            <Grid item xs={2}>
-              <Typography variant="h6" fontWeight="bold" sx={{ mb: 2 }}>
-                제목
-              </Typography>
-            </Grid>
-            <Grid item xs={10}>
-            <Typography>
-             {mockData.제목}
-            </Typography>
-            </Grid>
-            <Grid item xs={2}>
-              <Typography variant="h6" fontWeight="bold" sx={{ mb: 2 }}>
-                내용
-              </Typography>
-            </Grid>
-            <Grid item xs={10} style={{ height : '600px', maxHeight: '400px', overflowY: 'auto' }}>
-            <Typography>
-            {mockData.내용.repeat(100)}
-            </Typography>
-            </Grid>
+              <Grid container spacing={2}>
+                <Grid item xs={2}>
+                  <Typography variant="h6" fontWeight="bold" sx={{ mb: 2 }}>
+                    제목
+                  </Typography>
+                </Grid>
+                <Grid item xs={10}>
+                  <Typography>{mockData.제목}</Typography>
+                </Grid>
+                <Grid item xs={2}>
+                  <Typography variant="h6" fontWeight="bold" sx={{ mb: 2 }}>
+                    내용
+                  </Typography>
+                </Grid>
+                <Grid
+                  item
+                  xs={10}
+                  style={{
+                    height: "600px",
+                    maxHeight: "400px",
+                    overflowY: "auto",
+                  }}
+                >
+                  <Typography>{mockData.내용.repeat(100)}</Typography>
+                </Grid>
 
-            <Grid item xs={12} style={{height :'20'}}>
-            </Grid>
+                <Grid item xs={12} style={{ height: "20" }}></Grid>
+              </Grid>
 
-
-          </Grid>
-
-        
               <TextField
-              id="outlined-textarea"
-              label="문의답변을 입력하세요"
-              placeholder="Placeholder"
-              maxrows={4}
-              rows={4}
-              multiline
-              sx={{mb: 4 , width: '100%', backgroundColor: '#f8fafc'}}
-              
-            />
-            <AdminButton variant="contained">저장</AdminButton>
-            
+                id="outlined-textarea"
+                label="문의답변을 입력하세요"
+                placeholder="Placeholder"
+                maxrows={4}
+                rows={4}
+                multiline
+                sx={{ mb: 4, width: "100%", backgroundColor: "#f8fafc" }}
+              />
+              <AdminButton variant="contained">저장</AdminButton>
             </ModalBoxStyled>
-            </Modal>
+          </Modal>
         </Box>
       </Box>
     </Paper>
