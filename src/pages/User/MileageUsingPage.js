@@ -228,9 +228,6 @@ const MileageUsingPage = () => {
   );
 };
 
-const ContentContainer = styled.div`
-  flex-grow: 1;
-  padding: 20px;
-`;
+ 
 
 export default MileageUsingPage;
