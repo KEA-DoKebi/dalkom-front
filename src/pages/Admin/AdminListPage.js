@@ -18,8 +18,6 @@ import AdminBar from "components/AdminBar";
 import SearchIcon from "@mui/icons-material/Search";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { InputBoxS, AdminButton } from "components/AdminComponents";
-import axios from "axios";
-
 const dataList = [
   {
     번호: "1",
@@ -93,7 +91,6 @@ const dataList = [
   },
   // Add more data items as needed
 ];
-
 const StyledList = styled(List)`
   /* Add styling for the List component */
   padding: 0;
@@ -101,9 +98,7 @@ const StyledList = styled(List)`
   border: none; /* Remove border */
   background-color: background.paper;
 `;
-
 const dataListLabels = Object.keys(dataList[0]);
-
 const ListItemStyled = styled(ListItem)`
   display: flex;
   justify-content: space-evenly;
@@ -111,7 +106,6 @@ const ListItemStyled = styled(ListItem)`
   width: 100%;
   padding: 12px;
 `;
-
 // 간격 일정하게 만드는 거
 const getColumnWidth = (label) => {
   // Define your width ranges for each column label
@@ -126,27 +120,19 @@ const getColumnWidth = (label) => {
   };
   const [minWidth, maxWidth] = widthRanges[label] || [0, 100];
   const width = Math.min(100, maxWidth) - minWidth;
-
   return `calc(${width}% - 8px)`; // Adjust 8px for spacing
 };
-
-
-
 const ConfirmModal = ({ open, onClose, title, contents }) => {
   const [content, setContent] = useState(contents || "");
-
   const handleClose = () => {
     onClose();
     setContent("");
   };
-
   const handleSubmit = () => {
     console.log("Submitting modal content:", content);
     handleClose();
   };
-
   const modalDimensions = { width: 600, height: 200 };
-
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="false">
       <DialogContent style={modalDimensions}>
@@ -166,41 +152,23 @@ const ConfirmModal = ({ open, onClose, title, contents }) => {
     </Dialog>
   );
 };
-
 export default function AdminListPage() {
   const [selectedMenu, setSelectedMenu] = useState("관리자 목록");
-  const [dataList, setDataList] = useState([]);
-
   useEffect(() => {
     // 각 페이지가 마운트될 때 selectedMenu를 업데이트
     // setSelectedMenu 함수를 호출하여 상태를 업데이트
     setSelectedMenu("관리자 목록");
   }, []);
-
-  useEffect(()=>{
-    testAxios()
-  },[])
-
-  const testAxios = async() => {
-    const res = await axios.get("/data/data.json");
-    // console.log(res.data);
-    setDataList(res.data);
-    
-  }
-
   // Modal의 상태를 관리하는 state
   const [modalOpen, setModalOpen] = useState(false);
   const [modalTitle, setModalTitle] = useState("");
-
   const openModal = (ID, nickname) => {
     setModalOpen(true);
     setModalTitle(`정말 ${ID}(${nickname})님을 삭제하시겠습니까?`);
   };
-
   const closeModal = () => {
     setModalOpen(false);
   };
-
   return (
     //전체 화면
     <Paper sx={{ display: "flex", height: "100vh" }}>
@@ -246,7 +214,6 @@ export default function AdminListPage() {
             />
             <AdminButton variant="contained">+ 관리자 등록</AdminButton>
           </Toolbar>
-
           <StyledList aria-label="mailbox folders">
             <ListItemStyled>
               {dataListLabels.map((label, index) => (
@@ -287,9 +254,7 @@ export default function AdminListPage() {
               </React.Fragment>
             ))}
           </StyledList>
-
           <Pagination count={10} />
-
           <ConfirmModal
             open={modalOpen}
             onClose={() => closeModal()}

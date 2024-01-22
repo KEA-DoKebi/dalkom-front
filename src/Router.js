@@ -36,6 +36,8 @@ import InquiryHistory from "pages/User/MyPage/InquiryHistory";
 import Review from "pages/User/MyPage/Review";
 import MyInfo from "pages/User/MyPage/MyInfo";
 import Payment from "pages/User/Payment";
+import MileageUsingPage from "pages/User/MileageUsingPage";
+import OrderDetailPage from "pages/User/OrderDetailPage";
 
 
 const Router = () => {
@@ -54,6 +56,8 @@ const Router = () => {
           <Route path="cart/:userSeq" element={<Cart />} />
 
           <Route path="/payment/:paymentSeq" element={<Payment />} />
+          <Route path="/order-detail" element={<OrderDetailPage/>}/> 
+          <Route path="/milg-use" element={<MileageUsingPage/>}/> 
 
           <Route path="/mypage/:userSeq" >
             <Route path="/mypage/:userSeq/order/list" element={<OrderList />} />
@@ -63,14 +67,14 @@ const Router = () => {
             <Route path="/mypage/:userSeq/inquiry/history" element={<InquiryHistory />} />
             <Route path="/mypage/:userSeq/review" element={<Review />} />
             <Route path="/mypage/:userSeq/myinfo" element={<MyInfo />} />
-          </Route>
+          </Route>  
+        
 
           <Route path="/cs">
             <Route path="/cs/manual" element={<ManualPage />} />
             <Route path="/cs/notice" element={<NoticePage />} />
             <Route path="/cs/user-faq" element={<UserFAQPage />} />
           </Route>
-      
 
         {/* 관리자 */}
         <Route path="/admin">
