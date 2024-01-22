@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import AdminBar from "../../components/AdminBar";
+import AdminBar from "components/AdminBar";
 import {
   Paper,
   Box,
@@ -13,7 +13,7 @@ import {
   Button,
 } from "@mui/material";
 import styled from "styled-components";
-import { InputBoxS } from "../../components/AdminComponents";
+import { InputBoxS } from "components/AdminComponents";
 import SearchIcon from "@mui/icons-material/Search";
 import CheckIcon from "@mui/icons-material/Check";
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import AdminBar from "../../components/AdminBar";
+import AdminBar from "components/AdminBar";
 import {
   Paper,
   Box,
@@ -9,7 +9,7 @@ import {
   AlertTitle,
   Snackbar,
 } from "@mui/material";
-import { AdminButton, InputBoxS } from "../../components/AdminComponents";
+import { AdminButton, InputBoxS } from "components/AdminComponents";
 import IconButton from "@mui/joy/IconButton";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 

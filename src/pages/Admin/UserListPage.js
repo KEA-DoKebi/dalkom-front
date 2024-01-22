@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import AdminBar from "../../components/AdminBar";
+import AdminBar from "components/AdminBar";
 import SearchIcon from "@mui/icons-material/Search";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { InputBoxS, AdminButton } from "../../components/AdminComponents";
+import { InputBoxS, AdminButton } from "components/AdminComponents";
 import { Box } from "@mui/system";
 import {
   Divider,

@@ -4,7 +4,7 @@ import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
-import "../font/font.css";
+import "assets/font/font.css";
 
 const menuData = [
   {

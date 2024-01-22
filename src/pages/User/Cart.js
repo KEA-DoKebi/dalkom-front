@@ -1,6 +1,5 @@
 import React from "react";
-import DefaultLayout from "../../components/layout/DefaultLayout";
-import { Typography } from "@mui/material";
+import DefaultLayout from "components/layout/DefaultLayout";
 import CartBody from "../../components/layout/body/CartPage/CartBody";
 import '../../font/font.css'
 const Cart = () => {
