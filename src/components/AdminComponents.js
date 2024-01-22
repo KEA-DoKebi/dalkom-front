@@ -292,7 +292,6 @@ export const MuiColorChip = ({ status }) => {
 // const completedStatus = 'completed';
 // <MuiColorChip status={waitingStatus} />
 
-
 // CKEditor
 export const CKEditorComponent = () => {
   const [editorData, setEditorData] = useState("");
