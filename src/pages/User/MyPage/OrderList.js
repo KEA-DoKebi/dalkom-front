@@ -1,10 +1,10 @@
 import React from "react";
 import SidebarLayout from "components/layout/SidebarLayout";
 
-const MyPage = () => {
+const OrderList = () => {
   return (
     <SidebarLayout></SidebarLayout>
   );
 };
 
-export default MyPage;
+export default OrderList;

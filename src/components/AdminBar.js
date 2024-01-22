@@ -13,25 +13,25 @@ import {
   Button,
   Paper,
 } from "@mui/material";
-import AdminListPage from "pages/Admin/AdminListPage";
-import AdminRegisterPage from "pages/Admin/AdminRegisterPage";
-import AnnouncementPage from "pages/Admin/AnnouncementPage";
-import BannerManagementPage from "pages/Admin/BannerManagementPage";
-import FAQPage from "pages/Admin/FAQPage";
-import InventoryManagePage from "pages/Admin/InventoryManagePage";
-import MileageApprovalPage from "pages/Admin/MileageApprovalPage";
-import MileageHistoryPage from "pages/Admin/MileageHistoryPage";
-import MileageInfoPage from "pages/Admin/MileageInfoPage";
-import OrderInquiryPage from "pages/Admin/OrderInquiryPage";
-import OrderListPage from "pages/Admin/OrderListPage";
-import PaymentInquiryPage from "pages/Admin/PaymentInquiryPage";
-import ProductInquiryPage from "pages/Admin/ProductInquiryPage";
-import ProductListPage from "pages/Admin/ProductListPage";
-import ProductRegisterPage from "pages/Admin/ProductRegisterPage";
-import ShippingInfoPage from "pages/Admin/ShippingInfoPage";
-import UserListPage from "pages/Admin/UserListPage";
-import UserRegisterPage from "pages/Admin/UserRegisterPage";
-import ProductEditPage from "pages/Admin/ProductEditPage";
+import AdminListPage from "pages/Admin/AdminManage/AdminListPage";
+import AdminRegisterPage from "pages/Admin/AdminManage/AdminRegisterPage";
+import AnnouncementPage from "pages/Admin/CSManage/AnnouncementPage";
+import BannerManagementPage from "pages/Admin/CSManage/BannerManagementPage";
+import FAQPage from "pages/Admin/CSManage/FAQPage";
+import InventoryManagePage from "pages/Admin/ProductManage/InventoryManagePage";
+import MileageApprovalPage from "pages/Admin/UserManage/MileageApprovalPage";
+import MileageHistoryPage from "pages/Admin/UserManage/MileageHistoryPage";
+import MileageInfoPage from "pages/Admin/CSManage/MileageInfoPage";
+import OrderInquiryPage from "pages/Admin/InquiryManage/OrderInquiryPage";
+import OrderListPage from "pages/Admin/OrderManage/OrderListPage";
+import PaymentInquiryPage from "pages/Admin/InquiryManage/PaymentInquiryPage";
+import ProductInquiryPage from "pages/Admin/InquiryManage/ProductInquiryPage";
+import ProductListPage from "pages/Admin/ProductManage/ProductListPage";
+import ProductRegisterPage from "pages/Admin/ProductManage/ProductRegisterPage";
+import ShippingInfoPage from "pages/Admin/CSManage/ShippingInfoPage";
+import UserListPage from "pages/Admin/UserManage/UserListPage";
+import UserRegisterPage from "pages/Admin/UserManage/UserRegisterPage";
+import ProductEditPage from "pages/Admin/ProductManage/ProductEditPage";
 
 const drawerWidth = 260;
 
@@ -39,10 +39,10 @@ const menuData = [
   {
     title: "관리자 관리",
     items: [
-      { label: "관리자 목록", path: "/admin-list", component: AdminListPage },
+      { label: "관리자 목록", path: "/admin/list", component: AdminListPage },
       {
         label: "관리자 등록",
-        path: "/admin-register",
+        path: "/admin/register",
         component: AdminRegisterPage,
       },
     ],
@@ -50,20 +50,20 @@ const menuData = [
   {
     title: "사용자 관리",
     items: [
-      { label: "사용자 목록", path: "/user-list", component: UserListPage },
+      { label: "사용자 목록", path: "/admin/user/list", component: UserListPage },
       {
         label: "사용자 등록",
-        path: "/user-register",
+        path: "/admin/user/register",
         component: UserRegisterPage,
       },
       {
         label: "마일리지 승인",
-        path: "/mile-approval",
+        path: "/admin/user/mile",
         component: MileageApprovalPage,
       },
       {
         label: "마일리지 승인 내역",
-        path: "/mile-history",
+        path: "/admin/user/mile/history",
         component: MileageHistoryPage,
       },
     ],
@@ -71,20 +71,20 @@ const menuData = [
   {
     title: "상품 관리",
     items: [
-      { label: "상품 목록", path: "/product-list", component: ProductListPage },
+      { label: "상품 목록", path: "/admin/product/list", component: ProductListPage },
       {
         label: "상품 등록",
-        path: "/product-register",
+        path: "/admin/product/register",
         component: ProductRegisterPage,
       },
       {
         label: "상품 수정/삭제",
-        path: "/product-edit",
+        path: "/admin/product/edit",
         component: ProductEditPage,
       },
       {
         label: "재고 관리",
-        path: "/inventory-management",
+        path: "/admin/product/inventory",
         component: InventoryManagePage,
       },
     ],
@@ -92,7 +92,7 @@ const menuData = [
   {
     title: "주문 관리",
     items: [
-      { label: "주문 목록", path: "/order-list", component: OrderListPage },
+      { label: "주문 목록", path: "/admin/order/list", component: OrderListPage },
     ],
   },
   {
@@ -100,17 +100,17 @@ const menuData = [
     items: [
       {
         label: "상품 문의",
-        path: "/product-inquiry",
+        path: "/admin/inquiry/product",
         component: ProductInquiryPage,
       },
       {
         label: "주문 문의",
-        path: "/order-inquiry",
+        path: "/admin/inquiry/order",
         component: OrderInquiryPage,
       },
       {
         label: "결제 문의",
-        path: "/payment-inquiry",
+        path: "/admin/inquiry/payment",
         component: PaymentInquiryPage,
       },
     ],
@@ -118,21 +118,21 @@ const menuData = [
   {
     title: "고객센터",
     items: [
-      { label: "공지사항", path: "/announcement", component: AnnouncementPage },
-      { label: "FAQ", path: "/faq", component: FAQPage },
+      { label: "공지사항", path: "/admin/cs/announcement", component: AnnouncementPage },
+      { label: "FAQ", path: "/admin/cs/faq", component: FAQPage },
       {
         label: "마일리지 안내",
-        path: "/mile-info",
+        path: "/admin/cs/mile",
         component: MileageInfoPage,
       },
       {
         label: "배송/환불 안내",
-        path: "/shipping-info",
+        path: "/admin/cs/shipping",
         component: ShippingInfoPage,
       },
       {
         label: "배너 관리",
-        path: "/banner-management",
+        path: "/admin/cs/banner",
         component: BannerManagementPage,
       },
     ],

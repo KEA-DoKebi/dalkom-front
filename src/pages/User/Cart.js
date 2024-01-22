@@ -1,7 +1,6 @@
 import React from "react";
 import DefaultLayout from "components/layout/DefaultLayout";
-import CartBody from "../../components/layout/body/CartPage/CartBody";
-import '../../font/font.css'
+import CartBody from "components/layout/body/CartPage/CartBody";
 const Cart = () => {
   return (
       <DefaultLayout>
