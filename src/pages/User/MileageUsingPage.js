@@ -1,9 +1,7 @@
 import React from "react";
-import DefaultLayout from "components/layout/DefaultLayout";
 import SidebarLayout from "components/layout/SidebarLayout";
-import { CustomerServiceLayout } from "components/layout/CustomerServiceLayout";
-import { Box, Button } from "@mui/material";
-import { Grid, Paper, Typography } from "@mui/material";
+import { Box } from "@mui/material";
+import { Grid,   Typography } from "@mui/material";
 import styled from "@emotion/styled";
 
 const MileageUsingPage = () => {
