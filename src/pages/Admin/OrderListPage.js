@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import AdminBar from "../../components/AdminBar";
-import { InputBoxS, AdminButton, CustomSelect } from "../../components/AdminComponents";
+import {
+  InputBoxS,
+  AdminButton,
+  CustomSelect,
+} from "../../components/AdminComponents";
 import SearchIcon from "@mui/icons-material/Search";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import {
