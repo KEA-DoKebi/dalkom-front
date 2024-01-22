@@ -1,7 +1,7 @@
 import React from "react";
-import { CustomButton } from "../../common";
+import { CustomButton } from "common";
 import { useNavigate } from "react-router-dom";
-import DefaultLayout from "../../components/layout/DefaultLayout";
+import DefaultLayout from "components/layout/DefaultLayout";
 
 const MainPage = () => {
   const navigate = useNavigate();

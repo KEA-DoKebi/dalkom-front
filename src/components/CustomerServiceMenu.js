@@ -9,8 +9,8 @@ import {
   ListItemButton,
   Paper,
 } from "@mui/material";
-import Manual from "../pages/User/Manual";
-import Notice from "../pages/User/Notice"; // Import your components as needed
+import Manual from "pages/User/Manual";
+import Notice from "pages/User/Notice"; // Import your components as needed
 
 import styled from "styled-components";
 

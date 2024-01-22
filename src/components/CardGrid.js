@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, Grid } from "@mui/material";
 import styled from "@emotion/styled";
-import FokerCard from "../assets/images/card.jpg";
+import FokerCard from "assets/images/card.jpg";
 
 const CardGrid = () => {
   // 행의 개수를 원하는 숫자로 대체하세요

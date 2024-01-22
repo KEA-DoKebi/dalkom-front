@@ -16,7 +16,7 @@ import { PigMoney } from "tabler-icons-react";
 import MenuIcon from "@mui/icons-material/Menu";
 import Menu from "@mui/material/Menu";
 import Input from "@mui/joy/Input";
-import "../font/font.css";
+import "assets/font/font.css";
 import { Link } from "react-router-dom";
 
 const SubMenu = ({ subMenu, top, left, onSubMenuItemClick }) => {

@@ -1,7 +1,7 @@
 /* DesignGuide.js */
 
 import React from "react";
-import "../../src/styles/styles.css";
+import "styles/styles.css";
 
 /* Div */
 

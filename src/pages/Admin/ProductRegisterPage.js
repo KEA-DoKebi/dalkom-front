@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import AdminBar from "../../components/AdminBar";
+import AdminBar from "components/AdminBar";
 import {
   Paper,
   Box,
@@ -18,7 +18,7 @@ import {
   AdminButton,
   CustomSelect,
   PinkSwitch,
-} from "../../components/AdminComponents";
+} from "components/AdminComponents";
 
 const ProductRegisterPage = () => {
   // Declare selectedMenu and setSelectedMenu using useState

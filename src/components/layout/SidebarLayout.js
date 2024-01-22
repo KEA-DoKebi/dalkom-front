@@ -1,8 +1,8 @@
 import { Grid } from "@mui/material";
-import Footer from "./footer/Footer";
-import Header from "./header/Header";
+import Footer from "components/layout/footer/Footer";
+import Header from "components/layout/header/Header";
 import styled from "@emotion/styled";
-import Sidebar from "../Sidebar";
+import Sidebar from "components/Sidebar";
 
 const SidebarLayout = ({ children }) => {
   return (
