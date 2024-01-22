@@ -1,0 +1,38 @@
+{
+    "admin_userList": [
+        {
+            "번호": "1",
+            "ID": "ryan123",
+            "이름": "라이언",
+            "부서": "코딩팀",
+            "닉네임": "코딩라이언"
+        },
+      {
+        "id": 2,
+        "name": "Jane Smith",
+        "position": "Product Manager"
+      },
+      {
+        "id": 3,
+        "name": "Bob Johnson",
+        "position": "UI/UX Designer"
+      }
+    ],
+    "departments": [
+      {
+        "id": "dev",
+        "name": "Development",
+        "location": "Building A"
+      },
+      {
+        "id": "marketing",
+        "name": "Marketing",
+        "location": "Building B"
+      },
+      {
+        "id": "design",
+        "name": "Design",
+        "location": "Building C"
+      }
+    ]
+  }
