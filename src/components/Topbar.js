@@ -228,7 +228,7 @@ const Topbar = () => {
               alignItems: "center",
             }}
           >
-            <CustomLink to="/mypage/1">
+            <CustomLink to="/mypage/1/order/list">
               <IconButton>
                 <LocalShippingOutlinedIcon
                   sx={{ fontSize: "40px", color: "black" }}
@@ -244,7 +244,7 @@ const Topbar = () => {
               alignItems: "center",
             }}
           >
-            <CustomLink to="/notice">
+            <CustomLink to="/cs/notice">
               <IconButton>
                 <SupportAgentIcon sx={{ fontSize: "40px", color: "black" }} />
               </IconButton>

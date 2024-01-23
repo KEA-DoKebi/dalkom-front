@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "@emotion/styled";
+import styled from "styled-components";
 import { Card, Typography } from "@mui/material";
 import { StarRating } from "./StarRating";
 import { Link } from "react-router-dom";
@@ -33,6 +33,7 @@ const SungjunCard = styled(Card)`
   display: flex;
   flex-direction: column;
   transition: transform 0.3s ease-in-out;
+  position: relative; /* 이 부분 추가 */
 
   &:hover {
     transform: translateY(-8px);
@@ -66,18 +67,19 @@ const HoverCardContent = styled.div`
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  right: 0; /* 오른쪽 끝까지 확장되도록 */
+  bottom: 0; /* 아래쪽 끝까지 확장되도록 */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.85); /* 검정색, 투명도 조절 가능 */
+  background-color: rgba(0, 0, 0, 0.7); /* 투명도 조정 */
   opacity: 0; /* 초기에는 투명하게 */
-  transition: opacity 0.1s ease; /* 투명도 변경 시 부드럽게 변화하도록 설정 */
+  transition: opacity 0.3s ease-in-out; /* 투명도 변경 시 부드럽게 변화하도록 설정 */
+  z-index: 10; /* 다른 컨텐츠 위에 오도록 z-index 설정 */
 
-  &:hover {
-    opacity: 1;
+  ${SungjunCard}:hover & {
+    opacity: 1; /* SungjunCard에 호버할 때만 보이도록 */
   }
 `;
 
