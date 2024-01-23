@@ -1,22 +1,32 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import AdminBar from "components/AdminBar";
-import { InputBoxS, AdminButton } from "components/AdminComponents";
+import {
+  AdminButton,
+  InputBoxS,
+  InputBoxM,
+  CustomSelect,
+} from "../../../components/AdminComponents";
+import AdminBar from "../../../components/AdminBar";
 import SearchIcon from "@mui/icons-material/Search";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+
 import {
   Box,
-  Divider,
   Dialog,
-  DialogTitle,
   DialogContent,
-  Paper,
-  Toolbar,
-  Pagination,
+  DialogActions,
+  Grid,
+  DialogTitle,
+  Divider,
+  IconButton,
   List,
   ListItem,
+  Pagination,
+  Paper,
+  Toolbar,
   Typography,
-  IconButton,
 } from "@mui/material";
 
 const dataList = [
@@ -91,6 +101,11 @@ const dataList = [
     상단고정: "Y",
   },
 ];
+const CKEditorContainer = styled.div`
+  .ck-editor__editable {
+    min-height: 400px;
+  }
+`;
 
 const StyledList = styled(List)`
   /* Add styling for the List component */
@@ -128,41 +143,6 @@ const getColumnWidth = (label) => {
   return `calc(${width}% - 8px)`; // Adjust 8px for spacing
 };
 
-const Modal = ({ open, onClose, title, contents }) => {
-  const [content, setContent] = useState(contents || "");
-
-  const handleClose = () => {
-    onClose();
-    setContent("");
-  };
-
-  const handleSubmit = () => {
-    console.log("Submitting modal content:", content);
-    handleClose();
-  };
-
-  const modalDimensions = { width: 600, height: 200 };
-
-  return (
-    <Dialog open={open} onClose={handleClose} maxWidth="false">
-      <DialogContent style={modalDimensions}>
-        {title && (
-          <DialogTitle
-            sx={{ fontWeight: "bold", fontSize: "1.5rem", textAlign: "center" }}
-          >
-            {title}
-          </DialogTitle>
-        )}
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
-          <AdminButton variant="contained" onClick={handleSubmit}>
-            닫기
-          </AdminButton>
-        </Box>
-      </DialogContent>
-    </Dialog>
-  );
-};
-
 const AnnouncementPage = () => {
   // Declare selectedMenu and setSelectedMenu using useState
   const [selectedMenu, setSelectedMenu] = useState("공지사항");
@@ -174,16 +154,45 @@ const AnnouncementPage = () => {
   }, []);
 
   // Modal의 상태를 관리하는 state
-  const [modalOpen, setModalOpen] = useState(false);
-  const [modalTitle, setModalTitle] = useState("");
+  const [writeModalOpen, setWriteModalOpen] = useState(false);
+  const [lookModalOpen, setLookModalOpen] = useState(false);
+  const [updateModalOpen, setUpdateModalOpen] = useState(false);
 
-  const openModal = (ID, nickname) => {
-    setModalOpen(true);
-    setModalTitle(`공지사항 모달`);
+  //수정 내역 불러오기
+  const [title] = useState(`공지사항 입니다.`);
+  const [content] =
+    useState(`안녕하세요. 소중한 고객 여러분께 알려드리는 공지사항이 있습니다. 최근의 업데이트로 인해 당사의 서비스가 더욱 원활하고 효율적으로 운영될 수 있도록 노력하고 있습니다. 새롭게 추가된 기능들과 향상된 사용자 경험을 통해 더욱 편리한 서비스를 제공하고자 합니다.
+  <br/>
+  <br/>
+    이번 업데이트로는 보안 강화 및 속도 개선에 중점을 두었습니다.고객님들의 개인 정보를 보호하기 위해 최신 보안 기술을 도입하여 더욱 안전한 환경을 제공하고 있습니다. 또한, 서비스의 속도를 향상시켜 더 빠르고 신속한 이용이 가능하도록 조치하였습니다.
+    <br/>
+    <br/>
+    우리는 항상 고객님들의 소중한 의견에 귀 기울이고 있습니다. 서비스 이용 중 발생하는 어떠한 문제나 피드백이 있다면 언제든지 고객센터를 통해 알려주시기 바랍니다. 고객님들의 의견을 토대로 더 나은 서비스를 제공하기 위해 끊임없이 노력하고 있습니다.
+    <br/>
+    <br/>
+    많은 관심과 협조를 부탁드리며, 더 나은 서비스로 찾아뵙겠습니다. 감사합니다.`);
+
+  const handleWriteOpenModal = () => {
+    setWriteModalOpen(true);
   };
 
-  const closeModal = () => {
-    setModalOpen(false);
+  const handleWriteCloseModal = () => {
+    setWriteModalOpen(false);
+  };
+
+  const handleUpdateOpenModal = () => {
+    setUpdateModalOpen(true);
+  };
+  const handleUpdateCloseModal = () => {
+    setUpdateModalOpen(false);
+    setLookModalOpen(false);
+  };
+
+  const handleLookOpenModal = () => {
+    setLookModalOpen(true);
+  };
+  const handleLookCloseModal = () => {
+    setLookModalOpen(false);
   };
 
   return (
@@ -224,7 +233,11 @@ const AnnouncementPage = () => {
               variant="soft"
               sx={{ mb: 4, mt: 4 }}
             />
-            <AdminButton variant="contained">작성하기</AdminButton>
+
+            {/*작성하기 버튼을 누르면 Editor가 포함된 모달이 나오도록 했습니다.*/}
+            <AdminButton variant="contained" onClick={handleWriteOpenModal}>
+              작성하기
+            </AdminButton>
           </Toolbar>
 
           <StyledList aria-label="mailbox folders">
@@ -257,7 +270,7 @@ const AnnouncementPage = () => {
                       {item[label]}
                     </Typography>
                   ))}
-                  <IconButton onClick={() => openModal(item.ID, item.닉네임)}>
+                  <IconButton onClick={handleLookOpenModal}>
                     <InfoOutlinedIcon />
                   </IconButton>
                 </ListItemStyled>
@@ -269,12 +282,147 @@ const AnnouncementPage = () => {
           </StyledList>
 
           <Pagination count={10} />
+          {/* 공지사항 작성 모달  */}
+          <Dialog
+            onClose={handleWriteOpenModal}
+            open={writeModalOpen}
+            maxWidth={false}
+          >
+            <DialogTitle>
+              <InputBoxM
+                color="neutral"
+                placeholder="Text"
+                disabled={false}
+                variant="soft"
+                sx={{ mb: 2, mt: 2, width: "100%" }}
+              />
+            </DialogTitle>
+            <DialogContent style={{ width: 900, height: 550 }}>
+              <CKEditorContainer>
+                <CKEditor
+                  editor={ClassicEditor}
+                  data="<p>공지를 작성하세요</p>"
+                  onChange={(event, editor) => {
+                    const data = editor.getData();
+                    console.log({ event, editor, data });
+                    // 원하는 작업 수행
+                  }}
+                />
+              </CKEditorContainer>
+              <DialogActions
+                style={{ justifyContent: "center", marginTop: "20px" }}
+              >
+                <AdminButton autoFocus onClick={handleWriteCloseModal}>
+                  Save
+                </AdminButton>
+              </DialogActions>
+            </DialogContent>
+          </Dialog>
 
-          <Modal
-            open={modalOpen}
-            onClose={() => closeModal()}
-            title={modalTitle}
-          />
+          {/* 공지사항 수정 모달  */}
+          <Dialog
+            onClose={handleUpdateCloseModal}
+            open={updateModalOpen}
+            maxWidth={false}
+          >
+            <DialogTitle
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
+              <CustomSelect
+                size="s"
+                sx={{ marginRight: "10px" /* 추가적인 스타일 */ }}
+              />
+              <InputBoxM
+                value={title}
+                color="neutral"
+                placeholder="Text"
+                disabled={false}
+                variant="soft"
+                sx={{ mb: 2, mt: 2, width: "70%" }}
+              />
+            </DialogTitle>
+            <DialogContent style={{ width: 900, height: 550 }}>
+              <CKEditorContainer>
+                <CKEditor
+                  editor={ClassicEditor}
+                  data={content}
+                  onChange={(event, editor) => {
+                    const data = editor.getData();
+                    console.log({ event, editor, data });
+                    // 원하는 작업 수행
+                  }}
+                />
+              </CKEditorContainer>
+              <DialogActions
+                style={{ justifyContent: "center", marginTop: "20px" }}
+              >
+                <AdminButton autoFocus onClick={handleUpdateCloseModal}>
+                  Save
+                </AdminButton>
+              </DialogActions>
+            </DialogContent>
+          </Dialog>
+
+          {/* 공지사항 보기 모달 */}
+          <Dialog
+            onClose={handleLookOpenModal}
+            open={lookModalOpen}
+            maxWidth={false}
+          >
+            <DialogContent style={{ width: 900, height: 600 }}>
+              <div>
+                <Grid marginTop="2%" style={{ textAlign: "center" }}>
+                  <h2>공지사항 입니다.</h2>
+                </Grid>
+                <Grid>작성일시 : 2024-01-22 작성자 라이언</Grid>
+
+                <Typography style={{ marginTop: "5%" }}>
+                  안녕하세요. 소중한 고객 여러분께 알려드리는 공지사항이
+                  있습니다. 최근의 업데이트로 인해 당사의 서비스가 더욱 원활하고
+                  효율적으로 운영될 수 있도록 노력하고 있습니다. 새롭게 추가된
+                  기능들과 향상된 사용자 경험을 통해 더욱 편리한 서비스를
+                  제공하고자 합니다.
+                  <br />
+                  <br />
+                  이번 업데이트로는 보안 강화 및 속도 개선에 중점을
+                  두었습니다.고객님들의 개인 정보를 보호하기 위해 최신 보안
+                  기술을 도입하여 더욱 안전한 환경을 제공하고 있습니다. 또한,
+                  서비스의 속도를 향상시켜 더 빠르고 신속한 이용이 가능하도록
+                  조치하였습니다.
+                  <br />
+                  <br />
+                  우리는 항상 고객님들의 소중한 의견에 귀 기울이고 있습니다.
+                  서비스 이용 중 발생하는 어떠한 문제나 피드백이 있다면 언제든지
+                  고객센터를 통해 알려주시기 바랍니다. 고객님들의 의견을 토대로
+                  더 나은 서비스를 제공하기 위해 끊임없이 노력하고 있습니다.
+                  <br />
+                  <br />
+                  많은 관심과 협조를 부탁드리며, 더 나은 서비스로
+                  찾아뵙겠습니다. 감사합니다.
+                </Typography>
+              </div>
+              <DialogActions
+                style={{ justifyContent: "center", marginTop: "40px" }}
+              >
+                <AdminButton
+                  autoFocus
+                  onClick={handleUpdateOpenModal}
+                  style={{ marginRight: "5%" }}
+                >
+                  수정
+                </AdminButton>
+                <AdminButton autoFocus onClick={handleLookCloseModal}>
+                  삭제
+                </AdminButton>
+              </DialogActions>
+            </DialogContent>
+          </Dialog>
+
+          {/*EditorModal은 AdminComponents.js에 있는 컴포넌트 입니다.*/}
         </Box>
       </Box>
     </Paper>

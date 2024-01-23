@@ -1,0 +1,74 @@
+{
+    "Announcement": [
+        {
+            "announceNumber": "N001",
+            "lastModified": "2024-01-10 09:00",
+            "writer": "홍길동",
+            "title": "새로운 기능 업데이트 안내",
+            "isTop": "Y"
+          },
+          {
+            "announceNumber": "N002",
+            "last modified": "2024-01-11 10:20",
+            "writer": "이영희",
+            "title": "시스템 점검 안내",
+            "isTop": "N"
+          },
+          {
+            "announceNumber": "N003",
+            "last modified": "2024-01-12 11:30",
+            "writer": "김철수",
+            "title": "신규 서비스 런칭",
+            "isTop": "Y"
+          },
+          {
+            "announceNumber": "N004",
+            "last modified": "2024-01-13 12:40",
+            "writer": "박지민",
+            "title": "사용자 인터페이스 개선 안내",
+            "isTop": "N"
+          },
+          {
+            "announceNumber": "N005",
+            "last modified": "2024-01-14 13:50",
+            "writer": "김민주",
+            "title": "이용 약관 변경 공지",
+            "isTop": "N"
+          },
+          {
+            "announceNumber": "N006",
+            "last modified": "2024-01-15 14:00",
+            "writer": "최영호",
+            "title": "보안 업데이트 안내",
+            "isTop": "Y"
+          },
+          {
+            "announceNumber": "N007",
+            "last modified": "2024-01-16 15:10",
+            "writer": "한지아",
+            "title": "회원 혜택 개편 안내",
+            "isTop": "N"
+          },
+          {
+            "announceNumber": "N008",
+            "last modified": "2024-01-17 16:20",
+            "writer": "윤대리",
+            "title": "모바일 앱 버전 업데이트",
+            "isTop": "Y"
+          },
+          {
+            "announceNumber": "N009",
+            "last modified": "2024-01-18 17:30",
+            "writer": "김과장",
+            "title": "고객 지원 팀 운영 시간 변경",
+            "isTop": "N"
+          },
+          {
+            "announceNumber": "N010",
+            "last modified": "2024-01-19 18:40",
+            "writer": "이사장",
+            "title": "연말 정산 관련 공지",
+            "isTop": "Y"
+          }
+    ]
+}

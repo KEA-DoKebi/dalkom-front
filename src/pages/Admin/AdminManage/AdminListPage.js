@@ -173,6 +173,17 @@ export default function AdminListPage() {
     setSelectedMenu("관리자 목록");
   }, []);
 
+  // useEffect(()=>{
+  //   testAxios()
+  // },[])
+
+  // const testAxios = async() => {
+  //   const res = await axios.get("/data/data.json");
+  //   // console.log(res.data);
+  //   setDataList(res.data);
+
+  // }
+
   // Modal의 상태를 관리하는 state
   const [modalOpen, setModalOpen] = useState(false);
   const [modalTitle, setModalTitle] = useState("");

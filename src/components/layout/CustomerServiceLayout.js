@@ -11,7 +11,7 @@ const Top = styled.div`
   margin-left: 9%;
   margin-right: 9%;
   align-items: center;
-  margin-top: -8vh;
+  margin-top: -1vh;
   margin-bottom: 30px;
 `;
 
@@ -52,13 +52,13 @@ export const CustomerServiceLayout = ({ children }) => {
         <TextL>고객센터</TextL>
         <Choice>
           <StyledButton>
-            <Link to="/manual">이용안내</Link>
+            <Link to="/cs/manual">이용안내</Link>
           </StyledButton>
           <StyledButton>
-            <Link to="/notice">공지사항</Link>
+            <Link to="/cs/notice">공지사항</Link>
           </StyledButton>
           <StyledButton>
-            <Link to="/user-faq">FAQ</Link>
+            <Link to="/cs/user-faq">FAQ</Link>
           </StyledButton>
         </Choice>
       </Top>

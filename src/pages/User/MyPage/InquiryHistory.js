@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const InquiryHistory = () => {
-  return (
-    <div>InquiryHistory</div>
-  )
-}
+  return <div>InquiryHistory</div>;
+};
 
-export default InquiryHistory
+export default InquiryHistory;

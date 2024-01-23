@@ -36,7 +36,8 @@ import InquiryHistory from "pages/User/MyPage/InquiryHistory";
 import Review from "pages/User/MyPage/Review";
 import MyInfo from "pages/User/MyPage/MyInfo";
 import Payment from "pages/User/Payment";
-
+import MileageUsingPage from "pages/User/MileageUsingPage";
+import OrderDetailPage from "pages/User/OrderDetailPage";
 
 const Router = () => {
   return (
@@ -44,32 +45,37 @@ const Router = () => {
       <Routes>
         {/* 사용자 */}
         <Route path="/" element={<MainPage />} />
-          <Route path="/signUp" element={<SignUp />} />
-          <Route path="/login" element={<Login />} />
+        <Route path="/signUp" element={<SignUp />} />
+        <Route path="/login" element={<Login />} />
 
-          <Route path="/category/:categorySeq" element={<ProductList />} />
+        <Route path="/category/:categorySeq" element={<ProductList />} />
 
-          <Route path="/product/:productSeq" element={<ProductDetail />} />
+        <Route path="/product/:productSeq" element={<ProductDetail />} />
 
-          <Route path="/cart/:userSeq" element={<Cart />} />
+        <Route path="/cart/:userSeq" element={<Cart />} />
 
-          <Route path="/payment/:paymentSeq" element={<Payment />} />
+        <Route path="/payment/:paymentSeq" element={<Payment />} />
+        <Route path="/order-detail" element={<OrderDetailPage />} />
+        <Route path="/milg-use" element={<MileageUsingPage />} />
 
-          <Route path="/mypage/:userSeq" >
-            <Route path="/mypage/:userSeq/order/list" element={<OrderList />} />
-            <Route path="/mypage/:userSeq/order/refund" element={<Refund />} />
-            <Route path="/mypage/:userSeq/mile" element={<Mileage />} />
-            <Route path="/mypage/:userSeq/inquiry" element={<Inquiry />} />
-            <Route path="/mypage/:userSeq/inquiry/history" element={<InquiryHistory />} />
-            <Route path="/mypage/:userSeq/review" element={<Review />} />
-            <Route path="/mypage/:userSeq/myinfo" element={<MyInfo />} />
-          </Route>
+        <Route path="/mypage/:userSeq">
+          <Route path="/mypage/:userSeq/order/list" element={<OrderList />} />
+          <Route path="/mypage/:userSeq/order/refund" element={<Refund />} />
+          <Route path="/mypage/:userSeq/mile" element={<Mileage />} />
+          <Route path="/mypage/:userSeq/inquiry" element={<Inquiry />} />
+          <Route
+            path="/mypage/:userSeq/inquiry/history"
+            element={<InquiryHistory />}
+          />
+          <Route path="/mypage/:userSeq/review" element={<Review />} />
+          <Route path="/mypage/:userSeq/myinfo" element={<MyInfo />} />
+        </Route>
 
-          <Route path="/cs">
-            <Route path="/cs/manual" element={<ManualPage />} />
-            <Route path="/cs/notice" element={<NoticePage />} />
-            <Route path="/cs/user-faq" element={<UserFAQPage />} />
-          </Route>
+        <Route path="/cs">
+          <Route path="/cs/manual" element={<ManualPage />} />
+          <Route path="/cs/notice" element={<NoticePage />} />
+          <Route path="/cs/user-faq" element={<UserFAQPage />} />
+        </Route>
 
         {/* 관리자 */}
         <Route path="/admin">
@@ -82,15 +88,24 @@ const Router = () => {
             <Route path="/admin/user/list" element={<UserListPage />} />
             <Route path="/admin/user/register" element={<UserRegisterPage />} />
             <Route path="/admin/user/mile" element={<MileageApprovalPage />} />
-            <Route path="/admin/user/mile/history" element={<MileageHistoryPage />} />
+            <Route
+              path="/admin/user/mile/history"
+              element={<MileageHistoryPage />}
+            />
           </Route>
 
           {/* 상품 관리 */}
           <Route path="/admin/product">
             <Route path="/admin/product/list" element={<ProductListPage />} />
-            <Route path="/admin/product/register" element={<ProductRegisterPage />} />
+            <Route
+              path="/admin/product/register"
+              element={<ProductRegisterPage />}
+            />
             <Route path="/admin/product/edit" element={<ProductEditPage />} />
-            <Route path="/admin/product/inventory" element={<InventoryManagePage />} />
+            <Route
+              path="/admin/product/inventory"
+              element={<InventoryManagePage />}
+            />
           </Route>
 
           {/* 주문 관리 */}
@@ -99,13 +114,22 @@ const Router = () => {
           {/* 문의 관리 */}
           <Route path="/admin/inquiry">
             <Route path="/admin/inquiry/order" element={<OrderInquiryPage />} />
-            <Route path="/admin/inquiry/payment" element={<PaymentInquiryPage />} />
-            <Route path="/admin/inquiry/product" element={<ProductInquiryPage />} />
+            <Route
+              path="/admin/inquiry/payment"
+              element={<PaymentInquiryPage />}
+            />
+            <Route
+              path="/admin/inquiry/product"
+              element={<ProductInquiryPage />}
+            />
           </Route>
 
           {/* 고객센터 */}
           <Route path="/admin/cs">
-            <Route path="/admin/cs/announcement" element={<AnnouncementPage />} />
+            <Route
+              path="/admin/cs/announcement"
+              element={<AnnouncementPage />}
+            />
             <Route path="/admin/cs/banner" element={<BannerManagementPage />} />
             <Route path="/admin/cs/faq" element={<FAQPage />} />
             <Route path="/admin/cs/mile" element={<MileageInfoPage />} />
@@ -114,7 +138,7 @@ const Router = () => {
         </Route>
       </Routes>
     </BrowserRouter>
-  );  
+  );
 };
 
 export default Router;
