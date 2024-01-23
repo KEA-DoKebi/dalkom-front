@@ -159,8 +159,8 @@ const AnnouncementPage = () => {
   const [updateModalOpen, setUpdateModalOpen] = useState(false);
 
   //수정 내역 불러오기
-  const [title, setTitle] = useState(`공지사항 입니다.`);
-  const [content, setContent] =
+  const [title] = useState(`공지사항 입니다.`);
+  const [content] =
     useState(`안녕하세요. 소중한 고객 여러분께 알려드리는 공지사항이 있습니다. 최근의 업데이트로 인해 당사의 서비스가 더욱 원활하고 효율적으로 운영될 수 있도록 노력하고 있습니다. 새롭게 추가된 기능들과 향상된 사용자 경험을 통해 더욱 편리한 서비스를 제공하고자 합니다.
   <br/>
   <br/>

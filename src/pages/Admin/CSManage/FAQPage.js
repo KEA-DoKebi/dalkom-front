@@ -148,8 +148,8 @@ const FAQPage = () => {
   const [lookModalOpen, setLookModalOpen] = useState(false);
   const [updateModalOpen, setUpdateModalOpen] = useState(false);
 
-  const [title, setTitle] = useState(`FAQ 자주 올라오는 질문 입니다.`);
-  const [content, setContent] = useState(`<p>상품은 어떻게 주문하나요?</p>
+  const [title] = useState(`FAQ 자주 올라오는 질문 입니다.`);
+  const [content] = useState(`<p>상품은 어떻게 주문하나요?</p>
     <p>상품을 주문하는 과정은 간단하며 다음 단계를 따라주시면 됩니다.</p>
     <p>제품 선택: 웹사이트 또는 앱을 통해 원하는 상품을 찾아주세요. 제품 페이지에서 옵션과 가격을 확인하고, 필요한 경우 리뷰와 평가도 참고하세요.</p>
     <p>장바구니에 담기: 상품 페이지에서 "장바구니에 담기" 버튼을 클릭하세요. 장바구니에서는 주문 내역을 확인하고 필요한 경우 수량을 조절할 수 있습니다.</p>
