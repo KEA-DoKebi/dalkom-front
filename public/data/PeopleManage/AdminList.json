@@ -1,0 +1,74 @@
+{
+    "Manage_Admin_List": [
+        {
+            "index": "1",
+            "id": "ryan123",
+            "name": "라이언",
+            "depart": "코딩팀",
+            "nickName": "코딩라이언"
+          },
+          {
+            "index": "2",
+            "id": "apeach456",
+            "name": "어피치",
+            "depart": "디자인팀",
+            "nickName": "디자인어피치"
+          },
+          {
+            "index": "3",
+            "id": "muzi789",
+            "name": "무지",
+            "depart": "영업팀",
+            "nickName": "영업무지"
+          },
+          {
+            "index": "4",
+            "id": "tube101",
+            "name": "튜브",
+            "depart": "마케팅팀",
+            "nickName": "마케팅튜브"
+          },
+          {
+            "index": "5",
+            "id": "neo202",
+            "name": "네오",
+            "depart": "기획팀",
+            "nickName": "기획네오"
+          },
+          {
+            "index": "6",
+            "id": "frodo303",
+            "name": "프로도",
+            "depart": "서비스팀",
+            "nickName": "서비스프로도"
+          },
+          {
+            "index": "7",
+            "id": "jay404",
+            "name": "제이지",
+            "depart": "연구팀",
+            "nickName": "연구제이지"
+          },
+          {
+            "index": "8",
+            "id": "con505",
+            "name": "콘",
+            "depart": "경영지원팀",
+            "nickName": "경영콘"
+          },
+          {
+            "index": "9",
+            "id": "muzi606",
+            "name": "존",
+            "depart": "고객지원팀",
+            "nickName": "고객지원존"
+          },
+          {
+            "index": "10",
+            "id": "penguin707",
+            "name": "펭수",
+            "depart": "디자인팀",
+            "nickName": "디자인펭수"
+          }
+    ]
+}
