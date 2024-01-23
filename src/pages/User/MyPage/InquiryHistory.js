@@ -10,14 +10,9 @@ import TableBody from "@mui/material/TableBody";
 import Paper from "@mui/material/Paper";
 import Axios from "axios";
 import DeleteIcon from "@mui/icons-material/Delete";
-import Modal from "@mui/material/Modal";
 
 const InquiryHistory = () => {
     const [InquiryList, setInquiryList] = useState([]);
-
-    const [openModal, setOpenModal] = useState(false);
-    const handleOpenModal = () => setOpenModal(true);
-    const handleCloseModal = () => setOpenModal(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -58,9 +53,9 @@ const InquiryHistory = () => {
                                       <TableCell style={{ width: "50%", textAlign: "center" }}>{row.title}</TableCell>
                                       <TableCell style={{ width: "10%", textAlign: "center" }}>
                                           {row.answerState === "Y" ? (
-                                              <Button variant="contained" color="success" onClick={handleOpenModal}>답변 완료</Button>
+                                              <Button variant="contained" color="success">답변 완료</Button>
                                           ) : (
-                                              <Button variant="contained" color="warning" onClick={handleOpenModal}>대기중</Button>
+                                              <Button variant="contained" color="warning">대기중</Button>
                                           )}
                                       </TableCell>
                                       <TableCell style={{ width: "10%", textAlign: "center" }}>
