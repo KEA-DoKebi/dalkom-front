@@ -5,7 +5,6 @@ import TableCell from '@mui/material/TableCell';
 import Checkbox from '@mui/material/Checkbox';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import character from "assets/images/character.png";
 import styled from 'styled-components';
 import { Button, Paper } from '@mui/material';
 import Divider from '@mui/material/Divider';
