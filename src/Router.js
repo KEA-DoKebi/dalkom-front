@@ -1,7 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import MainPage from "pages/User/MainPage";
-import ProductList from "pages/User/ProductList";
 import ProductDetail from "pages/User/ProductDetail";
 import Cart from "pages/User/Cart";
 import OrderList from "pages/User/MyPage/OrderList";
@@ -38,6 +37,7 @@ import MyInfo from "pages/User/MyPage/MyInfo";
 import Payment from "pages/User/Payment";
 import MileageUsingPage from "pages/User/MileageUsingPage";
 import OrderDetailPage from "pages/User/OrderDetailPage";
+import CategoryPage from "pages/User/CategoryPage/CategoryPage";
 
 const Router = () => {
   return (
@@ -48,7 +48,7 @@ const Router = () => {
         <Route path="/signUp" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
 
-        <Route path="/category/:categorySeq" element={<ProductList />} />
+        <Route path="/category/:categorySeq" element={<CategoryPage />} />
 
         <Route path="/product/:productSeq" element={<ProductDetail />} />
 
