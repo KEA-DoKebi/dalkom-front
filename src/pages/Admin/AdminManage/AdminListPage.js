@@ -18,7 +18,6 @@ import AdminBar from "components/AdminBar";
 import SearchIcon from "@mui/icons-material/Search";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { InputBoxS, AdminButton } from "components/AdminComponents";
-import axios from "axios";
 
 const dataList = [
   {
@@ -167,7 +166,6 @@ const ConfirmModal = ({ open, onClose, title, contents }) => {
 
 export default function AdminListPage() {
   const [selectedMenu, setSelectedMenu] = useState("관리자 목록");
-  const [dataList, setDataList] = useState([]);
 
   useEffect(() => {
     // 각 페이지가 마운트될 때 selectedMenu를 업데이트
@@ -175,15 +173,16 @@ export default function AdminListPage() {
     setSelectedMenu("관리자 목록");
   }, []);
 
-  useEffect(() => {
-    testAxios();
-  }, []);
+  // useEffect(()=>{
+  //   testAxios()
+  // },[])
 
-  const testAxios = async () => {
-    const res = await axios.get("/data/data.json");
-    // console.log(res.data);
-    setDataList(res.data);
-  };
+  // const testAxios = async() => {
+  //   const res = await axios.get("/data/data.json");
+  //   // console.log(res.data);
+  //   setDataList(res.data);
+
+  // }
 
   // Modal의 상태를 관리하는 state
   const [modalOpen, setModalOpen] = useState(false);

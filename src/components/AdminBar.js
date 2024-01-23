@@ -180,7 +180,7 @@ const MenuItem = ({ label, selectedMenu, onClick, path }) => (
   </ListItem>
 );
 
-export default function AdminBar({ selectedMenu, setSelectedMenu }) {
+function AdminBar({ selectedMenu, setSelectedMenu }) {
   const handleMenuClick = (menu) => {
     setSelectedMenu(menu);
     // Add any additional logic or actions you want to perform on menu click
@@ -272,3 +272,5 @@ export default function AdminBar({ selectedMenu, setSelectedMenu }) {
     </Paper>
   );
 }
+
+export default AdminBar;

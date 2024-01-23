@@ -52,11 +52,9 @@ const Router = () => {
 
         <Route path="/product/:productSeq" element={<ProductDetail />} />
 
-        <Route path="cart/:userSeq" element={<Cart />} />
+        <Route path="/cart/:userSeq" element={<Cart />} />
 
         <Route path="/payment/:paymentSeq" element={<Payment />} />
-
-        {/* 나중에 라우팅 바꾸기 */}
         <Route path="/order-detail" element={<OrderDetailPage />} />
         <Route path="/milg-use" element={<MileageUsingPage />} />
 
