@@ -10,11 +10,11 @@ const SidebarLayout = ({ children }) => {
       <Header />
       <Main>
         <Grid container spacing={1}>
-          <Grid item xs={3}>
+          <Grid item xs={2}>
             <Sidebar />
           </Grid>
           <Grid item xs={0.5}></Grid>
-          <Grid item xs={8}>
+          <Grid item xs={9}>
             {children}
           </Grid>
         </Grid>

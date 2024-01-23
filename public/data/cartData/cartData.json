@@ -6,7 +6,7 @@
       "option":"240",
       "productPrice": "89,000",
       "amount": "1",
-      "imageUrl": "/images/MainPage/chunsik2.png"
+      "imageUrl": "/images/MainPage/kakaofriends.png"
     },
     {
       "productSeq": 2,
@@ -14,7 +14,7 @@
       "productPrice": "89,000",
       "option":"230",
       "amount": "1",
-      "imageUrl": "/images/MainPage/chunsik2.png"
+      "imageUrl": "/images/MainPage/kakaofriends.png"
     },
     {
       "productSeq": 3,
@@ -22,7 +22,7 @@
       "productPrice": "89,000",
       "amount": "1",
       "option":"280",
-      "imageUrl": "/images/MainPage/chunsik2.png"
+      "imageUrl": "/images/MainPage/kakaofriends.png"
     },
     {
       "productSeq": 4,
@@ -30,7 +30,7 @@
       "productPrice": "89,000",
       "amount": "1",
       "option":"270",
-      "imageUrl": "/images/MainPage/chunsik2.png"
+      "imageUrl": "/images/MainPage/kakaofriends.png"
     }
   ]
 }
