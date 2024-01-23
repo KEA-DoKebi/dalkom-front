@@ -1,0 +1,84 @@
+{
+    "Manage_Product": [
+        {
+            "productNumber": "P001",
+            "image": "image1.jpg",
+            "name": "상품 1",
+            "manufacturer": "manufacturer A",
+            "option": "색상: 빨강, 사이즈: M",
+            "stock": 10
+          },
+          {
+            "productNumber": "P002",
+            "image": "image2.jpg",
+            "name": "상품 2",
+            "manufacturer": "manufacturer B",
+            "option": "색상: 파랑, 사이즈: L",
+            "stock": 5
+          },
+          {
+            "productNumber": "P003",
+            "image": "image3.jpg",
+            "name": "상품 3",
+            "manufacturer": "manufacturer C",
+            "option": "색상: 녹색, 사이즈: S",
+            "stock": 20
+          },
+          {
+            "productNumber": "P004",
+            "image": "image4.jpg",
+            "name": "상품 4",
+            "manufacturer": "manufacturer D",
+            "option": "색상: 노랑, 사이즈: XL",
+            "stock": 0
+          },
+          {
+            "productNumber": "P005",
+            "image": "image5.jpg",
+            "name": "상품 5",
+            "manufacturer": "manufacturer E",
+            "option": "색상: 검정, 사이즈: M",
+            "stock": 15
+          },
+          {
+            "productNumber": "P006",
+            "image": "image6.jpg",
+            "name": "상품 6",
+            "manufacturer": "manufacturer F",
+            "option": "색상: 흰색, 사이즈: L",
+            "stock": 8
+          },
+          {
+            "productNumber": "P007",
+            "image": "image7.jpg",
+            "name": "상품 7",
+            "manufacturer": "manufacturer G",
+            "option": "색상: 회색, 사이즈: S",
+            "stock": 12
+          },
+          {
+            "productNumber": "P008",
+            "image": "image8.jpg",
+            "name": "상품 8",
+            "manufacturer": "manufacturer H",
+            "option": "색상: 주황, 사이즈: XL",
+            "stock": 6
+          },
+          {
+            "productNumber": "P009",
+            "image": "image9.jpg",
+            "name": "상품 9",
+            "manufacturer": "manufacturer I",
+            "option": "색상: 보라, 사이즈: M",
+            "stock": 9
+          },
+          {
+            "productNumber": "P010",
+            "image": "image10.jpg",
+            "name": "상품 10",
+            "manufacturer": "manufacturer J",
+            "option": "색상: 분홍, 사이즈: L",
+            "stock": 3
+          }
+    ]
+}
