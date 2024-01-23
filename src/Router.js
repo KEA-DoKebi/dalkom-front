@@ -43,7 +43,7 @@ const Router = () => {
     <BrowserRouter>
       <Routes>
         {/* 사용자 */}
-        <Route path="/" element={<MainPage />} >
+        <Route path="/" element={<MainPage />} />
           <Route path="/signUp" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
 
@@ -70,7 +70,6 @@ const Router = () => {
             <Route path="/cs/notice" element={<NoticePage />} />
             <Route path="/cs/user-faq" element={<UserFAQPage />} />
           </Route>
-        </Route>
 
         {/* 관리자 */}
         <Route path="/admin">
