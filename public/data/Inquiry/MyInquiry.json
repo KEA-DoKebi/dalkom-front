@@ -1,0 +1,20 @@
+{
+  "InquiryList": [
+    {
+      "inquirySeq": 1,
+      "title": "주문 문의 주문 문의 주문 문의 주문 문의 주문 문의 주문 문의 주문 문의 주문 문의",
+      "content": "주문 문의 주문 문의 주문 문의 주문 문의",
+      "createDate": "2024-01-08",
+      "answerState": "N",
+      "category": "주문" 
+    },
+    {
+      "inquirySeq": 2,
+      "title": "결제 문의 결제 문의 결제 문의 결제 문의 결제 문의 결제 문의 결제 문의 결제 문의 결제 문의",
+      "content": "결제 문의 결제 문의 결제 문의 결제 문의",
+      "createDate": "2024-01-10",
+      "answerState": "Y",
+      "category": "결제" 
+    }
+  ]
+}

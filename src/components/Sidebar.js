@@ -49,7 +49,6 @@ const Sidebar = () => {
       sx={{
         width: "260px",
         height: "100%",
-        mt: 5,
         ml: 3,
         border: "1px solid #ccc",
         borderRadius: "7px",
