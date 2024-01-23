@@ -49,15 +49,21 @@ const MainBody = () => {
       {/* 배너 */}
       <Divider />
       <StyledCarousel>
-        <StyledPaper sx={{ backgroundColor: "#F5F7FB" }}>
+        <StyledPaper sx={{ backgroundColor: "#FFF8DC" }}>
           <Link to="/category/1">
-            <BannerImage src="/images/MainPage/kakaofriends.webp" />
+            <BannerImage src="/images/MainPage/dokebiBanner1.png" />
           </Link>
         </StyledPaper>
 
-        <StyledPaper sx={{ backgroundColor: "#F0CD4C" }}>
+        <StyledPaper sx={{ backgroundColor: "#FEE300" }}>
           <Link to="/category/1">
-            <BannerImage src="/images/MainPage/kakao2.jpeg" />
+            <BannerImage src="/images/MainPage/dokebiBanner2.png" />
+          </Link>
+        </StyledPaper>
+
+        <StyledPaper sx={{ backgroundColor: "#494881" }}>
+          <Link to="/category/1">
+            <BannerImage src="/images/MainPage/dokebiBanner3.png" />
           </Link>
         </StyledPaper>
       </StyledCarousel>
