@@ -5,9 +5,9 @@ import RighteousRegular from "assets/font/Righteous-Regular.woff";
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import SelectOptions from "components/SelectOptions";
 import Button from '@mui/material/Button';
-import Stepper from "components/Stepper";
 import RateReviewOutlinedIcon from '@mui/icons-material/RateReviewOutlined';
 import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
+import Stepper from "components/Stepper";
 
 const GlobalStyle = createGlobalStyle`
   @font-face {
@@ -24,8 +24,13 @@ const GlobalStyle = createGlobalStyle`
 
 const Body = styled.div`
   display: flex;
+  flex-direction: column;
+`;
+
+const BodyTop = styled.div`
+  display: flex;
   flex-direction: row;
-  height: 100vh;
+  margin-top: -1%;
 `;
 
 const ImgContainer = styled.div`
@@ -33,13 +38,12 @@ const ImgContainer = styled.div`
   align-items: center;
   justify-content: center;
   flex-basis: 65vw;
-  max-height: 70vh;
-  
+  height: 80vh;
 `;
 
 const ProductInfo = styled.div`
   width: 33vw;
-  height: 70vh;
+  height: 80vh;
   justify-content: center;
 `;
 
@@ -108,6 +112,15 @@ const CustomButton = styled(Button)`
   }
 `;
 
+const BodyMiddle = styled.div`
+  width: 100%;
+  height: 100%;
+`;
+
+const BodyBottom = styled.div`
+  width: 100%;
+  height: 100%;
+`;
 
 const ProductDetail = () => {
   return (
@@ -115,38 +128,37 @@ const ProductDetail = () => {
       <GlobalStyle />
       <DefaultLayout>
         <Body>
-          <ImgContainer>
-            <Stepper />
-          </ImgContainer>
-          <ProductInfo>
-            <InfoDetail>
-              <TextL>Apple</TextL>
-              <TextL>Iphone 15</TextL>
-              <ProductRate>
-                <TextS>5.0</TextS>
-                < StarBorderIcon sx={{ fontSize: 18 }} />
-                <TextS>(14 reviews)</TextS>
-              </ProductRate>
-              <Text>300,000 마일리지</Text>
-              <SelectOptions />
-              <CustomButton variant="contained">구매하기</CustomButton>
-              <CustomButton variant="contained">장바구니에 담기</CustomButton >
-            </InfoDetail>
-          </ProductInfo>
-          <ScrollIconDiv>
-            <RateReviewOutlinedIcon onClick={() => ScrollToSection('reviewSection')} />
-            <LocalShippingOutlinedIcon onClick={() => ScrollToSection('deliverySection')} />
-          </ScrollIconDiv>
+          <BodyTop>
+            <ImgContainer>
+              <Stepper />
+            </ImgContainer>
+            <ProductInfo>
+              <InfoDetail>
+                <TextL>Apple</TextL>
+                <TextL>Iphone 15</TextL>
+                <ProductRate>
+                  <TextS>5.0</TextS>
+                  < StarBorderIcon sx={{ fontSize: 18 }} />
+                  <TextS>(14 reviews)</TextS>
+                </ProductRate>
+                <Text>300,000 마일리지</Text>
+                <SelectOptions />
+                <CustomButton variant="contained">구매하기</CustomButton>
+                <CustomButton variant="contained">장바구니에 담기</CustomButton >
+              </InfoDetail>
+            </ProductInfo>
+            <ScrollIconDiv>
+              <RateReviewOutlinedIcon onClick={() => ScrollToSection('reviewSection')} />
+              <LocalShippingOutlinedIcon onClick={() => ScrollToSection('deliverySection')} />
+            </ScrollIconDiv>
+          </BodyTop>
+          <BodyMiddle id="reviewSection">
+            <TextL>Riview</TextL>
+          </BodyMiddle>
+          <BodyBottom id="deliverySection">
+            <TextL>배송안내</TextL>
+          </BodyBottom>
         </Body>
-
-        <div id="reviewSection">
-          <TextL>Riview</TextL>
-        </div>
-
-        <div id="deliverySection">
-          <TextL>배송안내</TextL>
-        </div>
-
       </DefaultLayout>
     </>
   );

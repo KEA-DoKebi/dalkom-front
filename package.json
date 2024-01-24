@@ -32,7 +32,7 @@
     "react-router-dom": "^6.21.2",
     "react-scripts": "^5.0.1",
     "react-scroll": "^1.9.0",
-    "react-swipeable-views": "^0.14.0",
+    "react-swipeable-views-react-18-fix": "^0.14.1",
     "styled-components": "^6.1.8",
     "styled-reset": "^4.5.2",
     "tabler-icons-react": "^1.56.0",
