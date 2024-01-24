@@ -17,7 +17,7 @@ import {
 import styled, { css } from "styled-components";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { ProductCard } from "components/ProductCard";
+import { ProductCard } from "components/molecules/ProductCard";
 
 // MainBody코드
 const MainBody = () => {

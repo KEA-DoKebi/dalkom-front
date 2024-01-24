@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import AdminBar from "components/AdminBar";
-import {
-  InputBoxS,
-  MuiColorChip,
-  AdminButton,
-} from "components/AdminComponents";
 import SearchIcon from "@mui/icons-material/Search";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import {
@@ -23,6 +17,10 @@ import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import Modal from "@mui/material/Modal";
+import AdminBar from "components/organisms/AdminBar";
+import { MuiColorChip } from "components/atoms/AdminChip";
+import { InputBoxS } from "components/atoms/Input";
+import { AdminButton } from "components/atoms/AdminCommonButton";
 
 const mockData = {
   제목: "안녕하세요. 문의글입니다.",

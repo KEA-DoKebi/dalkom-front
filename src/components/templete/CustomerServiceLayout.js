@@ -1,5 +1,5 @@
 import React from "react";
-import DefaultLayout from "components/layout/DefaultLayout";
+import DefaultLayout from "./DefaultLayout";
 import styled from "styled-components";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom/dist";

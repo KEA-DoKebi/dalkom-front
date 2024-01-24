@@ -1,5 +1,4 @@
 import { Select, MenuItem } from "@mui/material";
-
 // 선택창
 // sx 추가 - margin 적용 시 입력
 export const CustomSelect = ({ options, onChange, value, size, sx }) => {

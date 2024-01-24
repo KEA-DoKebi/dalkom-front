@@ -5,7 +5,7 @@ import { KeyboardArrowDown } from "@mui/icons-material";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import styled from "styled-components";
-import { UserButton } from "../../MyInfoPage/MyInfoPage";
+import { UserButton } from "../../MyInfoPage/MyInfoBody";
 
 const CKEditorContainer = styled.div`
   .ck-editor__editable {

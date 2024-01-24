@@ -1,5 +1,6 @@
-import Footer from "components/layout/footer/Footer";
-import Header from "components/layout/header/Header";
+
+import Footer from "components/organisms/footer/Footer";
+import Header from "components/organisms/header/Header";
 import styled from "styled-components";
 
 const DefaultLayout = ({ children }) => {

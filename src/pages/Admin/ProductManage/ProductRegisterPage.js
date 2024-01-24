@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import AdminBar from "components/AdminBar";
+import AdminBar from "components/organisms/AdminBar";
 import {
   Paper,
   Box,
@@ -12,13 +12,10 @@ import {
   FormControl,
 } from "@mui/material";
 import { pink } from "@mui/material/colors";
-import {
-  InputBoxXS,
-  InputBoxM,
-  AdminButton,
-  CustomSelect,
-  PinkSwitch,
-} from "components/AdminComponents";
+import { InputBoxXS, InputBoxM } from "components/atoms/Input";
+import { AdminButton } from "components/atoms/AdminCommonButton";
+import { PinkSwitch } from "components/atoms/OnOffSwitch";
+import { CustomSelect } from "components/atoms/AdminSelectBox";
 
 const ProductRegisterPage = () => {
   // Declare selectedMenu and setSelectedMenu using useState

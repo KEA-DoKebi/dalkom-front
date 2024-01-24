@@ -1,6 +1,6 @@
-import DefaultLayout from "components/layout/DefaultLayout";
-import CategoryBody from "components/layout/body/ProductListPage/CategoryBody";
+import DefaultLayout from "components/templete/DefaultLayout";
 import React from "react";
+import CategoryBody from "./CategoryBody";
 
 const CategoryPage = () => {
   return (

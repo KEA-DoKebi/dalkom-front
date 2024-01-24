@@ -1,5 +1,5 @@
-import { CustomerServiceLayout } from "components/layout/CustomerServiceLayout";
-import { NoticeBody } from "components/layout/body/CustomerServicePage/NoticeBody";
+import { CustomerServiceLayout } from "components/templete/CustomerServiceLayout";
+import { NoticeBody } from "./NoticeBody";
 
 export const NoticePage = () => {
   return (

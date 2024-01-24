@@ -30,6 +30,7 @@ export const UserButton = styled(Button)`
     border: 1px solid #000000; /* Optional: Add a black border to maintain size */
   }
 `;
+
 const MyInfoBody = () => {
   return (
     <Paper>

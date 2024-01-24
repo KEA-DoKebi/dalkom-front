@@ -1,4 +1,4 @@
-import SidebarLayout from "components/layout/SidebarLayout";
+import SidebarLayout from "components/templete/SidebarLayout";
 import MileageApprovalBody from "./MileageApprovalBody";
 import React from "react";
 import MileageHistoryBody from "./MileageHistoryBody";

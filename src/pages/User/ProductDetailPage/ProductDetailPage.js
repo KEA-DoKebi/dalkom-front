@@ -1,13 +1,13 @@
 import React from "react";
-import DefaultLayout from "components/layout/DefaultLayout";
+import DefaultLayout from "components/templete/DefaultLayout";
 import styled, { createGlobalStyle } from "styled-components";
 import RighteousRegular from "assets/font/Righteous-Regular.woff";
 import StarBorderIcon from '@mui/icons-material/StarBorder';
-import SelectOptions from "components/SelectOptions";
+import SelectOptions from "components/atoms/SelectOptions";
 import Button from '@mui/material/Button';
 import RateReviewOutlinedIcon from '@mui/icons-material/RateReviewOutlined';
 import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
-import Stepper from "components/Stepper";
+import Stepper from "components/molecules/Stepper";
 
 const GlobalStyle = createGlobalStyle`
   @font-face {

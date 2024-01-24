@@ -64,7 +64,7 @@ const StyledTableRow = styled(TableRow)`
 `;
 
 
-export default function BasicTable() {
+export default function CartBody() {
   const [rows, setRows] = useState([]); // 상품 데이터 상태를 빈 배열로 초기화
   const [selectedRows, setSelectedRows] = useState([]); // 선택된 상품 이름들을 저장하는 상태
   const [agree, setAgree] = useState(false); // 결제 동의 체크박스 상태

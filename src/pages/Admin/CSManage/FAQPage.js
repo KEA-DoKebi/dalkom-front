@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import AdminBar from "components/AdminBar";
-import {
-  AdminButton,
-  InputBoxS,
-  InputBoxM,
-  CustomSelect,
-} from "../../../components/atoms/CKEditor";
 import SearchIcon from "@mui/icons-material/Search";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
@@ -28,6 +21,11 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
+import AdminBar from "components/organisms/AdminBar";
+import { InputBoxS } from "components/atoms/Input";
+import { AdminButton } from "components/atoms/AdminCommonButton";
+import { InputBoxM } from "components/atoms/Input";
+import { CustomSelect } from "components/atoms/AdminSelectBox";
 
 const dataList = [
   {

@@ -1,5 +1,5 @@
-import { CustomerServiceLayout } from "components/layout/CustomerServiceLayout";
-import { ManualBody } from "components/layout/body/CustomerServicePage/ManualBody";
+import { CustomerServiceLayout } from "components/templete/CustomerServiceLayout";
+import { ManualBody } from "./ManualBody";
 
 export const ManualPage = () => {
   return (

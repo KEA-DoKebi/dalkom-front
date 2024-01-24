@@ -1,7 +1,7 @@
 import React from "react";
-import DefaultLayout from "components/layout/DefaultLayout";
-import CartBody from "components/layout/body/CartPage/CartBody";
+import CartBody from "./CartBody";
 import { Typography } from "@mui/material";
+import DefaultLayout from "components/templete/DefaultLayout";
 const Cart = () => {
   return (
       <DefaultLayout>

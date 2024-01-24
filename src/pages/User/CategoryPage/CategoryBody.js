@@ -1,6 +1,6 @@
 import { Grid, Typography, Box, Pagination } from "@mui/material";
 import axios from "axios";
-import { ProductCard } from "components/ProductCard";
+import { ProductCard } from "components/molecules/ProductCard";
 import { NavLink } from 'react-router-dom';
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";

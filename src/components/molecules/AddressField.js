@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import Stack from "@mui/joy/Stack";
-import FloatingLabelInput from "components/FloatingLabelInput";
-import PopupDom from "components/PopupDom";
-import PopupPostCode from "components/PopupPostCode";
+import FloatingLabelInput from "./FloatingLabelInput";
+import PopupDom from "components/atoms/PopupDom";
+import PopupPostCode from "components/atoms/PopupPostCode";
 
 const AddressField = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);

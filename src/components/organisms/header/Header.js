@@ -1,6 +1,6 @@
 import React from "react";
-import Topbar from "components/Topbar";
 import styled from "styled-components";
+import Topbar from "../Topbar";
 
 const Header = () => {
   return (
