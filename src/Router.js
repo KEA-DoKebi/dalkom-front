@@ -1,10 +1,10 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import MainPage from "pages/User/MainPage";
-import ProductDetail from "pages/User/ProductDetail";
-import Cart from "pages/User/Cart";
-import OrderList from "pages/User/MyPage/OrderList";
-import SignUp from "pages/User/SignUp";
+import MainPage from "pages/User/MainPage/MainPage";
+import ProductDetail from "pages/User/ProductDetailPage/ProductDetailPage";
+import Cart from "pages/User/CartPage/CartPage";
+import OrderList from "pages/User/MyPage/Order/OrderListPage/OrderListPage";
+import SignUp from "pages/commonPage/SignUp";
 import AdminListPage from "pages/Admin/AdminManage/AdminListPage";
 import AdminRegisterPage from "pages/Admin/AdminManage/AdminRegisterPage";
 import AnnouncementPage from "pages/Admin/CSManage/AnnouncementPage";
@@ -24,23 +24,21 @@ import ProductRegisterPage from "pages/Admin/ProductManage/ProductRegisterPage";
 import ShippingInfoPage from "pages/Admin/CSManage/ShippingInfoPage";
 import UserListPage from "pages/Admin/UserManage/UserListPage";
 import UserRegisterPage from "pages/Admin/UserManage/UserRegisterPage";
-import Login from "pages/User/Login";
-import { ManualPage } from "pages/User/CustomerService/ManualPage";
-import { NoticePage } from "pages/User/CustomerService/NoticePage";
-import { UserFAQPage } from "pages/User/CustomerService/UserFAQPage";
-import Refund from "pages/User/MyPage/Refund";
-import Mileage from "pages/User/MyPage/Mileage";
-import Inquiry from "pages/User/MyPage/Inquiry";
-import InquiryHistory from "pages/User/MyPage/InquiryHistory";
-import Review from "pages/User/MyPage/Review";
-import MyInfo from "pages/User/MyPage/MyInfo";
-import Payment from "pages/User/Payment";
-import MileageUsingPage from "pages/User/MileageUsingPage";
-import OrderDetailPage from "pages/User/OrderDetailPage";
-import ReviewWrite from "pages/User/MyPage/ReviewWrite";
-import ReviewEdit from "pages/User/MyPage/ReviewEdit";
+import Login from "pages/commonPage/Login";
+import ManualPage from "pages/User/CustomerServicePage/ManualPage";
+import NoticePage from "pages/User/CustomerServicePage/NoticePage";
+import UserFAQPage from "pages/User/CustomerServicePage/UserFAQPage";
+import Refund from "pages/User/MyPage/Order/RefundPage/RefundPage";
+import Mileage from "pages/User/MyPage/MileagePage/MileagePage";
+import Inquiry from "pages/User/MyPage/Inquiry/InquiryWritePage/InquiryWritePage";
+import InquiryHistory from "pages/User/MyPage/Inquiry/InquiryHistoryPage";
+import Review from "pages/User/MyPage/Review/ReviewPage/ReviewPage";
+import MyInfo from "pages/User/MyPage/MyInfoPage/MyInfoPage";
+import Payment from "pages/User/PaymentPage/PaymentPage";
+import OrderDetailPage from "pages/User/MyPage/Order/OrderListPage/OrderDetailPage";
+import ReviewWrite from "pages/User/MyPage/Review/ReviewWritePage/ReviewWritePage";
+import ReviewEdit from "pages/User/MyPage/Review/ReviewWritePage/ReviewEditPage";
 import CategoryPage from "pages/User/CategoryPage/CategoryPage";
-
 
 const Router = () => {
   return (
@@ -59,7 +57,6 @@ const Router = () => {
 
         <Route path="/payment/:paymentSeq" element={<Payment />} />
         <Route path="/order-detail" element={<OrderDetailPage />} />
-        <Route path="/milg-use" element={<MileageUsingPage />} />
 
         <Route path="/mypage/:userSeq">
           <Route path="/mypage/:userSeq/order/list" element={<OrderList />} />

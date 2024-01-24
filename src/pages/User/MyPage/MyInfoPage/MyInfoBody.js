@@ -1,9 +1,14 @@
 import React from "react";
-import { Typography, Divider, Grid, styled, Button } from "@mui/material";
+import {
+  Typography,
+  Divider,
+  Grid,
+  styled,
+  Button,
+  Paper,
+} from "@mui/material";
 import { Textarea, FormControl, FormHelperText, Input } from "@mui/joy";
 import Key from "@mui/icons-material/Key";
-
-import SidebarLayout from "../../../components/templates/SidebarLayout";
 
 export const UserButton = styled(Button)`
   background-color: #000000;
@@ -25,10 +30,9 @@ export const UserButton = styled(Button)`
     border: 1px solid #000000; /* Optional: Add a black border to maintain size */
   }
 `;
-
-const MyInfo = () => {
+const MyInfoBody = () => {
   return (
-    <SidebarLayout>
+    <Paper>
       <div>
         <Typography variant="h4" sx={{ mt: 7 }}>
           기존 회원정보
@@ -116,8 +120,8 @@ const MyInfo = () => {
       <Grid container justifyContent="center" sx={{ mt: 15 }}>
         <UserButton variant="solid">수정하기</UserButton>
       </Grid>
-    </SidebarLayout>
+    </Paper>
   );
 };
 
-export default MyInfo;
+export default MyInfoBody;

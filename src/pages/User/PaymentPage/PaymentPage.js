@@ -3,7 +3,7 @@ import SidebarLayout from "components/layout/SidebarLayout";
 import { Box } from "@mui/material";
 import { Grid, Typography } from "@mui/material";
 
-const MileageUsingPage = () => {
+const Payment = () => {
   return (
     <SidebarLayout>
       {/* Content Next to Sidebar */}
@@ -256,4 +256,4 @@ const MileageUsingPage = () => {
   );
 };
 
-export default MileageUsingPage;
+export default Payment;

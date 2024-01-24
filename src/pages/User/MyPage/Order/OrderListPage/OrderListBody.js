@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from "react";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
 import styled from "styled-components";
-import { Paper, Button } from "@mui/material";
+import { Typography, FormControl, Select, MenuItem, Paper, Button, Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
+
 
 import axios from "axios";
 
@@ -64,7 +60,47 @@ export default function OrderListBody() {
     fetchData();
   }, []);
 
+  const [orderStatus, setOrderStatus] = useState(""); // 선택된 주문 상태를 관리하는 상태
+
+  const handleStatusChange = (event) => {
+    setOrderStatus(event.target.value);
+  };
+
+
   return (
+    <Paper elevation={0}>
+
+<Typography sx={{ fontSize: "40px", mb: "20px" }}>
+          주문 목록 / 배송 조회
+        </Typography>
+
+        {/* SelectBox 추가 */}
+        <FormControl
+          sx={{
+            mb: 3,
+            maxWidth: 120,
+            display: "flex",
+            justifyContent: "flex-end",
+          }}
+        >
+          <Select
+            labelId="order-status-select-label"
+            id="order-status-select"
+            value={orderStatus}
+            size="small"
+            sx={{
+              justifyContent: "flex-end",
+            }}
+            onChange={handleStatusChange}
+          >
+            <MenuItem value={"all"}>전체</MenuItem>
+            <MenuItem value={"processing"}>처리중</MenuItem>
+            <MenuItem value={"shipped"}>배송중</MenuItem>
+            <MenuItem value={"delivered"}>배송완료</MenuItem>
+          </Select>
+        </FormControl>
+
+
     <Paper
       elevation={0}
       style={{ display: "flex", justifyContent: "center", width: "100%" }}
@@ -193,6 +229,7 @@ export default function OrderListBody() {
           </TableBody>
         </Table>
       </TableContainer>
+    </Paper>
     </Paper>
   );
 }

@@ -1,13 +1,8 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
+import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Box, TextField, Button} from '@mui/material';
 import Axios from "axios";
+import AddCardIcon from "@mui/icons-material/AddCard";
 
 export default function MileageApprovalBody() {
   const [userMileData, setUserMileData] = useState([]);
@@ -25,10 +20,60 @@ export default function MileageApprovalBody() {
     fetchData();
   }, []);
 
+  const [mileChargeAmount, setMileChargeAmount] = useState("");
+
+  const handleMileChargeChange = (event) => {
+    // Allow only numeric input
+    const sanitizedInput = event.target.value.replace(/[^0-9]/g, "");
+    setMileChargeAmount(sanitizedInput);
+  };
+
   // Filter rows where State is "Null"
   const filteredUserMileData = userMileData.filter((rowData) => rowData.State === "Null");
 
   return (
+    <Paper elevation={0}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          padding: "10px",
+        }}
+      >
+        <Typography sx={{ fontSize: "40px", mb: "10px" }}>신청 내역</Typography>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "flex-end",
+            alignItems: "flex-end",
+          }}
+        >
+          <Box
+            sx={{
+              marginRight: "10px" /* TextField를 내리기 위한 추가 스타일 */,
+            }}
+          >
+            <TextField
+              placeholder="충전하기"
+              variant="standard"
+              value={mileChargeAmount}
+              onChange={handleMileChargeChange}
+              sx={{
+                "& .MuiInput-underline:after": {
+                  borderBottomColor: "black",
+                },
+                "& .MuiInput-underline:before": {
+                  borderBottomColor: "rgba(0, 0, 0, 0.42)",
+                },
+                marginBottom: "10px", // TextField를 아래로 내리기
+              }}
+            />
+          </Box>
+          <Button sx={{ color: "black", mb: "10px" }}>
+            <AddCardIcon />
+          </Button>
+        </Box>
+      </div>
     <Paper variant="outlined">
       <TableContainer>
         <Table sx={{ width: "100%", margin: "auto" }}>
@@ -55,6 +100,7 @@ export default function MileageApprovalBody() {
           </TableBody>
         </Table>
       </TableContainer>
+    </Paper>
     </Paper>
   );
 }

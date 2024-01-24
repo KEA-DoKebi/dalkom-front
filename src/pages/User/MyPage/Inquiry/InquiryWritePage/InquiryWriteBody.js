@@ -1,12 +1,11 @@
 import React from "react";
-import SidebarLayout from "../../../components/templates/SidebarLayout";
-import { Grid, Typography } from "@mui/material";
+import { Grid, Typography, Paper } from "@mui/material";
 import { Select, selectClasses, Option, Textarea } from "@mui/joy";
 import { KeyboardArrowDown } from "@mui/icons-material";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import styled from "styled-components";
-import { UserButton } from "./MyInfo";
+import { UserButton } from "../../MyInfoPage/MyInfoPage";
 
 const CKEditorContainer = styled.div`
   .ck-editor__editable {
@@ -14,9 +13,9 @@ const CKEditorContainer = styled.div`
   }
 `;
 
-const Inquiry = () => {
+const InquiryWriteBody = () => {
   return (
-    <SidebarLayout>
+    <Paper elevation={0}>
       <Typography variant="h4" sx={{ mt: 7, mb: 3 }}>
         문의하기
       </Typography>
@@ -63,8 +62,8 @@ const Inquiry = () => {
       <Grid container justifyContent="center" sx={{ mt: 15 }}>
         <UserButton variant="solid">저장</UserButton>
       </Grid>
-    </SidebarLayout>
+    </Paper>
   );
 };
 
-export default Inquiry;
+export default InquiryWriteBody;
