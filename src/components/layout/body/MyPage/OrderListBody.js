@@ -5,7 +5,7 @@ import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import styled from "styled-components";
-import { Paper } from "@mui/material";
+import { Paper, Button } from "@mui/material";
 
 import axios from "axios";
 
@@ -38,23 +38,24 @@ const StyledTableRow = styled(TableRow)`
   height: 110px; // 원하는 행의 높이로 설정
 `;
 
-export default function RefundBody() {
+export default function OrderListBody() {
   const [rows, setRows] = useState([]); // 상품 데이터 상태를 빈 배열로 초기화
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("/data/PeopleManage/MyRefund.json");
+        const response = await axios.get("/data/PeopleManage/MyOrder.json");
         // 데이터 변환 과정에서 상태 값을 확인하여 문자열 변환
-        const RefundData = response.data.RefundData.map((item) => ({
+        const OrderData = response.data.OrderData.map((item) => ({
           name: item.productName,
           option: item.option,
           imageUrl: item.imageUrl,
-          type: item.type,
-          state: item.state === "Y" ? "완료" : "처리중",
-          RefundDate: item.Date,
+          state: item.state,
+          orderDate: item.Date,
+          orderSeq: item.OrderSeq,
+          price: item.productPrice,
         }));
-        setRows(RefundData);
+        setRows(OrderData);
       } catch (error) {
         console.error("Failed to fetch data:", error);
       }
@@ -70,13 +71,19 @@ export default function RefundBody() {
     >
       <TableContainer>
         <Table
-          sx={{ border: "1px solid", borderColor: "#e0e0e0", margin: "auto" }}
+          sx={{
+            border: "1px solid",
+            borderColor: "#e0e0e0",
+            borderRadius: "4px",
+            width: "100vw",
+            margin: "auto",
+          }}
         >
           <TableHead>
             <TableRow>
               <TableCell
                 style={{
-                  width: "25%",
+                  width: "20%",
                   textAlign: "center",
                   fontWeight: "bold",
                   fontSize: "15px",
@@ -86,27 +93,37 @@ export default function RefundBody() {
               </TableCell>
               <TableCell
                 style={{
-                  width: "25%",
+                  width: "20%",
                   textAlign: "center",
                   fontWeight: "bold",
                   fontSize: "15px",
                 }}
               >
-                신청일자
+                주문일자
               </TableCell>
               <TableCell
                 style={{
-                  width: "25%",
+                  width: "20%",
                   textAlign: "center",
                   fontWeight: "bold",
                   fontSize: "15px",
                 }}
               >
-                구분
+                주문번호
               </TableCell>
               <TableCell
                 style={{
-                  width: "25%",
+                  width: "20%",
+                  textAlign: "center",
+                  fontWeight: "bold",
+                  fontSize: "15px",
+                }}
+              >
+                금액
+              </TableCell>
+              <TableCell
+                style={{
+                  width: "20%",
                   textAlign: "center",
                   fontWeight: "bold",
                   fontSize: "15px",
@@ -116,6 +133,7 @@ export default function RefundBody() {
               </TableCell>
             </TableRow>
           </TableHead>
+
           <TableBody>
             {rows.length > 0
               ? rows.map((row, index) => (
@@ -123,31 +141,51 @@ export default function RefundBody() {
                     <TableCell
                       component="th"
                       scope="row"
-                      style={{ width: "25%", alignItems: "center" }}
+                      style={{ textAlign: "center" }}
                     >
                       <ProductInfo>
-                        <Img src={row.imageUrl} />
+                        <Img src={row.imageUrl} alt="Product" />
                         <TextContainer>
                           <div>{row.name}</div>
                           <div style={{ marginTop: "4px" }}>{row.option}</div>
                         </TextContainer>
                       </ProductInfo>
                     </TableCell>
-                    <TableCell style={{ width: "25%", textAlign: "center" }}>
-                      {row.RefundDate}
+                    <TableCell style={{ textAlign: "center" }}>
+                      {row.orderDate}
                     </TableCell>
-                    <TableCell style={{ width: "25%", textAlign: "center" }}>
-                      {row.type}
+                    <TableCell style={{ textAlign: "center" }}>
+                      {row.orderSeq}
                     </TableCell>
-                    <TableCell style={{ width: "25%", textAlign: "center" }}>
+                    <TableCell style={{ textAlign: "center" }}>
+                      {row.price}
+                    </TableCell>
+                    <TableCell style={{ textAlign: "center" }}>
                       {row.state}
+                      {row.state === "배송완료" && (
+                        <Button
+                          variant="contained"
+                          size="small"
+                          style={{
+                            alignSelf: "flex-end",
+                            border: "1px solid",
+                            backgroundColor: "#e0e0e0",
+                            width: "auto",
+                            height: "30px",
+                            margin: "20px",
+                            color: "black",
+                          }}
+                        >
+                          후기 작성
+                        </Button>
+                      )}
                     </TableCell>
                   </StyledTableRow>
                 ))
               : [...Array(4)].map((_, index) => (
                   <StyledTableRow key={`empty-${index}`}>
                     <TableCell
-                      colSpan={4}
+                      colSpan={5}
                       style={{ height: "110px", borderBottom: "none" }}
                     />
                   </StyledTableRow>

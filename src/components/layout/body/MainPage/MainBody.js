@@ -63,37 +63,37 @@ const MainBody = () => {
       </StyledCarousel>
 
       <CategoryBox>
-        <StyledLink to="/catagory/fashion">
+        <StyledLink to="/category/1">
           <ImageBox>
             <StyledAvartar src="/images/MainPage/hanger.png" />
             <Typography>패션/뷰티</Typography>
           </ImageBox>
         </StyledLink>
-        <StyledLink to="/catagory/life">
+        <StyledLink to="/category/2">
           <ImageBox>
             <StyledAvartar src="/images/MainPage/life.png" />
             <Typography>생활</Typography>
           </ImageBox>
         </StyledLink>
-        <StyledLink to="/catagory/digital">
+        <StyledLink to="/category/3">
           <ImageBox>
             <StyledAvartar src="/images/MainPage/digital.png" />
             <Typography>디지털/가전</Typography>
           </ImageBox>
         </StyledLink>
-        <StyledLink to="/catagory/baby">
+        <StyledLink to="/category/4">
           <ImageBox>
             <StyledAvartar src="/images/MainPage/baby.png" />
             <Typography>출산/유아동</Typography>
           </ImageBox>
         </StyledLink>
-        <StyledLink to="/catagory/sports">
+        <StyledLink to="/category/5">
           <ImageBox>
             <StyledAvartar src="/images/MainPage/sports.png" />
             <Typography>스포츠/레저</Typography>
           </ImageBox>
         </StyledLink>
-        <StyledLink to="/catagory/kakaofriends">
+        <StyledLink to="/category/6">
           <ImageBox>
             <StyledAvartar src="/images/MainPage/kakaofriends.png" />
             <Typography>카카오굿즈</Typography>
@@ -101,11 +101,25 @@ const MainBody = () => {
         </StyledLink>
       </CategoryBox>
 
-      <TableContainer component={Paper}>
+      <TableContainer>
         <Table>
           <TableHead>
             <TableRow sx={{ display: "flex", justifyContent: "center" }}>
-              <TableCell align="center">상품목록</TableCell>
+              <TableCell sx={{ fontWeight: "bold", fontSize: "30px" }}>
+                <Grid container>
+                  <Grid item xs={12}>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "center",
+                      }}
+                    >
+                      상품목록
+                    </div>
+                  </Grid>
+                </Grid>
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -114,10 +128,11 @@ const MainBody = () => {
                 <TableRow key={index}>
                   <TableCell>
                     <Grid container spacing={1}>
+                      <Grid item xs={0.5}></Grid>
                       <CenterGrid item xs={3}>
                         <StyleTypoGrapy>{category}</StyleTypoGrapy>
                       </CenterGrid>
-                      <Grid item xs={9}>
+                      <StyledGrid item xs={8}>
                         <Grid container spacing={3}>
                           {productList.map((product) => (
                             <Grid item xs={3} key={product.productSeq}>
@@ -133,7 +148,7 @@ const MainBody = () => {
                             </Grid>
                           ))}
                         </Grid>
-                      </Grid>
+                      </StyledGrid>
                     </Grid>
                   </TableCell>
                 </TableRow>
@@ -197,8 +212,14 @@ const StyledLink = styled(Link)`
   }
 `;
 
+const StyledGrid = styled(Grid)`
+  padding : 15px;
+  border : 1px solid black;
+`
+
 const CenterGrid = styled(Grid)`
   ${centerFlex}
+  border : 1px solid black;
 `;
 
 const StyleTypoGrapy = styled(Typography)`

@@ -1,18 +1,16 @@
 import React from "react";
-import DefaultLayout from "components/layout/DefaultLayout";
+import SidebarLayout from "components/layout/SidebarLayout";
 import RefundBody from "components/layout/body/MyPage/RefundBody";
 import { Typography } from "@mui/material";
 const Refund = () => {
   return (
-      <DefaultLayout>
-        <Typography sx={{fontSize: "40px", ml:"15vw", mb:"3vh"}}>
+    <SidebarLayout>
+      <Typography sx={{ fontSize: "40px", mb: "3vh" }}>
+        취소/반품/교환/환불
+      </Typography>
 
-          취소/반품/교환/환불
-        </Typography>
-        
-        <RefundBody />
-
-      </DefaultLayout>
+      <RefundBody />
+    </SidebarLayout>
   );
 };
 
