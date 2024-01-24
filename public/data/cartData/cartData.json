@@ -1,0 +1,36 @@
+{
+  "cartData": [
+    {
+      "productSeq": 1,
+      "productName": "에어포스1",
+      "option":"240",
+      "productPrice": "89,000",
+      "amount": "1",
+      "imageUrl": "/images/MainPage/kakaofriends.png"
+    },
+    {
+      "productSeq": 2,
+      "productName": "에어포스2",
+      "productPrice": "89,000",
+      "option":"230",
+      "amount": "1",
+      "imageUrl": "/images/MainPage/kakaofriends.png"
+    },
+    {
+      "productSeq": 3,
+      "productName": "에어포스3",
+      "productPrice": "89,000",
+      "amount": "1",
+      "option":"280",
+      "imageUrl": "/images/MainPage/kakaofriends.png"
+    },
+    {
+      "productSeq": 4,
+      "productName": "에어포스4",
+      "productPrice": "89,000",
+      "amount": "1",
+      "option":"270",
+      "imageUrl": "/images/MainPage/kakaofriends.png"
+    }
+  ]
+}
