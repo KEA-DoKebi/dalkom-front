@@ -27,10 +27,10 @@ const ProductRegisterPage = () => {
     setSelectedMenu("상품 등록");
   }, []);
 
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const [selectedCategoryDetail, setSelectedCategoryDetail] = useState("");
-  const [selectedOption, setSelectedOption] = useState("");
-  const [selectedOptionDetail, setSelectedOptionDetail] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState(" ");
+  const [selectedCategoryDetail, setSelectedCategoryDetail] = useState(" ");
+  const [selectedOption, setSelectedOption] = useState(" ");
+  const [selectedOptionDetail, setSelectedOptionDetail] = useState(" ");
   const options = [
     { label: "Option 1", value: "option1" },
     { label: "Option 2", value: "option2" },
@@ -234,12 +234,14 @@ const ProductRegisterPage = () => {
                 >
                   옵션
                 </Typography>
-                <PinkSwitch
-                  sx={{ mr: 2 }}
-                  checked={state.option}
-                  onChange={handleChange}
-                  name="option"
-                />
+                  {/* 오류 뜨는데 해결하지 못하겠음 */}
+                  {/* <PinkSwitch
+                    sx={{ mr: 2 }}
+                    checked={state.option}
+                    onChange={handleChange}
+                    name="option"
+                  /> */}
+                
                 {state.option && (
                   <>
                     <CustomSelect

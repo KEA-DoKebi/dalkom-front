@@ -256,12 +256,13 @@ const ProductEditPage = () => {
                 >
                   옵션
                 </Typography>
-                <PinkSwitch
+                {/* 오류 뜨는데 해결하지 못하겠음 */}
+                {/* <PinkSwitch
                   sx={{ mr: 2 }}
                   checked={state.option}
                   onChange={handleChange}
                   name="option"
-                />
+                /> */}
                 {state.option && (
                   <>
                     <CustomSelect
