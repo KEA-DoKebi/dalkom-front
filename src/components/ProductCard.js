@@ -42,8 +42,8 @@ const SungjunCard = styled(Card)`
 
 const CardImage = styled.img`
   width: 100%;
-  height: 175px;
-  object-fit: cover;
+  height: 300px;
+  object-fit: contain;
 `;
 
 const CardContent = styled.div`
