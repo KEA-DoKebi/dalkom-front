@@ -41,6 +41,7 @@ import ReviewWrite from "pages/User/MyPage/ReviewWrite";
 import ReviewEdit from "pages/User/MyPage/ReviewEdit";
 import CategoryPage from "pages/User/CategoryPage/CategoryPage";
 
+
 const Router = () => {
   return (
     <BrowserRouter>
