@@ -14,7 +14,6 @@ import {
 import { pink } from "@mui/material/colors";
 import { InputBoxXS, InputBoxM } from "components/atoms/Input";
 import { AdminButton } from "components/atoms/AdminCommonButton";
-import { PinkSwitch } from "components/atoms/OnOffSwitch";
 import { CustomSelect } from "components/atoms/AdminSelectBox";
 
 const ProductRegisterPage = () => {
@@ -55,16 +54,16 @@ const ProductRegisterPage = () => {
     }
   };
 
-  const [state, setState] = React.useState({
+  const [state, ] = React.useState({
     option: false,
   });
 
-  const handleChange = (event) => {
-    setState({
-      ...state,
-      [event.target.name]: event.target.checked,
-    });
-  };
+  // const handleChange = (event) => {
+  //   setState({
+  //     ...state,
+  //     [event.target.name]: event.target.checked,
+  //   });
+  // };
 
   const selectCategory = (event) => {
     const selectedValue = event.target.value;

@@ -1,26 +1,30 @@
 import { Grid, Typography, Box, Pagination } from "@mui/material";
-import axios from "axios";
-import { ProductCard } from "components/molecules/ProductCard";
+// import axios from "axios";
+// import { ProductCard } from "components/molecules/ProductCard";
 import { NavLink } from 'react-router-dom';
-import React, { useEffect, useState } from "react";
+// import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 const CategoryBody = () => {
-  const [, setCategoryLists] = useState({});
-  const [productLists, setProductLists] = useState([]);
+  // const [, setCategoryLists] = useState({});
+  // const [productLists, setProductLists] = useState([]);
 
   // const {} = useParams();
 
-  const getProductLists = async () => {
-    const res = await axios.get("/data/productData/categoryListProduct.json");
-    console.log(res.data);
-    setCategoryLists(res.data);
-    setProductLists(res.data.content);
-  };
+  // const getProductLists = async () => {
+  //   const res = await axios.get("/data/productData/categoryListProduct.json");
+  //   console.log(res.data);
+  //   setCategoryLists(res.data);
+  //   setProductLists(res.data.content);
+  // };
 
-  useEffect(() => {
-    getProductLists();
-  }, []);
+  // const getCategoryLists = async () => {
+  //   const res = await axios.get("/data/productData")
+  // }
+
+  // useEffect(() => {
+  //   getProductLists();
+  // }, []);
 
   return (
     <StyledBox>
@@ -86,7 +90,7 @@ const CategoryBody = () => {
       </Grid>
       
 
-      <Grid container spacing={1}>
+      {/* <Grid container spacing={1}>
         <Grid item xs={2}></Grid>
         <Grid item xs={8}>
           <Grid container spacing={3}>
@@ -105,7 +109,7 @@ const CategoryBody = () => {
             ))}
           </Grid>
         </Grid>
-      </Grid>
+      </Grid> */}
 
       <CenterPaginationContainer>
         <Pagination count={10} />
