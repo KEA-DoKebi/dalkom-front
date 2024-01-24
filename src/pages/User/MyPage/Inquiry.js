@@ -1,5 +1,5 @@
 import React from "react";
-import SidebarLayout from "../../../components/layout/SidebarLayout";
+import SidebarLayout from "../../../components/templates/SidebarLayout";
 import { Grid, Typography } from "@mui/material";
 import { Select, selectClasses, Option, Textarea } from "@mui/joy";
 import { KeyboardArrowDown } from "@mui/icons-material";

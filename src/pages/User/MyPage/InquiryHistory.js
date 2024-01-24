@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import SidebarLayout from "../../../components/layout/SidebarLayout";
+import SidebarLayout from "../../../components/templates/SidebarLayout";
 import {Button, IconButton, Typography} from "@mui/material";
 import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";

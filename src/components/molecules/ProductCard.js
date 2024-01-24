@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Card, Typography } from "@mui/material";
-import { StarRating } from "./StarRating";
+import { StarRating } from "../atoms/StarRating";
 import { Link } from "react-router-dom";
 
 export const ProductCard = ({ imageUrl, title, price, star, review, seq }) => {

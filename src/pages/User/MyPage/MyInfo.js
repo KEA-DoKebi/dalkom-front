@@ -3,7 +3,7 @@ import { Typography, Divider, Grid, styled, Button } from "@mui/material";
 import { Textarea, FormControl, FormHelperText, Input } from "@mui/joy";
 import Key from "@mui/icons-material/Key";
 
-import SidebarLayout from "../../../components/layout/SidebarLayout";
+import SidebarLayout from "../../../components/templates/SidebarLayout";
 
 export const UserButton = styled(Button)`
   background-color: #000000;

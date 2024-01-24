@@ -1,6 +1,6 @@
 import React from "react";
 import { Grid } from "@mui/material";
-import CustomCard from "./CustomCard";
+import CustomCard from "../molecules/CustomCard";
 
 const CardGrid = () => {
   // 행의 개수를 원하는 숫자로 대체하세요
