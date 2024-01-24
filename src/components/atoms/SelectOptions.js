@@ -1,18 +1,25 @@
-import * as React from 'react';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
+import * as React from "react";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 
 export default function SelectOptions() {
-  const [option, setOption] = React.useState('');
+  const [option, setOption] = React.useState("");
 
   const handleChange = (event) => {
     setOption(event.target.value);
   };
 
   return (
-    <FormControl sx={{ width: "350px", minHeight: "10px", marginTop: '50px', marginBottom: '80px'  }}>
+    <FormControl
+      sx={{
+        width: "350px",
+        minHeight: "10px",
+        marginTop: "50px",
+        marginBottom: "80px",
+      }}
+    >
       <InputLabel id="select-small-label">옵션을 선택해주세요</InputLabel>
       <Select
         labelId="select-small-label"

@@ -1,7 +1,7 @@
 import { Grid, Typography, Box, Pagination } from "@mui/material";
 // import axios from "axios";
 // import { ProductCard } from "components/molecules/ProductCard";
-import { NavLink } from 'react-router-dom';
+import { NavLink } from "react-router-dom";
 // import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
@@ -30,65 +30,90 @@ const CategoryBody = () => {
     <StyledBox>
       <Grid container spacing={0}>
         <Grid item xs={12}>
-          <StyleTypoGrapy sx={{textAlign : "center", marginBottom : "2vh"}}>상위 카테고리</StyleTypoGrapy>
+          <StyleTypoGrapy sx={{ textAlign: "center", marginBottom: "2vh" }}>
+            상위 카테고리
+          </StyleTypoGrapy>
         </Grid>
       </Grid>
-      
+
       <Grid container spacing={0}>
         <Grid item xs={2}></Grid>
-          <Grid item xs={8}>
-            <MenuList>
-              <MenuItem>
-                <StyledNavLink to={`/category/2`} activeStyle={{ backgroundColor: 'transparent'}}>
-                    세부 카테고리 1
-                </StyledNavLink>
-              </MenuItem>
-              <MenuItem>
-                <StyledNavLink to={`/category/3`} activeStyle={{ backgroundColor: 'transparent'}}>
-                  세부 카테고리 2
-                </StyledNavLink>
-              </MenuItem>
-              <MenuItem>
-                <StyledNavLink to={`/category/4`} activeStyle={{ backgroundColor: 'transparent'}}>
-                  세부 카테고리 3
-                </StyledNavLink>
-              </MenuItem>
-              <MenuItem>
-                <StyledNavLink to={`/category/5`} activeStyle={{ backgroundColor: 'transparent'}}>
-                  세부 카테고리 4
-                </StyledNavLink>
-              </MenuItem>
-            </MenuList>
-          </Grid>
+        <Grid item xs={8}>
+          <MenuList>
+            <MenuItem>
+              <StyledNavLink
+                to={`/category/2`}
+                activeStyle={{ backgroundColor: "transparent" }}
+              >
+                세부 카테고리 1
+              </StyledNavLink>
+            </MenuItem>
+            <MenuItem>
+              <StyledNavLink
+                to={`/category/3`}
+                activeStyle={{ backgroundColor: "transparent" }}
+              >
+                세부 카테고리 2
+              </StyledNavLink>
+            </MenuItem>
+            <MenuItem>
+              <StyledNavLink
+                to={`/category/4`}
+                activeStyle={{ backgroundColor: "transparent" }}
+              >
+                세부 카테고리 3
+              </StyledNavLink>
+            </MenuItem>
+            <MenuItem>
+              <StyledNavLink
+                to={`/category/5`}
+                activeStyle={{ backgroundColor: "transparent" }}
+              >
+                세부 카테고리 4
+              </StyledNavLink>
+            </MenuItem>
+          </MenuList>
+        </Grid>
         <Grid item xs={2}></Grid>
         <Grid item xs={2}></Grid>
-          <Grid item xs={8}>
-            <MenuList>
-              <MenuItem>
-                <StyledNavLink to={`/category/6`} activeStyle={{ backgroundColor: 'transparent'}}>
-                    세부 카테고리 5
-                </StyledNavLink>
-              </MenuItem>
-              <MenuItem>
-                <StyledNavLink to={`/category/7`} activeStyle={{ backgroundColor: 'transparent'}}>
-                  세부 카테고리 6
-                </StyledNavLink>
-              </MenuItem>
-              <MenuItem>
-                <StyledNavLink to={`/category/8`} activeStyle={{ backgroundColor: 'transparent'}}>
-                  세부 카테고리 7
-                </StyledNavLink>
-              </MenuItem>
-              <MenuItem>
-                <StyledNavLink to={`/category/9`} activeStyle={{ backgroundColor: 'transparent'}}>
-                  세부 카테고리 8
-                </StyledNavLink>
-              </MenuItem>
-            </MenuList>
-          </Grid>
+        <Grid item xs={8}>
+          <MenuList>
+            <MenuItem>
+              <StyledNavLink
+                to={`/category/6`}
+                activeStyle={{ backgroundColor: "transparent" }}
+              >
+                세부 카테고리 5
+              </StyledNavLink>
+            </MenuItem>
+            <MenuItem>
+              <StyledNavLink
+                to={`/category/7`}
+                activeStyle={{ backgroundColor: "transparent" }}
+              >
+                세부 카테고리 6
+              </StyledNavLink>
+            </MenuItem>
+            <MenuItem>
+              <StyledNavLink
+                to={`/category/8`}
+                activeStyle={{ backgroundColor: "transparent" }}
+              >
+                세부 카테고리 7
+              </StyledNavLink>
+            </MenuItem>
+            <MenuItem>
+              <StyledNavLink
+                to={`/category/9`}
+                activeStyle={{ backgroundColor: "transparent" }}
+              >
+                세부 카테고리 8
+              </StyledNavLink>
+            </MenuItem>
+          </MenuList>
+        </Grid>
         <Grid item xs={2}></Grid>
       </Grid>
-      
 
       {/* <Grid container spacing={1}>
         <Grid item xs={2}></Grid>
@@ -125,7 +150,7 @@ const StyledBox = styled(Box)`
 const CenterPaginationContainer = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 10vh; 
+  margin-top: 10vh;
 `;
 
 const StyleTypoGrapy = styled(Typography)`
@@ -138,14 +163,14 @@ const MenuList = styled.ul`
   width: 100%;
   box-sizing: border-box;
   display: flex;
-  margin : 0;
-  padding : 0;
+  margin: 0;
+  padding: 0;
 `;
 
 // 메뉴 아이템 스타일
 const MenuItem = styled.li`
   border: 1px solid #c2c2c2;
-  list-style : none;
+  list-style: none;
   text-align: center;
   flex: 1 1 auto;
 `;

@@ -4,21 +4,21 @@ import styled from "styled-components";
 
 // On/Off 스위치 - (OnOffSwitch) 가져다가 쓰면 됩니당
 export const PinkSwitch = styled(Switch)(({ theme }) => ({
-    "& .MuiSwitch-switchBase.Mui-checked": {
-      color: pink[600],
-      "&:hover": {
-        backgroundColor: alpha(pink[600], theme.palette.action.hoverOpacity),
-      },
+  "& .MuiSwitch-switchBase.Mui-checked": {
+    color: pink[600],
+    "&:hover": {
+      backgroundColor: alpha(pink[600], theme.palette.action.hoverOpacity),
     },
-    "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
-      backgroundColor: pink[600],
-    },
-  }));
-  
-  export function OnOffSwitch() {
-    return (
-      <div>
-        <PinkSwitch defaultChecked />
-      </div>
-    );
-  }
+  },
+  "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
+    backgroundColor: pink[600],
+  },
+}));
+
+export function OnOffSwitch() {
+  return (
+    <div>
+      <PinkSwitch defaultChecked />
+    </div>
+  );
+}

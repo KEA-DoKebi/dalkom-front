@@ -2,11 +2,11 @@ import React from "react";
 import DefaultLayout from "components/templete/DefaultLayout";
 import styled, { createGlobalStyle } from "styled-components";
 import RighteousRegular from "assets/font/Righteous-Regular.woff";
-import StarBorderIcon from '@mui/icons-material/StarBorder';
+import StarBorderIcon from "@mui/icons-material/StarBorder";
 import SelectOptions from "components/atoms/SelectOptions";
-import Button from '@mui/material/Button';
-import RateReviewOutlinedIcon from '@mui/icons-material/RateReviewOutlined';
-import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
+import Button from "@mui/material/Button";
+import RateReviewOutlinedIcon from "@mui/icons-material/RateReviewOutlined";
+import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
 import Stepper from "components/molecules/Stepper";
 
 const GlobalStyle = createGlobalStyle`
@@ -53,7 +53,7 @@ const InfoDetail = styled.div`
   margin-right: 5%;
   display: flex;
   flex-direction: column;
-  justify-content: center; 
+  justify-content: center;
   align-items: flex-start;
 `;
 
@@ -62,7 +62,7 @@ const ScrollToSection = (sectionId) => {
   if (section) {
     window.scrollTo({
       top: section.offsetTop,
-      behavior: "smooth"
+      behavior: "smooth",
     });
   }
 };
@@ -101,8 +101,8 @@ const CustomButton = styled(Button)`
   && {
     width: 150px; // 너비
     height: 40px; // 높이
-    background-color: #000000; 
-    color: #FFFFFF;
+    background-color: #000000;
+    color: #ffffff;
     border-radius: 10px;
     margin-bottom: 10px;
 
@@ -138,18 +138,22 @@ const ProductDetail = () => {
                 <TextL>Iphone 15</TextL>
                 <ProductRate>
                   <TextS>5.0</TextS>
-                  < StarBorderIcon sx={{ fontSize: 18 }} />
+                  <StarBorderIcon sx={{ fontSize: 18 }} />
                   <TextS>(14 reviews)</TextS>
                 </ProductRate>
                 <Text>300,000 마일리지</Text>
                 <SelectOptions />
                 <CustomButton variant="contained">구매하기</CustomButton>
-                <CustomButton variant="contained">장바구니에 담기</CustomButton >
+                <CustomButton variant="contained">장바구니에 담기</CustomButton>
               </InfoDetail>
             </ProductInfo>
             <ScrollIconDiv>
-              <RateReviewOutlinedIcon onClick={() => ScrollToSection('reviewSection')} />
-              <LocalShippingOutlinedIcon onClick={() => ScrollToSection('deliverySection')} />
+              <RateReviewOutlinedIcon
+                onClick={() => ScrollToSection("reviewSection")}
+              />
+              <LocalShippingOutlinedIcon
+                onClick={() => ScrollToSection("deliverySection")}
+              />
             </ScrollIconDiv>
           </BodyTop>
           <BodyMiddle id="reviewSection">

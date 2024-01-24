@@ -1,7 +1,16 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
 import Axios from "axios";
-import { Typography, Paper, TableRow, TableHead, TableContainer, TableCell, TableBody, Table } from "@mui/material";
+import {
+  Typography,
+  Paper,
+  TableRow,
+  TableHead,
+  TableContainer,
+  TableCell,
+  TableBody,
+  Table,
+} from "@mui/material";
 
 export default function MileageHistoryBody() {
   const [mileageHistoryList, setMileageHistoryList] = useState([]);
@@ -10,7 +19,7 @@ export default function MileageHistoryBody() {
     const fetchData = async () => {
       try {
         const response = await Axios.get(
-          "/data/PeopleManage/UserMileHistory.json"
+          "/data/PeopleManage/UserMileHistory.json",
         );
         setMileageHistoryList(response.data.mileageHistroyList);
       } catch (error) {

@@ -105,7 +105,11 @@ const Topbar = () => {
     >
       <Toolbar
         variant="dense"
-        sx={{ justifyContent: "flex-end", alignItems:"flex-end",maxHeight: "5vh" }}
+        sx={{
+          justifyContent: "flex-end",
+          alignItems: "flex-end",
+          maxHeight: "5vh",
+        }}
       >
         {/* <Button sx={{ color: "black" }}>로그아웃</Button>|
         <Button sx={{ color: "black" }}>마이페이지</Button> */}
@@ -114,7 +118,7 @@ const Topbar = () => {
           style={{
             display: "flex",
             fontSize: "15px",
-            marginRight: "5px",   
+            marginRight: "5px",
           }}
         >
           로그아웃

@@ -1,5 +1,5 @@
 import React from "react";
-import SidebarLayout from "components/templete/SidebarLayout"
+import SidebarLayout from "components/templete/SidebarLayout";
 import RefundBody from "./RefundBody";
 const Refund = () => {
   return (

@@ -4,8 +4,6 @@ import React from "react";
 import MileageHistoryBody from "./MileageHistoryBody";
 
 const Mileage = () => {
-
-
   return (
     <SidebarLayout>
       <MileageApprovalBody />

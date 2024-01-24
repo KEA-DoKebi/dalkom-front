@@ -213,9 +213,9 @@ const StyledLink = styled(Link)`
 `;
 
 const StyledGrid = styled(Grid)`
-  padding : 15px;
-  border : 1px solid black;
-`
+  padding: 15px;
+  border: 1px solid black;
+`;
 
 const CenterGrid = styled(Grid)`
   ${centerFlex}

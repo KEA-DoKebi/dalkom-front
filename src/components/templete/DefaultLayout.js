@@ -1,4 +1,3 @@
-
 import Footer from "components/organisms/footer/Footer";
 import Header from "components/organisms/header/Header";
 import styled from "styled-components";

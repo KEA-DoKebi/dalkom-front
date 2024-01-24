@@ -4,15 +4,13 @@ import { Typography } from "@mui/material";
 import DefaultLayout from "components/templete/DefaultLayout";
 const Cart = () => {
   return (
-      <DefaultLayout>
-        <Typography sx={{fontSize: "40px", ml:"100px", mb:"10px"}}>
-
+    <DefaultLayout>
+      <Typography sx={{ fontSize: "40px", ml: "100px", mb: "10px" }}>
         장바구니
-        </Typography>
-        
-        <CartBody />
+      </Typography>
 
-      </DefaultLayout>
+      <CartBody />
+    </DefaultLayout>
   );
 };
 

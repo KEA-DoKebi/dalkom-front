@@ -17,8 +17,6 @@ import { InputBoxM } from "components/atoms/Input";
 import { InputBoxXS } from "components/atoms/Input";
 import { CustomSelect } from "components/atoms/AdminSelectBox";
 
-
-
 const ProductEditPage = () => {
   // Declare selectedMenu and setSelectedMenu using useState
   const [selectedMenu, setSelectedMenu] = useState("상품 수정/삭제");
@@ -58,7 +56,7 @@ const ProductEditPage = () => {
     }
   };
 
-  const [state,] = React.useState({
+  const [state] = React.useState({
     option: false,
   });
 

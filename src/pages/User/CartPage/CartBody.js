@@ -63,7 +63,6 @@ const StyledTableRow = styled(TableRow)`
   height: 110px; // 원하는 행의 높이로 설정
 `;
 
-
 export default function CartBody() {
   const [rows, setRows] = useState([]); // 상품 데이터 상태를 빈 배열로 초기화
   const [selectedRows, setSelectedRows] = useState([]); // 선택된 상품 이름들을 저장하는 상태
@@ -97,7 +96,7 @@ export default function CartBody() {
     setSelectedRows((prev) =>
       prev.includes(name)
         ? prev.filter((item) => item !== name)
-        : [...prev, name]
+        : [...prev, name],
     );
   };
 
