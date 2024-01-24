@@ -5,7 +5,7 @@ import {
   InputBoxS,
   InputBoxM,
   CustomSelect,
-} from "../../../components/atoms/AdminComponents";
+} from "../../../components/atoms/CKEditor";
 import AdminBar from "../../../components/organisms/AdminBar";
 import SearchIcon from "@mui/icons-material/Search";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
