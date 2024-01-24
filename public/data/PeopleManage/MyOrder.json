@@ -1,0 +1,54 @@
+{
+  "OrderData": [
+    {
+      "productSeq": 1,
+      "productName": "에어포스1",
+      "option": "240",
+      "productPrice": "89,000",
+      "Date": "2024-01-23",
+      "OrderSeq": 202401230987,
+      "state": "배송완료",
+      "imageUrl": "/images/MainPage/kakaofriends.png"
+    },
+    {
+      "productSeq": 2,
+      "productName": "에어포스1",
+      "option": "230",
+      "productPrice": "89,000",
+      "Date": "2024-01-23",
+      "OrderSeq": 202401231234,
+      "state": "배송준비",
+      "imageUrl": "/images/MainPage/kakaofriends.png"
+    },
+    {
+      "productSeq": 3,
+      "productName": "에어포스1",
+      "option": "280",
+      "productPrice": "89,000",
+      "Date": "2024-01-23",
+      "OrderSeq": 202401238765,
+      "state": "주문 완료",
+      "imageUrl": "/images/MainPage/kakaofriends.png"
+    },
+    {
+      "productSeq": 4,
+      "productName": "에어포스1",
+      "option": "270",
+      "productPrice": "89,000",
+      "Date": "2024-01-23",
+      "OrderSeq": 202401233456,
+      "state": "배송중",
+      "imageUrl": "/images/MainPage/kakaofriends.png"
+    },
+    {
+      "productSeq": 5,
+      "productName": "에어포스1",
+      "option": "250",
+      "productPrice": "89,000",
+      "Date": "2024-01-23",
+      "OrderSeq": 202401237658,
+      "state": "배송완료",
+      "imageUrl": "/images/MainPage/kakaofriends.png"
+    }
+  ]
+}

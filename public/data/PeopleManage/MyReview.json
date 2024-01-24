@@ -1,0 +1,40 @@
+{
+  "OrderData": [
+    {
+      "ReviewSeq": 1,
+      "productName": "에어포스1",
+      "option": "240",
+      "ReviewDate": "2024-01-23",
+      "star": 4,
+      "content": "생각보다 사이즈가 조금 커요! 그래도 이뻐요~",
+      "imageUrl": "/images/MainPage/kakaofriends.png"
+    },
+    {
+      "ReviewSeq": 2,
+      "productName": "에어포스1",
+      "option": "230",
+      "ReviewDate": "2024-01-23",
+      "star": 5,
+      "content": "이뻐요~",
+      "imageUrl": "/images/MainPage/kakaofriends.png"
+    },
+    {
+      "ReviewSeq": 3,
+      "productName": "에어포스1",
+      "option": "280",
+      "ReviewDate": "2024-01-23",
+      "star": 5,
+      "content": "튼튼하고 가벼움",
+      "imageUrl": "/images/MainPage/kakaofriends.png"
+    },
+    {
+      "ReviewSeq": 4,
+      "productName": "에어포스1",
+      "option": "270",
+      "ReviewDate": "2024-01-23",
+      "star": 4,
+      "content": "튼튼하고 가벼움",
+      "imageUrl": "/images/MainPage/kakaofriends.png"
+    }
+  ]
+}
