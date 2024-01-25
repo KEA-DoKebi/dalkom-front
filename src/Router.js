@@ -42,7 +42,7 @@ import { BrowserRouter, Route } from "react-router-dom";
 import { Login } from "tabler-icons-react";
 
 
-// eslint-disable-next-line no-undef
+// eslint-disable-next-line no-unused-vars, no-undef
 const apm = initApm({
   serviceName: 'dalkom-front',
   serverUrl: process.env.REACT_APP_APM_URL,
