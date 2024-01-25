@@ -7,6 +7,8 @@ import BasicDatePicker from "components/atoms/BasicDatePicker";
 import { DefaultAxios } from "apis/CommonAxios";
 import { useForm } from "react-hook-form";
 import TextField from "@mui/material/TextField";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Base = styled.div`
   width: 1920px;
@@ -77,7 +79,6 @@ const InputWrapper = styled.div`
 `;
 
 const SignUp = () => {
-  const [signUpData, setSignUpData] = useState({});
   const [joinedDate, setJoinedDate] = useState(null);
 
   const handleDateSelect = (date) => {
@@ -86,18 +87,32 @@ const SignUp = () => {
     setJoinedDate(date);
   };
 
-  const textAxios = async () => {
-    const res = await DefaultAxios.post("/api/user/sign-up", {
-      empId: signUpData.empno,
-      email: signUpData.email,
-      password: signUpData.password,
-      name: signUpData.name,
-      nickname: signUpData.nickname,
-      address: signUpData.address,
-      joinedAt: joinedDate,
-    });
-    console.log(res.data);
-    // console.log(joinedDate);
+  const navigate = useNavigate();
+
+  const signUp = async (data) => {
+    try {
+      const res = await DefaultAxios.post("/api/user/sign-up", data);
+      if (res.data.message === "회원가입 성공") {
+        Swal.fire({
+          icon: "success",
+          title: "회원가입이 완료되었습니다!",
+          showConfirmButton: false,
+          timer: 1500,
+        }).then(() => {
+          navigate("/login");
+        });
+      }
+    } catch (e) {
+      // console.log(e);
+      Swal.fire({
+        icon: "error",
+        title: "헉!",
+        text: "회원가입에 실패하였어요!",
+        // footer: `${e.response.data.result.msg}`,
+        footer:
+          "자세한 이유는 백엔드의 에러 코드가 전부 구현됐을 때에 알 수 있습니다!",
+      });
+    }
   };
 
   const { register, handleSubmit } = useForm();
@@ -113,14 +128,19 @@ const SignUp = () => {
             <TitleSmall>Welcome to</TitleSmall>&nbsp;
             <TitleLarge>DalKom.Shop</TitleLarge>
           </TitleWrapper>
-          <form onSubmit={handleSubmit((data) => setSignUpData(data))}>
+          <form
+            onSubmit={handleSubmit((data) => {
+              data.joinedAt = joinedDate;
+              signUp(data);
+            })}
+          >
             <InputWrapper>
               <StyleTextField
-                id="empno"
+                id="empId"
                 label="사원번호"
                 variant="outlined"
                 placeholder="사원번호를 입력하세요."
-                {...register("empno")}
+                {...register("empId")}
               />
               <StyleTextField
                 id="email"
@@ -166,7 +186,7 @@ const SignUp = () => {
                 {...register("address")}
               />
               <button type="submit">회원가입</button>
-              <button onClick={textAxios}>테스트</button>
+              {/* <button onClick={textAxios}>테스트</button> */}
             </InputWrapper>
           </form>
         </Container>

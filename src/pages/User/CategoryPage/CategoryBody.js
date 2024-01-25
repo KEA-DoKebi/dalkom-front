@@ -1,13 +1,15 @@
 import { Grid, Typography, Box, Pagination } from "@mui/material";
+import { DefaultAxios } from "apis/CommonAxios";
 // import axios from "axios";
 // import { ProductCard } from "components/molecules/ProductCard";
-import { NavLink } from "react-router-dom";
-// import React, { useEffect, useState } from "react";
+import { NavLink, useParams } from "react-router-dom";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 
 const CategoryBody = () => {
-  // const [, setCategoryLists] = useState({});
+  // const [categoryLists, setCategoryLists] = useState({});
   // const [productLists, setProductLists] = useState([]);
+  const { categorySeq } = useParams();
 
   // const {} = useParams();
 
@@ -25,6 +27,15 @@ const CategoryBody = () => {
   // useEffect(() => {
   //   getProductLists();
   // }, []);
+
+  const getCategoryLists = async () => {
+    const res = await DefaultAxios.get(`api/category/${categorySeq}`);
+    console.log(res.data);
+  };
+
+  useEffect(() => {
+    getCategoryLists();
+  });
 
   return (
     <StyledBox>
