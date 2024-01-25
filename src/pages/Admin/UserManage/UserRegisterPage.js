@@ -1,6 +1,6 @@
 // UserListPage.jsx
 import React, { useEffect, useState } from "react";
-import AdminBar from "components/AdminBar";
+import AdminBar from "components/organisms/AdminBar";
 import {
   Paper,
   Box,
@@ -10,7 +10,8 @@ import {
   Alert,
   AlertTitle,
 } from "@mui/material";
-import { AdminButton, InputBoxS } from "components/AdminComponents";
+import { InputBoxS } from "components/atoms/Input";
+import { AdminButton } from "components/atoms/AdminCommonButton";
 import IconButton from "@mui/joy/IconButton";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 

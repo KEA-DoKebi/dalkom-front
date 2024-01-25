@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import AdminBar from "components/AdminBar";
+import AdminBar from "components/organisms/AdminBar";
 import {
   Paper,
   Box,
@@ -12,13 +12,10 @@ import {
   FormControl,
 } from "@mui/material";
 import { pink } from "@mui/material/colors";
-import {
-  InputBoxXS,
-  InputBoxM,
-  AdminButton,
-  CustomSelect,
-  PinkSwitch,
-} from "components/AdminComponents";
+import { AdminButton } from "components/atoms/AdminCommonButton";
+import { InputBoxM } from "components/atoms/Input";
+import { InputBoxXS } from "components/atoms/Input";
+import { CustomSelect } from "components/atoms/AdminSelectBox";
 
 const ProductEditPage = () => {
   // Declare selectedMenu and setSelectedMenu using useState
@@ -59,16 +56,16 @@ const ProductEditPage = () => {
     }
   };
 
-  const [state, setState] = React.useState({
+  const [state] = React.useState({
     option: false,
   });
 
-  const handleChange = (event) => {
-    setState({
-      ...state,
-      [event.target.name]: event.target.checked,
-    });
-  };
+  // const handleChange = (event) => {
+  //   setState({
+  //     ...state,
+  //     [event.target.name]: event.target.checked,
+  //   });
+  // };
 
   const selectCategory = (event) => {
     const selectedValue = event.target.value;
@@ -256,12 +253,13 @@ const ProductEditPage = () => {
                 >
                   옵션
                 </Typography>
-                <PinkSwitch
+                {/* 오류 뜨는데 해결하지 못하겠음 */}
+                {/* <PinkSwitch
                   sx={{ mr: 2 }}
                   checked={state.option}
                   onChange={handleChange}
                   name="option"
-                />
+                /> */}
                 {state.option && (
                   <>
                     <CustomSelect

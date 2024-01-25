@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import AdminBar from "components/AdminBar";
 import { Paper, Box, Toolbar } from "@mui/material";
+import AdminBar from "components/organisms/AdminBar";
 
 const BannerManagementPage = () => {
   // Declare selectedMenu and setSelectedMenu using useState

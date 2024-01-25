@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import AdminBar from "components/AdminBar";
+import AdminBar from "components/organisms/AdminBar";
 import {
   Paper,
   Box,
@@ -12,13 +12,9 @@ import {
   FormControl,
 } from "@mui/material";
 import { pink } from "@mui/material/colors";
-import {
-  InputBoxXS,
-  InputBoxM,
-  AdminButton,
-  CustomSelect,
-  PinkSwitch,
-} from "components/AdminComponents";
+import { InputBoxXS, InputBoxM } from "components/atoms/Input";
+import { AdminButton } from "components/atoms/AdminCommonButton";
+import { CustomSelect } from "components/atoms/AdminSelectBox";
 
 const ProductRegisterPage = () => {
   // Declare selectedMenu and setSelectedMenu using useState
@@ -30,10 +26,10 @@ const ProductRegisterPage = () => {
     setSelectedMenu("상품 등록");
   }, []);
 
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const [selectedCategoryDetail, setSelectedCategoryDetail] = useState("");
-  const [selectedOption, setSelectedOption] = useState("");
-  const [selectedOptionDetail, setSelectedOptionDetail] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState(" ");
+  const [selectedCategoryDetail, setSelectedCategoryDetail] = useState(" ");
+  const [selectedOption, setSelectedOption] = useState(" ");
+  const [selectedOptionDetail, setSelectedOptionDetail] = useState(" ");
   const options = [
     { label: "Option 1", value: "option1" },
     { label: "Option 2", value: "option2" },
@@ -58,16 +54,16 @@ const ProductRegisterPage = () => {
     }
   };
 
-  const [state, setState] = React.useState({
+  const [state] = React.useState({
     option: false,
   });
 
-  const handleChange = (event) => {
-    setState({
-      ...state,
-      [event.target.name]: event.target.checked,
-    });
-  };
+  // const handleChange = (event) => {
+  //   setState({
+  //     ...state,
+  //     [event.target.name]: event.target.checked,
+  //   });
+  // };
 
   const selectCategory = (event) => {
     const selectedValue = event.target.value;
@@ -237,12 +233,14 @@ const ProductRegisterPage = () => {
                 >
                   옵션
                 </Typography>
-                <PinkSwitch
-                  sx={{ mr: 2 }}
-                  checked={state.option}
-                  onChange={handleChange}
-                  name="option"
-                />
+                {/* 오류 뜨는데 해결하지 못하겠음 */}
+                {/* <PinkSwitch
+                    sx={{ mr: 2 }}
+                    checked={state.option}
+                    onChange={handleChange}
+                    name="option"
+                  /> */}
+
                 {state.option && (
                   <>
                     <CustomSelect

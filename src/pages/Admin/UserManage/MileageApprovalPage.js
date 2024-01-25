@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import AdminBar from "components/AdminBar";
+import AdminBar from "components/organisms/AdminBar";
 import {
   Paper,
   Box,
@@ -12,8 +12,10 @@ import {
   Pagination,
 } from "@mui/material";
 import styled from "styled-components";
-import { InputBoxS, OXButton } from "components/AdminComponents";
+
 import SearchIcon from "@mui/icons-material/Search";
+import { OXButton } from "components/atoms/OXButton";
+import { InputBoxS } from "components/atoms/Input";
 
 const dataList = [
   {

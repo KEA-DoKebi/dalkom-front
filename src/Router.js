@@ -1,46 +1,44 @@
-import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import MainPage from "pages/User/MainPage";
-import ProductDetail from "pages/User/ProductDetail";
-import Cart from "pages/User/Cart";
-import OrderList from "pages/User/MyPage/OrderList";
-import SignUp from "pages/User/SignUp";
+import { Payment } from "@mui/icons-material";
 import AdminListPage from "pages/Admin/AdminManage/AdminListPage";
 import AdminRegisterPage from "pages/Admin/AdminManage/AdminRegisterPage";
 import AnnouncementPage from "pages/Admin/CSManage/AnnouncementPage";
 import BannerManagementPage from "pages/Admin/CSManage/BannerManagementPage";
 import FAQPage from "pages/Admin/CSManage/FAQPage";
-import InventoryManagePage from "pages/Admin/ProductManage/InventoryManagePage";
-import MileageApprovalPage from "pages/Admin/UserManage/MileageApprovalPage";
-import MileageHistoryPage from "pages/Admin/UserManage/MileageHistoryPage";
 import MileageInfoPage from "pages/Admin/CSManage/MileageInfoPage";
+import ShippingInfoPage from "pages/Admin/CSManage/ShippingInfoPage";
 import OrderInquiryPage from "pages/Admin/InquiryManage/OrderInquiryPage";
-import OrderListPage from "pages/Admin/OrderManage/OrderListPage";
 import PaymentInquiryPage from "pages/Admin/InquiryManage/PaymentInquiryPage";
-import ProductEditPage from "pages/Admin/ProductManage/ProductEditPage";
 import ProductInquiryPage from "pages/Admin/InquiryManage/ProductInquiryPage";
+import OrderListPage from "pages/Admin/OrderManage/OrderListPage";
+import InventoryManagePage from "pages/Admin/ProductManage/InventoryManagePage";
+import ProductEditPage from "pages/Admin/ProductManage/ProductEditPage";
 import ProductListPage from "pages/Admin/ProductManage/ProductListPage";
 import ProductRegisterPage from "pages/Admin/ProductManage/ProductRegisterPage";
-import ShippingInfoPage from "pages/Admin/CSManage/ShippingInfoPage";
+import MileageApprovalPage from "pages/Admin/UserManage/MileageApprovalPage";
+import MileageHistoryPage from "pages/Admin/UserManage/MileageHistoryPage";
 import UserListPage from "pages/Admin/UserManage/UserListPage";
 import UserRegisterPage from "pages/Admin/UserManage/UserRegisterPage";
-import Login from "pages/User/Login";
-import { ManualPage } from "pages/User/CustomerService/ManualPage";
-import { NoticePage } from "pages/User/CustomerService/NoticePage";
-import { UserFAQPage } from "pages/User/CustomerService/UserFAQPage";
-import Refund from "pages/User/MyPage/Refund";
-import Mileage from "pages/User/MyPage/Mileage";
-import Inquiry from "pages/User/MyPage/Inquiry";
-import InquiryHistory from "pages/User/MyPage/InquiryHistory";
-import Review from "pages/User/MyPage/Review";
-import MyInfo from "pages/User/MyPage/MyInfo";
-import Payment from "pages/User/Payment";
-import MileageUsingPage from "pages/User/MileageUsingPage";
-import OrderDetailPage from "pages/User/OrderDetailPage";
-import ReviewWrite from "pages/User/MyPage/ReviewWrite";
-import ReviewEdit from "pages/User/MyPage/ReviewEdit";
+import Cart from "pages/User/CartPage/CartPage";
 import CategoryPage from "pages/User/CategoryPage/CategoryPage";
-
+import { ManualPage } from "pages/User/CustomerServicePage/ManualPage";
+import { NoticePage } from "pages/User/CustomerServicePage/NoticePage";
+import { UserFAQPage } from "pages/User/CustomerServicePage/UserFAQPage";
+import MainPage from "pages/User/MainPage/MainPage";
+import InquiryHistory from "pages/User/MyPage/Inquiry/InquiryHistoryPage/InquiryHistoryPage";
+import Inquiry from "pages/User/MyPage/Inquiry/InquiryWritePage/InquiryWritePage";
+import Mileage from "pages/User/MyPage/MileagePage/MileagePage";
+import MyInfo from "pages/User/MyPage/MyInfoPage/MyInfoPage";
+import OrderDetailPage from "pages/User/MyPage/Order/OrderListPage/OrderDetailPage";
+import OrderList from "pages/User/MyPage/Order/OrderListPage/OrderListPage";
+import Refund from "pages/User/MyPage/Order/RefundPage/RefundPage";
+import Review from "pages/User/MyPage/Review/ReviewPage/ReviewPage";
+import ReviewEdit from "pages/User/MyPage/Review/ReviewWritePage/ReviewEditPage";
+import ReviewWrite from "pages/User/MyPage/Review/ReviewWritePage/ReviewWritePage";
+import ProductDetail from "pages/User/ProductDetailPage/ProductDetailPage";
+import SignUp from "pages/commonPage/SignUp";
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Login } from "tabler-icons-react";
 
 const Router = () => {
   return (
@@ -59,7 +57,6 @@ const Router = () => {
 
         <Route path="/payment/:paymentSeq" element={<Payment />} />
         <Route path="/order-detail" element={<OrderDetailPage />} />
-        <Route path="/milg-use" element={<MileageUsingPage />} />
 
         <Route path="/mypage/:userSeq">
           <Route path="/mypage/:userSeq/order/list" element={<OrderList />} />

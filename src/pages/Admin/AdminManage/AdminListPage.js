@@ -14,10 +14,11 @@ import {
   Typography,
   IconButton,
 } from "@mui/material";
-import AdminBar from "components/AdminBar";
 import SearchIcon from "@mui/icons-material/Search";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { InputBoxS, AdminButton } from "components/AdminComponents";
+import AdminBar from "components/organisms/AdminBar";
+import { AdminButton } from "components/atoms/AdminCommonButton";
+import { InputBoxS } from "components/atoms/Input";
 
 const dataList = [
   {

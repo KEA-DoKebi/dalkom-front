@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import AdminBar from "components/AdminBar";
-import {
-  InputBoxS,
-  AdminButton,
-  CustomSelect,
-} from "components/AdminComponents";
+import AdminBar from "components/organisms/AdminBar";
+import { InputBoxS } from "components/atoms/Input";
+import { AdminButton } from "components/atoms/AdminCommonButton";
 import SearchIcon from "@mui/icons-material/Search";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import {
@@ -25,6 +22,7 @@ import {
   Typography,
   IconButton,
 } from "@mui/material";
+import { CustomSelect } from "components/atoms/AdminSelectBox";
 
 const dataList = [
   {
