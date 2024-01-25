@@ -1,14 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import LoginPage from "assets/images/LoginPage.jpg";
 import character from "assets/images/character.png";
 import "assets/font/font.css";
-import SwitchLabels from "components/SwitchLabels";
-import FloatingLabelInput from "components/FloatingLabelInput";
 import Button from "@mui/material/Button";
-import TextButton from "components/TextButton";
 import { Link } from "react-router-dom";
 import { styled as muiStyled } from "@mui/system";
+import { DefaultAxios } from "apis/CommonAxios";
+import StyledSwitchLabels from "components/atoms/SwitchLabels";
+import FloatingLabelInput from "components/molecules/FloatingLabelInput";
+import TextButton from "components/atoms/TextButton";
 
 const Base = styled.div`
   width: 1920px;
@@ -61,12 +62,25 @@ const CustomButton = muiStyled(Button)({
 });
 
 const Login = () => {
+  const textAxios = async () => {
+    const res = await DefaultAxios.post("/api/user/login", {
+      email: "example075@example.com",
+      password: "1234qwer!",
+    });
+
+    console.log(res.data);
+  };
+
+  useEffect(() => {
+    textAxios();
+  }, []);
+
   return (
     <Base>
       <Body>
         <Img src={character} />
         <Text>DalKom.Shop</Text>
-        <SwitchLabels />
+        <StyledSwitchLabels />
         <FloatingLabelInput
           inputType="text"
           label="이메일"

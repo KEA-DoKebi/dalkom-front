@@ -1,13 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-
 import { colors } from "styles/commonTheme";
 import signUpImage from "assets/images/signUpPage.png";
 import "assets/font/font.css";
-import FloatingLabelInput from "components/molecules/FloatingLabelInput";
-import AddressField from "components/molecules/AddressField";
 import BasicDatePicker from "components/atoms/BasicDatePicker";
-import StyledButton from "components/Button&Modal";
+import { DefaultAxios } from "apis/CommonAxios";
+import { useForm } from "react-hook-form";
+import TextField from "@mui/material/TextField";
 
 const Base = styled.div`
   width: 1920px;
@@ -78,6 +77,31 @@ const InputWrapper = styled.div`
 `;
 
 const SignUp = () => {
+  const [signUpData, setSignUpData] = useState({});
+  const [joinedDate, setJoinedDate] = useState(null);
+
+  const handleDateSelect = (date) => {
+    // 여기서 date는 선택된 날짜 정보입니다.
+    // 이 정보를 외부 API로 전송하거나, 다른 컴포넌트로 전달하는 등의 로직을 구현할 수 있습니다.
+    setJoinedDate(date);
+  };
+
+  const textAxios = async () => {
+    const res = await DefaultAxios.post("/api/user/sign-up", {
+      empId: signUpData.empno,
+      email: signUpData.email,
+      password: signUpData.password,
+      name: signUpData.name,
+      nickname: signUpData.nickname,
+      address: signUpData.address,
+      joinedAt: joinedDate,
+    });
+    console.log(res.data);
+    // console.log(joinedDate);
+  };
+
+  const { register, handleSubmit } = useForm();
+
   return (
     <Base>
       <Body>
@@ -89,41 +113,62 @@ const SignUp = () => {
             <TitleSmall>Welcome to</TitleSmall>&nbsp;
             <TitleLarge>DalKom.Shop</TitleLarge>
           </TitleWrapper>
-          <InputWrapper>
-            <FloatingLabelInput
-              inputType="email"
-              label="이메일"
-              placeholder="이메일를 입력하세요"
-            />
-            <FloatingLabelInput
-              inputType="text"
-              label="닉네임"
-              placeholder="닉네임를 입력하세요"
-            />
-            <FloatingLabelInput
-              inputType="password"
-              label="비밀번호"
-              placeholder="비밀번호를 입력하세요"
-            />
-            <FloatingLabelInput
-              inputType="password"
-              label="비밀번호 확인"
-              placeholder="비밀번호 확인"
-            />
-            <FloatingLabelInput
-              inputType="text"
-              label="이름"
-              placeholder="이름을 입력하세요."
-            />
-            <FloatingLabelInput
-              inputType="text"
-              label="사원번호"
-              placeholder="사원번호를 입력하세요"
-            />
-            <BasicDatePicker />
-            <AddressField />
-            <StyledButton />
-          </InputWrapper>
+          <form onSubmit={handleSubmit((data) => setSignUpData(data))}>
+            <InputWrapper>
+              <StyleTextField
+                id="empno"
+                label="사원번호"
+                variant="outlined"
+                placeholder="사원번호를 입력하세요."
+                {...register("empno")}
+              />
+              <StyleTextField
+                id="email"
+                label="이메일"
+                variant="outlined"
+                placeholder="이메일을 입력하세요."
+                {...register("email")}
+              />
+              <StyleTextField
+                id="name"
+                label="이름"
+                variant="outlined"
+                placeholder="이름을 입력하세요."
+                {...register("name")}
+              />
+              <StyleTextField
+                id="password"
+                label="비밀번호"
+                variant="outlined"
+                placeholder="비밀번호를 입력하세요."
+                {...register("password")}
+              />
+              <StyleTextField
+                id="confirmPassword"
+                label="비밀번호 확인"
+                variant="outlined"
+                placeholder="비밀번호를 다시 입력하세요."
+                {...register("confirmPassword")}
+              />
+              <StyleTextField
+                id="nickname"
+                label="닉네임"
+                variant="outlined"
+                placeholder="닉네임을 입력하세요."
+                {...register("nickname")}
+              />
+              <BasicDatePicker onDateSelect={handleDateSelect} />
+              <StyleTextField
+                id="address"
+                label="주소"
+                variant="outlined"
+                placeholder="주소를 입력하세요."
+                {...register("address")}
+              />
+              <button type="submit">회원가입</button>
+              <button onClick={textAxios}>테스트</button>
+            </InputWrapper>
+          </form>
         </Container>
       </Body>
     </Base>
@@ -131,3 +176,8 @@ const SignUp = () => {
 };
 
 export default SignUp;
+
+const StyleTextField = styled(TextField)`
+  width: 525px;
+  background-color: #fbfcfe;
+`;

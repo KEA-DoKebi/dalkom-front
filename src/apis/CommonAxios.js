@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useEffect } from "react";
 
 // 토큰 담지 않고 그냥 axios
 export const DefaultAxios = axios.create({

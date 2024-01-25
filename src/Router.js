@@ -35,10 +35,10 @@ import Review from "pages/User/MyPage/Review/ReviewPage/ReviewPage";
 import ReviewEdit from "pages/User/MyPage/Review/ReviewWritePage/ReviewEditPage";
 import ReviewWrite from "pages/User/MyPage/Review/ReviewWritePage/ReviewWritePage";
 import ProductDetail from "pages/User/ProductDetailPage/ProductDetailPage";
+import Login from "pages/commonPage/Login";
 import SignUp from "pages/commonPage/SignUp";
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Login } from "tabler-icons-react";
 
 const Router = () => {
   return (
