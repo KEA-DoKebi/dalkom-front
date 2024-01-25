@@ -41,6 +41,9 @@ import React from "react";
 import { BrowserRouter, Route } from "react-router-dom";
 import { Login } from "tabler-icons-react";
 
+import { init as initApm } from '@elastic/apm-rum'
+
+
 
 // eslint-disable-next-line no-unused-vars, no-undef
 const apm = initApm({
