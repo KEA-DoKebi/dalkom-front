@@ -8,6 +8,7 @@ import styled from "styled-components";
 import { UserButton } from "../../MyInfoPage/MyInfoBody";
 import { useForm } from "react-hook-form";
 import { DefaultAxios } from "apis/CommonAxios";
+import { TokenAxios } from "apis/CommonAxios";
 
 const CKEditorContainer = styled.div`
   .ck-editor__editable {
@@ -21,8 +22,8 @@ const InquiryWriteBody = () => {
 
   const inquoryCreate = async (data) =>{
     try{
-      const res = await DefaultAxios.post("/api/inquiry/user", data);
-      console.log(res.data.result.data);
+      const res = await TokenAxios.post("/api/inquiry/user", data);
+      console.log(res.data);
     }catch(e){
       console.log(e);
     }
