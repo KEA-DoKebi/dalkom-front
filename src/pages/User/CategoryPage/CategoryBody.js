@@ -1,48 +1,63 @@
 import { Grid, Typography, Box, Pagination } from "@mui/material";
-import { DefaultAxios } from "apis/CommonAxios";
-// import axios from "axios";
-// import { ProductCard } from "components/molecules/ProductCard";
 import { NavLink, useParams } from "react-router-dom";
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 const CategoryBody = () => {
-  // const [categoryLists, setCategoryLists] = useState({});
-  // const [productLists, setProductLists] = useState([]);
+  const [subCategoryLists, ] = useState([]);
+  const [, ] = useState([]);
   const { categorySeq } = useParams();
 
-  // const {} = useParams();
-
-  // const getProductLists = async () => {
-  //   const res = await axios.get("/data/productData/categoryListProduct.json");
-  //   console.log(res.data);
-  //   setCategoryLists(res.data);
-  //   setProductLists(res.data.content);
-  // };
+  
+  const [categoryLists] = useState([
+    { categorySeq: 1, categoryName: "패션/뷰티" },
+    { categorySeq: 2, categoryName: "생활" },
+    { categorySeq: 3, categoryName: "디지털/가전" },
+    { categorySeq: 4, categoryName: "출산/유아동" },
+    { categorySeq: 5, categoryName: "스포츠/레저" },
+    { categorySeq: 6, categoryName: "카카오굿즈" },
+  ]);
+  
 
   // const getCategoryLists = async () => {
-  //   const res = await axios.get("/data/productData")
+  //   try{
+  //     const res = await DefaultAxios.get(`/api/category/${categorySeq}`);
+  //     setSubCategoryLists(res.data.result.data);
+  //   }catch(e){
+  //     console.log(e);
+  //   }
+    
+  // };
+
+  // const getProductLists = async() => {
+  //   if(categorySeq < 7){
+  //     const res = await TokenAxios.get(`/api/product/category/${categorySeq}?page=0&size=10`)
+  //     setProductLists(res.data.result.data);
+  //   }
+  //   else{
+  //     const res = await TokenAxios.get(`/api/product/category/detail/${categorySeq}?page=0&size=2`);
+  //     setProductLists(res.data.result.data);
+  //   }
   // }
 
-  // useEffect(() => {
-  //   getProductLists();
-  // }, []);
-
-  const getCategoryLists = async () => {
-    const res = await DefaultAxios.get(`api/category/${categorySeq}`);
-    console.log(res.data);
-  };
-
-  useEffect(() => {
-    getCategoryLists();
-  });
-
+  // if(categorySeq < 7){
+  //   useEffect(() => {
+  //     getCategoryLists();
+  //     getProductLists();
+  //   }, [categorySeq])
+  // }
+  // else{
+  //   useEffect(() => {
+  //     getProductLists();
+  //   },[categorySeq]);
+  // }
+  
   return (
     <StyledBox>
       <Grid container spacing={0}>
         <Grid item xs={12}>
           <StyleTypoGrapy sx={{ textAlign: "center", marginBottom: "2vh" }}>
-            상위 카테고리
+            {categoryLists[`${categorySeq-1}`].categoryName}
           </StyleTypoGrapy>
         </Grid>
       </Grid>
@@ -51,76 +66,16 @@ const CategoryBody = () => {
         <Grid item xs={2}></Grid>
         <Grid item xs={8}>
           <MenuList>
-            <MenuItem>
-              <StyledNavLink
-                to={`/category/2`}
-                activeStyle={{ backgroundColor: "transparent" }}
-              >
-                세부 카테고리 1
-              </StyledNavLink>
-            </MenuItem>
-            <MenuItem>
-              <StyledNavLink
-                to={`/category/3`}
-                activeStyle={{ backgroundColor: "transparent" }}
-              >
-                세부 카테고리 2
-              </StyledNavLink>
-            </MenuItem>
-            <MenuItem>
-              <StyledNavLink
-                to={`/category/4`}
-                activeStyle={{ backgroundColor: "transparent" }}
-              >
-                세부 카테고리 3
-              </StyledNavLink>
-            </MenuItem>
-            <MenuItem>
-              <StyledNavLink
-                to={`/category/5`}
-                activeStyle={{ backgroundColor: "transparent" }}
-              >
-                세부 카테고리 4
-              </StyledNavLink>
-            </MenuItem>
-          </MenuList>
-        </Grid>
-        <Grid item xs={2}></Grid>
-        <Grid item xs={2}></Grid>
-        <Grid item xs={8}>
-          <MenuList>
-            <MenuItem>
-              <StyledNavLink
-                to={`/category/6`}
-                activeStyle={{ backgroundColor: "transparent" }}
-              >
-                세부 카테고리 5
-              </StyledNavLink>
-            </MenuItem>
-            <MenuItem>
-              <StyledNavLink
-                to={`/category/7`}
-                activeStyle={{ backgroundColor: "transparent" }}
-              >
-                세부 카테고리 6
-              </StyledNavLink>
-            </MenuItem>
-            <MenuItem>
-              <StyledNavLink
-                to={`/category/8`}
-                activeStyle={{ backgroundColor: "transparent" }}
-              >
-                세부 카테고리 7
-              </StyledNavLink>
-            </MenuItem>
-            <MenuItem>
-              <StyledNavLink
-                to={`/category/9`}
-                activeStyle={{ backgroundColor: "transparent" }}
-              >
-                세부 카테고리 8
-              </StyledNavLink>
-            </MenuItem>
+            {subCategoryLists.map((subCategory) => (
+              <MenuItem>
+                <StyledNavLink
+                  to={`/category/${subCategory.categorySeq}`}
+                  activeStyle={{ backgroundColor: "transparent" }}
+                >
+                  {subCategory.name}
+                </StyledNavLink>
+              </MenuItem>
+            ))}
           </MenuList>
         </Grid>
         <Grid item xs={2}></Grid>

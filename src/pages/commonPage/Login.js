@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import LoginPage from "assets/images/LoginPage.jpg";
 import character from "assets/images/character.png";
 import "assets/font/font.css";
 import Button from "@mui/material/Button";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { styled as muiStyled } from "@mui/system";
 import { DefaultAxios } from "apis/CommonAxios";
 import TextField from "@mui/material/TextField";
@@ -77,9 +77,10 @@ const Login = () => {
     try {
       if (mode === "user") {
         const res = await DefaultAxios.post("api/user/login", data);
-        const tokenData = res.data.result.data;
-        localStorage.setItem("accessToken", tokenData.accessToken);
-        navigate("/");
+        console.log(res.data.result.data);
+        // const tokenData = res.data.result.data;
+        // localStorage.setItem("accessToken", tokenData.accessToken);
+        // navigate("/");
       } else {
         const res = await DefaultAxios.post("api/admin/login", data);
         const tokenData = res.data.result.data;

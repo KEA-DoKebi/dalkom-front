@@ -12,6 +12,8 @@ const MainPage = () => {
   //   testAxios();
   // })
 
+  console.log(process.env);
+
   return (
     <DefaultLayout>
       <MainBody />
