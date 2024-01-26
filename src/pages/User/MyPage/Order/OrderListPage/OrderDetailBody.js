@@ -38,6 +38,11 @@ const OrderDetailBody = () => {
                 </Grid>
                 <Grid item xs={2} style={{ textAlign: "center" }}>
                   <Typography style={{ fontWeight: "bold" }}>
+                    수량
+                  </Typography>
+                </Grid>
+                <Grid item xs={2} style={{ textAlign: "center" }}>
+                  <Typography style={{ fontWeight: "bold" }}>
                     주문금액
                   </Typography>
                 </Grid>
@@ -81,6 +86,13 @@ const OrderDetailBody = () => {
                 xs={2}
                 style={{ textAlign: "center", marginTop: "1%" }}
               >
+                <Typography>3</Typography>
+              </Grid>
+              <Grid
+                item
+                xs={2}
+                style={{ textAlign: "center", marginTop: "1%" }}
+              >
                 <Typography>1,000,000</Typography>
               </Grid>
               <Grid
@@ -114,6 +126,13 @@ const OrderDetailBody = () => {
                 style={{ textAlign: "center", marginTop: "1%" }}
               >
                 <Typography>15</Typography>
+              </Grid>
+              <Grid
+                item
+                xs={2}
+                style={{ textAlign: "center", marginTop: "1%" }}
+              >
+                <Typography>5</Typography>
               </Grid>
               <Grid
                 item
