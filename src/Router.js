@@ -1,3 +1,4 @@
+import { ApmRoutes } from "@elastic/apm-rum-react";
 import { Payment } from "@mui/icons-material";
 import AdminListPage from "pages/Admin/AdminManage/AdminListPage";
 import AdminRegisterPage from "pages/Admin/AdminManage/AdminRegisterPage";
@@ -37,13 +38,26 @@ import ReviewWrite from "pages/User/MyPage/Review/ReviewWritePage/ReviewWritePag
 import ProductDetail from "pages/User/ProductDetailPage/ProductDetailPage";
 import SignUp from "pages/commonPage/SignUp";
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Route } from "react-router-dom";
 import { Login } from "tabler-icons-react";
+
+import { init as initApm } from '@elastic/apm-rum'
+
+
+
+// eslint-disable-next-line no-unused-vars, no-undef
+const apm = initApm({
+  serviceName: 'dalkom-front',
+  serverUrl: process.env.REACT_APP_APM_URL,
+  secretToken: process.env.REACT_APP_APM_TOKEN,
+  environment: "dalkom-front"
+});
+
 
 const Router = () => {
   return (
     <BrowserRouter>
-      <Routes>
+      <ApmRoutes>
         {/* 사용자 */}
         <Route path="/" element={<MainPage />} />
         <Route path="/signUp" element={<SignUp />} />
@@ -141,7 +155,7 @@ const Router = () => {
             <Route path="/admin/cs/shipping" element={<ShippingInfoPage />} />
           </Route>
         </Route>
-      </Routes>
+      </ApmRoutes>
     </BrowserRouter>
   );
 };

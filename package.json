@@ -6,6 +6,8 @@
     "@actbase/react-daum-postcode": "^1.0.4",
     "@ckeditor/ckeditor5-build-classic": "^41.0.0",
     "@ckeditor/ckeditor5-react": "^6.2.0",
+    "@elastic/apm-rum": "^5.16.0",
+    "@elastic/apm-rum-react": "^2.0.2",
     "@infisical/sdk": "^2.0.6",
     "@mui/icons-material": "^5.15.4",
     "@mui/joy": "^5.0.0-beta.22",
