@@ -149,13 +149,13 @@ const getColumnWidth = (label) => {
 
 const OrderInquiryPage = () => {
   const [dataList, setDataList] = useState([]);
-  const dataListLabels = dataList.length > 0 ? Object.keys(dataList[0]) : [];
+  const dataListLabels = dataList.length > 0 ? ['문의 일시', '문의 제목', '답변 여부'] : [];
 
   // Declare selectedMenu and setSelectedMenu using useState
   const [selectedMenu, setSelectedMenu] = useState("");
 
   const getInquiryByCategory = async () => {
-    // 배송 문의 카테고리는 34번
+    // 배송 문의 카테고리는 35번
     const res = await axios.get("/api/inquiry/category/35?page=0&size=10");
     console.log(res.data.result.data.content);
     setDataList(res.data.result.data.content);
