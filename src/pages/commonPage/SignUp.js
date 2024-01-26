@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-
 import { colors } from "styles/commonTheme";
 import signUpImage from "assets/images/signUpPage.png";
 import "assets/font/font.css";
-import FloatingLabelInput from "components/molecules/FloatingLabelInput";
-import AddressField from "components/molecules/AddressField";
 import BasicDatePicker from "components/atoms/BasicDatePicker";
-import StyledButton from "components/Button&Modal";
+import { DefaultAxios } from "apis/CommonAxios";
+import { useForm } from "react-hook-form";
+import TextField from "@mui/material/TextField";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Base = styled.div`
   width: 1920px;
@@ -78,6 +79,44 @@ const InputWrapper = styled.div`
 `;
 
 const SignUp = () => {
+  const [joinedDate, setJoinedDate] = useState(null);
+
+  const handleDateSelect = (date) => {
+    // 여기서 date는 선택된 날짜 정보입니다.
+    // 이 정보를 외부 API로 전송하거나, 다른 컴포넌트로 전달하는 등의 로직을 구현할 수 있습니다.
+    setJoinedDate(date);
+  };
+
+  const navigate = useNavigate();
+
+  const signUp = async (data) => {
+    try {
+      const res = await DefaultAxios.post("/api/user/sign-up", data);
+      if (res.data.message === "회원가입 성공") {
+        Swal.fire({
+          icon: "success",
+          title: "회원가입이 완료되었습니다!",
+          showConfirmButton: false,
+          timer: 1500,
+        }).then(() => {
+          navigate("/login");
+        });
+      }
+    } catch (e) {
+      // console.log(e);
+      Swal.fire({
+        icon: "error",
+        title: "헉!",
+        text: "회원가입에 실패하였어요!",
+        // footer: `${e.response.data.result.msg}`,
+        footer:
+          "자세한 이유는 백엔드의 에러 코드가 전부 구현됐을 때에 알 수 있습니다!",
+      });
+    }
+  };
+
+  const { register, handleSubmit } = useForm();
+
   return (
     <Base>
       <Body>
@@ -89,41 +128,67 @@ const SignUp = () => {
             <TitleSmall>Welcome to</TitleSmall>&nbsp;
             <TitleLarge>DalKom.Shop</TitleLarge>
           </TitleWrapper>
-          <InputWrapper>
-            <FloatingLabelInput
-              inputType="email"
-              label="이메일"
-              placeholder="이메일를 입력하세요"
-            />
-            <FloatingLabelInput
-              inputType="text"
-              label="닉네임"
-              placeholder="닉네임를 입력하세요"
-            />
-            <FloatingLabelInput
-              inputType="password"
-              label="비밀번호"
-              placeholder="비밀번호를 입력하세요"
-            />
-            <FloatingLabelInput
-              inputType="password"
-              label="비밀번호 확인"
-              placeholder="비밀번호 확인"
-            />
-            <FloatingLabelInput
-              inputType="text"
-              label="이름"
-              placeholder="이름을 입력하세요."
-            />
-            <FloatingLabelInput
-              inputType="text"
-              label="사원번호"
-              placeholder="사원번호를 입력하세요"
-            />
-            <BasicDatePicker />
-            <AddressField />
-            <StyledButton />
-          </InputWrapper>
+          <form
+            onSubmit={handleSubmit((data) => {
+              data.joinedAt = joinedDate;
+              signUp(data);
+            })}
+          >
+            <InputWrapper>
+              <StyleTextField
+                id="empId"
+                label="사원번호"
+                variant="outlined"
+                placeholder="사원번호를 입력하세요."
+                {...register("empId")}
+              />
+              <StyleTextField
+                id="email"
+                label="이메일"
+                variant="outlined"
+                placeholder="이메일을 입력하세요."
+                {...register("email")}
+              />
+              <StyleTextField
+                id="name"
+                label="이름"
+                variant="outlined"
+                placeholder="이름을 입력하세요."
+                {...register("name")}
+              />
+              <StyleTextField
+                id="password"
+                label="비밀번호"
+                variant="outlined"
+                placeholder="비밀번호를 입력하세요."
+                {...register("password")}
+              />
+              <StyleTextField
+                id="confirmPassword"
+                label="비밀번호 확인"
+                variant="outlined"
+                placeholder="비밀번호를 다시 입력하세요."
+                {...register("confirmPassword")}
+              />
+              <StyleTextField
+                id="nickname"
+                label="닉네임"
+                variant="outlined"
+                placeholder="닉네임을 입력하세요."
+                {...register("nickname")}
+              />
+              <BasicDatePicker onDateSelect={handleDateSelect} />
+              <StyleTextField
+                id="address"
+                label="주소"
+                variant="outlined"
+                placeholder="주소를 입력하세요."
+                {...register("address")}
+              />
+              <button type="submit">회원가입</button>
+              {/* <button onClick={textAxios}>테스트</button> */}
+            </InputWrapper>
+          </form>
         </Container>
       </Body>
     </Base>
@@ -131,3 +196,8 @@ const SignUp = () => {
 };
 
 export default SignUp;
+
+const StyleTextField = styled(TextField)`
+  width: 525px;
+  background-color: #fbfcfe;
+`;

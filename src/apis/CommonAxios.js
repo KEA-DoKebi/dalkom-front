@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useEffect } from "react";
 
 // 토큰 담지 않고 그냥 axios
 export const DefaultAxios = axios.create({
@@ -15,6 +14,6 @@ export const TokenAxios = axios.create({
   // baseURL: `${process.env.REACT_APP_SERVER_ADDRESS}`,
   headers: {
     "Content-Type": "application/json",
-    Authorization: "Bearer 12345",
+    Authorization: localStorage.getItem("accessToken"),
   },
 });

@@ -1,6 +1,7 @@
 import * as React from "react";
 import { styled } from "@mui/joy/styles";
 import Input from "@mui/joy/Input";
+import { useForm, Controller } from "react-hook-form";
 
 const StyledInput = styled("input")({
   border: "none", // remove the native input border
@@ -54,10 +55,11 @@ const StyledLabel = styled("label")(({ theme }) => ({
   transition: "all 150ms cubic-bezier(0.4, 0, 0.2, 1)",
 }));
 
-const InnerInput = React.forwardRef(function InnerInput(props, ref) {
+const InnerInput = React.forwardRef(function InnerInput(
+  { type, label, placeholder, ...otherProps },
+  ref,
+) {
   const id = React.useId();
-  const { type, label, placeholder, ...otherProps } = props;
-
   return (
     <React.Fragment>
       <StyledInput
@@ -72,22 +74,35 @@ const InnerInput = React.forwardRef(function InnerInput(props, ref) {
     </React.Fragment>
   );
 });
-
 export default function FloatingLabelInput({
   inputType = "text",
   label,
   placeholder,
 }) {
+  const { control, handleSubmit } = useForm();
+  const onSubmit = (data) => {
+    // 여기서 폼 제출 로직을 처리하세요. 예를 들어, 서버로 데이터를 보내는 등
+    console.log(data);
+  };
   return (
-    <Input
-      slots={{ input: InnerInput }}
-      slotProps={{
-        input: { placeholder: placeholder, type: inputType, label },
-      }}
-      sx={{
-        "--Input-minHeight": "56px",
-        "--Input-radius": "6px",
-      }}
-    />
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <Controller
+        name="yourInputName" // 입력 필드에 대한 고유한 이름을 지정하세요
+        control={control}
+        defaultValue="" // 필요한 경우 기본값을 제공하세요
+        render={({ field }) => (
+          <Input
+            slots={{ input: InnerInput }}
+            slotProps={{
+              input: { ...field, placeholder, type: inputType, label },
+            }}
+            sx={{
+              "--Input-minHeight": "56px",
+              "--Input-radius": "6px",
+            }}
+          />
+        )}
+      />
+    </form>
   );
 }

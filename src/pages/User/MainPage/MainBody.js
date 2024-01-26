@@ -18,6 +18,7 @@ import styled, { css } from "styled-components";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { ProductCard } from "components/molecules/ProductCard";
+import { DefaultAxios } from "apis/CommonAxios";
 
 // MainBody코드
 const MainBody = () => {
@@ -35,8 +36,23 @@ const MainBody = () => {
     setProductLists(res.data);
   };
 
+  const tempGetMainProductList = async () => {
+    const res = await DefaultAxios.get("/api/product/category/main");
+    console.log(res.data);
+  };
+
+  const [categoryLists] = useState([
+    { categorySeq: 1, categoryName: "패션/뷰티" },
+    { categorySeq: 2, categoryName: "생활" },
+    { categorySeq: 3, categoryName: "디지털/가전" },
+    { categorySeq: 4, categoryName: "출산/유아동" },
+    { categorySeq: 5, categoryName: "스포츠/레저" },
+    { categorySeq: 6, categoryName: "카카오굿즈" },
+  ]);
+
   useEffect(() => {
     getMainProductList();
+    tempGetMainProductList();
   }, []);
 
   return (
@@ -63,42 +79,19 @@ const MainBody = () => {
       </StyledCarousel>
 
       <CategoryBox>
-        <StyledLink to="/category/1">
-          <ImageBox>
-            <StyledAvartar src="/images/MainPage/hanger.png" />
-            <Typography>패션/뷰티</Typography>
-          </ImageBox>
-        </StyledLink>
-        <StyledLink to="/category/2">
-          <ImageBox>
-            <StyledAvartar src="/images/MainPage/life.png" />
-            <Typography>생활</Typography>
-          </ImageBox>
-        </StyledLink>
-        <StyledLink to="/category/3">
-          <ImageBox>
-            <StyledAvartar src="/images/MainPage/digital.png" />
-            <Typography>디지털/가전</Typography>
-          </ImageBox>
-        </StyledLink>
-        <StyledLink to="/category/4">
-          <ImageBox>
-            <StyledAvartar src="/images/MainPage/baby.png" />
-            <Typography>출산/유아동</Typography>
-          </ImageBox>
-        </StyledLink>
-        <StyledLink to="/category/5">
-          <ImageBox>
-            <StyledAvartar src="/images/MainPage/sports.png" />
-            <Typography>스포츠/레저</Typography>
-          </ImageBox>
-        </StyledLink>
-        <StyledLink to="/category/6">
-          <ImageBox>
-            <StyledAvartar src="/images/MainPage/kakaofriends.png" />
-            <Typography>카카오굿즈</Typography>
-          </ImageBox>
-        </StyledLink>
+        {categoryLists.map((category) => (
+          <StyledLink
+            key={category.categorySeq}
+            to={`/category/${category.categorySeq}`}
+          >
+            <ImageBox>
+              <StyledAvartar
+                src={`/images/MainPage/category${category.categorySeq}.png`}
+              />
+              <Typography>{category.categoryName}</Typography>
+            </ImageBox>
+          </StyledLink>
+        ))}
       </CategoryBox>
 
       <TableContainer>

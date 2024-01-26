@@ -19,11 +19,9 @@ const StyledFormControlLabel = styled(FormControlLabel)({
   justifyContent: "flex-end",
 });
 
-export default function StyledSwitchLabels() {
-  const [isAdminMode, setIsAdminMode] = React.useState(false);
-
+export default function StyledSwitchLabels({ isAdminMode, onModeChange }) {
   const handleChange = () => {
-    setIsAdminMode(!isAdminMode);
+    onModeChange(!isAdminMode);
   };
 
   return (

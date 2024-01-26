@@ -1,14 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import LoginPage from "assets/images/LoginPage.jpg";
 import character from "assets/images/character.png";
 import "assets/font/font.css";
-import SwitchLabels from "components/SwitchLabels";
-import FloatingLabelInput from "components/FloatingLabelInput";
 import Button from "@mui/material/Button";
-import TextButton from "components/TextButton";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { styled as muiStyled } from "@mui/system";
+import { DefaultAxios } from "apis/CommonAxios";
+import TextField from "@mui/material/TextField";
+import StyledSwitchLabels from "components/atoms/SwitchLabels";
+import TextButton from "components/atoms/TextButton";
+import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
 
 const Base = styled.div`
   width: 1920px;
@@ -61,32 +64,107 @@ const CustomButton = muiStyled(Button)({
 });
 
 const Login = () => {
+  const { register, handleSubmit } = useForm();
+  const [mode, setMode] = useState("user");
+
+  const navigate = useNavigate();
+
+  const handleModeChange = (isAdmin) => {
+    setMode(isAdmin ? "admin" : "user");
+  };
+
+  const signIn = async (data) => {
+    try {
+      if (mode === "user") {
+        const res = await DefaultAxios.post("api/user/login", data);
+        console.log(res.data.result.data);
+        // const tokenData = res.data.result.data;
+        // localStorage.setItem("accessToken", tokenData.accessToken);
+        // navigate("/");
+      } else {
+        const res = await DefaultAxios.post("api/admin/login", data);
+        const tokenData = res.data.result.data;
+        localStorage.setItem("accessToken", tokenData.accessToken);
+        navigate("/admin/list");
+      }
+    } catch (e) {
+      Swal.fire({
+        icon: "error",
+        title: "헉!!!",
+        text: "로그인에 실패하였어요!",
+        // footer: `${e.response.data.result.msg}`,
+        
+        footer:
+          "자세한 이유는 백엔드의 에러 코드가 전부 구현됐을 때에 알 수 있습니다!",
+      });
+      console.log(e);
+    }
+  };
+
   return (
     <Base>
       <Body>
         <Img src={character} />
         <Text>DalKom.Shop</Text>
-        <SwitchLabels />
-        <FloatingLabelInput
-          inputType="text"
-          label="이메일"
-          placeholder="이메일를 입력하세요"
-        />
-        <FloatingLabelInput
-          inputType="password"
-          label="비밀번호"
-          placeholder="비밀번호를 입력하세요"
-        />
-        <Find>
-          <TextButton left to="/signUp" text="회원가입" />
-          <TextButton right to="/signUp" text="이메일 | 비밀번호 찾기" />
-        </Find>
-        <CustomButton variant="contained" component={Link} to="/">
-          로그인
-        </CustomButton>
+        <form
+          onSubmit={handleSubmit((data) => {
+            signIn(data);
+          })}
+        >
+          <StyledSwitchLabels
+            isAdminMode={mode === "admin"}
+            onModeChange={handleModeChange}
+          />
+          <InputWrapper>
+            <StyleTextField
+              id="email"
+              label="이메일"
+              variant="outlined"
+              placeholder="이메일을 입력하세요."
+              {...register("email")}
+            />
+            <StyleTextField
+              id="password"
+              label="비밀번호"
+              variant="outlined"
+              placeholder="비밀번호를 입력하세요."
+              {...register("password")}
+            />
+          </InputWrapper>
+
+          <Find>
+            <TextButton left to="/signUp" text="회원가입" />
+            <TextButton right to="/signUp" text="이메일 | 비밀번호 찾기" />
+          </Find>
+          <CenterDiv>
+            <CustomButton type="submit" variant="contained">
+              로그인
+            </CustomButton>
+          </CenterDiv>
+        </form>
       </Body>
     </Base>
   );
 };
 
 export default Login;
+
+const StyleTextField = styled(TextField)`
+  width: 525px;
+  background-color: #fbfcfe;
+`;
+
+const InputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center; /* 추가: 요소를 수직으로 가운데 정렬 */
+  gap: 10px;
+  margin-bottom: 7px;
+`;
+
+const CenterDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center; /* 추가: 요소를 수직으로 가운데 정렬 */
+`;
