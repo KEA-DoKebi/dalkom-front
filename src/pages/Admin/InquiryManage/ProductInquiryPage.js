@@ -21,6 +21,7 @@ import Modal from "@mui/material/Modal";
 import { InputBoxS } from "components/atoms/Input";
 import { MuiColorChip } from "components/atoms/AdminChip";
 import { AdminButton } from "components/atoms/AdminCommonButton";
+import axios from "axios";
 
 const mockData = {
   제목: "안녕하세요. 문의글입니다.",
@@ -28,69 +29,69 @@ const mockData = {
   사진: "src/images/benefit.png",
 };
 
-const dataList = [
-  {
-    문의번호: "1001",
-    문의일시: "2024-01-21 10:30",
-    문의글:
-      "상품문의상품문의상품문의상품문의상품문의상품문의상품문의상품문의상품문의상품문의",
-    답변여부: "대기중",
-  },
-  {
-    문의번호: "1002",
-    문의일시: "2024-01-20 15:20",
-    문의글: "제품 교환 가능한가요?",
-    답변여부: "대기중",
-  },
-  {
-    문의번호: "1003",
-    문의일시: "2024-01-19 13:45",
-    문의글: "환불 절차를 알고 싶습니다.",
-    답변여부: "대기중",
-  },
-  {
-    문의번호: "1004",
-    문의일시: "2024-01-18 17:00",
-    문의글: "제품 사용 방법 문의합니다.",
-    답변여부: "대기중",
-  },
-  {
-    문의번호: "1005",
-    문의일시: "2024-01-17 09:30",
-    문의글: "주문 취소하고 싶습니다.",
-    답변여부: "대기중",
-  },
-  {
-    문의번호: "1006",
-    문의일시: "2024-01-16 12:10",
-    문의글: "배송 지연에 대한 문의",
-    답변여부: "대기중",
-  },
-  {
-    문의번호: "1007",
-    문의일시: "2024-01-15 11:25",
-    문의글: "색상 변경 가능한가요?",
-    답변여부: "완료",
-  },
-  {
-    문의번호: "1008",
-    문의일시: "2024-01-14 14:55",
-    문의글: "결제 수단 변경을 원합니다.",
-    답변여부: "완료",
-  },
-  {
-    문의번호: "1009",
-    문의일시: "2024-01-13 16:40",
-    문의글: "회원 정보 수정 관련 문의",
-    답변여부: "완료",
-  },
-  {
-    문의번호: "1010",
-    문의일시: "2024-01-12 18:20",
-    문의글: "추가 주문 관련 문의드립니다.",
-    답변여부: "완료",
-  },
-];
+// const dataList = [
+//   {
+//     문의번호: "1001",
+//     문의일시: "2024-01-21 10:30",
+//     문의글:
+//       "상품문의상품문의상품문의상품문의상품문의상품문의상품문의상품문의상품문의상품문의",
+//     답변여부: "대기중",
+//   },
+//   {
+//     문의번호: "1002",
+//     문의일시: "2024-01-20 15:20",
+//     문의글: "제품 교환 가능한가요?",
+//     답변여부: "대기중",
+//   },
+//   {
+//     문의번호: "1003",
+//     문의일시: "2024-01-19 13:45",
+//     문의글: "환불 절차를 알고 싶습니다.",
+//     답변여부: "대기중",
+//   },
+//   {
+//     문의번호: "1004",
+//     문의일시: "2024-01-18 17:00",
+//     문의글: "제품 사용 방법 문의합니다.",
+//     답변여부: "대기중",
+//   },
+//   {
+//     문의번호: "1005",
+//     문의일시: "2024-01-17 09:30",
+//     문의글: "주문 취소하고 싶습니다.",
+//     답변여부: "대기중",
+//   },
+//   {
+//     문의번호: "1006",
+//     문의일시: "2024-01-16 12:10",
+//     문의글: "배송 지연에 대한 문의",
+//     답변여부: "대기중",
+//   },
+//   {
+//     문의번호: "1007",
+//     문의일시: "2024-01-15 11:25",
+//     문의글: "색상 변경 가능한가요?",
+//     답변여부: "완료",
+//   },
+//   {
+//     문의번호: "1008",
+//     문의일시: "2024-01-14 14:55",
+//     문의글: "결제 수단 변경을 원합니다.",
+//     답변여부: "완료",
+//   },
+//   {
+//     문의번호: "1009",
+//     문의일시: "2024-01-13 16:40",
+//     문의글: "회원 정보 수정 관련 문의",
+//     답변여부: "완료",
+//   },
+//   {
+//     문의번호: "1010",
+//     문의일시: "2024-01-12 18:20",
+//     문의글: "추가 주문 관련 문의드립니다.",
+//     답변여부: "완료",
+//   },
+// ];
 
 const StyledList = styled(List)`
   /* Add styling for the List component */
@@ -99,8 +100,6 @@ const StyledList = styled(List)`
   border: none; /* Remove border */
   background-color: background.paper;
 `;
-
-const dataListLabels = Object.keys(dataList[0]);
 
 const ListItemStyled = styled(ListItem)`
   display: flex;
@@ -151,12 +150,24 @@ const getColumnWidth = (label) => {
 
 const ProductInquiryPage = () => {
   // Declare selectedMenu and setSelectedMenu using useState
-  const [selectedMenu, setSelectedMenu] = useState("상품 문의");
+  const [dataList, setDataList] = useState([]);
+  const dataListLabels = dataList.length > 0 ? [ '문의 제목', '문의 일시', '답변 여부' ] : [];
+
+  // Declare selectedMenu and setSelectedMenu using useState
+  const [selectedMenu, setSelectedMenu] = useState("");
+
+  const getInquiryByCategory = async () => {
+    // 상품 문의 카테고리는 35번
+    const res = await axios.get("/api/inquiry/category/34?page=0&size=10");
+    console.log(res.data.result.data.content);
+    setDataList(res.data.result.data.content);
+  };
 
   useEffect(() => {
     // 각 페이지가 마운트될 때 selectedMenu를 업데이트
     // setSelectedMenu 함수를 호출하여 상태를 업데이트
-    setSelectedMenu("상품 문의");
+    getInquiryByCategory();
+    setSelectedMenu("주문 문의");
   }, []);
 
   const [openModal, setOpenModal] = useState(false);

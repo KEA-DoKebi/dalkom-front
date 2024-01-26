@@ -149,7 +149,9 @@ const getColumnWidth = (label) => {
 
 const OrderInquiryPage = () => {
   const [dataList, setDataList] = useState([]);
-  const dataListLabels = dataList.length > 0 ? ['문의 일시', '문의 제목', '답변 여부'] : [];
+  const dataListLabels = dataList.length > 0 ? ['문의 번호', '문의 일시', '문의 제목', '답변 여부'] : [];
+  // const dataListLabels = dataList.length > 0 ? Object.keys(dataList[0]) : [];
+
 
   // Declare selectedMenu and setSelectedMenu using useState
   const [selectedMenu, setSelectedMenu] = useState("");

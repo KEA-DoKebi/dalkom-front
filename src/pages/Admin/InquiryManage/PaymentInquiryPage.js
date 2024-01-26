@@ -153,7 +153,7 @@ const PaymentInquiryPage = () => {
   const [selectedMenu, setSelectedMenu] = useState("결제 문의");
 
   const [dataList, setDataList] = useState([]);
-  const dataListLabels = dataList.length > 0 ? ['문의 일시', '문의 제목', '답변 여부'] : [];
+  const dataListLabels = dataList.length > 0 ? ['문의 제목', '문의 일시', '답변 여부'] : [];
 
   const getInquiryByCategory = async () => {
     // 결제 문의 카테고리는 36번
