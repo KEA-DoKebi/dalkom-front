@@ -7,7 +7,6 @@ import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import styled from "styled-components";
 import { UserButton } from "../../MyInfoPage/MyInfoBody";
 import { useForm } from "react-hook-form";
-import { DefaultAxios } from "apis/CommonAxios";
 import { TokenAxios } from "apis/CommonAxios";
 
 const CKEditorContainer = styled.div`
