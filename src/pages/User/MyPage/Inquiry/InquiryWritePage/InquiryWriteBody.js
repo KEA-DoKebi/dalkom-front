@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Grid, Typography, Paper } from "@mui/material";
 import { Select, selectClasses, Option, Textarea } from "@mui/joy";
 import { KeyboardArrowDown } from "@mui/icons-material";
@@ -22,7 +22,7 @@ const InquiryWriteBody = () => {
   const inquoryCreate = async (data) =>{
     try{
       const res = await DefaultAxios.post("/api/inquiry/user", data);
-     
+      console.log(res.data.result.data);
     }catch(e){
       console.log(e);
     }
