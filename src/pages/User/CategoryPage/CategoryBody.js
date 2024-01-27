@@ -73,6 +73,7 @@ const CategoryBody = () => {
     getCategoryLists();
     getMainProductLists();
     setCurrentPage(1);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[categorySeq])
 
   // 현재 페이지가 바뀔 때 수행
@@ -83,12 +84,14 @@ const CategoryBody = () => {
     else{
       getSubProductLists();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[currentPage])
 
 
   useEffect(() => {
     setCurrentPage(1);
     getSubProductLists();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[subCategorySeq])
   
 
