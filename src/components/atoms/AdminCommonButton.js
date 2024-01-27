@@ -15,6 +15,7 @@ export const AdminButton = styled(Button)`
   align-items: center;
   border-radius: 7px;
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+  margin-right: 50px;
 
   &:hover {
     background-color: #fce8ef;
