@@ -86,11 +86,6 @@ const CategoryBody = () => {
   },[currentPage])
 
 
-  // 카테고리들이 바뀔때 페이지 1로 초기화
-  // useEffect(() => {
-    
-  // },[categorySeq])
-
   useEffect(() => {
     setCurrentPage(1);
     getSubProductLists();
