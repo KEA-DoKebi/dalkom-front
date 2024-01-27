@@ -78,9 +78,9 @@ const Login = () => {
       if (mode === "user") {
         const res = await DefaultAxios.post("api/user/login", data);
         console.log(res.data.result.data);
-        // const tokenData = res.data.result.data;
-        // localStorage.setItem("accessToken", tokenData.accessToken);
-        // navigate("/");
+        const tokenData = res.data.result.data;
+        localStorage.setItem("accessToken", tokenData.accessToken);
+        navigate("/");
       } else {
         const res = await DefaultAxios.post("api/admin/login", data);
         const tokenData = res.data.result.data;

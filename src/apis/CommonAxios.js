@@ -14,6 +14,6 @@ export const TokenAxios = axios.create({
   // baseURL: `${process.env.REACT_APP_SERVER_ADDRESS}`,
   headers: {
     "Content-Type": "application/json",
-    "AccessToken": localStorage.getItem("accessToken"),
+    AccessToken: localStorage.getItem("accessToken"),
   },
 });
