@@ -5,6 +5,7 @@ import DefaultLayout from 'components/templete/DefaultLayout'
 import React, { useEffect, useState } from 'react'
 import { NavLink, useParams } from 'react-router-dom'
 import { styled } from 'styled-components'
+import Swal from "sweetalert2";
 import FormControl from '@mui/joy/FormControl';
 import FormLabel from '@mui/joy/FormLabel';
 import Input from '@mui/joy/Input';
@@ -13,18 +14,23 @@ const ProductDetailPage = () => {
 
     const [productInfo, setProductInfo] = useState({});
     const [productReviewList, setProductReviewList] = useState([]);
-    const [option, setOption] = useState();
-    const [count, setCount] = useState(0);
+    const [option, setOption] = useState({});
     const [menuItems,] = useState(["상품상세", "상품평", "상품안내"]);
+    // const [prdtOptionSeq, setPrdtOptionSeq] = useState(); // 초기값은 15로 설정
+    const [amount, setAmount] = useState(0); // 초기값은 3으로 설정
     const {productSeq, menuName} = useParams();
+    
 
     const handleChange = (event) => {
-        setOption(event.target.value);
-      };
+      setOption(event.target.value)
+      console.log(event.target.value);
+      // const selectedOption = event.target.value;
+      // setPrdtOptionSeq(selectedOption);
+    };
 
     const handleCountChange = (event) => {
         const number = Number(event.target.value);
-        setCount(number);
+        setAmount(number);
     }
 
      
@@ -32,8 +38,8 @@ const ProductDetailPage = () => {
   const getProductDetail = async() => {
     try{
         const res = await TokenAxios.get(`/api/product/${productSeq}`);
-        console.log(res.data.result.data);
         setProductInfo(res.data.result.data);
+        console.log(res.data.result.data);
     }catch(e){
       console.log(e);
     } 
@@ -42,12 +48,38 @@ const ProductDetailPage = () => {
   const getProductReview = async() => {
     try{
         const res = await TokenAxios.get(`/api/review/product/${productSeq}?page=0&size=3`);
-        console.log(res.data.result.data);
         setProductReviewList(res.data.result.data.content);
     }catch(e){
         console.log(e);
     }
   }
+
+  const postCartData = async (data) =>{
+    console.log(data);
+    
+    try{
+      await TokenAxios.post("/api/cart/user", data);
+      // console.log(res.data);
+    } catch (error) {
+      console.log("Error response data:", error.response.data);
+      console.log("Error stack trace:", error.stack);
+    }
+  }
+
+  const handleAddToCart = () => {
+    // You can modify cartData here before passing it to cartCreate
+    postCartData({
+      productSeq: parseInt(productSeq),
+      prdtOptionSeq: option.productOptionSeq,
+      amount: amount,
+    });
+    Swal.fire({
+      icon: 'success', // 성공 아이콘 (success, error, warning, info 중 선택)
+      title: '장바구니에 추가되었습니다!',
+      showConfirmButton: false, // 확인 버튼 감추기
+      timer: 1500 // 1.5초 후에 모달이 자동으로 사라짐
+    });
+  };
 
   useEffect(() => {
     getProductDetail();
@@ -82,12 +114,12 @@ const ProductDetailPage = () => {
                                 labelId="product-option"
                                 id="option"
                                 label="옵션"
-                                value={productInfo?.stockList?.productOptionSeq}
+                                value={productInfo?.stockList}
                                 onChange={handleChange}
                                 sx={{width : "100%"}}
                             >
                                 {productInfo.stockList?.map((optionList) => (
-                                    <MenuItem value={optionList.detail}>
+                                    <MenuItem value={optionList}>
                                         {`${optionList.productOptionSeq}. ${optionList.detail} (남은 재고: ${optionList.amount}개)`}
                                     </MenuItem>
                                 ))}
@@ -123,7 +155,7 @@ const ProductDetailPage = () => {
                             <Input 
                                 type='number'
                                 placeholder="수량을 입력해주세요" 
-                                value={count}
+                                value={amount}
                                 onChange={handleCountChange}
                                 sx={{
                                     minHeight : "50px", 
@@ -152,12 +184,12 @@ const ProductDetailPage = () => {
                                             alt="마일리지"
                                             style={{ width: "20px", height: "20px", marginRight : "5px", }}
                                         />
-                                        <BoldText>{productInfo.price * Math.floor(count)}</BoldText> 
+                                        <BoldText>{productInfo.price * Math.floor(amount)}</BoldText> 
                                     </Typography>
                             </SpaceBetweenContainer>
                             <SpaceBetweenContainer>
                                 <StyledText>옵션</StyledText>
-                                <BoldText>{option}</BoldText>
+                                <BoldText>{option.detail}</BoldText>
                             </SpaceBetweenContainer>
                         </PriceContainer>
 
@@ -166,7 +198,7 @@ const ProductDetailPage = () => {
                     <ProductButtonContainer>
                         <div style={{marginTop : "10vh"}}>
                             <StyledButton variant='contained'>즉시 구매하기</StyledButton>
-                            <StyledButton variant='contained'>장바구니 담기</StyledButton>
+                            <StyledButton variant='contained' onClick={handleAddToCart}>장바구니 담기</StyledButton>
                         </div> 
 
                     </ProductButtonContainer>

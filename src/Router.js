@@ -34,6 +34,7 @@ import Refund from "pages/User/MyPage/Order/RefundPage/RefundPage";
 import Review from "pages/User/MyPage/Review/ReviewPage/ReviewPage";
 import ReviewEdit from "pages/User/MyPage/Review/ReviewWritePage/ReviewEditPage";
 import ReviewWrite from "pages/User/MyPage/Review/ReviewWritePage/ReviewWritePage";
+import Payment from "pages/User/PaymentPage/PaymentPage";
 import Login from "pages/commonPage/Login";
 import SignUp from "pages/commonPage/SignUp";
 import React from "react";
