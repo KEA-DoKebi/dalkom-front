@@ -5,6 +5,7 @@ import { InputBoxS } from "components/atoms/Input";
 import { AdminButton } from "components/atoms/AdminCommonButton";
 import SearchIcon from "@mui/icons-material/Search";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import { CustomSelect } from "components/atoms/AdminSelectBox";
 import {
   Box,
   Divider,
@@ -22,144 +23,57 @@ import {
   Typography,
   IconButton,
 } from "@mui/material";
-import { CustomSelect } from "components/atoms/AdminSelectBox";
+import { TokenAxios } from "apis/CommonAxios";
 
-const dataList = [
-  {
-    주문번호: "1001",
-    주문일시: "2024-01-21 10:00",
-    수량: 2,
-    주문자: "홍길동",
-    수령인: "김철수",
-    결제금액: "50000 원",
-    주문상태: "처리중",
-  },
-  {
-    주문번호: "1002",
-    주문일시: "2024-01-20 11:30",
-    수량: 1,
-    주문자: "이영희",
-    수령인: "박지민",
-    결제금액: "30000 원",
-    주문상태: "배송준비",
-  },
-  {
-    주문번호: "1003",
-    주문일시: "2024-01-19 09:20",
-    수량: 3,
-    주문자: "김민준",
-    수령인: "이하늘",
-    결제금액: "75000 원",
-    주문상태: "배송완료",
-  },
-  {
-    주문번호: "1004",
-    주문일시: "2024-01-18 15:00",
-    수량: 1,
-    주문자: "최우식",
-    수령인: "정수정",
-    결제금액: "20000 원",
-    주문상태: "주문취소",
-  },
-  {
-    주문번호: "1005",
-    주문일시: "2024-01-17 17:45",
-    수량: 2,
-    주문자: "박보검",
-    수령인: "한지민",
-    결제금액: "40000 원",
-    주문상태: "처리중",
-  },
-  {
-    주문번호: "1006",
-    주문일시: "2024-01-16 08:00",
-    수량: 4,
-    주문자: "윤아",
-    수령인: "김태형",
-    결제금액: "100000 원",
-    주문상태: "배송준비",
-  },
-  {
-    주문번호: "1007",
-    주문일시: "2024-01-15 13:20",
-    수량: 1,
-    주문자: "강동원",
-    수령인: "송중기",
-    결제금액: "25000 원",
-    주문상태: "배송완료",
-  },
-  {
-    주문번호: "1008",
-    주문일시: "2024-01-14 16:50",
-    수량: 3,
-    주문자: "전지현",
-    수령인: "김수현",
-    결제금액: "60000 원",
-    주문상태: "주문취소",
-  },
-  {
-    주문번호: "1009",
-    주문일시: "2024-01-13 11:15",
-    수량: 2,
-    주문자: "이민호",
-    수령인: "박신혜",
-    결제금액: "50000 원",
-    주문상태: "처리중",
-  },
-  {
-    주문번호: "1010",
-    주문일시: "2024-01-12 14:40",
-    수량: 5,
-    주문자: "손흥민",
-    수령인: "박지성",
-    결제금액: "125000 원",
-    주문상태: "배송준비",
-  },
-];
+// 각 항목에 대한 공통 스타일을 설정합니다.
+const itemFlexStyles = {
+  "& > *:nth-child(1)": { flex: 1 }, // 주문번호
+  "& > *:nth-child(2)": { flex: 2 }, // 주문일시
+  "& > *:nth-child(3)": { flex: 1 }, // 수량
+  "& > *:nth-child(4)": { flex: 1 }, // 주문자
+  "& > *:nth-child(5)": { flex: 1 }, // 수령인
+  "& > *:nth-child(6)": { flex: 1 }, // 결제금액
+  "& > *:nth-child(7)": { flex: 1 }, // 주문상태
+  "& > *:nth-child(8)": { flex: 1 }, // 주문상세
+};
 
 const StyledList = styled(List)`
-  /* Add styling for the List component */
   padding: 0;
   width: 100%;
-  border: none; /* Remove border */
+  border: none;
   background-color: background.paper;
+  height: 70%; // 전체 높이의 70%로 설정
 `;
 
-const dataListLabels = Object.keys(dataList[0]);
+const ListItemLabelStyled = styled(ListItem)`
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+  height: calc(
+    70vh / 10
+  ); // 전체 높이의 70%를 10로 나눈 값으로 레이블 행의 높이를 설정
+  padding: 12px;
+  ${itemFlexStyles}// 공통 스타일 적용
+`;
 
 const ListItemStyled = styled(ListItem)`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
   width: 100%;
+  height: calc(70vh / 8); // 전체 높이의 70%를 8로 나눈 값
   padding: 12px;
+  ${itemFlexStyles}// 공통 스타일 적용
 `;
 
-// 간격 일정하게 만드는 거
-const getColumnWidth = (label) => {
-  // Define your width ranges for each column label
-  const widthRanges = {
-    주문번호: [0, 10],
-    주문일시: [10, 30],
-    수량: [30, 40],
-    주문자: [40, 50],
-    수령인: [50, 60],
-    결제금액: [60, 70],
-    주문상태: [70, 80],
-    주문상세: [80, 100],
-    // Add more labels as needed
-  };
-  const [minWidth, maxWidth] = widthRanges[label] || [0, 100];
-  const width = Math.min(100, maxWidth) - minWidth;
-
-  return `calc(${width}% - 8px)`; // Adjust 8px for spacing
-};
-
-const OrderListPage = () => {
+const AdminListPage = () => {
   // Declare selectedMenu and setSelectedMenu using useState
   const [selectedMenu, setSelectedMenu] = useState("주문 목록");
   const [modalOpen, setModalOpen] = useState(false);
-  const [orderStatus, setOrderStatus] = useState(""); // Initialize orderStatus state
+  const [currentPage, setCurrentPage] = useState(0); // 현재 페이지를 상태로 관리
+  const [totalPages, setTotalPages] = useState();
+  const [orderStatus, setOrderStatus] = useState(""); 
 
   const handleOpenModal = () => {
     setModalOpen(true);
@@ -173,11 +87,60 @@ const OrderListPage = () => {
     setOrderStatus(event.target.value); // Update orderStatus when the value changes
   };
 
+  const [dataList, setDataList] = useState([]);
+  const dataListLabels = ["주문번호", "주문일시", "수량", "주문자", "수령인", "결제금액", "주문상태", "주문상세"];
+
+  const adminGet = async (page) => {
+    const res = await TokenAxios.get(`/api/order?page=${page}&size=7`);
+    console.log(res.data.result.data.content);
+    setDataList(res.data.result.data.content);
+    console.log(res.data.result.data.totalPages);
+    setTotalPages(res.data.result.data.totalPages);
+  };
+
   useEffect(() => {
     // 각 페이지가 마운트될 때 selectedMenu를 업데이트
     // setSelectedMenu 함수를 호출하여 상태를 업데이트
+    adminGet(currentPage); // 페이지가 변경될 때 API 호출
     setSelectedMenu("주문 목록");
-  }, []);
+  }, [currentPage]);
+
+  // Pagination에서 페이지가 변경될 때 호출되는 함수
+  const handlePageChange = (event, newPage) => {
+    setCurrentPage(newPage); // 현재 페이지 업데이트
+  };
+
+  // 상품 정보를 표시하기 위한 컴포넌트입니다.
+  const OrderList = ({ order }) => {
+    return (
+      <ListItemStyled>
+        <Typography variant="body1" sx={{ textAlign: "center" }}>
+          {order.ordrSeq}
+        </Typography>
+        <Typography variant="body1" sx={{ textAlign: "center" }}>
+          {order.ordrDate}
+        </Typography>
+        <Typography variant="body1" sx={{ textAlign: "center" }}>
+          {order.ordrCnt}
+        </Typography>
+        <Typography variant="body1" sx={{ textAlign: "center" }}>
+          {order.name}
+        </Typography>
+        <Typography variant="body1" sx={{ textAlign: "center" }}>
+          {order.receiveName}
+        </Typography>
+        <Typography variant="body1" sx={{ textAlign: "center" }}>
+          {order.totalPrice}
+        </Typography>
+        <Typography variant="body1" sx={{ textAlign: "center" }}>
+          {order.ordrState}
+        </Typography>
+        <IconButton onClick={handleOpenModal}>
+          <InfoOutlinedIcon />
+        </IconButton>
+      </ListItemStyled>
+    );
+  };
 
   return (
     <Paper sx={{ display: "flex", height: "100vh" }}>
@@ -198,7 +161,8 @@ const OrderListPage = () => {
           justifyContent="center"
           alignItems="center"
           sx={{
-            flexGrow: 1,
+            flex: 2,
+            p: 2,
             display: "flex",
             flexDirection: "column",
             backgroundColor: "#FFFFFF",
@@ -206,7 +170,7 @@ const OrderListPage = () => {
             margin: "16px",
           }}
         >
-          <Toolbar sx={{ justifyContent: "space-between", width: "100%" }}>
+          <Toolbar sx={{ justifyContent: "center", width: "100%" }}>
             {/* 중앙 정렬을 위해 앞뒤로 <div/> 추가*/}
             <div />
             <InputBoxS
@@ -217,52 +181,51 @@ const OrderListPage = () => {
               variant="soft"
               sx={{ mb: 4, mt: 4 }}
             />
-            <div />
           </Toolbar>
-
-          <StyledList aria-label="mailbox folders">
-            <ListItemStyled>
-              {dataListLabels.map((label, index) => (
+          <Box sx={{ width: "100%", height: "80%", overflowY: "auto" }}>
+            <StyledList aria-label="mailbox folders">
+              <ListItemLabelStyled>
+                {dataListLabels.map((label, index) => (
+                  <React.Fragment key={index}>
+                    <Typography
+                      variant="h6"
+                      fontWeight="bold"
+                      sx={{ textAlign: "center" }}
+                    >
+                      {label}
+                    </Typography>
+                  </React.Fragment>
+                ))}
+              </ListItemLabelStyled>
+              <Divider component="li" />
+              {dataList.map((order, index) => (
                 <React.Fragment key={index}>
-                  <Typography
-                    variant="h6"
-                    fontWeight="bold"
-                    sx={{ width: getColumnWidth(label), textAlign: "center" }}
-                  >
-                    {label}
-                  </Typography>
+                  <OrderList order={order} />
+                  {index !== dataList.length - 1 && (
+                    <Divider component="li" light />
+                  )}
                 </React.Fragment>
               ))}
-              <Typography variant="h6" fontWeight="bold">
-                주문상세
-              </Typography>
-            </ListItemStyled>
-            <Divider component="li" light />
-            {dataList.map((item, rowIndex) => (
-              <React.Fragment key={rowIndex}>
-                <ListItemStyled>
-                  {dataListLabels.map((label, colIndex) => (
-                    <Typography
-                      variant="body1"
-                      key={colIndex}
-                      sx={{ width: getColumnWidth(label), textAlign: "center" }}
-                    >
-                      {item[label]}
-                    </Typography>
-                  ))}
-                  <IconButton onClick={handleOpenModal}>
-                    <InfoOutlinedIcon />
-                  </IconButton>
-                </ListItemStyled>
-                {rowIndex !== dataList.length - 1 && (
-                  <Divider component="li" light />
-                )}
-              </React.Fragment>
-            ))}
-          </StyledList>
-
-          <Pagination count={10} />
-
+            </StyledList>
+          </Box>
+          <Box
+            sx={{
+              flex: 1,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            {" "}
+            {/* 페이지네이션 섹션 */}
+            <Pagination
+              count={totalPages}
+              page={currentPage + 1}
+              onChange={(event, newPage) =>
+                handlePageChange(event, newPage - 1)
+              }
+            />
+          </Box>
           <Dialog onClose={handleCloseModal} open={modalOpen} maxWidth={false}>
             <DialogContent style={{ width: 900, height: 600 }}>
               <div>
@@ -492,4 +455,4 @@ const OrderListPage = () => {
   );
 };
 
-export default OrderListPage;
+export default AdminListPage;
