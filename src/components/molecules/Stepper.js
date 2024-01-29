@@ -67,7 +67,7 @@ const Stepper = () => {
           overflow: "hidden",
         }}
       >
-        <BannerImage src="/images/MainPage/dokebiBanner2.png" />
+        <BannerImage src="/images/ProductDetailPage/sample.jpg" />
       </StyledPaper>
       <StyledPaper
         sx={{
@@ -76,8 +76,8 @@ const Stepper = () => {
           maxWidth: "100%",
           overflow: "hidden",
         }}
-      >
-        <BannerImage src="/images/MainPage/dokebiBanner3.png" />
+      > 
+        <BannerImage src="/images/MainPage/jourdi.jpg" />
       </StyledPaper>
     </StyledCarousel>
   );

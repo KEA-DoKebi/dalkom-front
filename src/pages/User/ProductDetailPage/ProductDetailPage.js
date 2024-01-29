@@ -1,171 +1,302 @@
-import React from "react";
-import DefaultLayout from "components/templete/DefaultLayout";
-import styled, { createGlobalStyle } from "styled-components";
-import RighteousRegular from "assets/font/Righteous-Regular.woff";
-import StarBorderIcon from "@mui/icons-material/StarBorder";
-import SelectOptions from "components/atoms/SelectOptions";
-import Button from "@mui/material/Button";
-import RateReviewOutlinedIcon from "@mui/icons-material/RateReviewOutlined";
-import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
-import Stepper from "components/molecules/Stepper";
+import { Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, Typography } from '@mui/material'
+import { TokenAxios } from 'apis/CommonAxios'
+import MuiTable from 'components/molecules/MuiTable'
+import DefaultLayout from 'components/templete/DefaultLayout'
+import React, { useEffect, useState } from 'react'
+import { NavLink, useParams } from 'react-router-dom'
+import { styled } from 'styled-components'
 
-const GlobalStyle = createGlobalStyle`
-  @font-face {
-    font-family: 'Righteous';
-    src: local('Righteous'), url(${RighteousRegular}) format('woff');
-    font-weight: normal;
-    font-style: normal;
+const SungjunProductDetailPage = () => {
+
+    const [productInfo, setProductInfo] = useState({});
+    const [productReviewList, setProductReviewList] = useState([]);
+    const [option, setOption] = useState();
+    const [menuItems,] = useState(["상품상세", "상품평", "상품안내"]);
+    const {productSeq, menuName} = useParams();
+
+    const handleChange = (event) => {
+        setOption(event.target.value);
+      };
+
+  const getProductDetail = async() => {
+    try{
+        const res = await TokenAxios.get(`/api/product/${productSeq}`);
+        console.log(res.data.result.data);
+        setProductInfo(res.data.result.data);
+    }catch(e){
+      console.log(e);
+    } 
   }
 
-  body {
-    font-family: 'Righteous', sans-serif;
-  }
-`;
-
-const Body = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const BodyTop = styled.div`
-  display: flex;
-  flex-direction: row;
-  margin-top: -1%;
-`;
-
-const ImgContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-basis: 65vw;
-  height: 80vh;
-`;
-
-const ProductInfo = styled.div`
-  width: 33vw;
-  height: 80vh;
-  justify-content: center;
-`;
-
-const InfoDetail = styled.div`
-  margin-top: 25%;
-  margin-left: 10%;
-  margin-right: 5%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-`;
-
-const ScrollToSection = (sectionId) => {
-  const section = document.getElementById(sectionId);
-  if (section) {
-    window.scrollTo({
-      top: section.offsetTop,
-      behavior: "smooth",
-    });
-  }
-};
-
-const ScrollIconDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  width: 2vw;
-  margin-top: 3%;
-`;
-
-const TextL = styled.h1`
-  font-size: 30px;
-  margin-top: -2%;
-`;
-
-const Text = styled.h2`
-  font-size: 20px;
-`;
-
-const TextS = styled.h3`
-  font-size: 15px;
-  margin-top: -2%;
-`;
-
-const ProductRate = styled.div`
-  display: flex;
-  flex-direction: row;
-  & > * {
-    margin-right: 5px;
-  }
-`;
-
-const CustomButton = styled(Button)`
-  && {
-    width: 150px; // 너비
-    height: 40px; // 높이
-    background-color: #000000;
-    color: #ffffff;
-    border-radius: 10px;
-    margin-bottom: 10px;
-
-    &:hover {
-      background-color: #000000;
+  const getProductReview = async() => {
+    try{
+        const res = await TokenAxios.get(`/api/review/product/${productSeq}?page=0&size=3`);
+        console.log(res.data.result.data);
+        setProductReviewList(res.data.result.data.content);
+    }catch(e){
+        console.log(e);
     }
   }
-`;
 
-const BodyMiddle = styled.div`
-  width: 100%;
-  height: 100%;
-`;
+  useEffect(() => {
+    getProductDetail();
+    getProductReview();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[productSeq])
 
-const BodyBottom = styled.div`
-  width: 100%;
-  height: 100%;
-`;
-
-const ProductDetail = () => {
   return (
-    <>
-      <GlobalStyle />
-      <DefaultLayout>
-        <Body>
-          <BodyTop>
-            <ImgContainer>
-              <Stepper />
-            </ImgContainer>
-            <ProductInfo>
-              <InfoDetail>
-                <TextL>Apple</TextL>
-                <TextL>Iphone 15</TextL>
-                <ProductRate>
-                  <TextS>5.0</TextS>
-                  <StarBorderIcon sx={{ fontSize: 18 }} />
-                  <TextS>(14 reviews)</TextS>
-                </ProductRate>
-                <Text>300,000 마일리지</Text>
-                <SelectOptions />
-                <CustomButton variant="contained">구매하기</CustomButton>
-                <CustomButton variant="contained">장바구니에 담기</CustomButton>
-              </InfoDetail>
-            </ProductInfo>
-            <ScrollIconDiv>
-              <RateReviewOutlinedIcon
-                onClick={() => ScrollToSection("reviewSection")}
-              />
-              <LocalShippingOutlinedIcon
-                onClick={() => ScrollToSection("deliverySection")}
-              />
-            </ScrollIconDiv>
-          </BodyTop>
-          <BodyMiddle id="reviewSection">
-            <TextL>Riview</TextL>
-          </BodyMiddle>
-          <BodyBottom id="deliverySection">
-            <TextL>배송안내</TextL>
-          </BodyBottom>
-        </Body>
-      </DefaultLayout>
-    </>
-  );
-};
+    <DefaultLayout>
+        <ProductInfoBox>
+            <Grid container>
+                <Grid item xs={8.5}>
+                    <ProductImageContainer>
+                        <ProductImage src={`${productInfo.imageUrl}`} />
+                    </ProductImageContainer>
+                </Grid>
+                <Grid item xs={0.5}>
 
-export default ProductDetail;
+                </Grid>
+                <Grid item xs={3}>
+                    <ProductTitleContainer>
+                        <h3>{productInfo.company}</h3>
+                        <h1 style={{marginBottom : "5%"}}>
+                            {productInfo.name}
+                        </h1>
+                        <p style={{margin : "5% 0"}}>{productInfo.info}</p>
+                    </ProductTitleContainer>
+                    <ProductContentContainer>
+                        <FormControl fullWidth>
+                            <InputLabel id="product-option">옵션</InputLabel>
+                            <Select 
+                                labelId="product-option"
+                                id="option"
+                                label="옵션"
+                                value={option}
+                                onChange={handleChange}
+                                sx={{width : "100%"}}
+                            >
+                                {productInfo.stockList?.map((option) => (
+                                    <MenuItem value={option.productStockSeq}>
+                                        {`${option.detail} (남은 재고: ${option.amount}개)`}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+
+                        <PriceContainer>
+                            <h4 style={{marginBottom : "3vh", marginTop : 0}}> 상품가격</h4>
+                            <SpaceBetweenContainer>
+                                    <p style={{margin : 0, padding : 0}}>소비자가</p>
+                                    <Typography
+                                        variant="body1"
+                                        sx={{
+                                            textAlign: "center",
+                                            display: "flex",
+                                            alignItems: "center",
+                                            marginBottom : "7px",
+                                            fontWeight : "bold"
+                                        }}
+                                        >
+                                        <img
+                                            src="/images/M-1.png"
+                                            alt="마일리지"
+                                            style={{ width: "20px", height: "20px", marginRight : "5px", }}
+                                        />
+                                        {productInfo.price}
+                                    </Typography>
+                            </SpaceBetweenContainer>
+                        </PriceContainer>
+
+                        <PriceContainer>
+                            <h4 style={{marginBottom : "3vh", marginTop : 0}}> 주문정보</h4>
+                            <SpaceBetweenContainer>
+                                    <p style={{margin : 0, padding : 0}}>소비자가</p>
+                                    <Typography
+                                        variant="body1"
+                                        sx={{
+                                            textAlign: "center",
+                                            display: "flex",
+                                            alignItems: "center",
+                                            marginBottom : "7px",
+                                            fontWeight : "bold"
+                                        }}
+                                        >
+                                        <img
+                                            src="/images/M-1.png"
+                                            alt="마일리지"
+                                            style={{ width: "20px", height: "20px", marginRight : "5px", }}
+                                        />
+                                        {productInfo.price}
+                                    </Typography>
+                            </SpaceBetweenContainer>
+                        </PriceContainer>
+
+
+                    </ProductContentContainer>
+                    <ProductButtonContainer>
+                        <div style={{marginTop : "10vh"}}>
+                            <StyledButton variant='contained'>즉시 구매하기</StyledButton>
+                            <StyledButton variant='contained'>장바구니 담기</StyledButton>
+                        </div> 
+
+                    </ProductButtonContainer>
+                    
+                </Grid>
+                {/* <Grid item xs={0.2}>
+                    배송 Description으로 이동
+                </Grid> */}
+            </Grid>
+        </ProductInfoBox>
+        <ProductDescriptionBox>
+        <Grid container>
+                <Grid item xs={0.5}>
+                    
+                </Grid>
+                <Grid item xs={11}>
+                    <MenuList>
+                        {menuItems.map((menuItem, idx) => (
+                            <StyledMenuItem key={idx}>
+                                <StyledNavLink
+                                    to={`/product/${productSeq}/${menuItem}`}
+                                    activeStyle={{ backgroundColor: "transparent" }}
+                                >
+                                {menuItem}
+                                </StyledNavLink>
+                            </StyledMenuItem>
+                        ))}
+                    </MenuList>
+                    
+                    
+                        
+                    
+                </Grid>
+                {menuName === "상품상세" && (
+                        productInfo?.productImageUrlList?.map((productImage) => (
+                            <ProductImageContainer key={productImage}> 
+                                <ProductImage src={productImage}/>
+                            </ProductImageContainer>
+                        ))
+                    )}
+                {menuName === "상품평" && (
+                            <MuiTable reviewList={productReviewList}/>
+                        )}
+                {menuName === "상품안내" && (
+                            <ProductImageContainer> 
+                                <ShippingInfoImage src="/images/ProductDetailPage/info.png"/>
+                            </ProductImageContainer>
+                        )}
+                
+               
+                {/* {productInfo.productImageUrlList.map((productImage) => (
+                    <ProductImageContainer>
+                        <ProductImage src={productImage}/>
+                    </ProductImageContainer>
+                ))} */}
+            </Grid>
+        </ProductDescriptionBox>
+    </DefaultLayout>
+  )
+}
+
+export default SungjunProductDetailPage
+
+
+const ProductInfoBox = styled(Box)`
+
+`
+
+const ProductDescriptionBox = styled(Box)`
+    margin-top : 15vh;
+
+`
+
+const ProductImageContainer = styled(Box)`
+    width : 100%;
+    height : 100%;
+    overflow : hidden;
+    text-align : center;   
+`
+
+const ProductImage = styled.img`
+    width : 100%;
+    height : 100%;
+    object-fit : cover;
+`
+
+const ProductTitleContainer = styled(Box)`
+    height : 15vh;
+    margin-top : 10vh;
+`
+
+const ProductContentContainer = styled(Box)`
+    height : 55vh;
+    margin-top : 5vh;
+`
+
+const ProductButtonContainer = styled(Box)`
+    height : 15vh;
+    margin-top : 5vh;
+`
+
+const PriceContainer = styled.div`
+    border : 1px solid black;
+    border-radius : 20px; 
+    margin-top : 5vh; 
+    padding : 10px;
+`
+
+const SpaceBetweenContainer = styled.div`
+    display : flex;
+    justify-content : space-between;
+    align-items : center;
+    margin : 0; 
+    padding : 0;
+`
+
+const StyledButton = styled(Button)`
+   background-color : black; 
+   border-radius : 10px; 
+   width : 100%; 
+   margin-bottom : 5px;
+
+   &:hover{
+     background-color : rgba(0,0,0,0.9);
+     color : rgba(255,255,255,0.8);
+   }
+`
+
+const MenuList = styled.ul`
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  margin: 20px 0;
+  padding: 0;
+`;
+
+const StyledMenuItem = styled.li`
+  border: 1px solid #c2c2c2;
+  list-style: none;
+  text-align: center;
+  flex: 1 1 auto;
+`;
+
+const StyledNavLink = styled(NavLink)`
+  display: block;
+  padding: 20px 0;
+  text-decoration: none;
+  color: black;
+  font-size: 16px;
+  
+  &.active {
+    background-color: transparent; // 활성화됐을 때의 스타일
+  }
+  &:not(.active) {
+    background-color: #eeeeee; // 비활성화됐을 때의 스타일
+  }
+`;
+
+const ShippingInfoImage = styled.img`
+    width : 80%;
+    height : 100%;
+    object-fit : cover;
+`
