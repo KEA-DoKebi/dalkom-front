@@ -280,6 +280,7 @@ const AnnouncementPage = () => {
     }
   };
 
+  
   return (
     <Paper sx={{ display: "flex", height: "100vh" }}>
       {/* AdminBar 컴포넌트에 selectedMenu와 setSelectedMenu props 전달 */}
