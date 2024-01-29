@@ -211,9 +211,9 @@ const ProductDetailPage = () => {
                             <MuiTable reviewList={productReviewList}/>
                         )}
                 {menuName === "상품안내" && (
-                            <ProductImageContainer> 
+                            <ShippingImageContainer> 
                                 <ShippingInfoImage src="/images/ProductDetailPage/info.png"/>
-                            </ProductImageContainer>
+                            </ShippingImageContainer>
                         )}
                 
                
@@ -243,6 +243,13 @@ const ProductDescriptionBox = styled(Box)`
 const ProductImageContainer = styled(Box)`
     width : 100%;
     height : 80vh;
+    overflow : hidden;
+    text-align : center;   
+`
+
+const ShippingImageContainer = styled(Box)`
+    width : 100%;
+    height : 100%;
     overflow : hidden;
     text-align : center;   
 `
