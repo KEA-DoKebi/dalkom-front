@@ -1,9 +1,85 @@
-import React from "react";
-import SidebarLayout from "components/layout/SidebarLayout";
-import { Box } from "@mui/material";
+import React, { useEffect } from "react";
+import { Box, Button } from "@mui/material";
 import { Grid, Typography } from "@mui/material";
+import SidebarLayout from "components/templete/SidebarLayout";
+import { styled } from "styled-components";
+import Swal from "sweetalert2";
+import { TokenAxios } from "apis/CommonAxios";
+import { useForm } from "react-hook-form";
 
-const Payment = () => {
+const PaymentPage = () => {
+
+  const handlePaymentBtnClick = () => {
+    Swal.fire({
+      title: "정말 결제하시겠습니까?",
+      showDenyButton: true,
+      confirmButtonText: "예",
+      denyButtonText: `아니요`
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        Swal.fire({
+          title : "계정 비밀번호를 다시 입력하세요",
+          input: "text",
+          showDenyButton: true,
+          confirmButtonText: "결제하기",
+          denyButtonText: `뒤로가기`,
+          preConfirm : async(password) => {
+            try{
+              const res = await TokenAxios.put("/api/order/authorize", {
+                password : password,
+              })
+              if(res.data.success){
+                const res = await TokenAxios.post("/api/order", {
+                  receiverInfoRequest: {
+                      "receiverName": "내동생",
+                      "receiverAddress": "우리집",
+                      "receiverMobileNum": "010-1234-5678",
+                      "receiverMemo": "요청사항"
+                  },
+                  orderProductRequestList: [
+                      {
+                          "productSeq": 28,
+                          "productOptionSeq": 15,
+                          "productAmount": 2
+                      },
+                      {
+                          "productSeq": 287,
+                          "productOptionSeq": 3,
+                          "productAmount": 2
+                      },
+                      {
+                          "productSeq": 290,
+                          "productOptionSeq": 3,
+                          "productAmount": 2
+                      },
+                      {
+                          "productSeq": 510,
+                          "productOptionSeq": 3,
+                          "productAmount": 2
+                      }
+                  ]
+              })
+                console.log(res.data);
+              }
+             
+            }catch(e){
+              Swal.showValidationMessage(`
+                  결제에 문제가 생겼습니다!
+              `);
+            }
+          }
+        }).then((result) => {
+          if(result.isDenied){
+            Swal.fire("결제가 실패하였습니다", "", "info");
+          }
+        });
+      } else if (result.isDenied) {
+        Swal.fire("결제가 실패하였습니다", "", "info");
+      }
+    });
+  }
+
   return (
     <SidebarLayout>
       {/* Content Next to Sidebar */}
@@ -252,8 +328,32 @@ const Payment = () => {
 
         {/* Add your order information here */}
       </Box>
+      <StyledBox>
+        <StyledButton size="large" variant="contained" onClick={handlePaymentBtnClick}>결제하기</StyledButton>
+      </StyledBox>
+      
     </SidebarLayout>
   );
 };
 
-export default Payment;
+export default PaymentPage;
+
+
+const StyledBox = styled(Box)`
+  display : flex;
+  justify-content : center;
+  align-items : center;
+  margin-top : 2vh;
+`
+
+const StyledButton = styled(Button)`
+  background-color : black;
+  color : white;
+  
+  
+
+  &:hover {
+    background-color : rgba(0,0,0,0.9);
+    color : gray;
+  }
+`
