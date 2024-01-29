@@ -17,7 +17,7 @@ import { TokenAxios } from "apis/CommonAxios";
 const InquiryHistoryBody = () => {
   const [data, setData] = useState([]);
 
-  const inquoryHistory = async (data) =>{
+  const inquoryHistory = async () =>{
     try{
       const res = await TokenAxios.get("/api/inquiry/user");
 
