@@ -177,6 +177,7 @@ const OrderInquiryPage = () => {
     useEffect(() => {
         getInquiryByCategory(currentPage);
         setSelectedMenu("주문 문의");
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (

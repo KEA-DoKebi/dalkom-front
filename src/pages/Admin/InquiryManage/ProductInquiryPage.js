@@ -177,6 +177,7 @@ const ProductInquiryPage = () => {
         // setSelectedMenu 함수를 호출하여 상태를 업데이트
         getInquiryByCategory(currentPage);
         setSelectedMenu("상품 문의");
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (

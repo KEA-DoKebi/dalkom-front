@@ -176,6 +176,7 @@ const PaymentInquiryPage = () => {
     useEffect(() => {
         getInquiryByCategory(currentPage);
         setSelectedMenu("결제 문의");
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
