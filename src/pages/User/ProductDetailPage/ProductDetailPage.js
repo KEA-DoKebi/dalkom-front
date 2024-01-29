@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react'
 import { NavLink, useParams } from 'react-router-dom'
 import { styled } from 'styled-components'
 
-const SungjunProductDetailPage = () => {
+const ProductDetailPage = () => {
 
     const [productInfo, setProductInfo] = useState({});
     const [productReviewList, setProductReviewList] = useState([]);
@@ -198,7 +198,7 @@ const SungjunProductDetailPage = () => {
   )
 }
 
-export default SungjunProductDetailPage
+export default ProductDetailPage;
 
 
 const ProductInfoBox = styled(Box)`
