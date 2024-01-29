@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   Box,
   Drawer,
@@ -13,25 +13,6 @@ import {
   Button,
   Paper,
 } from "@mui/material";
-import AdminListPage from "pages/Admin/AdminManage/AdminListPage";
-import AdminRegisterPage from "pages/Admin/AdminManage/AdminRegisterPage";
-import AnnouncementPage from "pages/Admin/CSManage/AnnouncementPage";
-import BannerManagementPage from "pages/Admin/CSManage/BannerManagementPage";
-import FAQPage from "pages/Admin/CSManage/FAQPage";
-import InventoryManagePage from "pages/Admin/ProductManage/InventoryManagePage";
-import MileageApprovalPage from "pages/Admin/UserManage/MileageApprovalPage";
-import MileageHistoryPage from "pages/Admin/UserManage/MileageHistoryPage";
-import MileageInfoPage from "pages/Admin/CSManage/MileageInfoPage";
-import OrderInquiryPage from "pages/Admin/InquiryManage/OrderInquiryPage";
-import OrderListPage from "pages/Admin/OrderManage/OrderListPage";
-import PaymentInquiryPage from "pages/Admin/InquiryManage/PaymentInquiryPage";
-import ProductInquiryPage from "pages/Admin/InquiryManage/ProductInquiryPage";
-import ProductListPage from "pages/Admin/ProductManage/ProductListPage";
-import ProductRegisterPage from "pages/Admin/ProductManage/ProductRegisterPage";
-import ShippingInfoPage from "pages/Admin/CSManage/ShippingInfoPage";
-import UserListPage from "pages/Admin/UserManage/UserListPage";
-import UserRegisterPage from "pages/Admin/UserManage/UserRegisterPage";
-import ProductEditPage from "pages/Admin/ProductManage/ProductEditPage";
 
 const drawerWidth = 260;
 
@@ -39,11 +20,10 @@ const menuData = [
   {
     title: "관리자 관리",
     items: [
-      { label: "관리자 목록", path: "/admin/list", component: AdminListPage },
+      { label: "관리자 목록", path: "/admin/list" },
       {
         label: "관리자 등록",
         path: "/admin/register",
-        component: AdminRegisterPage,
       },
     ],
   },
@@ -53,22 +33,19 @@ const menuData = [
       {
         label: "사용자 목록",
         path: "/admin/user/list",
-        component: UserListPage,
+          
       },
       {
         label: "사용자 등록",
         path: "/admin/user/register",
-        component: UserRegisterPage,
       },
       {
         label: "마일리지 승인",
         path: "/admin/user/mile",
-        component: MileageApprovalPage,
       },
       {
         label: "마일리지 승인 내역",
         path: "/admin/user/mile/history",
-        component: MileageHistoryPage,
       },
     ],
   },
@@ -78,22 +55,18 @@ const menuData = [
       {
         label: "상품 목록",
         path: "/admin/product/list",
-        component: ProductListPage,
       },
       {
         label: "상품 등록",
         path: "/admin/product/register",
-        component: ProductRegisterPage,
       },
       {
         label: "상품 수정/삭제",
         path: "/admin/product/edit",
-        component: ProductEditPage,
       },
       {
         label: "재고 관리",
         path: "/admin/product/inventory",
-        component: InventoryManagePage,
       },
     ],
   },
@@ -103,7 +76,6 @@ const menuData = [
       {
         label: "주문 목록",
         path: "/admin/order/list",
-        component: OrderListPage,
       },
     ],
   },
@@ -113,17 +85,14 @@ const menuData = [
       {
         label: "상품 문의",
         path: "/admin/inquiry/product",
-        component: ProductInquiryPage,
       },
       {
         label: "주문 문의",
         path: "/admin/inquiry/order",
-        component: OrderInquiryPage,
       },
       {
         label: "결제 문의",
         path: "/admin/inquiry/payment",
-        component: PaymentInquiryPage,
       },
     ],
   },
@@ -133,58 +102,55 @@ const menuData = [
       {
         label: "공지사항",
         path: "/admin/cs/announcement",
-        component: AnnouncementPage,
       },
-      { label: "FAQ", path: "/admin/cs/faq", component: FAQPage },
+      { label: "FAQ", path: "/admin/cs/faq", },
       {
         label: "마일리지 안내",
         path: "/admin/cs/mile",
-        component: MileageInfoPage,
       },
       {
         label: "배송/환불 안내",
         path: "/admin/cs/shipping",
-        component: ShippingInfoPage,
       },
       {
         label: "배너 관리",
         path: "/admin/cs/banner",
-        component: BannerManagementPage,
       },
     ],
   },
 ];
+const MenuItem = ({ label, path }) => {
+  const location = useLocation();
+  const isSelected = location.pathname === path;
 
-const MenuItem = ({ label, selectedMenu, onClick, path }) => (
-  <ListItem sx={{ mb: -1.5 }}>
-    <ListItemButton
-      sx={{
-        backgroundColor: selectedMenu === label ? "#FDE8EF" : "transparent",
-        color: selectedMenu === label ? "#EC407A" : "#000000",
-        borderRadius: "7px",
-        "&:hover": {
-          backgroundColor: "#FDE8EF",
+  return (
+    <ListItem sx={{ mb: -1.5 }}>
+      <ListItemButton
+        sx={{
+          backgroundColor: isSelected ? "#FDE8EF" : "transparent",
+          color: isSelected ? "#EC407A" : "#000000",
           borderRadius: "7px",
-          boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
-          color: "#EC407A",
-        },
-      }}
-      onClick={() => {
-        onClick(label);
-      }}
-      component={Link} // Link 컴포넌트를 사용하여 페이지 간의 이동 처리
-      to={path}
-    >
-      <Typography>{label}</Typography>
-    </ListItemButton>
-  </ListItem>
-);
+          "&:hover": {
+            backgroundColor: "#FDE8EF",
+            borderRadius: "7px",
+            boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+            color: "#EC407A",
+          },
+        }}
+        component={Link}
+        to={path}
+      >
+        <Typography>{label}</Typography>
+      </ListItemButton>
+    </ListItem>
+  );
+};
 
-function AdminBar({ selectedMenu, setSelectedMenu }) {
-  const handleMenuClick = (menu) => {
-    setSelectedMenu(menu);
-    // Add any additional logic or actions you want to perform on menu click
-  };
+function AdminBar() {
+  const location = useLocation();
+  const selectedMenu = menuData
+    .flatMap((group) => group.items)
+    .find((item) => item.path === location.pathname)?.label;
 
   return (
     <Paper sx={{ display: "flex", backgroundColor: "#EEF2F6" }}>
@@ -253,12 +219,10 @@ function AdminBar({ selectedMenu, setSelectedMenu }) {
                     {menuGroup.title}
                   </Typography>
                 </ListItem>
-                {menuGroup.items.map((menuItem, itemIndex) => (
+                {menuGroup.items.map((menuItem) => (
                   <MenuItem
-                    key={menuItem.label} // 또는 다른 고유한 속성 사용
+                    key={menuItem.label}
                     label={menuItem.label}
-                    selectedMenu={selectedMenu}
-                    onClick={handleMenuClick}
                     path={menuItem.path}
                   />
                 ))}

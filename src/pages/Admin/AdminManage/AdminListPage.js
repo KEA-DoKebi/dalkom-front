@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Box } from "@mui/system";
+import AdminBar from "components/organisms/AdminBar";
+import { InputBoxS } from "components/atoms/Input";
+import { AdminButton } from "components/atoms/AdminCommonButton";
+import SearchIcon from "@mui/icons-material/Search";
+import DeleteIcon from "@mui/icons-material/Delete";
 import {
+  Box,
   Divider,
-  Dialog,
-  DialogTitle,
-  DialogContent,
   Paper,
   Toolbar,
   Pagination,
@@ -14,196 +16,108 @@ import {
   Typography,
   IconButton,
 } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
-import DeleteIcon from "@mui/icons-material/Delete";
-import AdminBar from "components/organisms/AdminBar";
-import { AdminButton } from "components/atoms/AdminCommonButton";
-import { InputBoxS } from "components/atoms/Input";
+import { TokenAxios } from "apis/CommonAxios";
 
-const dataList = [
-  {
-    번호: "1",
-    ID: "ryan123",
-    이름: "라이언",
-    부서: "코딩팀",
-    닉네임: "코딩라이언",
-  },
-  {
-    번호: "2",
-    ID: "apeach456",
-    이름: "어피치",
-    부서: "디자인팀",
-    닉네임: "디자인어피치",
-  },
-  {
-    번호: "3",
-    ID: "muzi789",
-    이름: "무지",
-    부서: "영업팀",
-    닉네임: "영업무지",
-  },
-  {
-    번호: "4",
-    ID: "tube101",
-    이름: "튜브",
-    부서: "마케팅팀",
-    닉네임: "마케팅튜브",
-  },
-  {
-    번호: "5",
-    ID: "neo202",
-    이름: "네오",
-    부서: "기획팀",
-    닉네임: "기획네오",
-  },
-  {
-    번호: "6",
-    ID: "frodo303",
-    이름: "프로도",
-    부서: "서비스팀",
-    닉네임: "서비스프로도",
-  },
-  {
-    번호: "7",
-    ID: "jay404",
-    이름: "제이지",
-    부서: "연구팀",
-    닉네임: "연구제이지",
-  },
-  {
-    번호: "8",
-    ID: "con505",
-    이름: "콘",
-    부서: "경영지원팀",
-    닉네임: "경영콘",
-  },
-  {
-    번호: "9",
-    ID: "muzi606",
-    이름: "존",
-    부서: "고객지원팀",
-    닉네임: "고객지원존",
-  },
-  {
-    번호: "10",
-    ID: "penguin707",
-    이름: "펭수",
-    부서: "디자인팀",
-    닉네임: "디자인펭수",
-  },
-  // Add more data items as needed
-];
+// 각 항목에 대한 공통 스타일을 설정합니다.
+const itemFlexStyles = {
+  "& > *:nth-child(1)": { flex: 0.5 }, // 번호
+  "& > *:nth-child(2)": { flex: 2 }, // ID
+  "& > *:nth-child(3)": { flex: 2 }, // 닉네임
+  "& > *:nth-child(4)": { flex: 2 }, // 마일리지
+  "& > *:nth-child(5)": { flex: 2 }, // 기본배송지
+  "& > *:nth-child(6)": { flex: 0.5 }, // 삭제
+  "&:before, &:after": { content: '""', flex: 0.5 },
+};
 
 const StyledList = styled(List)`
-  /* Add styling for the List component */
   padding: 0;
   width: 100%;
-  border: none; /* Remove border */
+  border: none;
   background-color: background.paper;
+  height: 70%; // 전체 높이의 70%로 설정
 `;
 
-const dataListLabels = Object.keys(dataList[0]);
+const ListItemLabelStyled = styled(ListItem)`
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+  height: calc(
+    70vh / 10
+  ); // 전체 높이의 70%를 10로 나눈 값으로 레이블 행의 높이를 설정
+  padding: 12px;
+  ${itemFlexStyles}// 공통 스타일 적용
+`;
 
 const ListItemStyled = styled(ListItem)`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
   width: 100%;
+  height: calc(70vh / 8); // 전체 높이의 70%를 8로 나눈 값
   padding: 12px;
+  ${itemFlexStyles}// 공통 스타일 적용
 `;
 
-// 간격 일정하게 만드는 거
-const getColumnWidth = (label) => {
-  // Define your width ranges for each column label
-  const widthRanges = {
-    번호: [0, 10],
-    ID: [10, 30],
-    이름: [30, 50],
-    부서: [50, 70],
-    닉네임: [70, 90],
-    삭제: [90, 100],
-    // Add more labels as needed
-  };
-  const [minWidth, maxWidth] = widthRanges[label] || [0, 100];
-  const width = Math.min(100, maxWidth) - minWidth;
-
-  return `calc(${width}% - 8px)`; // Adjust 8px for spacing
-};
-
-const ConfirmModal = ({ open, onClose, title, contents }) => {
-  const [content, setContent] = useState(contents || "");
-
-  const handleClose = () => {
-    onClose();
-    setContent("");
-  };
-
-  const handleSubmit = () => {
-    console.log("Submitting modal content:", content);
-    handleClose();
-  };
-
-  const modalDimensions = { width: 600, height: 200 };
-
-  return (
-    <Dialog open={open} onClose={handleClose} maxWidth="false">
-      <DialogContent style={modalDimensions}>
-        {title && (
-          <DialogTitle
-            sx={{ fontWeight: "bold", fontSize: "1.5rem", textAlign: "center" }}
-          >
-            {title}
-          </DialogTitle>
-        )}
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
-          <AdminButton variant="contained" onClick={handleSubmit}>
-            삭제
-          </AdminButton>
-        </Box>
-      </DialogContent>
-    </Dialog>
-  );
-};
-
-export default function AdminListPage() {
+const AdminListPage = () => {
+  // Declare selectedMenu and setSelectedMenu using useState
   const [selectedMenu, setSelectedMenu] = useState("관리자 목록");
+  const [currentPage, setCurrentPage] = useState(0); // 현재 페이지를 상태로 관리
+  const [totalPages, setTotalPages] = useState();
+
+  const [dataList, setDataList] = useState([]);
+  const dataListLabels = ["번호", "ID", "이름", "부서", "닉네임", "삭제"];
+
+  const adminGet = async (page) => {
+    const res = await TokenAxios.get(`/api/admin?page=${page}&size=7`);
+    console.log(res.data.result.data.content);
+    setDataList(res.data.result.data.content);
+    console.log(res.data.result.data.totalPages);
+    setTotalPages(res.data.result.data.totalPages);
+  };
 
   useEffect(() => {
     // 각 페이지가 마운트될 때 selectedMenu를 업데이트
     // setSelectedMenu 함수를 호출하여 상태를 업데이트
+    adminGet(currentPage); // 페이지가 변경될 때 API 호출
     setSelectedMenu("관리자 목록");
-  }, []);
+  }, [currentPage]);
 
-  // useEffect(()=>{
-  //   testAxios()
-  // },[])
-
-  // const testAxios = async() => {
-  //   const res = await axios.get("/data/data.json");
-  //   // console.log(res.data);
-  //   setDataList(res.data);
-
-  // }
-
-  // Modal의 상태를 관리하는 state
-  const [modalOpen, setModalOpen] = useState(false);
-  const [modalTitle, setModalTitle] = useState("");
-
-  const openModal = (ID, nickname) => {
-    setModalOpen(true);
-    setModalTitle(`정말 ${ID}(${nickname})님을 삭제하시겠습니까?`);
+  // Pagination에서 페이지가 변경될 때 호출되는 함수
+  const handlePageChange = (event, newPage) => {
+    setCurrentPage(newPage); // 현재 페이지 업데이트
   };
 
-  const closeModal = () => {
-    setModalOpen(false);
+  // 상품 정보를 표시하기 위한 컴포넌트입니다.
+  const AdminList = ({ admin }) => {
+    return (
+      <ListItemStyled>
+        <Typography variant="body1" sx={{ textAlign: "center" }}>
+          {admin.adminSeq}
+        </Typography>
+        <Typography variant="body1" sx={{ textAlign: "center" }}>
+          {admin.adminId}
+        </Typography>
+        <Typography variant="body1" sx={{ textAlign: "center" }}>
+          {admin.name}
+        </Typography>
+        <Typography variant="body1" sx={{ textAlign: "center" }}>
+          {admin.depart}
+        </Typography>
+        <Typography variant="body1" sx={{ textAlign: "center" }}>
+          {admin.nickname}
+        </Typography>
+        <IconButton>
+          <DeleteIcon />
+        </IconButton>
+      </ListItemStyled>
+    );
   };
 
   return (
-    //전체 화면
     <Paper sx={{ display: "flex", height: "100vh" }}>
-      {/* 사이드 바 */}
+      {/* AdminBar 컴포넌트에 selectedMenu와 setSelectedMenu props 전달 */}
       <AdminBar selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
-      {/* 뒤에 배경 */}
       <Box
         sx={{
           display: "flex",
@@ -213,15 +127,14 @@ export default function AdminListPage() {
           flexGrow: 1,
         }}
       >
-        {/* 이거는 써야 위에 간격이 맞더라구요 꼭 포함시키고 해주세요 */}
         <Toolbar />
-        {/* 하얀 박스 입니당 <- 이 안에 작업 해주시면 됩니다! */}
         <Box
           component="main"
           justifyContent="center"
           alignItems="center"
           sx={{
-            flexGrow: 1,
+            flex: 2,
+            p: 2,
             display: "flex",
             flexDirection: "column",
             backgroundColor: "#FFFFFF",
@@ -230,70 +143,66 @@ export default function AdminListPage() {
           }}
         >
           <Toolbar sx={{ justifyContent: "space-between", width: "100%" }}>
-            {/* 왼쪽에는 빈 공간을 만들어 가운데 정렬을 유지하고, 오른쪽에 등록 버튼을 추가합니다. */}
-            {/* 이 디브 있어야 검색창 가운데에 옵니당 왜 그런지는 잘 모르겠어요,,*/}
-            <div></div>
+            {/* 중앙 정렬을 위해 앞뒤로 <div/> 추가*/}
+            <div />
             <InputBoxS
               color="neutral"
               disabled={false}
               startDecorator={<SearchIcon />}
               placeholder="Search"
               variant="soft"
-              sx={{ mb: 4, mt: 4 }}
+              sx={{ mb: 4, mt: 4, ml: "50px" }}
             />
-            <AdminButton variant="contained">+ 관리자 등록</AdminButton>
+            <AdminButton variant="contained">등록하기</AdminButton>
           </Toolbar>
-
-          <StyledList aria-label="mailbox folders">
-            <ListItemStyled>
-              {dataListLabels.map((label, index) => (
+          <Box sx={{ width: "100%", height: "80%", overflowY: "auto" }}>
+            <StyledList aria-label="mailbox folders">
+              <ListItemLabelStyled>
+                {dataListLabels.map((label, index) => (
+                  <React.Fragment key={index}>
+                    <Typography
+                      variant="h6"
+                      fontWeight="bold"
+                      sx={{ textAlign: "center" }}
+                    >
+                      {label}
+                    </Typography>
+                  </React.Fragment>
+                ))}
+              </ListItemLabelStyled>
+              <Divider component="li" />
+              {dataList.map((admin, index) => (
                 <React.Fragment key={index}>
-                  <Typography
-                    variant="h6"
-                    fontWeight="bold"
-                    sx={{ width: getColumnWidth(label), textAlign: "center" }}
-                  >
-                    {label}
-                  </Typography>
+                  <AdminList admin={admin} />
+                  {index !== dataList.length - 1 && (
+                    <Divider component="li" light />
+                  )}
                 </React.Fragment>
               ))}
-              <Typography variant="h6" fontWeight="bold">
-                삭제
-              </Typography>
-            </ListItemStyled>
-            <Divider component="li" light />
-            {dataList.map((item, rowIndex) => (
-              <React.Fragment key={rowIndex}>
-                <ListItemStyled>
-                  {dataListLabels.map((label, colIndex) => (
-                    <Typography
-                      variant="body1"
-                      key={colIndex}
-                      sx={{ width: getColumnWidth(label), textAlign: "center" }}
-                    >
-                      {item[label]}
-                    </Typography>
-                  ))}
-                  <IconButton onClick={() => openModal(item.ID, item.닉네임)}>
-                    <DeleteIcon />
-                  </IconButton>
-                </ListItemStyled>
-                {rowIndex !== dataList.length - 1 && (
-                  <Divider component="li" light />
-                )}
-              </React.Fragment>
-            ))}
-          </StyledList>
-
-          <Pagination count={10} />
-
-          <ConfirmModal
-            open={modalOpen}
-            onClose={() => closeModal()}
-            title={modalTitle}
-          />
+            </StyledList>
+          </Box>
+          <Box
+            sx={{
+              flex: 1,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            {" "}
+            {/* 페이지네이션 섹션 */}
+            <Pagination
+              count={totalPages}
+              page={currentPage + 1}
+              onChange={(event, newPage) =>
+                handlePageChange(event, newPage - 1)
+              }
+            />
+          </Box>
         </Box>
       </Box>
     </Paper>
   );
-}
+};
+
+export default AdminListPage;
