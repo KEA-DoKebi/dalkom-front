@@ -264,7 +264,7 @@ const Topbar = () => {
               alignItems: "center",
             }}
           >
-            <CustomLink to="/cart/1">
+            <CustomLink to="/cart">
               <IconButton>
                 <ShoppingCartCheckoutIcon
                   sx={{ fontSize: "40px", color: "black" }}
