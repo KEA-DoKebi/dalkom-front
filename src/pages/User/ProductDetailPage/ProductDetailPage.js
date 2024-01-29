@@ -136,7 +136,7 @@ const ProductDetailPage = () => {
                                 <BoldText>{productInfo.name}</BoldText>
                             </SpaceBetweenContainer>
                             <SpaceBetweenContainer>
-                                    <p style={{margin : 0, padding : 0}}>가격</p>
+                                    <StyledText>가격</StyledText>
                                     <Typography
                                         variant="body1"
                                         sx={{
@@ -281,7 +281,7 @@ const PriceContainer = styled.div`
 const StyledText = styled.p`
     margin : 1px; 
     padding : 1px; 
-    fontSize : 20px;
+    font-size : 20px;
 `
 
 const BoldText = styled(StyledText)`
@@ -295,7 +295,6 @@ const SpaceBetweenContainer = styled.div`
     margin : 0; 
     padding : 0;
 `
-
 
 const StyledButton = styled(Button)`
    background-color : black; 
