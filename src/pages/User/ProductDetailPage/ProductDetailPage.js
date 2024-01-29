@@ -5,6 +5,9 @@ import DefaultLayout from 'components/templete/DefaultLayout'
 import React, { useEffect, useState } from 'react'
 import { NavLink, useParams } from 'react-router-dom'
 import { styled } from 'styled-components'
+import Swal from "sweetalert2";
+
+
 
 const ProductDetailPage = () => {
 
@@ -12,11 +15,17 @@ const ProductDetailPage = () => {
     const [productReviewList, setProductReviewList] = useState([]);
     const [option, setOption] = useState();
     const [menuItems,] = useState(["상품상세", "상품평", "상품안내"]);
+    const [prdtOptionSeq, setPrdtOptionSeq] = useState("15"); // 초기값은 15로 설정
+    const [amount, setAmount] = useState(3); // 초기값은 3으로 설정
     const {productSeq, menuName} = useParams();
+    
 
     const handleChange = (event) => {
-        setOption(event.target.value);
-      };
+      console.log(event.target);
+      
+      const selectedOption = event.target.value;
+      setPrdtOptionSeq(selectedOption);
+    };
 
   const getProductDetail = async() => {
     try{
@@ -38,21 +47,7 @@ const ProductDetailPage = () => {
     }
   }
 
-  useEffect(() => {
-    getProductDetail();
-    getProductReview();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[productSeq])
-
-
-  // SelectOptions 컴포넌트에서 받아온 prdtOptionSeq 상태 및 업데이트 함수
-  const [prdtOptionSeq, setPrdtOptionSeq] = useState(15); // 초기값은 15로 설정
-
-  // 페이지에서 입력한 amount 상태 및 업데이트 함수
-  const [amount, setAmount] = useState(3); // 초기값은 3으로 설정
-
-   
-  const cartDataCreate = async (data) =>{
+  const postCartData = async (data) =>{
     try{
       const res = await TokenAxios.post("/api/cart/user", data);
       console.log(res.data);
@@ -64,16 +59,26 @@ const ProductDetailPage = () => {
 
   const handleAddToCart = () => {
     // You can modify cartData here before passing it to cartCreate
-    cartDataCreate({
+    postCartData({
       productSeq: parseInt(productSeq),
       prdtOptionSeq: prdtOptionSeq,
       amount: amount,
     });
+    Swal.fire({
+      icon: 'success', // 성공 아이콘 (success, error, warning, info 중 선택)
+      title: '장바구니에 추가되었습니다!',
+      showConfirmButton: false, // 확인 버튼 감추기
+      timer: 1500 // 1.5초 후에 모달이 자동으로 사라짐
+    });
+  };
 
+  useEffect(() => {
+    getProductDetail();
+    getProductReview();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[productSeq])
 
   return (
-
-    
     <DefaultLayout>
         <ProductInfoBox>
             <Grid container>
@@ -105,7 +110,7 @@ const ProductDetailPage = () => {
                                 sx={{width : "100%"}}
                             >
                                 {productInfo.stockList?.map((option) => (
-                                    <MenuItem value={option.productStockSeq}>
+                                    <MenuItem value={option.productOptionSeq}>
                                         {`${option.detail} (남은 재고: ${option.amount}개)`}
                                     </MenuItem>
                                 ))}
@@ -165,7 +170,7 @@ const ProductDetailPage = () => {
                     <ProductButtonContainer>
                         <div style={{marginTop : "10vh"}}>
                             <StyledButton variant='contained'>즉시 구매하기</StyledButton>
-                            <StyledButton variant='contained'>장바구니 담기</StyledButton>
+                            <StyledButton variant='contained' onClick={handleAddToCart}>장바구니 담기</StyledButton>
                         </div> 
 
                     </ProductButtonContainer>
@@ -226,8 +231,8 @@ const ProductDetailPage = () => {
     </DefaultLayout>
   )
 }
-}
-export default ProductDetailPage
+
+export default ProductDetailPage;
 
 
 const ProductInfoBox = styled(Box)`

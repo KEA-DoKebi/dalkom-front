@@ -4,16 +4,19 @@ import { Box } from "@mui/material";
 import { Grid, Typography } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import { TokenAxios } from "apis/CommonAxios";
+import { DefaultAxios } from "apis/CommonAxios";
 
 const Payment = () => {
   const location = useLocation(); // Use useLocation to access location state
   const { state } = location;
   const { orderList } = state || {};
 
+  console.log(orderList);
+  
   useEffect(() => {
     const sendOrderRequest = async () => {
       try {
-        const response = await TokenAxios.get("/api/order/orderListPage", {
+        const response = await DefaultAxios.post("/api/order/orderListPage", {
           orderList: orderList,
         });
 
