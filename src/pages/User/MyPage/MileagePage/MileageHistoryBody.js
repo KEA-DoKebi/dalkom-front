@@ -1,6 +1,5 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
-import Axios from "axios";
 import {
   Typography,
   Paper,
@@ -11,27 +10,29 @@ import {
   TableBody,
   Table,
 } from "@mui/material";
+import { TokenAxios } from "apis/CommonAxios";
 
 export default function MileageHistoryBody() {
-  const [mileageHistoryList, setMileageHistoryList] = useState([]);
+
+  const [data, setData] = useState([]);
+
+  const mileageHistory = async () => {
+    try {
+      const res = await TokenAxios.get("/api/mileage/history/user");
+      setData(res.data.result.data.content);
+      console.log(res.data.result.data.content);  
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await Axios.get(
-          "/data/PeopleManage/UserMileHistory.json",
-        );
-        setMileageHistoryList(response.data.mileageHistroyList);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
+    mileageHistory();
+  },[])
 
-    fetchData();
-  }, []);
 
   return (
-    <Paper>
+    <Paper elevation={0}>
       <Typography sx={{ fontSize: "40px", mt: "30px", mb: "10px" }}>
         히스토리
       </Typography>
@@ -86,19 +87,19 @@ export default function MileageHistoryBody() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {mileageHistoryList.map((row) => (
-                <TableRow key={row.mileageHistorySeq}>
+              {data.map((mileHistory) => (
+                <TableRow key={mileHistory.mileageHistorySeq}>
                   <TableCell style={{ width: "25%", textAlign: "center" }}>
-                    {row.type}
+                    {mileHistory.type}
                   </TableCell>
                   <TableCell style={{ width: "25%", textAlign: "center" }}>
-                    {row.changeDate}
+                    {mileHistory.createdAt.substring(0, 10)}
                   </TableCell>
                   <TableCell style={{ width: "25%", textAlign: "center" }}>
-                    {row.amount}
+                    {mileHistory.amount}
                   </TableCell>
                   <TableCell style={{ width: "25%", textAlign: "center" }}>
-                    {row.balance}
+                    {mileHistory.balance}
                   </TableCell>
                 </TableRow>
               ))}
