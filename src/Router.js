@@ -1,5 +1,4 @@
 import { ApmRoutes } from "@elastic/apm-rum-react";
-import { Payment } from "@mui/icons-material";
 import AdminListPage from "pages/Admin/AdminManage/AdminListPage";
 import AdminRegisterPage from "pages/Admin/AdminManage/AdminRegisterPage";
 import AnnouncementPage from "pages/Admin/CSManage/AnnouncementPage";
@@ -36,6 +35,7 @@ import Review from "pages/User/MyPage/Review/ReviewPage/ReviewPage";
 import ReviewEdit from "pages/User/MyPage/Review/ReviewWritePage/ReviewEditPage";
 import ReviewWrite from "pages/User/MyPage/Review/ReviewWritePage/ReviewWritePage";
 import ProductDetail from "pages/User/ProductDetailPage/ProductDetailPage";
+import Payment from "pages/User/PaymentPage/PaymentPage";
 import Login from "pages/commonPage/Login";
 import SignUp from "pages/commonPage/SignUp";
 import React from "react";
@@ -69,7 +69,7 @@ const Router = () => {
 
         <Route path="/cart/:userSeq" element={<Cart />} />
 
-        <Route path="/payment/:paymentSeq" element={<Payment />} />
+        <Route path="/payment" element={<Payment />} />
         <Route path="/order-detail" element={<OrderDetailPage />} />
 
         <Route path="/mypage/:userSeq">

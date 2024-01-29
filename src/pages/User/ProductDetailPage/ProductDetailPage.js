@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import DefaultLayout from "components/templete/DefaultLayout";
 import styled, { createGlobalStyle } from "styled-components";
 import RighteousRegular from "assets/font/Righteous-Regular.woff";
@@ -8,6 +9,8 @@ import Button from "@mui/material/Button";
 import RateReviewOutlinedIcon from "@mui/icons-material/RateReviewOutlined";
 import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
 import Stepper from "components/molecules/Stepper";
+import { TokenAxios } from "apis/CommonAxios";
+
 
 const GlobalStyle = createGlobalStyle`
   @font-face {
@@ -122,7 +125,37 @@ const BodyBottom = styled.div`
   height: 100%;
 `;
 
+
+
 const ProductDetail = () => {
+
+  const { productSeq } = useParams();
+
+  // SelectOptions 컴포넌트에서 받아온 prdtOptionSeq 상태 및 업데이트 함수
+  const [prdtOptionSeq, setPrdtOptionSeq] = useState(15); // 초기값은 15로 설정
+
+  // 페이지에서 입력한 amount 상태 및 업데이트 함수
+  const [amount, setAmount] = useState(3); // 초기값은 3으로 설정
+
+   
+  const cartDataCreate = async (data) =>{
+    try{
+      const res = await TokenAxios.post("/api/cart/user", data);
+      console.log(res.data);
+    } catch (error) {
+      console.log("Error response data:", error.response.data);
+      console.log("Error stack trace:", error.stack);
+    }
+  }
+
+  const handleAddToCart = () => {
+    // You can modify cartData here before passing it to cartCreate
+    cartDataCreate({
+      productSeq: parseInt(productSeq),
+      prdtOptionSeq: prdtOptionSeq,
+      amount: amount,
+    });
+  };
   return (
     <>
       <GlobalStyle />
@@ -142,9 +175,11 @@ const ProductDetail = () => {
                   <TextS>(14 reviews)</TextS>
                 </ProductRate>
                 <Text>300,000 마일리지</Text>
-                <SelectOptions />
+                <SelectOptions  
+                  prdtOptionSeq={prdtOptionSeq}
+                  setPrdtOptionSeq={setPrdtOptionSeq} />
                 <CustomButton variant="contained">구매하기</CustomButton>
-                <CustomButton variant="contained">장바구니에 담기</CustomButton>
+                <CustomButton variant="contained" onClick={handleAddToCart}>장바구니에 담기</CustomButton>
               </InfoDetail>
             </ProductInfo>
             <ScrollIconDiv>

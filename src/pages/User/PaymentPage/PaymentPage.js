@@ -1,9 +1,36 @@
-import React from "react";
-import SidebarLayout from "components/layout/SidebarLayout";
+import {React,useEffect} from "react";
+import SidebarLayout from "components/templete/SidebarLayout";
 import { Box } from "@mui/material";
 import { Grid, Typography } from "@mui/material";
+import { useLocation } from "react-router-dom";
+import { TokenAxios } from "apis/CommonAxios";
 
 const Payment = () => {
+  const location = useLocation(); // Use useLocation to access location state
+  const { state } = location;
+  const { orderList } = state || {};
+
+  useEffect(() => {
+    const sendOrderRequest = async () => {
+      try {
+        const response = await TokenAxios.get("/api/order/orderListPage", {
+          orderList: orderList,
+        });
+
+        console.log(response.data);
+        // Handle the response as needed
+      } catch (error) {
+        console.error("주문 데이터 전송 실패:", error);
+        console.log("자세한 오류 응답:", error.response); // 자세한 오류 응답 기록
+      }
+    };
+
+    if (orderList && orderList.length > 0) {
+      // Only send the request if orderList is not empty
+      sendOrderRequest();
+    }
+  }, [orderList]);
+
   return (
     <SidebarLayout>
       {/* Content Next to Sidebar */}

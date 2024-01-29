@@ -10,6 +10,10 @@ import { Button, Paper } from "@mui/material";
 import Divider from "@mui/material/Divider";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import axios from "axios";
+import { TokenAxios } from "apis/CommonAxios";
+import { useNavigate } from "react-router-dom";
+
+
 
 const Img = styled.img`
   width: 70px;
@@ -42,7 +46,7 @@ const FinalPaymentContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin: 50px;
+  margin : 50px 100px;
   width: 520px;
   font-size: 16px;
 `;
@@ -67,30 +71,53 @@ export default function CartBody() {
   const [rows, setRows] = useState([]); // 상품 데이터 상태를 빈 배열로 초기화
   const [selectedRows, setSelectedRows] = useState([]); // 선택된 상품 이름들을 저장하는 상태
   const [agree, setAgree] = useState(false); // 결제 동의 체크박스 상태
+  const navigate = useNavigate(); // useHistory 훅 사용
+   
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("/data/cartData/cartData.json");
-        const cartData = response.data.cartData.map((item) => ({
-          name: item.productName,
-          option: item.option,
-          price: parseInt(item.productPrice.replace(/,/g, "")), // 가격
-          amount: parseInt(item.amount), // 수량
-          totalPrice:
-            parseInt(item.productPrice.replace(/,/g, "")) *
-            parseInt(item.amount), // 총 가격 계산
-          imageUrl: item.imageUrl,
-        }));
-        setRows(cartData);
-        setSelectedRows(cartData.map((item) => item.name));
+        const response = await TokenAxios.get("/api/cart/user");
+        console.log(response.data);
+  
+        const result = response.data;
+        if (result && result.result && result.result.data && Array.isArray(result.result.data.content)) {
+          const cartData = result.result.data.content;
+          const mappedData = cartData.map((item) => ({
+            name: item.productName,
+            option: item.prdtOptionName,
+            price: item.price, // Assuming the price is directly available in the response
+            amount: item.amount,
+            totalPrice: item.amount * item.price, // Adjust calculation based on available data
+            imageUrl: item.imageUrl,
+          }));
+          setRows(mappedData);
+          setSelectedRows(mappedData.map((item) => item.name));
+        } else {
+          console.error("잘못된 데이터 형식:", result);
+        }
       } catch (error) {
-        console.error("Failed to fetch cart data:", error);
+        console.error("장바구니 데이터 가져오기 실패:", error);
       }
     };
-
+  
     fetchData();
   }, []);
+
+  const handlePaymentClick = () => {
+    if (agree) {
+      // 동의한 경우에만 페이지 이동
+      const selectedRowsData = rows
+        .filter((row) => selectedRows.includes(row.name))
+        .map((row) => ({
+          productSeq: row.productSeq,
+          productOptionSeq: row.prdtOptionSeq,
+          productAmount: row.amount,
+        }));
+
+      navigate("/payment", { state: { orderList: selectedRowsData } });
+    }
+  };
 
   const handleCheckboxChange = (name) => {
     setSelectedRows((prev) =>
@@ -214,10 +241,11 @@ export default function CartBody() {
 
       <FinalPaymentContainer>
         <Divider />
-        <div style={{ fontSize: "30px" }}>최종 결제 금액: {totalAmount}원</div>
-        <div style={{ fontSize: "25px" }}>상품금액: {totalAmount}원</div>
-        <div style={{ fontSize: "25px" }}>배송비: 0원</div>
+        <div style={{ fontSize: "30px", marginTop : "20px"}}>최종 결제 금액: {totalAmount}원</div>
+        <div style={{ fontSize: "25px",marginTop : "20px" }}>상품금액: {totalAmount}원</div>
+        <div style={{ fontSize: "25px",marginTop : "20px" }}>배송비: 0원</div>
         <FormControlLabel
+          style={{marginTop:"20px"}}
           control={
             <Checkbox
               checked={agree}
@@ -235,7 +263,9 @@ export default function CartBody() {
             height: "60px",
             fontSize: "25px",
             color: agree ? "white" : "black",
+            marginTop : "20px"
           }}
+          onClick={handlePaymentClick}
         >
           결제하기
         </Button>
