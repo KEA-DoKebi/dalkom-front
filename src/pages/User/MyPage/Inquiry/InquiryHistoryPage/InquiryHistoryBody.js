@@ -12,23 +12,24 @@ import {
 } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
-import Axios from "axios";
+import { TokenAxios } from "apis/CommonAxios";
 
 const InquiryHistoryBody = () => {
-  const [InquiryList, setInquiryList] = useState([]);
+  const [data, setData] = useState([]);
+
+  const inquoryHistory = async (data) =>{
+    try{
+      const res = await TokenAxios.get("/api/inquiry/user");
+
+      setData(res.data.result.data.content);
+    }catch(e){
+      console.log(e);
+    }
+  }
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await Axios.get("/data/Inquiry/MyInquiry.json");
-        setInquiryList(response.data.InquiryList);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
+    inquoryHistory();
+  },[])
 
   return (
     <Paper elevation={0}>
@@ -94,20 +95,22 @@ const InquiryHistoryBody = () => {
                 </TableCell>
               </TableRow>
             </TableHead>
+
+
             <TableBody>
-              {InquiryList.map((row) => (
-                <TableRow key={row.inquirySeq}>
+              {data.map((inquiry) => (
+                <TableRow key={inquiry.inquirySeq}>
                   <TableCell style={{ width: "10%", textAlign: "center" }}>
-                    {row.category}
+                    {inquiry.category}
                   </TableCell>
                   <TableCell style={{ width: "20%", textAlign: "center" }}>
-                    {row.createDate}
+                    {inquiry.createdAt}
                   </TableCell>
                   <TableCell style={{ width: "50%", textAlign: "center" }}>
-                    {row.title}
+                    {inquiry.title}
                   </TableCell>
                   <TableCell style={{ width: "10%", textAlign: "center" }}>
-                    {row.answerState === "Y" ? (
+                    {inquiry.answerState === "Y" ? (
                       <Button variant="contained" color="success">
                         답변 완료
                       </Button>
