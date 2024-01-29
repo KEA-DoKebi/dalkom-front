@@ -105,7 +105,7 @@ const formatDate = (dateString) => {
 const AnnouncementPage = () => {
   // Declare selectedMenu and setSelectedMenu using useState
   const [selectedMenu, setSelectedMenu] = useState("공지사항");
-  const { register, handleSubmit, setValue } = useForm();
+  const { register, handleSubmit } = useForm();
   const [editorData, setEditorData] = useState("");
   const [switchState, setSwitchState] = useState(false);
   const [dataList, setDataList] = useState([]);
