@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import AdminBar from "components/organisms/AdminBar";
-import SearchIcon from "@mui/icons-material/Search";
-import DeleteIcon from "@mui/icons-material/Delete";
 import { InputBoxS } from "components/atoms/Input";
 import { AdminButton } from "components/atoms/AdminCommonButton";
-import { Box } from "@mui/system";
+import SearchIcon from "@mui/icons-material/Search";
+import DeleteIcon from "@mui/icons-material/Delete";
 import {
+  Box,
   Divider,
-  Dialog,
-  DialogTitle,
-  DialogContent,
   Paper,
   Toolbar,
   Pagination,
@@ -19,184 +16,107 @@ import {
   Typography,
   IconButton,
 } from "@mui/material";
+import { TokenAxios } from "apis/CommonAxios";
 
-const dataList = [
-  {
-    번호: "1",
-    ID: "epnjh0807@gachon.ac.kr",
-    닉네임: "라이언",
-    마일리지: 100000,
-    부서: "코딩팀",
-    기본배송지: "경기도 용인시 기흥구 사은로 126번길 10 110-1803",
-  },
-  {
-    번호: "2",
-    ID: "epnjh0807@gachon.ac.kr",
-    닉네임: "어피치",
-    마일리지: 10000000,
-    부서: "디자인팀",
-    기본배송지: "경기도 용인시 기흥구 사은로 126번길 10 110-1803",
-  },
-  {
-    번호: "3",
-    ID: "epnjh0807@gachon.ac.kr",
-    닉네임: "무지",
-    마일리지: 5000,
-    부서: "영업팀",
-    기본배송지: "경기도 용인시 기흥구 사은로 126번길 10 110-1803",
-  },
-  {
-    번호: "4",
-    ID: "epnjh0807@gachon.ac.kr",
-    닉네임: "튜브",
-    마일리지: 12000,
-    부서: "마케팅팀",
-    기본배송지: "경기도 용인시 기흥구 사은로 126번길 10 110-1803",
-  },
-  {
-    번호: "5",
-    ID: "epnjh0807@gachon.ac.kr",
-    닉네임: "네오",
-    마일리지: 0,
-    부서: "기획팀",
-    기본배송지: "경기도 용인시 기흥구 사은로 126번길 10 110-1803",
-  },
-  {
-    번호: "6",
-    ID: "epnjh0807@gachon.ac.kr",
-    닉네임: "프로도",
-    마일리지: 100000000,
-    부서: "서비스팀",
-    기본배송지: "경기도 용인시 기흥구 사은로 126번길 10 110-1803",
-  },
-  {
-    번호: "7",
-    ID: "epnjh0807@gachon.ac.kr",
-    닉네임: "제이지",
-    마일리지: 30000,
-    부서: "연구팀",
-    기본배송지: "경기도 용인시 기흥구 사은로 126번길 10 110-1803",
-  },
-  {
-    번호: "8",
-    ID: "epnjh0807@gachon.ac.kr",
-    닉네임: "콘",
-    마일리지: 3512300,
-    부서: "경영지원팀",
-    기본배송지: "경기도 용인시 기흥구 사은로 126번길 10 110-1803",
-  },
-  {
-    번호: "9",
-    ID: "epnjh0807@gachon.ac.kr",
-    닉네임: "존",
-    마일리지: 1234568979,
-    부서: "고객지원팀",
-    기본배송지: "경기도 용인시 기흥구 사은로 126번길 10 110-1803",
-  },
-  {
-    번호: "10",
-    ID: "epnjh0807@gachon.ac.kr",
-    닉네임: "펭수",
-    마일리지: 2357111317,
-    부서: "디자인팀",
-    기본배송지: "경기도 용인시 기흥구 사은로 126번길 10 110-1803",
-  },
-  // Add more data items as needed
-];
+// 각 항목에 대한 공통 스타일을 설정합니다.
+const itemFlexStyles = {
+  "& > *:nth-child(1)": { flex: 1 }, // 번호
+  "& > *:nth-child(2)": { flex: 1.5 }, // ID
+  "& > *:nth-child(3)": { flex: 1.5 }, // 닉네임
+  "& > *:nth-child(4)": { flex: 1.5 }, // 마일리지
+  "& > *:nth-child(5)": { flex: 2 }, // 기본배송지
+  "& > *:nth-child(6)": { flex: 1 }, // 삭제
+  "&:before, &:after": { content: '""', flex: 0.5 },
+};
 
 const StyledList = styled(List)`
-  /* Add styling for the List component */
   padding: 0;
   width: 100%;
-  border: none; /* Remove border */
+  border: none;
   background-color: background.paper;
+  height: 70%; // 전체 높이의 70%로 설정
 `;
 
-const dataListLabels = Object.keys(dataList[0]);
+const ListItemLabelStyled = styled(ListItem)`
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+  height: calc(70vh / 10); // 전체 높이의 70%를 10로 나눈 값으로 레이블 행의 높이를 설정
+  padding: 12px;
+  ${itemFlexStyles} // 공통 스타일 적용
+`;
 
 const ListItemStyled = styled(ListItem)`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
   width: 100%;
+  height: calc(70vh / 8); // 전체 높이의 70%를 8로 나눈 값
   padding: 12px;
+  ${itemFlexStyles} // 공통 스타일 적용
 `;
 
-// 간격 일정하게 만드는 거
-const getColumnWidth = (label) => {
-  // Define your width ranges for each column label
-  const widthRanges = {
-    번호: [0, 10],
-    ID: [10, 30],
-    닉네임: [30, 40],
-    마일리지: [40, 50],
-    부서: [50, 60],
-    기본배송지: [60, 90],
-    삭제: [90, 100],
-    // Add more labels as needed
-  };
-  const [minWidth, maxWidth] = widthRanges[label] || [0, 100];
-  const width = Math.min(100, maxWidth) - minWidth;
-
-  return `calc(${width}% - 8px)`; // Adjust 8px for spacing
-};
-
-const ConfirmModal = ({ open, onClose, title, contents }) => {
-  const [content, setContent] = useState(contents || "");
-
-  const handleClose = () => {
-    onClose();
-    setContent("");
-  };
-
-  const handleSubmit = () => {
-    console.log("Submitting modal content:", content);
-    handleClose();
-  };
-
-  const modalDimensions = { width: 600, height: 200 };
-
-  return (
-    <Dialog open={open} onClose={handleClose} maxWidth="false">
-      <DialogContent style={modalDimensions}>
-        {title && (
-          <DialogTitle
-            sx={{ fontWeight: "bold", fontSize: "1.5rem", textAlign: "center" }}
-          >
-            {title}
-          </DialogTitle>
-        )}
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
-          <AdminButton variant="contained" onClick={handleSubmit}>
-            삭제
-          </AdminButton>
-        </Box>
-      </DialogContent>
-    </Dialog>
-  );
-};
-
-const UserListPage = () => {
+const AdminListPage = () => {
   // Declare selectedMenu and setSelectedMenu using useState
   const [selectedMenu, setSelectedMenu] = useState("사용자 목록");
+  const [currentPage, setCurrentPage] = useState(0); // 현재 페이지를 상태로 관리
+  const [totalPages, setTotalPages] = useState();
+
+  const [dataList, setDataList] = useState([]);
+  const dataListLabels = [
+    "번호",
+    "ID",
+    "닉네임",
+    "마일리지",
+    "기본배송지",
+    "삭제",
+  ];
+
+  const adminGet = async (page) => {
+    const res = await TokenAxios.get(`/api/user?page=${page}&size=7`);
+    console.log(res.data.result.data.content);
+    setDataList(res.data.result.data.content);
+    console.log(res.data.result.data.totalPages);
+    setTotalPages(res.data.result.data.totalPages);
+  };
 
   useEffect(() => {
     // 각 페이지가 마운트될 때 selectedMenu를 업데이트
     // setSelectedMenu 함수를 호출하여 상태를 업데이트
+    adminGet(currentPage); // 페이지가 변경될 때 API 호출
     setSelectedMenu("사용자 목록");
-  }, []);
+  }, [currentPage]);
 
-  // Modal의 상태를 관리하는 state
-  const [modalOpen, setModalOpen] = useState(false);
-  const [modalTitle, setModalTitle] = useState("");
-
-  const openModal = (ID, nickname) => {
-    setModalOpen(true);
-    setModalTitle(`정말 ${ID}(${nickname})님을 삭제하시겠습니까?`);
+  // Pagination에서 페이지가 변경될 때 호출되는 함수
+  const handlePageChange = (event, newPage) => {
+    setCurrentPage(newPage); // 현재 페이지 업데이트
   };
 
-  const closeModal = () => {
-    setModalOpen(false);
+  // 상품 정보를 표시하기 위한 컴포넌트입니다.
+  const UserList = ({ user }) => {
+    return (
+      <ListItemStyled>
+        <Typography variant="body1" sx={{ textAlign: "center" }}>
+          {user.userSeq}
+        </Typography>
+        <Typography variant="body1" sx={{ textAlign: "center" }}>
+          {user.email}
+        </Typography>
+        <Typography variant="body1" sx={{ textAlign: "center" }}>
+          {user.nickname}
+        </Typography>
+        <Typography variant="body1" sx={{ textAlign: "center" }}>
+          {user.mileage}
+        </Typography>
+        <Typography variant="body1" sx={{ textAlign: "center" }}>
+          {user.address}
+        </Typography>
+        <IconButton>
+          <DeleteIcon />
+        </IconButton>
+      </ListItemStyled>
+    );
   };
 
   return (
@@ -207,7 +127,7 @@ const UserListPage = () => {
         sx={{
           display: "flex",
           flexDirection: "column",
-          justifyContent: "flex-strat",
+          justifyContent: "flex-start",
           backgroundColor: "#EEF2F6",
           flexGrow: 1,
         }}
@@ -218,7 +138,8 @@ const UserListPage = () => {
           justifyContent="center"
           alignItems="center"
           sx={{
-            flexGrow: 1,
+            flex: 2,
+            p: 2,
             display: "flex",
             flexDirection: "column",
             backgroundColor: "#FFFFFF",
@@ -227,72 +148,66 @@ const UserListPage = () => {
           }}
         >
           <Toolbar sx={{ justifyContent: "space-between", width: "100%" }}>
-            {/* 왼쪽에는 빈 공간을 만들어 가운데 정렬을 유지하고, 오른쪽에 등록 버튼을 추가합니다. */}
-            {/* 이 디브 있어야 검색창 가운데에 옵니당 왜 그런지는 잘 모르겠어요,,*/}
-            <div></div>
+            {/* 중앙 정렬을 위해 앞뒤로 <div/> 추가*/}
+            <div />
             <InputBoxS
               color="neutral"
               disabled={false}
               startDecorator={<SearchIcon />}
               placeholder="Search"
               variant="soft"
-              sx={{ mb: 4, mt: 4 }}
+              sx={{ mb: 4, mt: 4, ml: "50px" }}
             />
-            <AdminButton variant="contained">+ 사용자 등록</AdminButton>
+            <AdminButton variant="contained">등록하기</AdminButton>
           </Toolbar>
-
-          <StyledList aria-label="mailbox folders">
-            <ListItemStyled>
-              {dataListLabels.map((label, index) => (
+          <Box sx={{ width: "100%", height: "80%", overflowY: "auto" }}>
+            <StyledList aria-label="mailbox folders">
+              <ListItemLabelStyled>
+                {dataListLabels.map((label, index) => (
+                  <React.Fragment key={index}>
+                    <Typography
+                      variant="h6"
+                      fontWeight="bold"
+                      sx={{ textAlign: "center" }}
+                    >
+                      {label}
+                    </Typography>
+                  </React.Fragment>
+                ))}
+              </ListItemLabelStyled>
+              <Divider component="li" />
+              {dataList.map((user, index) => (
                 <React.Fragment key={index}>
-                  <Typography
-                    variant="h6"
-                    fontWeight="bold"
-                    sx={{ width: getColumnWidth(label), textAlign: "center" }}
-                  >
-                    {label}
-                  </Typography>
+                  <UserList user={user} />
+                  {index !== dataList.length - 1 && (
+                    <Divider component="li" light />
+                  )}
                 </React.Fragment>
               ))}
-              <Typography variant="h6" fontWeight="bold">
-                삭제
-              </Typography>
-            </ListItemStyled>
-            <Divider component="li" light />
-            {dataList.map((item, rowIndex) => (
-              <React.Fragment key={rowIndex}>
-                <ListItemStyled>
-                  {dataListLabels.map((label, colIndex) => (
-                    <Typography
-                      variant="body1"
-                      key={colIndex}
-                      sx={{ width: getColumnWidth(label), textAlign: "center" }}
-                    >
-                      {item[label]}
-                    </Typography>
-                  ))}
-                  <IconButton onClick={() => openModal(item.ID, item.닉네임)}>
-                    <DeleteIcon />
-                  </IconButton>
-                </ListItemStyled>
-                {rowIndex !== dataList.length - 1 && (
-                  <Divider component="li" light />
-                )}
-              </React.Fragment>
-            ))}
-          </StyledList>
-
-          <Pagination count={10} />
-
-          <ConfirmModal
-            open={modalOpen}
-            onClose={() => closeModal()}
-            title={modalTitle}
-          />
+            </StyledList>
+          </Box>
+          <Box
+            sx={{
+              flex: 1,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            {" "}
+            {/* 페이지네이션 섹션 */}
+            <Pagination
+              count={totalPages}
+              page={currentPage + 1}
+              onChange={(event, newPage) =>
+                handlePageChange(event, newPage - 1)
+              }
+            />
+          </Box>
         </Box>
       </Box>
     </Paper>
   );
 };
 
-export default UserListPage;
+export default AdminListPage;

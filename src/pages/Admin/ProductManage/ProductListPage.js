@@ -22,11 +22,34 @@ import { TokenAxios } from "apis/CommonAxios";
 import { Link } from "react-router-dom";
 
 const StyledList = styled(List)`
-  /* Add styling for the List component */
   padding: 0;
   width: 100%;
-  border: none; /* Remove border */
+  border: none;
   background-color: background.paper;
+  height: 70%; // 전체 높이의 70%로 설정
+`;
+
+// 각 항목에 대한 공통 스타일을 설정합니다.
+const itemFlexStyles = {
+  "& > *:nth-child(1)": { flex: 0.5 }, // 상품번호
+  "& > *:nth-child(2)": { flex: 1.5 }, // 이미지
+  "& > *:nth-child(3)": { flex: 3 }, // 이름
+  "& > *:nth-child(4)": { flex: 1.5 }, // 제조사
+  "& > *:nth-child(5)": { flex: 1 }, // 옵션
+  "& > *:nth-child(6)": { flex: 1.5 }, // 가격
+  "& > *:nth-child(7)": { flex: 0.5 }, // 상품상세
+};
+
+const ListItemLabelStyled = styled(ListItem)`
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+  height: calc(
+    70vh / 10
+  ); // 전체 높이의 70%를 10로 나눈 값으로 레이블 행의 높이를 설정
+  padding: 12px;
+  ${itemFlexStyles}// 공통 스타일 적용
 `;
 
 const ListItemStyled = styled(ListItem)`
@@ -35,34 +58,7 @@ const ListItemStyled = styled(ListItem)`
   align-items: center;
   width: 100%;
   padding: 12px;
-  & > *:nth-child(1) {
-    flex: 0.5;
-  } /* 상품 번호 */
-  & > *:nth-child(2) {
-    flex: 1.5;
-  } /* 이미지 */
-  & > *:nth-child(3) {
-    flex: 3;
-  } /* 이름 */
-  & > *:nth-child(4) {
-    flex: 1.5;
-  } /* 제조사 */
-  & > *:nth-child(5) {
-    flex: 1;
-  } /* 옵션 */
-  & > *:nth-child(6) {
-    flex: 1.5;
-  } /* 가격 */
-  & > *:nth-child(7) {
-    flex: 0.5;
-    justify-content: center;
-    display: flex;
-  } /* 상품 상세 */
-  &:before,
-  &:after {
-    content: "";
-    flex: 0.5;
-  }
+  ${itemFlexStyles}// 공통 스타일 적용
 `;
 
 const ProductListPage = () => {
@@ -148,7 +144,7 @@ const ProductListPage = () => {
           {product.price.toLocaleString()}
         </Typography>
 
-        <Link to={`/admin/product/edit`} style={{ textDecoration: "none" }}>
+        <Link to={`/admin/product/edit`} style={{ textDecoration: "none", textAlign:"center" }}>
           <IconButton>
             <InfoOutlinedIcon />
           </IconButton>
@@ -176,7 +172,8 @@ const ProductListPage = () => {
           justifyContent="center"
           alignItems="center"
           sx={{
-            flexGrow: 1,
+            flex: 2,
+            p: 2,
             display: "flex",
             flexDirection: "column",
             backgroundColor: "#FFFFFF",
@@ -197,37 +194,51 @@ const ProductListPage = () => {
             />
             <AdminButton variant="contained">등록하기</AdminButton>
           </Toolbar>
-
-          <StyledList aria-label="mailbox folders">
-            <ListItemStyled>
-              {dataListLabels.map((label, index) => (
+          <Box sx={{ width: "100%", height: "80%", overflowY: "auto" }}>
+            <StyledList aria-label="mailbox folders">
+              <ListItemLabelStyled>
+                {dataListLabels.map((label, index) => (
+                  <React.Fragment key={index}>
+                    <Typography
+                      variant="h6"
+                      fontWeight="bold"
+                      sx={{ textAlign: "center" }}
+                    >
+                      {label}
+                    </Typography>
+                  </React.Fragment>
+                ))}
+              </ListItemLabelStyled>
+              <Divider component="li" />
+              {dataList.map((product, index) => (
                 <React.Fragment key={index}>
-                  <Typography
-                    variant="h6"
-                    fontWeight="bold"
-                    sx={{ textAlign: "center" }}
-                  >
-                    {label}
-                  </Typography>
+                  <ProductItem product={product} />
+                  {index !== dataList.length - 1 && (
+                    <Divider component="li" light />
+                  )}
                 </React.Fragment>
               ))}
-            </ListItemStyled>
-            <Divider component="li" />
-            {dataList.map((product, index) => (
-              <React.Fragment key={index}>
-                <ProductItem product={product} />
-                {index !== dataList.length - 1 && (
-                  <Divider component="li" light />
-                )}
-              </React.Fragment>
-            ))}
-          </StyledList>
+            </StyledList>
+          </Box>
 
-          <Pagination
-            count={totalPages} // 총 페이지 수를 적용
-            page={currentPage+1} // 현재 페이지 설정 (0부터 시작하므로 그대로 사용)
-            onChange={(event, newPage) => handlePageChange(event, newPage - 1)} // 페이지 변경 시 호출되는 함수 설정
-          />
+          <Box
+            sx={{
+              flex: 1,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            {" "}
+            {/* 페이지네이션 섹션 */}
+            <Pagination
+              count={totalPages}
+              page={currentPage + 1}
+              onChange={(event, newPage) =>
+                handlePageChange(event, newPage - 1)
+              }
+            />
+          </Box>
         </Box>
       </Box>
     </Paper>
