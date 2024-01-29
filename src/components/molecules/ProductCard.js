@@ -5,6 +5,7 @@ import { StarRating } from "../atoms/StarRating";
 import { Link } from "react-router-dom";
 
 export const ProductCard = ({ imageUrl, title, price, star, review, seq }) => {
+
   return (
     <Link to={`/product/${seq}`}>
       <SungjunCard>
