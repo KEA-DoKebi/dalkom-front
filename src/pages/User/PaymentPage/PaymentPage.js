@@ -5,14 +5,31 @@ import { Grid, Typography } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import { TokenAxios } from "apis/CommonAxios";
 import { DefaultAxios } from "apis/CommonAxios";
+import { Input } from "@mui/joy";
+
 
  
 const Payment = () => {
   const location = useLocation(); // Use useLocation to access location state
   const { state } = location;
   const { orderList } = state || {};
+  const [receiverName,setReceiverName] =useState("");
+  const [receiverAddress,setReceiverAddress] = useState("");
+  const [receiverMemo , setReceiverMemo] = useState("");
+  const [receiverMobileNum,setReceiverMobileNum] = useState("");
 
   const  [orderLists,setOrderLists] = useState([]); 
+
+  const calculateTotalPrice = () => {
+    let totalPrice = 0;
+
+    for (const orderItem of orderLists) {
+      totalPrice += orderItem.totalPrice;
+    }
+
+    return totalPrice;
+  };
+
   
   useEffect(() => {
     const sendOrderRequest = async () => {
@@ -55,7 +72,7 @@ const Payment = () => {
         >
           <thead>
             <tr>
-              <Grid container spacing={2} justifyContent="space-between">
+              <Grid sx={{ mb:"30px"}}container spacing={2} justifyContent="space-between">
                 <Grid
                   item
                   xs={12}
@@ -67,43 +84,44 @@ const Payment = () => {
                 >
                   <h3>배송지정보</h3>
                 </Grid>
-
-                <Grid item xs={1}></Grid>
-                <Grid item xs={1.5}>
-                  <Typography>이름</Typography>
+                <Grid sx={{mt:"10px"}} item xs={1}></Grid>
+                <Grid sx={{mt:"10px"}} item xs={1.5}>
+                <Typography>수신인</Typography>
                 </Grid>
-                <Grid item xs={2}>
-                  <Typography>배송지 이름</Typography>
+                <Grid sx={{mt:"10px"}} item xs={2} >
+                    <Input value={receiverName}
+                    onChange={(e) => setReceiverName(e.target.value)}></Input>
                 </Grid>
+                <Grid sx={{mt:"10px"}} item xs={7.5}></Grid>
 
-                <Grid item xs={7.5}></Grid>
-
-                <Grid item xs={1}></Grid>
-                <Grid item xs={1.5}>
+                <Grid sx={{mt:"10px"}} item xs={1}></Grid>
+                <Grid sx={{mt:"10px"}} item xs={1.5}>
                   <Typography>연락처</Typography>
                 </Grid>
-                <Grid item xs={2}>
-                  <Typography>010-1234-5678</Typography>
+                <Grid sx={{mt:"10px"}} item xs={2}>
+                    <Input value = {receiverMobileNum} 
+                    onChange={(e) => setReceiverMobileNum(e.target.value)}></Input>
                 </Grid>
 
-                <Grid item xs={7.5}></Grid>
+                <Grid  sx={{mt:"10px"}} item xs={7.5}></Grid>
 
-                <Grid item xs={1}></Grid>
-                <Grid item xs={1.5}>
+                <Grid sx={{mt:"10px"}} item xs={1}></Grid>
+                <Grid sx={{mt:"10px"}} item xs={1.5}>
                   <Typography>배송지 주소</Typography>
                 </Grid>
-                <Grid item xs={2}>
-                  <Typography>경기도 고양시 덕양구</Typography>
+                <Grid sx={{mt:"10px"}} item xs={2}>
+                    <Input></Input>
                 </Grid>
 
-                <Grid item xs={7.5}></Grid>
+                <Grid sx={{mt:"10px"}} item xs={7.5}></Grid>
 
-                <Grid item xs={1}></Grid>
-                <Grid item xs={1.5}>
+                <Grid sx={{mt:"10px"}} item xs={1}></Grid>
+                <Grid sx={{mt:"10px"}} item xs={1.5 }>
                   <Typography>배송 요청사항</Typography>
                 </Grid>
-                <Grid item xs={3}>
-                  <Typography>배송 전 연락 바랍니다.</Typography>
+                <Grid sx={{mt:"10px"}} item xs={3}>
+                <Input value = {receiverMemo} 
+                    onChange={(e) => setReceiverMemo(e.target.value)}></Input>
                 </Grid>
 
                 <Grid item xs={6.5}></Grid>
@@ -146,22 +164,22 @@ const Payment = () => {
               <tr key={index}>
                 <Grid container spacing={2} justifyContent="space-between">
                   <Grid item xs={2} style={{ textAlign: "center" }}>
-                    <Typography>{orderItem.name}</Typography>
-                    <Typography>(옵션: {orderItem.prdtOptionSeq})</Typography>
+                    <Typography>{orderItem.productName}</Typography>
+                    <Typography>(옵션: {orderItem.productOptionSeq})</Typography>
                   </Grid>
                   <Grid
                     item
                     xs={2}
                     style={{ textAlign: "center", marginTop: "1%" }}
                   >
-                    <Typography>{orderItem.price}</Typography>
+                    <Typography>{orderItem.productPrice}</Typography>
                   </Grid>
                   <Grid
                     item
                     xs={2}
                     style={{ textAlign: "center", marginTop: "1%" }}
                   >
-                    <Typography>{orderItem.amount}</Typography>
+                    <Typography>{orderItem.productAmount}</Typography>
                   </Grid>
                   <Grid
                     item
@@ -186,86 +204,7 @@ const Payment = () => {
                 </Grid>
               </tr>
             ))}
-            {/* <tr>
-              <Grid container spacing={2} justifyContent="space-between">
-                <Grid item xs={2} style={{ textAlign: "center" }}>
-                  <Typography>갤럭시 s24</Typography>
-                  <Typography>(옵션: 블랙)</Typography>
-                </Grid>
-                <Grid
-                  item
-                  xs={2}
-                  style={{ textAlign: "center", marginTop: "1%" }}
-                >
-                  <Typography>1,000,000</Typography>
-                </Grid>
-                <Grid
-                  item
-                  xs={2}
-                  style={{ textAlign: "center", marginTop: "1%" }}
-                >
-                  <Typography>1</Typography>
-                </Grid>
-                <Grid
-                  item
-                  xs={2}
-                  style={{ textAlign: "center", marginTop: "1%" }}
-                >
-                  <Typography>배송비 무료</Typography>
-                </Grid>
-                <Grid
-                  item
-                  xs={2}
-                  style={{
-                    textAlign: "center",
-                    paddingLeft: "10px",
-                    marginTop: "1%",
-                  }}
-                >
-                  <Typography>1,000,000</Typography>
-                </Grid>
-              </Grid>
-            </tr>
-            <tr>
-              <Grid container spacing={2} justifyContent="space-between">
-                <Grid item xs={2} style={{ textAlign: "center" }}>
-                  <Typography>갤럭시 s24</Typography>
-                  <Typography>(옵션: 블랙)</Typography>
-                </Grid>
-                <Grid
-                  item
-                  xs={2}
-                  style={{ textAlign: "center", marginTop: "1%" }}
-                >
-                  <Typography>1,000,000</Typography>
-                </Grid>
-                <Grid
-                  item
-                  xs={2}
-                  style={{ textAlign: "center", marginTop: "1%" }}
-                >
-                  <Typography>1</Typography>
-                </Grid>
-                <Grid
-                  item
-                  xs={2}
-                  style={{ textAlign: "center", marginTop: "1%" }}
-                >
-                  <Typography>배송비 무료</Typography>
-                </Grid>
-                <Grid
-                  item
-                  xs={2}
-                  style={{
-                    textAlign: "center",
-                    paddingLeft: "10px",
-                    marginTop: "1%",
-                  }}
-                >
-                  <Typography>1,000,000</Typography>
-                </Grid>
-              </Grid>
-            </tr> */}
+            
           </tbody>
           <tfoot>
             <td
@@ -278,7 +217,7 @@ const Payment = () => {
               <Grid container spacing={2} justifyContent="space-between">
                 <Grid item xs={12}>
                   <h3>
-                    총 상품 가격 3,000,000 + 총 배송비 0 = 총 주문금액 3,000,000
+                    총 상품 가격 {calculateTotalPrice()} + 총 배송비 0 = 총 주문금액 {calculateTotalPrice()}
                   </h3>
                 </Grid>
               </Grid>
