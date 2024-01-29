@@ -1,4 +1,4 @@
-import { Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, Typography } from '@mui/material'
+import { Box, Button, Grid, MenuItem, Select, Typography, InputLabel } from '@mui/material'
 import { TokenAxios } from 'apis/CommonAxios'
 import MuiTable from 'components/molecules/MuiTable'
 import DefaultLayout from 'components/templete/DefaultLayout'
@@ -6,14 +6,16 @@ import React, { useEffect, useState } from 'react'
 import { NavLink, useParams } from 'react-router-dom'
 import { styled } from 'styled-components'
 import Swal from "sweetalert2";
-
-
+import FormControl from '@mui/joy/FormControl';
+import FormLabel from '@mui/joy/FormLabel';
+import Input from '@mui/joy/Input';
 
 const ProductDetailPage = () => {
 
     const [productInfo, setProductInfo] = useState({});
     const [productReviewList, setProductReviewList] = useState([]);
     const [option, setOption] = useState();
+    const [count, setCount] = useState(0);
     const [menuItems,] = useState(["상품상세", "상품평", "상품안내"]);
     const [prdtOptionSeq, setPrdtOptionSeq] = useState("15"); // 초기값은 15로 설정
     const [amount, setAmount] = useState(3); // 초기값은 3으로 설정
@@ -26,6 +28,13 @@ const ProductDetailPage = () => {
       const selectedOption = event.target.value;
       setPrdtOptionSeq(selectedOption);
     };
+
+    const handleCountChange = (event) => {
+        const number = Number(event.target.value);
+        setCount(number);
+    }
+
+     
 
   const getProductDetail = async() => {
     try{
@@ -82,7 +91,7 @@ const ProductDetailPage = () => {
     <DefaultLayout>
         <ProductInfoBox>
             <Grid container>
-                <Grid item xs={8.5}>
+                <Grid item xs={7.5}>
                     <ProductImageContainer>
                         <ProductImage src={`${productInfo.imageUrl}`} />
                     </ProductImageContainer>
@@ -90,7 +99,7 @@ const ProductDetailPage = () => {
                 <Grid item xs={0.5}>
 
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={3.5}>
                     <ProductTitleContainer>
                         <h3>{productInfo.company}</h3>
                         <h1 style={{marginBottom : "5%"}}>
@@ -105,29 +114,29 @@ const ProductDetailPage = () => {
                                 labelId="product-option"
                                 id="option"
                                 label="옵션"
-                                value={option}
+                                value={productInfo?.stockList?.productOptionSeq}
                                 onChange={handleChange}
                                 sx={{width : "100%"}}
                             >
-                                {productInfo.stockList?.map((option) => (
-                                    <MenuItem value={option.productOptionSeq}>
-                                        {`${option.detail} (남은 재고: ${option.amount}개)`}
+                                {productInfo.stockList?.map((optionList) => (
+                                    <MenuItem value={optionList.detail}>
+                                        {`${optionList.productOptionSeq}. ${optionList.detail} (남은 재고: ${optionList.amount}개)`}
                                     </MenuItem>
                                 ))}
                             </Select>
                         </FormControl>
 
+
                         <PriceContainer>
-                            <h4 style={{marginBottom : "3vh", marginTop : 0}}> 상품가격</h4>
-                            <SpaceBetweenContainer>
-                                    <p style={{margin : 0, padding : 0}}>소비자가</p>
+                        <SpaceBetweenContainer>
+                            <h3> 상품가격</h3>
                                     <Typography
                                         variant="body1"
                                         sx={{
                                             textAlign: "center",
                                             display: "flex",
                                             alignItems: "center",
-                                            marginBottom : "7px",
+                                            marginTop : "0",
                                             fontWeight : "bold"
                                         }}
                                         >
@@ -136,15 +145,30 @@ const ProductDetailPage = () => {
                                             alt="마일리지"
                                             style={{ width: "20px", height: "20px", marginRight : "5px", }}
                                         />
-                                        {productInfo.price}
+                                        <BoldText style={{fontSize : "20px"}}>{productInfo.price}</BoldText> 
                                     </Typography>
                             </SpaceBetweenContainer>
                         </PriceContainer>
-
+                        
+                        <FormControl sx={{marginTop : "1vh"}}>
+                            <FormLabel sx={{fontSize : "20px"}}>수량</FormLabel>
+                            <Input 
+                                type='number'
+                                placeholder="수량을 입력해주세요" 
+                                value={count}
+                                onChange={handleCountChange}
+                                sx={{
+                                    minHeight : "50px", 
+                                    backgroundColor : "white"}} />
+                        </FormControl>
                         <PriceContainer>
-                            <h4 style={{marginBottom : "3vh", marginTop : 0}}> 주문정보</h4>
+                            <h3 style={{marginBottom : "1vh", marginTop : "0.5vh"}}> 주문정보</h3>
                             <SpaceBetweenContainer>
-                                    <p style={{margin : 0, padding : 0}}>소비자가</p>
+                                <StyledText>상품이름</StyledText>
+                                <BoldText>{productInfo.name}</BoldText>
+                            </SpaceBetweenContainer>
+                            <SpaceBetweenContainer>
+                                    <StyledText>가격</StyledText>
                                     <Typography
                                         variant="body1"
                                         sx={{
@@ -160,8 +184,12 @@ const ProductDetailPage = () => {
                                             alt="마일리지"
                                             style={{ width: "20px", height: "20px", marginRight : "5px", }}
                                         />
-                                        {productInfo.price}
+                                        <BoldText>{productInfo.price * Math.floor(count)}</BoldText> 
                                     </Typography>
+                            </SpaceBetweenContainer>
+                            <SpaceBetweenContainer>
+                                <StyledText>옵션</StyledText>
+                                <BoldText>{option}</BoldText>
                             </SpaceBetweenContainer>
                         </PriceContainer>
 
@@ -215,9 +243,9 @@ const ProductDetailPage = () => {
                             <MuiTable reviewList={productReviewList}/>
                         )}
                 {menuName === "상품안내" && (
-                            <ProductImageContainer> 
+                            <ShippingImageContainer> 
                                 <ShippingInfoImage src="/images/ProductDetailPage/info.png"/>
-                            </ProductImageContainer>
+                            </ShippingImageContainer>
                         )}
                 
                
@@ -246,6 +274,13 @@ const ProductDescriptionBox = styled(Box)`
 
 const ProductImageContainer = styled(Box)`
     width : 100%;
+    height : 80vh;
+    overflow : hidden;
+    text-align : center;   
+`
+
+const ShippingImageContainer = styled(Box)`
+    width : 100%;
     height : 100%;
     overflow : hidden;
     text-align : center;   
@@ -258,8 +293,8 @@ const ProductImage = styled.img`
 `
 
 const ProductTitleContainer = styled(Box)`
-    height : 15vh;
-    margin-top : 10vh;
+    height : 8vh;
+    margin-top : 2vh;
 `
 
 const ProductContentContainer = styled(Box)`
@@ -268,15 +303,28 @@ const ProductContentContainer = styled(Box)`
 `
 
 const ProductButtonContainer = styled(Box)`
-    height : 15vh;
-    margin-top : 5vh;
+    display: flex;           
+    flex-direction: column;  
+    justify-content: flex-end; 
+    height : 7vh;
+    margin-top : 3vh;
 `
 
 const PriceContainer = styled.div`
-    border : 1px solid black;
-    border-radius : 20px; 
+    border : 1px solid rgba(0,0,0,0.3); 
+    border-radius : 5px;
     margin-top : 5vh; 
     padding : 10px;
+`
+
+const StyledText = styled.p`
+    margin : 1px; 
+    padding : 1px; 
+    font-size : 20px;
+`
+
+const BoldText = styled(StyledText)`
+    font-weight : bold;
 `
 
 const SpaceBetweenContainer = styled.div`
