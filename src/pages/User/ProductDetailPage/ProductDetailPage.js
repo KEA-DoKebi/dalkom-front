@@ -1,4 +1,4 @@
-import { Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, Stepper, Typography } from '@mui/material'
+import { Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, Typography } from '@mui/material'
 import { TokenAxios } from 'apis/CommonAxios'
 import MuiTable from 'components/molecules/MuiTable'
 import DefaultLayout from 'components/templete/DefaultLayout'
@@ -41,6 +41,7 @@ const SungjunProductDetailPage = () => {
   useEffect(() => {
     getProductDetail();
     getProductReview();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[productSeq])
 
   return (
