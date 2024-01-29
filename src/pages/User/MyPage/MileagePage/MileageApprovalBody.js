@@ -13,37 +13,39 @@ import {
   TextField,
   Button,
 } from "@mui/material";
-import Axios from "axios";
 import AddCardIcon from "@mui/icons-material/AddCard";
+import { TokenAxios } from "apis/CommonAxios";
+import { useForm } from "react-hook-form";
 
 export default function MileageApprovalBody() {
-  const [userMileData, setUserMileData] = useState([]);
+
+  const { register, handleSubmit } = useForm();
+  const [data, setData] = useState([]);
+
+  //마일리지 충전
+  const mileCharge = async (chargeAmount) => {
+    try {
+      const res = await TokenAxios.post("/api/mileage/apply/user", chargeAmount);
+      console.log(res.chargeAmount);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  //마일리지 신청 내역
+  const chargeRequestHistory = async () => {
+    try {
+      const res = await TokenAxios.get("/api/mileage/apply/user?page=0&size=5");
+      setData(res.data.result.data.content);
+      console.log(res.data.result.data.content);
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await Axios.get("/data/PeopleManage/UserMile.json");
-        setUserMileData(response.data.userMileData);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  const [mileChargeAmount, setMileChargeAmount] = useState("");
-
-  const handleMileChargeChange = (event) => {
-    // Allow only numeric input
-    const sanitizedInput = event.target.value.replace(/[^0-9]/g, "");
-    setMileChargeAmount(sanitizedInput);
-  };
-
-  // Filter rows where State is "Null"
-  const filteredUserMileData = userMileData.filter(
-    (rowData) => rowData.State === "Null",
-  );
+    chargeRequestHistory();
+  }, [])
 
   return (
     <Paper elevation={0}>
@@ -55,38 +57,39 @@ export default function MileageApprovalBody() {
         }}
       >
         <Typography sx={{ fontSize: "40px", mb: "10px" }}>신청 내역</Typography>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "flex-end",
-          }}
-        >
+
+        <form
+          onSubmit={handleSubmit((chargeAmount) => {
+            // console.log(chargeAmount);
+            mileCharge(chargeAmount);
+          })}>
+
           <Box
             sx={{
-              marginRight: "10px" /* TextField를 내리기 위한 추가 스타일 */,
+              display: "flex",
+              justifyContent: "flex-end",
+              alignItems: "flex-end",
             }}
           >
-            <TextField
-              placeholder="충전하기"
-              variant="standard"
-              value={mileChargeAmount}
-              onChange={handleMileChargeChange}
+
+
+            <Box
               sx={{
-                "& .MuiInput-underline:after": {
-                  borderBottomColor: "black",
-                },
-                "& .MuiInput-underline:before": {
-                  borderBottomColor: "rgba(0, 0, 0, 0.42)",
-                },
-                marginBottom: "10px", // TextField를 아래로 내리기
+                marginRight: "10px" /* TextField를 내리기 위한 추가 스타일 */,
               }}
-            />
+            >
+              <TextField
+                id="amount"
+                placeholder="충전하기"
+                variant="standard"
+                {...register("amount")}
+              />
+            </Box>
+            <Button type="submit" sx={{ color: "black", mb: "10px" }} onClick={mileCharge}>
+              <AddCardIcon />
+            </Button>
           </Box>
-          <Button sx={{ color: "black", mb: "10px" }}>
-            <AddCardIcon />
-          </Button>
-        </Box>
+        </form>
       </div>
       <Paper variant="outlined">
         <TableContainer>
@@ -126,10 +129,11 @@ export default function MileageApprovalBody() {
                 </TableCell>
               </TableRow>
             </TableHead>
+
             <TableBody>
-              {filteredUserMileData.map((rowData) => (
+              {data.map((chargeRequest) => (
                 <TableRow
-                  key={rowData.Date}
+                  key={chargeRequest.requestSeq}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell
@@ -137,13 +141,20 @@ export default function MileageApprovalBody() {
                     scope="row"
                     style={{ width: "25%", textAlign: "center" }}
                   >
-                    {rowData.State === "Null" ? "대기중" : rowData.State}
+                    {chargeRequest.approvedState === "W"
+                      ? "대기중"
+                      : chargeRequest.approvedState === "Y"
+                        ? "승인"
+                        : chargeRequest.approvedState === "N"
+                          ? "거부"
+                          : ""
+                    }
                   </TableCell>
                   <TableCell style={{ width: "50%", textAlign: "center" }}>
-                    {rowData.Date}
+                    {chargeRequest.createdAt.substring(0, 10)}
                   </TableCell>
                   <TableCell style={{ width: "25%", textAlign: "center" }}>
-                    {rowData.Mile}
+                    {chargeRequest.amount}
                   </TableCell>
                 </TableRow>
               ))}
