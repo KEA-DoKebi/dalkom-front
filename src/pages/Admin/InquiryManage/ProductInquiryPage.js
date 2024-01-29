@@ -1,104 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useRef, useState} from "react";
 import styled from "styled-components";
 import AdminBar from "components/organisms/AdminBar";
 import SearchIcon from "@mui/icons-material/Search";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import {
-  Box,
-  Divider,
-  Paper,
-  Toolbar,
-  Pagination,
-  List,
-  ListItem,
-  Typography,
-  IconButton,
-} from "@mui/material";
+import {Box, Divider, IconButton, List, ListItem, Pagination, Paper, Toolbar, Typography,} from "@mui/material";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import Modal from "@mui/material/Modal";
-import { InputBoxS } from "components/atoms/Input";
-import { MuiColorChip } from "components/atoms/AdminChip";
-import { AdminButton } from "components/atoms/AdminCommonButton";
-import axios from "axios";
+import {InputBoxS} from "components/atoms/Input";
+import {MuiColorChip} from "components/atoms/AdminChip";
+import {AdminButton} from "components/atoms/AdminCommonButton";
+import {TokenAxios} from "../../../apis/CommonAxios";
 
-const mockData = {
-  제목: "안녕하세요. 문의글입니다.",
-  내용: "문의 내용테스트 글 입니다.문의 내용테스트 글  내용테스트 글 입니다.",
-  사진: "src/images/benefit.png",
-};
-
-// const dataList = [
-//   {
-//     문의번호: "1001",
-//     문의일시: "2024-01-21 10:30",
-//     문의글:
-//       "상품문의상품문의상품문의상품문의상품문의상품문의상품문의상품문의상품문의상품문의",
-//     답변여부: "대기중",
-//   },
-//   {
-//     문의번호: "1002",
-//     문의일시: "2024-01-20 15:20",
-//     문의글: "제품 교환 가능한가요?",
-//     답변여부: "대기중",
-//   },
-//   {
-//     문의번호: "1003",
-//     문의일시: "2024-01-19 13:45",
-//     문의글: "환불 절차를 알고 싶습니다.",
-//     답변여부: "대기중",
-//   },
-//   {
-//     문의번호: "1004",
-//     문의일시: "2024-01-18 17:00",
-//     문의글: "제품 사용 방법 문의합니다.",
-//     답변여부: "대기중",
-//   },
-//   {
-//     문의번호: "1005",
-//     문의일시: "2024-01-17 09:30",
-//     문의글: "주문 취소하고 싶습니다.",
-//     답변여부: "대기중",
-//   },
-//   {
-//     문의번호: "1006",
-//     문의일시: "2024-01-16 12:10",
-//     문의글: "배송 지연에 대한 문의",
-//     답변여부: "대기중",
-//   },
-//   {
-//     문의번호: "1007",
-//     문의일시: "2024-01-15 11:25",
-//     문의글: "색상 변경 가능한가요?",
-//     답변여부: "완료",
-//   },
-//   {
-//     문의번호: "1008",
-//     문의일시: "2024-01-14 14:55",
-//     문의글: "결제 수단 변경을 원합니다.",
-//     답변여부: "완료",
-//   },
-//   {
-//     문의번호: "1009",
-//     문의일시: "2024-01-13 16:40",
-//     문의글: "회원 정보 수정 관련 문의",
-//     답변여부: "완료",
-//   },
-//   {
-//     문의번호: "1010",
-//     문의일시: "2024-01-12 18:20",
-//     문의글: "추가 주문 관련 문의드립니다.",
-//     답변여부: "완료",
-//   },
-// ];
+let currentInquirySeq = null;
 
 const StyledList = styled(List)`
-  /* Add styling for the List component */
   padding: 0;
   width: 100%;
-  border: none; /* Remove border */
+  border: none;
   background-color: background.paper;
+  height: 70%; // 전체 높이의 70%로 설정
 `;
 
 const ListItemStyled = styled(ListItem)`
@@ -106,6 +28,9 @@ const ListItemStyled = styled(ListItem)`
   justify-content: space-evenly;
   align-items: center;
   width: 100%;
+  height: calc(
+          70vh / 10
+  ); // 전체 높이의 70%를 10로 나눈 값으로 레이블 행의 높이를 설정
   padding: 12px;
 `;
 
@@ -133,207 +58,302 @@ const ModalBoxStyled = styled(Box)`
 
 // 간격 일정하게 만드는 거
 const getColumnWidth = (label) => {
-  // Define your width ranges for each column label
-  const widthRanges = {
-    문의번호: [0, 10],
-    문의일시: [0, 10],
-    문의글: [0, 50],
-    답변여부: [0, 10],
-    상세보기: [0, 10],
-    // Add more labels as needed
-  };
-  const [minWidth, maxWidth] = widthRanges[label] || [0, 100];
-  const width = Math.min(100, maxWidth) - minWidth;
-
-  return `calc(${width}% - 8px)`; // Adjust 8px for spacing
+    const widthRanges = {
+        문의번호: [0, 10],
+        문의일시: [0, 20],
+        문의제목: [0, 40],
+        답변여부: [0, 10],
+        답변달기: [0, 10],
+    };
+    const [minWidth, maxWidth] = widthRanges[label] || [0, 100];
+    const width = Math.min(100, maxWidth) - minWidth;
+    return `calc(${width}% - 8px)`;
 };
 
 const ProductInquiryPage = () => {
-  // Declare selectedMenu and setSelectedMenu using useState
-  const [dataList, setDataList] = useState([]);
-  const dataListLabels = dataList.length > 0 ? [ '문의 제목', '문의 일시', '답변 여부' ] : [];
+    const [dataList, setDataList] = useState([]);
+    const [dataListLabels, setDataListLabels] = useState([]);
+    const [selectedMenu, setSelectedMenu] = useState("");
+    const [currentPage, setCurrentPage] = useState(0);
+    const [totalPages, setTotalPages] = useState();
+    const [selectedItem, setSelectedItemData] = useState(null);
+    const [openModal, setOpenModal] = useState(false);
+    const textareaRef = useRef(null);
 
-  // Declare selectedMenu and setSelectedMenu using useState
-  const [selectedMenu, setSelectedMenu] = useState("");
+    const getInquiryByCategory = async (page) => {
+        try {
+            const res = await TokenAxios.get(`/api/inquiry/category/37?page=${page}&size=7`);
+            console.log(res.data.result.data.content);
+            setTotalPages(res.data.result.data.totalPages);
 
-  const getInquiryByCategory = async () => {
-    // 상품 문의 카테고리는 35번
-    const res = await axios.get("/api/inquiry/category/34?page=0&size=10");
-    console.log(res.data.result.data.content);
-    setDataList(res.data.result.data.content);
-  };
+            const mappedDataList = res.data.result.data.content.map((item) => {
+                    const date = new Date(item.createdAt);
+                    const year = date.getFullYear();
+                    const month = date.getMonth() + 1; // 월은 0부터 시작하므로 +1
+                    const day = date.getDate();
 
-  useEffect(() => {
-    // 각 페이지가 마운트될 때 selectedMenu를 업데이트
-    // setSelectedMenu 함수를 호출하여 상태를 업데이트
-    getInquiryByCategory();
-    setSelectedMenu("주문 문의");
-  }, []);
+                    return {
+                        문의번호: item.inquirySeq,
+                        문의일시: `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`,
+                        문의제목: item.title,
+                        답변여부: item.answerState === "Y" ? "completed" : "waiting",
+                        답변달기: (
+                            <IconButton onClick={() => handleOpenModal(item.inquirySeq)}
+                                        disabled={item.answerState === "Y"}>
+                                <InfoOutlinedIcon/>
+                            </IconButton>
+                        )
+                    };
+                })
+            ;
+            setDataList(mappedDataList);
+        } catch (e) {
+            console.log(e)
+        } finally {
+            const newLabels = [
+                "문의번호",
+                "문의일시",
+                "문의제목",
+                "답변여부",
+                "답변달기"
+            ];
+            setDataListLabels(newLabels);
+        }
+    };
 
-  const [openModal, setOpenModal] = useState(false);
-  const handleOpenModal = () => setOpenModal(true);
-  const handleCloseModal = () => setOpenModal(false);
+    const handlePageChange = (event, newPage) => {
+        setCurrentPage(newPage); // 현재 페이지 업데이트
+    };
+    const handleOpenModal = async (inquirySeq) => {
+        console.log("inquirySeq:", inquirySeq);
 
-  return (
-    <Paper sx={{ display: "flex", height: "100vh" }}>
-      {/* AdminBar 컴포넌트에 selectedMenu와 setSelectedMenu props 전달 */}
-      <AdminBar selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "flex-start",
-          backgroundColor: "#EEF2F6",
-          flexGrow: 1,
-        }}
-      >
-        <Toolbar />
-        <Box
-          component="main"
-          justifyContent="center"
-          alignItems="center"
-          sx={{
-            flexGrow: 1,
-            display: "flex",
-            flexDirection: "column",
-            backgroundColor: "#FFFFFF",
-            borderRadius: "27px",
-            margin: "16px",
-          }}
-        >
-          <Toolbar sx={{ justifyContent: "space-between", width: "100%" }}>
-            {/* 중앙 정렬을 위해 앞뒤로 <div/> 추가*/}
-            <div />
-            <InputBoxS
-              color="neutral"
-              disabled={false}
-              startDecorator={<SearchIcon />}
-              placeholder="Search"
-              variant="soft"
-              sx={{ mb: 4, mt: 4 }}
-            />
-            <div />
-          </Toolbar>
+        try {
+            if (inquirySeq !== undefined && inquirySeq !== null) {
+                currentInquirySeq = inquirySeq;
 
-          <StyledList aria-label="mailbox folders">
-            <ListItemStyled>
-              {dataListLabels.map((label, index) => (
-                <React.Fragment key={index}>
-                  <Typography
-                    variant="h6"
-                    fontWeight="bold"
-                    sx={{ width: getColumnWidth(label), textAlign: "center" }}
-                  >
-                    {label}
-                  </Typography>
-                </React.Fragment>
-              ))}
-              <Typography variant="h6" fontWeight="bold">
-                상품문의
-              </Typography>
-            </ListItemStyled>
-            <Divider component="li" light />
-            {dataList.map((item, rowIndex) => (
-              <React.Fragment key={rowIndex}>
-                <ListItemStyled>
-                  {dataListLabels.map((label, colIndex) =>
-                    label === "답변여부" ? (
-                      // 재고에 대한 스핀박스 렌더링
-                      <MuiColorChip
-                        status={
-                          item["답변여부"] === "대기중"
-                            ? "waiting"
-                            : "completed"
-                        }
-                      />
-                    ) : (
-                      // 다른 데이터는 Typography로 렌더링
-                      <Typography
-                        variant="body1"
-                        key={colIndex}
-                        sx={{
-                          width: getColumnWidth(label),
-                          textAlign: "center",
-                        }}
-                      >
-                        {item[label]}
-                      </Typography>
-                    ),
-                  )}
+                // inquirySeq를 문자열로 변환하여 해당 아이템에 대한 정보 가져오기
+                const response = await TokenAxios.get(`/api/inquiry/${inquirySeq}`);
+                console.log(response.data);
+                const selectedItemData = response.data.result.data;
+                console.log(selectedItem);
 
-                  <IconButton onClick={handleOpenModal}>
-                    <InfoOutlinedIcon />
-                  </IconButton>
-                </ListItemStyled>
-                {rowIndex !== dataList.length - 1 && (
-                  <Divider component="li" light />
-                )}
-              </React.Fragment>
-            ))}
-          </StyledList>
+                // 가져온 정보를 state에 저장
+                setSelectedItemData(selectedItemData);
+                setOpenModal(true);
+            } else {
+                console.error("Invalid inquirySeq:", inquirySeq);
+            }
+        } catch (error) {
+            console.error("Error fetching item details:", error);
+        }
+    };
+    const handleCloseModal = () => setOpenModal(false);
 
-          <Pagination count={10} />
+    const handleModalSaveButton = async () => {
+        try {
+            // TextField의 내용 가져오기
+            const answerContent = textareaRef.current.value;
+            // 저장 요청 보내기
+            const res = await TokenAxios.put(
+                `/api/inquiry/${currentInquirySeq}`,
+                {
+                    answerContent: answerContent,
+                }
+            );
 
-          <Modal
-            open={openModal}
-            onClose={handleCloseModal}
-            aria-labelledby="simple-modal-title"
-            aria-describedby="simple-modal-description"
-          >
-            <ModalBoxStyled>
-              <IconButton
-                onClick={handleCloseModal}
-                sx={{ mt: 4, mr: 4 }}
-                style={{ position: "absolute", right: 0, top: 0 }}
-              >
-                <HighlightOffIcon></HighlightOffIcon>
-              </IconButton>
+            console.log(res.data);
 
-              <Grid container spacing={2}>
-                <Grid item xs={2}>
-                  <Typography variant="h6" fontWeight="bold" sx={{ mb: 2 }}>
-                    제목
-                  </Typography>
-                </Grid>
-                <Grid item xs={10}>
-                  <Typography>{mockData.제목}</Typography>
-                </Grid>
-                <Grid item xs={2}>
-                  <Typography variant="h6" fontWeight="bold" sx={{ mb: 2 }}>
-                    내용
-                  </Typography>
-                </Grid>
-                <Grid
-                  item
-                  xs={10}
-                  style={{
-                    height: "600px",
-                    maxHeight: "400px",
-                    overflowY: "auto",
-                  }}
+            // 모달 닫기
+            handleCloseModal();
+            getInquiryByCategory(currentPage);
+        } catch (error) {
+            // 오류 처리
+            console.error("저장 중 오류 발생:", error);
+        }
+    };
+
+    useEffect(() => {
+        // 각 페이지가 마운트될 때 selectedMenu를 업데이트
+        // setSelectedMenu 함수를 호출하여 상태를 업데이트
+        getInquiryByCategory(currentPage);
+        setSelectedMenu("상품 문의");
+    }, []);
+
+    return (
+        <Paper sx={{display: "flex", height: "100vh"}}>
+            {/* AdminBar 컴포넌트에 selectedMenu와 setSelectedMenu props 전달 */}
+            <AdminBar selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu}/>
+            <Box
+                sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "flex-start",
+                    backgroundColor: "#EEF2F6",
+                    flexGrow: 1,
+                }}
+            >
+                <Toolbar/>
+                <Box
+                    component="main"
+                    justifyContent="center"
+                    alignItems="center"
+                    sx={{
+                        flexGrow: 1,
+                        display: "flex",
+                        flexDirection: "column",
+                        backgroundColor: "#FFFFFF",
+                        borderRadius: "27px",
+                        margin: "16px",
+                    }}
                 >
-                  <Typography>{mockData.내용.repeat(100)}</Typography>
-                </Grid>
+                    <Toolbar sx={{justifyContent: "space-between", width: "100%"}}>
+                        {/* 중앙 정렬을 위해 앞뒤로 <div/> 추가*/}
+                        <div/>
+                        <InputBoxS
+                            color="neutral"
+                            disabled={false}
+                            startDecorator={<SearchIcon/>}
+                            placeholder="Search"
+                            variant="soft"
+                            sx={{mb: 4, mt: 4}}
+                        />
+                        <div/>
+                    </Toolbar>
 
-                <Grid item xs={12} style={{ height: "20" }}></Grid>
-              </Grid>
+                    <StyledList aria-label="mailbox folders">
+                        {/* 라벨 및 Divider 출력 부분 */}
+                        <ListItemStyled>
+                            {dataListLabels.map((label, index) => (
+                                <React.Fragment key={index}>
+                                    <Box
+                                        sx={{
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            alignItems: "center",
+                                            width: getColumnWidth(label),
+                                            textAlign: "center",
+                                        }}
+                                    >
+                                        <Typography variant="h6" fontWeight="bold">
+                                            {label}
+                                        </Typography>
+                                    </Box>
+                                    {/* 마지막 라벨 이후에는 Divider를 추가하지 않음 */}
+                                    {index !== dataListLabels.length - 1 && (
+                                        // <Divider orientation="vertical" flexItem light/>
+                                        <Divider component="li" light/>
+                                    )}
+                                </React.Fragment>
+                            ))}
+                        </ListItemStyled>
+                        <Divider component="li" light/>
 
-              <TextField
-                id="outlined-textarea"
-                label="문의답변을 입력하세요"
-                placeholder="Placeholder"
-                maxrows={4}
-                rows={4}
-                multiline
-                sx={{ mb: 4, width: "100%", backgroundColor: "#f8fafc" }}
-              />
-              <AdminButton variant="contained">저장</AdminButton>
-            </ModalBoxStyled>
-          </Modal>
-        </Box>
-      </Box>
-    </Paper>
-  );
+                        {/* 각 데이터 출력 부분 */}
+                        {dataList.map((item, rowIndex) => (
+                            <React.Fragment key={rowIndex}>
+                                <ListItemStyled>
+                                    {dataListLabels.map((label, colIndex) => (
+                                        <React.Fragment key={colIndex}>
+                                            <Box
+                                                sx={{
+                                                    display: "flex",
+                                                    flexDirection: "column",
+                                                    alignItems: "center",
+                                                    width: getColumnWidth(label),
+                                                    textAlign: "center",
+                                                }}
+                                            >
+                                                {label === "답변여부" ? (
+                                                    <MuiColorChip status={item["답변여부"]}/>
+                                                ) : (
+                                                    <Typography variant="body1">
+                                                        {item[label]}
+                                                    </Typography>
+                                                )}
+                                            </Box>
+                                            {/* 마지막 데이터 이후에는 Divider를 추가하지 않음 */}
+                                            {colIndex !== dataListLabels.length - 1 && (
+                                                // <Divider orientation="vertical" flexItem light/>
+                                                <Divider component="li" light/>
+                                            )}
+                                        </React.Fragment>
+                                    ))}
+                                </ListItemStyled>
+                                {/* 마지막 데이터 이후에는 Divider를 추가하지 않음 */}
+                                {rowIndex !== dataList.length - 1 && (
+                                    <Divider component="li" light/>
+                                )}
+                            </React.Fragment>
+                        ))}
+                    </StyledList>
+
+                    <Pagination
+                        count={totalPages} // 총 페이지 수를 적용
+                        page={currentPage + 1} // 현재 페이지 설정 (0부터 시작하므로 그대로 사용)
+                        onChange={(event, newPage) => handlePageChange(event, newPage - 1)} // 페이지 변경 시 호출되는 함수 설정
+                    />
+
+                    <Modal
+                        open={openModal}
+                        onClose={handleCloseModal}
+                        aria-labelledby="simple-modal-title"
+                        aria-describedby="simple-modal-description"
+                    >
+                        <ModalBoxStyled>
+                            <IconButton
+                                onClick={handleCloseModal}
+                                sx={{mt: 4, mr: 4}}
+                                style={{position: "absolute", right: 0, top: 0}}
+                            >
+                                <HighlightOffIcon></HighlightOffIcon>
+                            </IconButton>
+
+                            <Grid container spacing={2}>
+                                <Grid item xs={2}>
+                                    <Typography variant="h6" fontWeight="bold" sx={{mb: 2}}>
+                                        제목
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={10}>
+                                    <Typography>{selectedItem?.title || "title"}</Typography>
+                                </Grid>
+                                <Grid item xs={2}>
+                                    <Typography variant="h6" fontWeight="bold" sx={{mb: 2}}>
+                                        내용
+                                    </Typography>
+                                </Grid>
+                                <Grid
+                                    item
+                                    xs={10}
+                                    style={{
+                                        height: "600px",
+                                        maxHeight: "400px",
+                                        overflowY: "auto",
+                                    }}
+                                >
+                                    <Typography>{selectedItem?.content || "content"}</Typography>
+                                </Grid>
+
+                                <Grid item xs={12} style={{height: "20"}}></Grid>
+                            </Grid>
+
+                            <TextField
+                                id="outlined-textarea"
+                                defaultValue={selectedItem?.answerContent}
+                                label={selectedItem?.answerContent ? "" : "답변을 입력해주세요."}
+                                maxrows={4}
+                                rows={4}
+                                multiline
+                                inputRef={textareaRef}  // ref를 설정
+                                sx={{mb: 4, width: "100%", backgroundColor: "#f8fafc"}}
+                            />
+                            <AdminButton variant="contained" onClick={handleModalSaveButton}>저장</AdminButton>
+                        </ModalBoxStyled>
+                    </Modal>
+                </Box>
+            </Box>
+        </Paper>
+    );
 };
 
 export default ProductInquiryPage;
