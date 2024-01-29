@@ -1,4 +1,4 @@
-import {React,useEffect} from "react";
+import {React,useEffect, useState} from "react";
 import SidebarLayout from "components/templete/SidebarLayout";
 import { Box } from "@mui/material";
 import { Grid, Typography } from "@mui/material";
@@ -6,12 +6,13 @@ import { useLocation } from "react-router-dom";
 import { TokenAxios } from "apis/CommonAxios";
 import { DefaultAxios } from "apis/CommonAxios";
 
+ 
 const Payment = () => {
   const location = useLocation(); // Use useLocation to access location state
   const { state } = location;
   const { orderList } = state || {};
 
-  console.log(orderList);
+  const  [orderLists,setOrderLists] = useState([]); 
   
   useEffect(() => {
     const sendOrderRequest = async () => {
@@ -19,8 +20,9 @@ const Payment = () => {
         const response = await DefaultAxios.post("/api/order/orderListPage", {
           orderList: orderList,
         });
-
-        console.log(response.data);
+        console.log(response.data.result.data);
+        
+        setOrderLists(response.data.result.data);
         // Handle the response as needed
       } catch (error) {
         console.error("주문 데이터 전송 실패:", error);
@@ -109,11 +111,11 @@ const Payment = () => {
             </tr>
           </thead>
           <tbody>
-            <td style={{ border: "1px solid black", padding: "5px" }}>
+            <tr style={{ border: "1px solid black", padding: "5px" }}>
               <Grid container spacing={2} justifyContent="space-between">
                 <Grid item xs={2} style={{ textAlign: "center" }}>
                   <Typography style={{ fontWeight: "bold" }}>
-                    상품 정보
+                    {}
                   </Typography>
                 </Grid>
                 <Grid item xs={2} style={{ textAlign: "center" }}>
@@ -139,8 +141,52 @@ const Payment = () => {
                   </Typography>
                 </Grid>
               </Grid>
-            </td>
-            <tr>
+            </tr>
+            {orderLists.map((orderItem, index) => (
+              <tr key={index}>
+                <Grid container spacing={2} justifyContent="space-between">
+                  <Grid item xs={2} style={{ textAlign: "center" }}>
+                    <Typography>{orderItem.name}</Typography>
+                    <Typography>(옵션: {orderItem.prdtOptionSeq})</Typography>
+                  </Grid>
+                  <Grid
+                    item
+                    xs={2}
+                    style={{ textAlign: "center", marginTop: "1%" }}
+                  >
+                    <Typography>{orderItem.price}</Typography>
+                  </Grid>
+                  <Grid
+                    item
+                    xs={2}
+                    style={{ textAlign: "center", marginTop: "1%" }}
+                  >
+                    <Typography>{orderItem.amount}</Typography>
+                  </Grid>
+                  <Grid
+                    item
+                    xs={2}
+                    style={{ textAlign: "center", marginTop: "1%" }}
+                  >
+                    <Typography>
+                      무료
+                    </Typography>
+                  </Grid>
+                  <Grid
+                    item
+                    xs={2}
+                    style={{
+                      textAlign: "center",
+                      paddingLeft: "10px",
+                      marginTop: "1%",
+                    }}
+                  >
+                    <Typography>{orderItem.totalPrice}</Typography>
+                  </Grid>
+                </Grid>
+              </tr>
+            ))}
+            {/* <tr>
               <Grid container spacing={2} justifyContent="space-between">
                 <Grid item xs={2} style={{ textAlign: "center" }}>
                   <Typography>갤럭시 s24</Typography>
@@ -219,47 +265,7 @@ const Payment = () => {
                   <Typography>1,000,000</Typography>
                 </Grid>
               </Grid>
-            </tr>
-            <tr>
-              <Grid container spacing={2} justifyContent="space-between">
-                <Grid item xs={2} style={{ textAlign: "center" }}>
-                  <Typography>갤럭시 s24</Typography>
-                  <Typography>(옵션: 블랙)</Typography>
-                </Grid>
-                <Grid
-                  item
-                  xs={2}
-                  style={{ textAlign: "center", marginTop: "1%" }}
-                >
-                  <Typography>1,000,000</Typography>
-                </Grid>
-                <Grid
-                  item
-                  xs={2}
-                  style={{ textAlign: "center", marginTop: "1%" }}
-                >
-                  <Typography>1</Typography>
-                </Grid>
-                <Grid
-                  item
-                  xs={2}
-                  style={{ textAlign: "center", marginTop: "1%" }}
-                >
-                  <Typography>배송비 무료</Typography>
-                </Grid>
-                <Grid
-                  item
-                  xs={2}
-                  style={{
-                    textAlign: "center",
-                    paddingLeft: "10px",
-                    marginTop: "1%",
-                  }}
-                >
-                  <Typography>1,000,000</Typography>
-                </Grid>
-              </Grid>
-            </tr>
+            </tr> */}
           </tbody>
           <tfoot>
             <td
