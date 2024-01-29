@@ -15,7 +15,25 @@ export const ProductCard = ({ imageUrl, title, price, star, review, seq }) => {
         </HoverCardContent>
         <CardContent>
           <CardTitle>{title}</CardTitle>
-          <CardDescription>{price}원</CardDescription>
+          <CardDescription> 
+            {/* <img src="/images/M-user.png" width="15px" height="15px"/>  {price} */}
+            <Typography
+              variant="body1"
+              sx={{
+                textAlign: "center",
+                display: "flex",
+                alignItems: "center",
+                marginBottom : "7px",
+              }}
+            >
+              <img
+                src="/images/M-1.png"
+                alt="마일리지"
+                style={{ width: "20px", height: "20px", marginRight : "5px", }}
+              />
+              {price}
+            </Typography>
+          </CardDescription>
           <CardDescription>
             <StarRating
               star={Math.round(Number(star))}

@@ -1,5 +1,5 @@
 import { Grid, Typography, Box, Pagination, Tabs, Tab } from "@mui/material";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, NavLink } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { DefaultAxios } from "apis/CommonAxios";
@@ -110,8 +110,19 @@ const CategoryBody = () => {
       <Grid container spacing={0}>
         <Grid item xs={2}></Grid>
         <Grid item xs={8}>
-        <Box sx={{ width: '100%', bgcolor: 'background.paper', boxShadow: 3 }}>
-          <Tabs value={tabValue} onChange={handleTabChange} centered sx={{marginBottom : "3vh"}}>
+        <Box sx={{ width: '100%', }}>
+          <Tabs value={tabValue} 
+            onChange={handleTabChange} 
+            centered 
+            sx={{
+              marginBottom : "3vh",
+              // 선택되지 않은 탭의 글자 색상
+              '.MuiTab-root': { color: 'gray' },
+              // 선택된 탭의 글자 색상
+              '.Mui-selected': { color: 'black' },
+              // 선택된 탭의 배경 색상
+              '.MuiTabs-indicator': { backgroundColor: 'black' }
+            }}>
             {subCategoryLists.map((subCategory) => (
               <Tab 
                 key={subCategory.categorySeq}
@@ -184,21 +195,21 @@ const StyleTypoGrapy = styled(Typography)`
 `;
 
 // 메뉴 리스트 스타일
-// const MenuList = styled.ul`
-//   width: 100%;
-//   box-sizing: border-box;
-//   display: flex;
-//   margin: 20px 0;
-//   padding: 0;
-// `;
+const MenuList = styled.ul`
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  margin: 20px 0;
+  padding: 0;
+`;
 
 // 메뉴 아이템 스타일
-// const MenuItem = styled.li`
-//   border: 1px solid #c2c2c2;
-//   list-style: none;
-//   text-align: center;
-//   flex: 1 1 auto;
-// `;
+const MenuItem = styled.li`
+  border: 1px solid #c2c2c2;
+  list-style: none;
+  text-align: center;
+  flex: 1 1 auto;
+`;
 
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -206,18 +217,18 @@ const StyledLink = styled(Link)`
 `
 
 // NavLink 스타일
-// const StyledNavLink = styled(NavLink)`
-//   display: block;
-//   padding: 20px 0;
-//   text-decoration: none;
-//   color: black;
-//   font-size: 16px;
-//   &.active {
-//     background-color: transparent; // 활성화됐을 때의 스타일
-//   }
-//   &:not(.active) {
-//     background-color: #eeeeee; // 비활성화됐을 때의 스타일
-//   }
-// `;
+const StyledNavLink = styled(NavLink)`
+  display: block;
+  padding: 20px 0;
+  text-decoration: none;
+  color: black;
+  font-size: 16px;
+  &.active {
+    background-color: transparent; // 활성화됐을 때의 스타일
+  }
+  &:not(.active) {
+    background-color: #eeeeee; // 비활성화됐을 때의 스타일
+  }
+`;
 
 export default CategoryBody;
