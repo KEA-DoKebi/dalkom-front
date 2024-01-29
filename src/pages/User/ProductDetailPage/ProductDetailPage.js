@@ -58,7 +58,7 @@ const ProductDetailPage = () => {
     console.log(data);
     
     try{
-      const res = await TokenAxios.post("/api/cart/user", data);
+      await TokenAxios.post("/api/cart/user", data);
       // console.log(res.data);
     } catch (error) {
       console.log("Error response data:", error.response.data);

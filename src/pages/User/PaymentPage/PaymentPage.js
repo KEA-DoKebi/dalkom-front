@@ -3,7 +3,6 @@ import SidebarLayout from "components/templete/SidebarLayout";
 import { Box } from "@mui/material";
 import { Grid, Typography } from "@mui/material";
 import { useLocation } from "react-router-dom";
-import { TokenAxios } from "apis/CommonAxios";
 import { DefaultAxios } from "apis/CommonAxios";
 import { Input } from "@mui/joy";
 
@@ -29,6 +28,8 @@ const Payment = () => {
 
     return totalPrice;
   };
+
+   
 
   
   useEffect(() => {
@@ -110,8 +111,10 @@ const Payment = () => {
                   <Typography>배송지 주소</Typography>
                 </Grid>
                 <Grid sx={{mt:"10px"}} item xs={2}>
-                    <Input></Input>
-                </Grid>
+                <Input value = {receiverAddress} 
+                    onChange={(e) => setReceiverAddress(e.target.value)}>
+                      </Input>
+                 </Grid>
 
                 <Grid sx={{mt:"10px"}} item xs={7.5}></Grid>
 
@@ -230,5 +233,7 @@ const Payment = () => {
     </SidebarLayout>
   );
 };
+
+
 
 export default Payment;
