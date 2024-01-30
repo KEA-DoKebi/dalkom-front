@@ -69,3 +69,10 @@
     font-weight: 100;
     src: url("./Inter-Thin.woff") format("woff");
   }
+
+@font-face {
+  font-family: "hyundai";
+  font-style: normal;
+  font-weight: 100;
+  src: url("./hyundaifont.woff") format("woff");
+}

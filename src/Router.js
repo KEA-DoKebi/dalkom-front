@@ -1,5 +1,4 @@
 import { ApmRoutes } from "@elastic/apm-rum-react";
-import { Payment } from "@mui/icons-material";
 import AdminListPage from "pages/Admin/AdminManage/AdminListPage";
 import AdminRegisterPage from "pages/Admin/AdminManage/AdminRegisterPage";
 import AnnouncementPage from "pages/Admin/CSManage/AnnouncementPage";
@@ -35,8 +34,10 @@ import Refund from "pages/User/MyPage/Order/RefundPage/RefundPage";
 import Review from "pages/User/MyPage/Review/ReviewPage/ReviewPage";
 import ReviewEdit from "pages/User/MyPage/Review/ReviewWritePage/ReviewEditPage";
 import ReviewWrite from "pages/User/MyPage/Review/ReviewWritePage/ReviewWritePage";
+import Payment from "pages/User/PaymentPage/PaymentPage";
 import Login from "pages/commonPage/Login";
 import SignUp from "pages/commonPage/SignUp";
+import ComparisonPage from "pages/User/Camparison/ComparisonPage";
 import React from "react";
 import { BrowserRouter, Route } from "react-router-dom";
 
@@ -70,7 +71,7 @@ const Router = () => {
 
         <Route path="/cart" element={<Cart />} />
 
-        <Route path="/payment/:paymentSeq" element={<Payment />} />
+        <Route path="/payment" element={<Payment />} />
         <Route path="/order-detail" element={<OrderDetailPage />} />
 
         <Route path="/mypage/:userSeq">
@@ -155,6 +156,10 @@ const Router = () => {
             <Route path="/admin/cs/mile" element={<MileageInfoPage />} />
             <Route path="/admin/cs/shipping" element={<ShippingInfoPage />} />
           </Route>
+        </Route>
+        {/* wow point */}
+        <Route>
+          <Route path="/comparison" element={<ComparisonPage />} />
         </Route>
       </ApmRoutes>
     </BrowserRouter>

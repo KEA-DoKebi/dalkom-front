@@ -16,9 +16,8 @@ import {
 } from "@mui/material";
 import styled, { css } from "styled-components";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import { ProductCard } from "components/molecules/ProductCard";
-import { DefaultAxios } from "apis/CommonAxios";
+import { TokenAxios } from "apis/CommonAxios";
 
 // MainBody코드
 const MainBody = () => {
@@ -32,12 +31,12 @@ const MainBody = () => {
   });
 
   const getMainProductList = async () => {
-    const res = await axios.get("/data/productData/mainPageProduct.json");
+    const res = await TokenAxios.get("/data/productData/mainPageProduct.json");
     setProductLists(res.data);
   };
 
   const tempGetMainProductList = async () => {
-    const res = await DefaultAxios.get("/api/product/category/main");
+    const res = await TokenAxios.get("/api/product/category/main");
     console.log(res.data);
   };
 
