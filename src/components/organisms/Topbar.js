@@ -12,7 +12,6 @@ import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
 import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";
-import { PigMoney } from "tabler-icons-react";
 import MenuIcon from "@mui/icons-material/Menu";
 import Menu from "@mui/material/Menu";
 import Input from "@mui/joy/Input";
@@ -320,7 +319,7 @@ const Topbar = () => {
               alignItems: "center",
             }}
           >
-            <PigMoney size={48} strokeWidth={2} color={"black"} />
+            <img src="/images/M-user.png" alt="유저 마일리지" style={{width : "50px", height : "50px"}}/>
           </div>
           <div
             style={{
@@ -329,7 +328,7 @@ const Topbar = () => {
               alignItems: "center",
             }}
           >
-            <Typography sx={{ fontSize: "30px" }}> 1,200,000</Typography>
+            <Typography sx={{ fontSize: "30px" }}>{localStorage.getItem("mileage")}</Typography>
           </div>
         </div>
       </Toolbar>

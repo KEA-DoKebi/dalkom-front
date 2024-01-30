@@ -97,8 +97,10 @@ export default function CartBody() {
             totalPrice: item.amount * item.price, // Adjust calculation based on available data
             imageUrl: item.imageUrl,
           }));
+
+          console.log(mappedData);
           setRows(mappedData);
-          setSelectedRows(mappedData.map((item) => item.name));
+          setSelectedRows(mappedData.map((item) => item.orderCartSeq));
         } else {
           console.error("잘못된 데이터 형식:", result);
         }
@@ -117,7 +119,7 @@ export default function CartBody() {
       
       const selectedRowsData = rows
         
-        .filter((row) => selectedRows.includes(row.name))
+        .filter((row) => selectedRows.includes(row.orderCartSeq))
         .map((row) => ({          
           productSeq: row.productSeq,
           productOptionSeq: row.prdtOptionSeq,
@@ -138,7 +140,7 @@ export default function CartBody() {
 
   const handleQuantityChange = (row, value) => {
     const updatedRows = rows.map((r) => {
-      if (r.name === row.name) {
+      if (r.orderCartSeq === row.orderCartSeq) {
         const newAmount = r.amount + value; // 수량 변경
         return { ...r, amount: newAmount, totalPrice: newAmount * r.price }; // 새로운 수량과 총액 업데이트
       }
@@ -150,11 +152,11 @@ export default function CartBody() {
   const handleDeleteSelected = async() => {
     
     const selectedCartSeqList = rows
-    .filter((row) => selectedRows.includes(row.name))
+    .filter((row) => selectedRows.includes(row.orderCartSeq))
     .map((row) => row.orderCartSeq);
 
   // rows 상태에서 선택된 상품들을 제거
-    const updatedRows = rows.filter((row) => !selectedRows.includes(row.name));
+    const updatedRows = rows.filter((row) => !selectedRows.includes(row.orderCartSeq));
     setRows(updatedRows);
 
     // 선택된 상품을 삭제하는 API 호출
@@ -176,7 +178,7 @@ export default function CartBody() {
 
   // 최종 결제 금액 계산을 위해 rows 상태 사용
   const totalAmount = rows
-    .filter((row) => selectedRows.includes(row.name))
+    .filter((row) => selectedRows.includes(row.orderCartSeq))
     .reduce((acc, row) => acc + row.totalPrice, 0); // `totalPrice`를 사용하여 총 금액 합산
 
   return (
@@ -216,12 +218,12 @@ export default function CartBody() {
           <TableBody>
             {rows.map((row) => (
                 (
-                <StyledTableRow key={row.name}>
+                <StyledTableRow key={row.orderCartSeq}>
                   <TableCell>
                     <Checkbox
                       color="primary"
-                      checked={selectedRows.includes(row.name)}
-                      onChange={() => handleCheckboxChange(row.name)}
+                      checked={selectedRows.includes(row.orderCartSeq)}
+                      onChange={() => handleCheckboxChange(row.orderCartSeq)}
                     />
                   </TableCell>
                   <TableCell component="th" scope="row">

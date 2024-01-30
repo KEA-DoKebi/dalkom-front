@@ -37,7 +37,7 @@ import { InputBoxM } from "components/atoms/Input";
 import { CustomSelect } from "components/atoms/AdminSelectBox";
 import { DefaultAxios } from "apis/CommonAxios";
 
-const dataListLabels = ['번호', '작성일시', '작성자', '제목', '상단고정']
+const dataListLabels = ['번호', '작성일시', '작성자', '제목', '상단고정', '상세보기']
 
 const itemFlexStyles = {
   "& > *:nth-child(1)": { flex: 0.5 }, // 번호
@@ -64,19 +64,24 @@ const StyledList = styled(List)`
   ${itemFlexStyles}// 공통 스타일 적용
 `;
 
+const ListItemLabelStyled = styled(ListItem)`
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+  height: calc(70vh / 10); // 전체 높이의 70%를 10로 나눈 값으로 레이블 행의 높이를 설정
+  padding: 12px;
+  ${itemFlexStyles} // 공통 스타일 적용
+`;
+
 const ListItemStyled = styled(ListItem)`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
   width: 100%;
+  height: calc(70vh / 8); // 전체 높이의 70%를 8로 나눈 값
   padding: 12px;
-  ${itemFlexStyles}// 공통 스타일 적용
-`;
-
-const PaginationContainer = styled.div`
-  margin-top: 5px; /* 원하는 여백을 설정하세요 */
-  display: inline-block;
-  margin-top: 2%;
+  ${itemFlexStyles} // 공통 스타일 적용
 `;
 
 // 간격 일정하게 만드는 거
@@ -88,7 +93,7 @@ const getColumnWidth = (label) => {
     작성자: [30, 40],
     제목: [40, 50],
     상단고정: [50, 60],
-    주문상세: [60, 70],
+    상세보기: [60, 70],
     // Add more labels as needed
   };
 
@@ -117,7 +122,7 @@ const AnnouncementPage = () => {
 
   // const accessToken = localStorage.getItem('accessToken');
 
-  const pageSize = 10;
+  const pageSize = 7;
 
   const handleEditorChange = (event, editor) => {
     setEditorData(editor.getData());
@@ -206,7 +211,7 @@ const AnnouncementPage = () => {
         title: "헉!!!",
         text: "공지 등록에 실패하였어요!",
         // footer: `${e.response.data.result.msg}`,
-        
+
         footer:
           "다시 한 번 시도해주세요",
       });
@@ -218,7 +223,7 @@ const AnnouncementPage = () => {
 
   // 공지 조회 (get)
   const getNotice = async (page) => {
-    const res = await TokenAxios.get(`/api/notice?page=${page}&size=10`);
+    const res = await TokenAxios.get(`/api/notice?page=${page}&size=${pageSize}`);
     console.log(res.data.result.data.content);
     setDataList(res.data.result.data.content);
     console.log(res.data.result.data.totalPages);
@@ -312,7 +317,8 @@ const AnnouncementPage = () => {
           justifyContent="center"
           alignItems="center"
           sx={{
-            flexGrow: 1,
+            flex: 2,
+            p: 2,
             display: "flex",
             flexDirection: "column",
             backgroundColor: "#FFFFFF",
@@ -329,84 +335,93 @@ const AnnouncementPage = () => {
               startDecorator={<SearchIcon />}
               placeholder="Search"
               variant="soft"
-              sx={{ mb: 4, mt: 4 }}
+              sx={{ mb: 4, mt: 4, ml: "50px" }}
             />
-
             {/*작성하기 버튼을 누르면 Editor가 포함된 모달이 나오도록 했습니다.*/}
             <AdminButton variant="contained" onClick={handleWriteOpenModal}>
               작성하기
             </AdminButton>
           </Toolbar>
 
-          <StyledList aria-label="mailbox folders">
-            <ListItemStyled>
-              {dataListLabels.map((label, index) => (
+          <Box sx={{ width: "100%", height: "80%", overflowY: "auto" }}>
+            <StyledList aria-label="mailbox folders">
+              <ListItemLabelStyled>
+                {dataListLabels.map((label, index) => (
+                  <React.Fragment key={index}>
+                    <Typography
+                      variant="h6"
+                      fontWeight="bold"
+                      sx={{ width: getColumnWidth(label), textAlign: "center" }}
+                    >
+                      {label}
+                    </Typography>
+                  </React.Fragment>
+                ))}
+              </ListItemLabelStyled>
+              <Divider component="li" light />
+              {dataList.map((notice, index) => (
                 <React.Fragment key={index}>
-                  <Typography
-                    variant="h6"
-                    fontWeight="bold"
-                    sx={{ width: getColumnWidth(label), textAlign: "center" }}
-                  >
-                    {label}
-                  </Typography>
+                  <ListItemStyled>
+                    <Typography
+                      variant="body1"
+                      sx={{ width: getColumnWidth('공지번호'), textAlign: "center" }}
+                    >
+                      {index + 1 + (currentPage * pageSize)}
+                    </Typography>
+                    <Typography
+                      variant="body1"
+                      sx={{ width: getColumnWidth('작성일시'), textAlign: "center" }}
+                    >
+                      {formatDate(notice.createdAt)}
+                    </Typography>
+                    <Typography
+                      variant="body1"
+                      sx={{ width: getColumnWidth('작성자'), textAlign: "center" }}
+                    >
+                      {notice.nickname}
+                    </Typography>
+                    <Typography
+                      variant="body1"
+                      sx={{ width: getColumnWidth('제목'), textAlign: "center" }}
+                    >
+                      {notice.title}
+                    </Typography>
+                    <Typography
+                      variant="body1"
+                      sx={{ width: getColumnWidth('상단고정'), textAlign: "center" }}
+                    >
+                      {notice.state}
+                    </Typography>
+                    <IconButton onClick={() => handleLookOpenModal(notice.noticeSeq)}
+                      sx={{ width: getColumnWidth('상세보기'), textAlign: "center" }}>
+                      <InfoOutlinedIcon />
+                    </IconButton>
+                  </ListItemStyled>
+                  {index !== dataList.length - 1 && (
+                    <Divider component="li" light />
+                  )}
                 </React.Fragment>
               ))}
-              <Typography variant="h6" fontWeight="bold">
-                상세보기
-              </Typography>
-            </ListItemStyled>
-            <Divider component="li" light />
-            {dataList.map((notice, index) => (
-              <React.Fragment key={index}>
-                <ListItemStyled>
-                  <Typography
-                    variant="body1"
-                    sx={{ width: getColumnWidth('공지번호'), textAlign: "center"}}
-                  >
-                    {index + 1 + (currentPage * pageSize)}
-                  </Typography>
-                  <Typography
-                    variant="body1"
-                    sx={{ width: getColumnWidth('작성일시'), textAlign: "center"}}
-                  >
-                    {formatDate(notice.createdAt)}
-                  </Typography>
-                  <Typography
-                    variant="body1"
-                    sx={{ width: getColumnWidth('작성자'), textAlign: "center"}}
-                  >
-                    {notice.nickname}
-                  </Typography>
-                  <Typography
-                    variant="body1"
-                    sx={{ width: getColumnWidth('제목'), textAlign: "center"}}
-                  >
-                    {notice.title}
-                  </Typography>
-                  <Typography
-                    variant="body1"
-                    sx={{ width: getColumnWidth('상단고정'), textAlign: "center"}}
-                  >
-                    {notice.state}
-                  </Typography>
-                  <IconButton onClick={() => handleLookOpenModal(notice.noticeSeq)}
-                    sx={{ width: getColumnWidth('상단고정'), textAlign: "center"}}>
-                    <InfoOutlinedIcon />
-                  </IconButton>
-                </ListItemStyled>
-                {index !== dataList.length - 1 && (
-                  <Divider component="li" light />
-                )}
-              </React.Fragment>
-            ))}
-          </StyledList>
-          <PaginationContainer>
-          <Pagination
-            count={totalPages} // 총 페이지 수를 적용
-            page={currentPage+1} // 현재 페이지 설정 (0부터 시작하므로 그대로 사용)
-            onChange={(event, newPage) => handlePageChange(event, newPage - 1)} // 페이지 변경 시 호출되는 함수 설정
+            </StyledList>
+          </Box>
+          <Box
+            sx={{
+              flex: 1,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            {" "}
+            {/* 페이지네이션 섹션 */}
+            <Pagination
+              count={totalPages}
+              page={currentPage + 1}
+              onChange={(event, newPage) =>
+                handlePageChange(event, newPage - 1)
+              }
             />
-          </PaginationContainer>
+          </Box>
 
           {/* 공지사항 작성 모달  */}
           <Dialog
@@ -416,8 +431,8 @@ const AnnouncementPage = () => {
           >
             <form onSubmit={handleSubmit((data) => {
               postNotice(data);
-            // postNotice(data);})}>
-            // console.log(data)
+              // postNotice(data);})}>
+              // console.log(data)
             })}
             >
 
@@ -460,7 +475,7 @@ const AnnouncementPage = () => {
                 <AdminButton type="submit" autoFocus onClick={handleWriteCloseModal}>
                   Save
                 </AdminButton>
-            </DialogActions>
+              </DialogActions>
             </form>
           </Dialog>
 
@@ -493,9 +508,9 @@ const AnnouncementPage = () => {
               <IconButton
                 aria-label="close"
                 onClick={handleUpdateCloseModal}
-                sx={{ position: 'absolute', right: 8, top: 8, color: (theme) => theme.palette.grey[500],}}
+                sx={{ position: 'absolute', right: 8, top: 8, color: (theme) => theme.palette.grey[500], }}
               >
-              <CloseIcon />
+                <CloseIcon />
               </IconButton>
             </DialogTitle>
             <DialogContent style={{ width: 900, height: 550 }}>
@@ -528,9 +543,9 @@ const AnnouncementPage = () => {
               <IconButton
                 aria-label="close"
                 onClick={handleLookCloseModal}
-                sx={{ position: 'absolute', right: 8, top: 8, color: (theme) => theme.palette.grey[500],}}
+                sx={{ position: 'absolute', right: 8, top: 8, color: (theme) => theme.palette.grey[500], }}
               >
-              <CloseIcon />
+                <CloseIcon />
               </IconButton>
             </DialogTitle>
             <DialogContent style={{ width: 900, height: '450px', overflowY: 'auto', overflowX: 'hidden' }}>
@@ -560,7 +575,7 @@ const AnnouncementPage = () => {
                   '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
                     backgroundColor: pink[600],
                   },
-                }}/>}
+                }} />}
                 label="상단 고정"
               />
             </div>

@@ -5,7 +5,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
 
 // 마일리지 승인 버튼
-export function OXButton() {
+export function OXButton({ onSelect }) {
   const [selectedButton, setSelectedButton] = useState(null);
 
   const handleButtonClick = (buttonNumber) => {
@@ -14,6 +14,7 @@ export function OXButton() {
     }
 
     setSelectedButton(buttonNumber);
+    onSelect(buttonNumber === 1 ? 'Y' : 'N');
   };
 
   return (
