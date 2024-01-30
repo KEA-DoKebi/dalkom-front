@@ -26,7 +26,6 @@ const itemFlexStyles = {
   "& > *:nth-child(4)": { flex: 1.5 }, // 마일리지
   "& > *:nth-child(5)": { flex: 2 }, // 기본배송지
   "& > *:nth-child(6)": { flex: 1 }, // 삭제
-  "&:before, &:after": { content: '""', flex: 0.5 },
 };
 
 const StyledList = styled(List)`

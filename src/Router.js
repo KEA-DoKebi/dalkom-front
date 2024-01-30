@@ -38,6 +38,7 @@ import ReviewWrite from "pages/User/MyPage/Review/ReviewWritePage/ReviewWritePag
 import ProductDetail from "pages/User/ProductDetailPage/ProductDetailPage";
 import Login from "pages/commonPage/Login";
 import SignUp from "pages/commonPage/SignUp";
+import ComparisonPage from "pages/User/Camparison/ComparisonPage";
 import React from "react";
 import { BrowserRouter, Route } from "react-router-dom";
 
@@ -154,6 +155,10 @@ const Router = () => {
             <Route path="/admin/cs/mile" element={<MileageInfoPage />} />
             <Route path="/admin/cs/shipping" element={<ShippingInfoPage />} />
           </Route>
+        </Route>
+        {/* wow point */}
+        <Route>
+          <Route path="/comparison" element={<ComparisonPage />} />
         </Route>
       </ApmRoutes>
     </BrowserRouter>

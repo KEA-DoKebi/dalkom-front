@@ -6,7 +6,6 @@ import { AdminButton } from "components/atoms/AdminCommonButton";
 import SearchIcon from "@mui/icons-material/Search";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import mileageIcon from "./배경제거M-admin.png"; // 컴포넌트와 같은 디렉토리에 있는 경우
-
 import {
   Box,
   Divider,
@@ -115,7 +114,7 @@ const ProductListPage = () => {
           <img
             src={product.imageUrl}
             alt={product.name}
-            style={{ width: "70px", height: "70px" }} // 이미지 크기를 70x70으로 조정
+            style={{ width: "62px", height: "62px" }} // 이미지 크기를 62x62으로 조정
           />
         </div>
         <Typography variant="body1" sx={{ textAlign: "center" }}>
