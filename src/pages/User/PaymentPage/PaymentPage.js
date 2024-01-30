@@ -4,6 +4,8 @@ import { Box, Button } from "@mui/material";
 import { Grid, Typography } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import { DefaultAxios } from "apis/CommonAxios";
+import DaumPostcode from 'react-daum-postcode';
+import { CustomButton } from 'common';
 import { Input } from "@mui/joy";
 import Swal from "sweetalert2";
 import { TokenAxios } from "apis/CommonAxios";
@@ -17,8 +19,10 @@ const Payment = () => {
   const { orderList } = state || {};
   const [receiverName,setReceiverName] =useState("");
   const [receiverAddress,setReceiverAddress] = useState("");
+  const [receiverDetailAddress,setReceiverDetailAddress] = useState("");
   const [receiverMemo , setReceiverMemo] = useState("");
   const [receiverMobileNum,setReceiverMobileNum] = useState("");
+  const [openDaumAddress, setOpenDaumAddress] = useState(false);
 
   const  [orderLists,setOrderLists] = useState([]); 
 
@@ -128,6 +132,44 @@ const Payment = () => {
     }
   }, [orderList]);
 
+  // component 로 분리해서 값을 넣고 싶음
+  const DaumAddressComponent = () => {
+    const handle = {
+      clickButton: () => {
+        setOpenDaumAddress(current => !current);
+      },
+      selectAddress: (data) => {
+        console.log(`
+          주소: ${data.address},
+          우편번호: ${data.zonecode}
+        `);
+        setOpenDaumAddress(false);
+        setReceiverAddress(`${data.address} ${data.zonecode}`);
+      },
+    };
+
+    return (
+      <div>
+        <SearchAddressButton onClick={handle.clickButton}>주소찾기</SearchAddressButton>
+        {openDaumAddress && (
+          <DaumPostcode
+            onComplete={handle.selectAddress}
+            autoClose={false}
+            defaultQuery="가천대역"
+            style={{
+              position: 'fixed',
+              right: 0,
+              top: 0,
+              width: '100%',
+              height: '100%',
+              zIndex: 3333,
+            }}
+          />
+        )}
+      </div>
+    );
+  };
+
   return (
     <SidebarLayout>
       {/* Content Next to Sidebar */}
@@ -159,7 +201,7 @@ const Payment = () => {
                 >
                   <h3>배송지정보</h3>
                 </Grid>
-                <Grid sx={{mt:"10px"}} item xs={1}></Grid>
+                <Grid sx={{mt:"12px"}} item xs={1}></Grid>
                 <Grid sx={{mt:"10px"}} item xs={1.5}>
                 <Typography>수신인</Typography>
                 </Grid>
@@ -170,30 +212,39 @@ const Payment = () => {
                 <Grid sx={{mt:"10px"}} item xs={7.5}></Grid>
 
                 <Grid sx={{mt:"10px"}} item xs={1}></Grid>
-                <Grid sx={{mt:"10px"}} item xs={1.5}>
+                <Grid sx={{mt:"12px"}} item xs={1.5}>
                   <Typography>연락처</Typography>
                 </Grid>
                 <Grid sx={{mt:"10px"}} item xs={2}>
                     <Input value = {receiverMobileNum} 
                     onChange={(e) => setReceiverMobileNum(e.target.value)}></Input>
                 </Grid>
-
                 <Grid  sx={{mt:"10px"}} item xs={7.5}></Grid>
 
                 <Grid sx={{mt:"10px"}} item xs={1}></Grid>
-                <Grid sx={{mt:"10px"}} item xs={1.5}>
+                <Grid sx={{mt:"8px"}} item xs={1.5}>
                   <Typography>배송지 주소</Typography>
                 </Grid>
-                <Grid sx={{mt:"10px"}} item xs={2}>
-                <Input value = {receiverAddress} 
-                    onChange={(e) => setReceiverAddress(e.target.value)}>
-                      </Input>
-                 </Grid>
-
-                <Grid sx={{mt:"10px"}} item xs={7.5}></Grid>
+                <Grid item xs={8} style={{ display: "flex", alignItems: "center"  }}>
+                  <CustomInput value={receiverAddress} sx={{ marginRight: "10px" }} />
+                  <DaumAddressComponent />
+                </Grid>
+                <Grid sx={{mt:"10px"}} item xs={1.5}></Grid>
+                
 
                 <Grid sx={{mt:"10px"}} item xs={1}></Grid>
-                <Grid sx={{mt:"10px"}} item xs={1.5 }>
+                <Grid sx={{mt:"8px"}} item xs={1.5}>
+                  <Typography>상세 주소</Typography>
+                </Grid>
+                <Grid item xs={6} style={{ display: "flex", alignItems: "center"  }}>
+                  <CustomInput value={receiverDetailAddress} sx={{ marginRight: "10px" }} 
+                  onChange={(e) => setReceiverDetailAddress(e.target.value)}></CustomInput>
+                </Grid>
+
+                <Grid sx={{mt:"10px"}} item xs={3.5}></Grid>
+
+                <Grid sx={{mt:"10px"}} item xs={1}></Grid>
+                <Grid sx={{mt:"14px"}} item xs={1.5 }>
                   <Typography>배송 요청사항</Typography>
                 </Grid>
                 <Grid sx={{mt:"10px"}} item xs={3}>
@@ -325,11 +376,16 @@ const StyledBox = styled(Box)`
 const StyledButton = styled(Button)`
   background-color : black;
   color : white;
-  
-  
 
   &:hover {
     background-color : rgba(0,0,0,0.9);
     color : gray;
   }
+`
+const SearchAddressButton=styled(CustomButton)`
+    font-size: 11px 
+    
+`
+const CustomInput =styled(Input)`
+    width:500px
 `
