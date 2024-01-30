@@ -80,6 +80,7 @@ const Login = () => {
         console.log(res.data.result.data);
         const tokenData = res.data.result.data;
         localStorage.setItem("accessToken", tokenData.accessToken);
+        localStorage.setItem("mileage", tokenData.mileage);
         navigate("/");
       } else {
         const res = await DefaultAxios.post("api/admin/login", data);
