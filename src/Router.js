@@ -42,7 +42,6 @@ import { BrowserRouter, Route } from "react-router-dom";
 
 import { init as initApm } from '@elastic/apm-rum'
 import ProductDetailPage from "pages/User/ProductDetailPage/ProductDetailPage";
-import Payment from "pages/User/PaymentPage/PaymentPage";
 
 
 

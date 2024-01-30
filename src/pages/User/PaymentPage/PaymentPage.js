@@ -1,10 +1,13 @@
 import {React,useEffect, useState} from "react";
 import SidebarLayout from "components/templete/SidebarLayout";
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { Grid, Typography } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import { DefaultAxios } from "apis/CommonAxios";
 import { Input } from "@mui/joy";
+import Swal from "sweetalert2";
+import { TokenAxios } from "apis/CommonAxios";
+import { styled } from "styled-components";
 
 
  
@@ -309,7 +312,7 @@ const Payment = () => {
   );
 };
 
-export default PaymentPage;
+export default Payment;
 
 
 const StyledBox = styled(Box)`
