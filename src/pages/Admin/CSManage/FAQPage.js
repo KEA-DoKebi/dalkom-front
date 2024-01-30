@@ -4,7 +4,6 @@ import SearchIcon from "@mui/icons-material/Search";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import {CKEditor} from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-
 import {
     Box,
     Dialog,
@@ -24,6 +23,8 @@ import AdminBar from "components/organisms/AdminBar";
 import {InputBoxM, InputBoxS} from "components/atoms/Input";
 import {AdminButton} from "components/atoms/AdminCommonButton";
 import {TokenAxios} from "../../../apis/CommonAxios";
+import {useForm} from "react-hook-form";
+import CloseIcon from "@mui/icons-material/Close";
 
 let currentInquirySeq = null;
 
@@ -56,7 +57,7 @@ const getColumnWidth = (label) => {
         FAQ번호: [0, 20],
         작성일시: [20, 40],
         FAQ: [40, 70],
-        상세보기: [70, 90],
+        수정하기: [70, 90],
         // Add more labels as needed
     };
     const [minWidth, maxWidth] = widthRanges[label] || [0, 100];
@@ -72,12 +73,15 @@ const FAQPage = () => {
     const [dataListLabels, setDataListLabels] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState();
-    const [selectedItem, setSelectedItemData] = useState(null);
-    const [openModal, setOpenModal] = useState(false);
+    const [selectedItem, setSelectedItem] = useState(null);
+    const [createEditorData, setCreateEditorData] = useState("");
+    const [openCreateModal, setOpenCreateModal] = useState(false);
+    const [openEditModal, setOpenEditModal] = useState(false);
+    const {register, handleSubmit} = useForm();
+    const [editFAQ, setEditFAQ] = useState({title: '', content: ''});
 
     const getFAQ = async (page) => {
         try {
-            console.log(page);
             const res = await TokenAxios.get(`/api/faq`);
             console.log(res.data.result.data.content);
             setTotalPages(res.data.result.data.totalPages);
@@ -92,8 +96,11 @@ const FAQPage = () => {
                         FAQ번호: item.inquirySeq,
                         작성일시: `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`,
                         FAQ: item.title,
-                        상세보기: (
-                            <IconButton onClick={() => handleOpenModal(item.inquirySeq)}>
+                        수정하기: (
+                            <IconButton onClick={() => {
+                                currentInquirySeq = item.inquirySeq; // inquirySeq를 저장
+                                setOpenEditModal(true); // 모달을 열기
+                            }}>
                                 <InfoOutlinedIcon/>
                             </IconButton>
                         )
@@ -108,7 +115,7 @@ const FAQPage = () => {
                 "FAQ번호",
                 "작성일시",
                 "FAQ",
-                "상세보기"
+                "수정하기"
             ];
             setDataListLabels(newLabels);
         }
@@ -118,31 +125,46 @@ const FAQPage = () => {
         setCurrentPage(newPage); // 현재 페이지 업데이트
     };
 
-    const handleOpenModal = async (inquirySeq) => {
-        console.log("inquirySeq:", inquirySeq);
+    const handleCloseCreateModal = () => {
+        setOpenCreateModal(false);
+    }
+    const handleCloseEditModal = () => {
+        setOpenEditModal(false);
+    }
+    const handleCreateEditorChange = (event, editor) => {
+        setCreateEditorData(editor.getData());
+    }
 
+    // FAQ 생성 모달에서 저장하기 버튼을 누르면 실행하는 함수
+    const faqCreate = async (data) => {
+        console.log(data.title);
+        data.content = createEditorData;
+        console.log(data.content);
         try {
-            if (inquirySeq !== undefined && inquirySeq !== null) {
-                currentInquirySeq = inquirySeq;
+            const res = await TokenAxios.post(`/api/faq`, data);
+            console.log(res.data);
 
-                // inquirySeq를 문자열로 변환하여 해당 아이템에 대한 정보 가져오기
-                const response = await TokenAxios.get(`/api/inquiry/${inquirySeq}`);
-                console.log(response.data);
-                const selectedItemData = response.data.result.data;
-                console.log(selectedItem);
-
-                // 가져온 정보를 state에 저장
-                setSelectedItemData(selectedItemData);
-                setOpenModal(true);
-            } else {
-                console.error("Invalid inquirySeq:", inquirySeq);
-            }
-        } catch (error) {
-            console.error("Error fetching item details:", error);
+            handleCloseCreateModal();
+            getFAQ(currentPage);
+        } catch (e) {
+            console.log(e);
         }
-    };
+    }
 
-    const handleCloseModal = () => setOpenModal(false);
+    // FAQ 수정 모달에서 수정하기 버튼을 누르면 실행되는 함수
+    const faqEdit = async (data) => {
+        data.title = editFAQ.title;
+        data.content = editFAQ.content;
+        try {
+            const res = await TokenAxios.put(`/api/faq/${currentInquirySeq}`, data);
+            console.log(res.data);
+
+            handleCloseEditModal();
+            getFAQ(currentPage);
+        } catch (e) {
+            console.log(e);
+        }
+    }
 
     useEffect(() => {
         // 각 페이지가 마운트될 때 selectedMenu를 업데이트
@@ -152,15 +174,28 @@ const FAQPage = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const [title] = useState(`FAQ 자주 올라오는 질문 입니다.`);
-    const [content] = useState(`<p>상품은 어떻게 주문하나요?</p>
-    <p>상품을 주문하는 과정은 간단하며 다음 단계를 따라주시면 됩니다.</p>
-    <p>제품 선택: 웹사이트 또는 앱을 통해 원하는 상품을 찾아주세요. 제품 페이지에서 옵션과 가격을 확인하고, 필요한 경우 리뷰와 평가도 참고하세요.</p>
-    <p>장바구니에 담기: 상품 페이지에서 "장바구니에 담기" 버튼을 클릭하세요. 장바구니에서는 주문 내역을 확인하고 필요한 경우 수량을 조절할 수 있습니다.</p>
-    <p>주문 정보 입력: 주문을 계속하기 전에 배송 정보, 연락처, 결제 정보 등을 입력해주세요. 주문 전에 입력한 정보를 정확히 확인하고 수정이 필요한 경우 수정해주세요.</p>
-    <p>결제: 주문 정보를 확인한 후, 원하는 결제 방법을 선택하세요. 신용카드, 무통장 입금, 페이팔 등 다양한 결제 옵션이 제공됩니다.</p>
-    <p>주문 완료: 결제가 완료되면 주문 확인 이메일이 발송됩니다. 주문 상태와 추적 번호를 확인하며 배송 상황을 추적할 수 있습니다.</p>
-    <p>배송 및 수령: 주문한 상품은 배송까지의 일정을 확인하고, 배송이 완료되면 안전하게 상품을 수령하세요.</p>`);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                if (currentInquirySeq !== null) {
+                    // currentInquirySeq를 문자열로 변환하여 해당 아이템에 대한 정보 가져오기
+                    const response = await TokenAxios.get(`/api/inquiry/${currentInquirySeq}`);
+
+                    // 가져온 정보를 state에 저장
+                    setSelectedItem(response.data.result.data);
+                } else {
+                    console.error("Invalid inquirySeq:", currentInquirySeq);
+                }
+            } catch (error) {
+                console.error("Error fetching item details:", error);
+            }
+        };
+
+        if (openEditModal) {
+            fetchData(); // 모달이 열릴 때 데이터를 가져오는 함수 호출
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [openEditModal, currentInquirySeq]);
 
     return (
         <Paper sx={{display: "flex", height: "100vh"}}>
@@ -200,7 +235,7 @@ const FAQPage = () => {
                             variant="soft"
                             sx={{mb: 4, mt: 4}}
                         />
-                        <AdminButton variant="contained" onClick={handleOpenModal}>
+                        <AdminButton variant="contained" onClick={() => {setOpenCreateModal(true)}}>
                             작성하기
                         </AdminButton>
                     </Toolbar>
@@ -243,52 +278,119 @@ const FAQPage = () => {
                     <Pagination
                         count={totalPages} // 총 페이지 수를 적용
                         page={currentPage + 1} // 현재 페이지 설정 (0부터 시작하므로 그대로 사용)
-                        onChange={(event, newPage) => handlePageChange(event, newPage - 1)} // 페이지 변경 시 호출되는 함수 설정
+                        onChange={(event, newPage) =>
+                            handlePageChange(event, newPage - 1)} // 페이지 변경 시 호출되는 함수 설정
                     />
 
                     {/* FAQ 작성 모달  */}
                     <Dialog
-                        onClose={handleCloseModal}
-                        open={openModal}
+                        open={openCreateModal}
+                        onClose={handleCloseCreateModal}
                         maxWidth={false}
                     >
-                        <DialogTitle
-                            style={{
-                                display: "flex",
-                                flexDirection: "row",
-                                alignItems: "center",
-                            }}
+                        <form
+                            onSubmit={handleSubmit((data) => {
+                                faqCreate(data);
+                            })}
                         >
-                            <InputBoxM
-                                color="neutral"
-                                defaultValue={selectedItem?.title}
-                                placeholder="Text"
-                                disabled={false}
-                                variant="soft"
-                                sx={{mb: 2, mt: 2, width: "80%"}}
-                            />
-                        </DialogTitle>
-                        <DialogContent style={{width: 900, height: 550}}>
-                            <CKEditorContainer>
-                                <CKEditor
-                                    editor={ClassicEditor}
-                                    // data="<p>공지를 작성하세요</p>"
-                                    data={selectedItem?.content}
-                                    onChange={(event, editor) => {
-                                        const data = editor.getData();
-                                        console.log({event, editor, data});
-                                        // 원하는 작업 수행
-                                    }}
-                                />
-                            </CKEditorContainer>
-                            <DialogActions
-                                style={{justifyContent: "center", marginTop: "20px"}}
+                            <DialogTitle
+                                style={{
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    alignItems: "center",
+                                }}
                             >
-                                <AdminButton autoFocus onClick={handleCloseModal}>
-                                    Save
-                                </AdminButton>
-                            </DialogActions>
-                        </DialogContent>
+                                <InputBoxM
+                                    defaultValue=""
+                                    id="title"
+                                    color="neutral"
+                                    placeholder="Text"
+                                    disabled={false}
+                                    variant="soft"
+                                    sx={{mb: 2, mt: 2, width: "80%"}}
+                                    {...register("title")}
+                                />
+                                <IconButton
+                                    aria-label="close"
+                                    onClick={handleCloseCreateModal}
+                                    sx={{ position: 'absolute', right: 8, top: 8, color: (theme) => theme.palette.grey[500],}}
+                                >
+                                    <CloseIcon />
+                                </IconButton>
+                            </DialogTitle>
+                            <DialogContent style={{width: 900, height: 550}}>
+                                <CKEditorContainer>
+                                    <CKEditor
+                                        editor={ClassicEditor}
+                                        onChange={handleCreateEditorChange}
+                                        data=""
+                                    />
+                                </CKEditorContainer>
+                                <DialogActions
+                                    style={{justifyContent: "center", marginTop: "20px"}}
+                                >
+                                    <AdminButton autoFocus type="submit">
+                                        저장
+                                    </AdminButton>
+                                </DialogActions>
+                            </DialogContent>
+                        </form>
+                    </Dialog>
+
+                    {/* FAQ 수정 모달  */}
+                    <Dialog
+                        onClose={handleCloseEditModal}
+                        open={openEditModal}
+                        maxWidth={false}
+                    >
+                        <form
+                            onSubmit={handleSubmit((data) => {
+                                faqEdit(data);
+                            })}
+                        >
+                            <DialogTitle
+                                style={{
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    alignItems: "center",
+                                }}
+                            >
+                                <InputBoxM
+                                    defaultValue={selectedItem?.title}
+                                    onChange={(e) => setEditFAQ({...editFAQ, title: e.target.value})}
+                                    color="neutral"
+                                    placeholder="Text"
+                                    disabled={false}
+                                    variant="soft"
+                                    sx={{mb: 2, mt: 2, width: "80%"}}>
+                                </InputBoxM>
+                                <IconButton
+                                    aria-label="close"
+                                    onClick={handleCloseEditModal}
+                                    sx={{ position: 'absolute', right: 8, top: 8, color: (theme) => theme.palette.grey[500],}}
+                                >
+                                    <CloseIcon />
+                                </IconButton>
+                            </DialogTitle>
+                            <DialogContent style={{width: 900, height: 550}}>
+                                <CKEditorContainer>
+                                    <CKEditor
+                                        editor={ClassicEditor}
+                                        data={selectedItem?.content}
+                                        onChange={(event, editor) => {
+                                            setEditFAQ({...editFAQ, content: editor.getData()});
+                                        }}
+                                    />
+                                </CKEditorContainer>
+                                <DialogActions
+                                    style={{justifyContent: "center", marginTop: "20px"}}
+                                >
+                                    <AdminButton type="submit">
+                                        수정
+                                    </AdminButton>
+                                </DialogActions>
+                            </DialogContent>
+                        </form>
                     </Dialog>
                 </Box>
             </Box>
