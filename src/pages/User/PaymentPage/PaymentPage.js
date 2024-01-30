@@ -18,10 +18,10 @@ const Payment = () => {
   const { state } = location;
   const { orderList } = state || {};
   const [receiverName,setReceiverName] =useState("");
+  const [receiverMobileNum,setReceiverMobileNum] = useState("");
   const [receiverAddress,setReceiverAddress] = useState("");
   const [receiverDetailAddress,setReceiverDetailAddress] = useState("");
   const [receiverMemo , setReceiverMemo] = useState("");
-  const [receiverMobileNum,setReceiverMobileNum] = useState("");
   const [openDaumAddress, setOpenDaumAddress] = useState(false);
 
   const  [orderLists,setOrderLists] = useState([]); 
@@ -36,78 +36,74 @@ const Payment = () => {
     return totalPrice;
   };
 
-  const handlePaymentBtnClick = () => {
-    Swal.fire({
-      title: "정말 결제하시겠습니까?",
-      showDenyButton: true,
-      confirmButtonText: "예",
-      denyButtonText: `아니요`
-    }).then((result) => {
-      /* Read more about isConfirmed, isDenied below */
-      if (result.isConfirmed) {
-        Swal.fire({
-          title : "계정 비밀번호를 다시 입력하세요",
-          input: "text",
-          showDenyButton: true,
-          confirmButtonText: "결제하기",
-          denyButtonText: `뒤로가기`,
-          preConfirm : async(password) => {
-            try{
-              const res = await TokenAxios.put("/api/order/authorize", {
-                password : password,
-              })
-              if(res.data.success){
-                const res = await TokenAxios.post("/api/order", {
-                  receiverInfoRequest: {
-                      "receiverName": "내동생",
-                      "receiverAddress": "우리집",
-                      "receiverMobileNum": "010-1234-5678",
-                      "receiverMemo": "요청사항"
-                  },
-                  orderProductRequestList: [
-                      {
-                          "productSeq": 28,
-                          "productOptionSeq": 15,
-                          "productAmount": 2
-                      },
-                      {
-                          "productSeq": 287,
-                          "productOptionSeq": 3,
-                          "productAmount": 2
-                      },
-                      {
-                          "productSeq": 290,
-                          "productOptionSeq": 3,
-                          "productAmount": 2
-                      },
-                      {
-                          "productSeq": 510,
-                          "productOptionSeq": 3,
-                          "productAmount": 2
-                      }
-                  ]
-              })
-                console.log(res.data);
-              }
-             
-            }catch(e){
-              Swal.showValidationMessage(`
-                  결제에 문제가 생겼습니다!
-              `);
-            }
-          }
-        }).then((result) => {
-          if(result.isDenied){
-            Swal.fire("결제가 실패하였습니다", "", "info");
-          }
-        });
-      } else if (result.isDenied) {
-        Swal.fire("결제가 실패하였습니다", "", "info");
-      }
-    });
-  }
 
-   
+  const handlePaymentBtnClick = () => {
+    if(receiverName && receiverAddress && receiverMemo && receiverMobileNum){
+      Swal.fire({
+        title: "정말 결제하시겠습니까?",
+        showDenyButton: true,
+        confirmButtonText: "예",
+        denyButtonText: `아니요`
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          Swal.fire({
+            title : "계정 비밀번호를 다시 입력하세요",
+            input: "text",
+            showDenyButton: true,
+            confirmButtonText: "결제하기",
+            denyButtonText: `뒤로가기`,
+            preConfirm : async(password) => {
+              try{
+                const res = await TokenAxios.post("/api/order/authorize", {
+                  password : password,
+                })
+                if(res.data.success){
+                  const res = await TokenAxios.post("/api/order", {
+                    receiverInfoRequest: {
+                        receiverName: receiverName,
+                        receiverAddress: receiverAddress + receiverDetailAddress,
+                        receiverMobileNum: receiverMobileNum,
+                        receiverMemo: receiverMemo
+                    },
+                    orderProductRequestList: orderLists,
+                })
+                  if(res.data.success){
+                    localStorage.setItem("mileage", res.data.result.data);
+                    setOrderLists([]);
+                    setReceiverName("");
+                    setReceiverMobileNum("");
+                    setReceiverAddress("");
+                    setReceiverDetailAddress("");
+                    setReceiverMemo("");
+                    Swal.fire({
+                      icon: 'success', 
+                      title: '🎉🎉결제가 완료되었습니다!',
+                      showConfirmButton: false, 
+                      timer: 1000
+                    })
+                  }
+                }
+              }catch(e){
+                Swal.showValidationMessage(`
+                    결제에 문제가 생겼습니다!
+                `);
+              }
+            }
+          }).then((result) => {
+            if(result.isDenied){
+              Swal.fire("결제가 실패하였습니다", "", "info");
+            }
+          });
+        } else if (result.isDenied) {
+          Swal.fire("결제가 실패하였습니다", "", "info");
+        }
+      });
+    }else{
+      Swal.fire("배송지 정보를 입력해주세요!", "", "info");
+    }
+    
+  }
 
   
   useEffect(() => {
@@ -293,7 +289,7 @@ const Payment = () => {
                 <Grid container spacing={2} justifyContent="space-between">
                   <Grid item xs={2} style={{ textAlign: "center" }}>
                     <Typography>{orderItem.productName}</Typography>
-                    <Typography>(옵션: {orderItem.productOptionSeq})</Typography>
+                    <Typography>(옵션: {orderItem.productOption})</Typography>
                   </Grid>
                   <Grid
                     item
