@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import styled from "styled-components";
 import {
   Typography,
@@ -60,7 +60,21 @@ export default function OrderListBody() {
   const [order, setOrder] = useState([]);
   const [filterPeriod, setFilterPeriod] = useState("all");
 
-  const orderList = async () => {
+  // const orderList = async () => {
+  //   try {
+  //     const res = await TokenAxios.get("/api/order/user?page=1&size=10");
+  //     const allOrders = res.data.result.data.content;
+
+  //     const filteredOrders = filterPeriod === "all"
+  //       ? allOrders
+  //       : allOrders.filter(order => isWithinPeriod(order.ordrDate, filterPeriod));
+
+  //     setOrder(filteredOrders);
+  //   } catch (e) {
+  //     console.error("Error fetching order list:", e);
+  //   }
+  // },
+  const orderList = useCallback(async () => {
     try {
       const res = await TokenAxios.get("/api/order/user?page=1&size=10");
       const allOrders = res.data.result.data.content;
@@ -73,11 +87,11 @@ export default function OrderListBody() {
     } catch (e) {
       console.error("Error fetching order list:", e);
     }
-  };
+  }, [filterPeriod]);
 
   useEffect(() => {
     orderList(filterPeriod);
-  }, [filterPeriod, orderList]);
+  }, [filterPeriod]);
 
 
   const isWithinPeriod = (orderDate, period) => {
