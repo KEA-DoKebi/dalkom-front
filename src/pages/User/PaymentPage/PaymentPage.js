@@ -34,11 +34,7 @@ const Payment = () => {
     return totalPrice;
   };
 
-  const handleSelectDaumAddress = (data) => {
-    setReceiverAddress(data);
-    setOpenDaumAddress(false); // Close the DaumAddress component after selecting an address
-  };
-
+  
   
   useEffect(() => {
     const sendOrderRequest = async () => {
