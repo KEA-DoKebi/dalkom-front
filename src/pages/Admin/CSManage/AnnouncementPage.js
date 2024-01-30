@@ -11,6 +11,7 @@ import Swal from "sweetalert2";
 import { TokenAxios } from "apis/CommonAxios";
 import { pink } from "@mui/material/colors";
 import { alpha } from '@mui/material/styles';
+import { PinkSwitch } from "components/atoms/OnOffSwitch";
 
 import {
   Box,
@@ -280,6 +281,17 @@ const AnnouncementPage = () => {
     }
   };
 
+  const [state, setState] = React.useState({
+    option: false,
+  });
+
+  const handleChange = (event) => {
+    setState({
+      ...state,
+      [event.target.name]: event.target.checked,
+    });
+  };
+
   
   return (
     <Paper sx={{ display: "flex", height: "100vh" }}>
@@ -436,21 +448,11 @@ const AnnouncementPage = () => {
               </CKEditorContainer>
             </DialogContent>
             <div style={{ display: 'flex', justifyContent: 'flex-start', width: '100%', marginBottom: '20px', marginLeft: '20px', marginRight: '20px' }}>
-              <FormControlLabel
-                control={<Switch checked={switchState} onChange={handleSwitchChange} sx={{
-                  color: pink[600],
-                  '& .MuiSwitch-switchBase.Mui-checked': {
-                    color: pink[600],
-                    '&:hover': {
-                      backgroundColor: alpha(pink[600], 0.08),
-                    }
-                  },
-                  '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-                    backgroundColor: pink[600],
-                  },
-                }}/>}
-                label="상단 고정"
-              />
+            <PinkSwitch
+                    sx={{ mr: 2 }}
+                    label="상단고정"
+                    onChange={handleChange}
+                  />
             </div>
             <DialogActions
                 style={{ justifyContent: "center", marginTop: "20px", marginBottom: "20px" }}
