@@ -79,11 +79,13 @@ export default function CartBody() {
     const fetchData = async () => {
       try {
         const response = await TokenAxios.get("/api/cart/user");
+        console.log("user 의 cart에서 조회한 값들 ");
         console.log(response.data);
   
         const result = response.data;
         if (result && result.result && result.result.data && Array.isArray(result.result.data.content)) {
           const cartData = result.result.data.content;
+          console.log("cartData 값");
           console.log(cartData);
           
           const mappedData = cartData.map((item) => ({
@@ -97,7 +99,7 @@ export default function CartBody() {
             totalPrice: item.amount * item.price, // Adjust calculation based on available data
             imageUrl: item.imageUrl,
           }));
-
+          console.log("mappedData값");
           console.log(mappedData);
           setRows(mappedData);
           setSelectedRows(mappedData.map((item) => item.orderCartSeq));
@@ -115,17 +117,15 @@ export default function CartBody() {
   const handlePaymentClick = () => {
     if (agree) {
       // 동의한 경우에만 페이지 이동
-      console.log(rows);
-      
       const selectedRowsData = rows
-        
         .filter((row) => selectedRows.includes(row.orderCartSeq))
         .map((row) => ({          
           productSeq: row.productSeq,
           productOptionSeq: row.prdtOptionSeq,
           productAmount: row.amount,
+          orderCartSeq : row.orderCartSeq
         }));
-
+      // 결제하기 페이지로 넘어갈때 state 로 값 넘준다 
       navigate("/payment", { state: { orderList: selectedRowsData } });
     }
   };
