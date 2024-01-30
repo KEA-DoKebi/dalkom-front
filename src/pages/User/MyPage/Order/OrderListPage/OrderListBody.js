@@ -91,7 +91,7 @@ export default function OrderListBody() {
 
   useEffect(() => {
     orderList();
-  }, [filterPeriod]);
+  }, [filterPeriod, orderList]);
 
 
   const isWithinPeriod = (orderDate, period) => {
