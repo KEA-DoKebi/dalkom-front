@@ -15,6 +15,7 @@ import { pink } from "@mui/material/colors";
 import { InputBoxXS, InputBoxM } from "components/atoms/Input";
 import { AdminButton } from "components/atoms/AdminCommonButton";
 import { CustomSelect } from "components/atoms/AdminSelectBox";
+import { PinkSwitch } from "components/atoms/OnOffSwitch";
 
 const ProductRegisterPage = () => {
   // Declare selectedMenu and setSelectedMenu using useState
@@ -54,16 +55,16 @@ const ProductRegisterPage = () => {
     }
   };
 
-  const [state] = React.useState({
+  const [state, setState] = React.useState({
     option: false,
   });
 
-  // const handleChange = (event) => {
-  //   setState({
-  //     ...state,
-  //     [event.target.name]: event.target.checked,
-  //   });
-  // };
+  const handleChange = (event) => {
+    setState({
+      ...state,
+      [event.target.name]: event.target.checked,
+    });
+  };
 
   const selectCategory = (event) => {
     const selectedValue = event.target.value;
@@ -234,12 +235,12 @@ const ProductRegisterPage = () => {
                   옵션
                 </Typography>
                 {/* 오류 뜨는데 해결하지 못하겠음 */}
-                {/* <PinkSwitch
+                <PinkSwitch
                     sx={{ mr: 2 }}
                     checked={state.option}
                     onChange={handleChange}
                     name="option"
-                  /> */}
+                  />
 
                 {state.option && (
                   <>

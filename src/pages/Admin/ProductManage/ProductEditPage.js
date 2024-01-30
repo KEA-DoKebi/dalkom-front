@@ -16,6 +16,7 @@ import { AdminButton } from "components/atoms/AdminCommonButton";
 import { InputBoxM } from "components/atoms/Input";
 import { InputBoxXS } from "components/atoms/Input";
 import { CustomSelect } from "components/atoms/AdminSelectBox";
+import { PinkSwitch } from "components/atoms/OnOffSwitch";
 
 const ProductEditPage = () => {
   // Declare selectedMenu and setSelectedMenu using useState
@@ -56,16 +57,16 @@ const ProductEditPage = () => {
     }
   };
 
-  const [state] = React.useState({
+  const [state, setState] = React.useState({
     option: false,
   });
 
-  // const handleChange = (event) => {
-  //   setState({
-  //     ...state,
-  //     [event.target.name]: event.target.checked,
-  //   });
-  // };
+  const handleChange = (event) => {
+    setState({
+      ...state,
+      [event.target.name]: event.target.checked,
+    });
+  };
 
   const selectCategory = (event) => {
     const selectedValue = event.target.value;
@@ -254,12 +255,12 @@ const ProductEditPage = () => {
                   옵션
                 </Typography>
                 {/* 오류 뜨는데 해결하지 못하겠음 */}
-                {/* <PinkSwitch
+                <PinkSwitch
                   sx={{ mr: 2 }}
                   checked={state.option}
                   onChange={handleChange}
                   name="option"
-                /> */}
+                />
                 {state.option && (
                   <>
                     <CustomSelect
@@ -353,11 +354,8 @@ const ProductEditPage = () => {
             xs={12}
             sx={{ display: "flex", justifyContent: "center", mt: 10 }}
           >
-            <AdminButton variant="contained" component="span" sx={{ mr: 3 }}>
-              수정
-            </AdminButton>
             <AdminButton variant="contained" component="span">
-              삭제
+              수정
             </AdminButton>
           </Grid>
         </Box>
