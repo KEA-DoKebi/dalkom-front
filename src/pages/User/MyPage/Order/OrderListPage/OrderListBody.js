@@ -90,7 +90,7 @@ export default function OrderListBody() {
   }, [filterPeriod]);
 
   useEffect(() => {
-    orderList(filterPeriod);
+    orderList();
   }, [filterPeriod]);
 
 
