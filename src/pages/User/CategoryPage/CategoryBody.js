@@ -1,4 +1,4 @@
-import { Grid, Typography, Box, Pagination, Tabs, Tab, Paper } from "@mui/material";
+import { Grid, Typography, Box, Pagination, Tabs, Tab } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";

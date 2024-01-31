@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { Card, Typography } from "@mui/material";
 import { StarRating } from "../atoms/StarRating";

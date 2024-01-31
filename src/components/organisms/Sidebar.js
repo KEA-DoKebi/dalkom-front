@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
 import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
 import "assets/font/font.css";
 import { Link } from "react-router-dom";
 import { styled } from "styled-components";
@@ -38,11 +37,6 @@ const MenuItem = ({ label, selectedMenu, onClick }) => (
 );
 
 const Sidebar = () => {
-  const [selectedMenu, setSelectedMenu] = useState("주문목록/배송조회");
-
-  const handleMenuClick = (menu) => {
-    setSelectedMenu(menu);
-  };
 
   return (
     <Box
