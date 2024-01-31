@@ -17,6 +17,7 @@ import {
   IconButton,
 } from "@mui/material";
 import { TokenAxios } from "apis/CommonAxios";
+import { hover } from "@testing-library/user-event/dist/hover";
 
 // 각 항목에 대한 공통 스타일을 설정합니다.
 const itemFlexStyles = {
@@ -72,7 +73,9 @@ const AdminListPage = () => {
     "삭제",
   ];
 
-  const adminGet = async (page) => {
+  
+
+  const userGet = async (page) => {
     const res = await TokenAxios.get(`/api/user?page=${page}&size=7`);
     console.log(res.data.result.data.content);
     setDataList(res.data.result.data.content);
@@ -80,10 +83,21 @@ const AdminListPage = () => {
     setTotalPages(res.data.result.data.totalPages);
   };
 
+  const handleDeleteUser = async (userSeq) => {
+    // 사용자 삭제 API 호출
+    try {
+      await TokenAxios.delete(`/api/admin/user/${userSeq}`);
+      // 삭제 후 목록 갱신
+      userGet(currentPage);
+    } catch (error) {
+      console.error('Error deleting user:', error);
+    }
+  };
+
   useEffect(() => {
     // 각 페이지가 마운트될 때 selectedMenu를 업데이트
     // setSelectedMenu 함수를 호출하여 상태를 업데이트
-    adminGet(currentPage); // 페이지가 변경될 때 API 호출
+    userGet(currentPage); // 페이지가 변경될 때 API 호출
     setSelectedMenu("사용자 목록");
   }, [currentPage]);
 
@@ -111,7 +125,10 @@ const AdminListPage = () => {
         <Typography variant="body1" sx={{ textAlign: "center" }}>
           {user.address}
         </Typography>
-        <IconButton>
+        <IconButton
+          onClick={() => handleDeleteUser(user.userSeq)}
+          sx={{ '&:hover': { backgroundColor: '#FFFFFF' } }} // 호버 효과 제거
+        >
           <DeleteIcon />
         </IconButton>
       </ListItemStyled>
