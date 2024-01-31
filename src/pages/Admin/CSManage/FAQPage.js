@@ -32,7 +32,7 @@ const StyledList = styled(List)`
   padding: 0;
   width: 100%;
   border: none;
-  background-color: background .paper;
+  background-color: background.paper;
   height: 70%; // 전체 높이의 70%로 설정
 `;
 
@@ -57,7 +57,7 @@ const getColumnWidth = (label) => {
         FAQ번호: [0, 20],
         작성일시: [20, 40],
         FAQ: [40, 70],
-        수정하기: [70, 90],
+        상세보기: [70, 90],
         // Add more labels as needed
     };
     const [minWidth, maxWidth] = widthRanges[label] || [0, 100];
@@ -79,11 +79,11 @@ const FAQPage = () => {
     const [openEditModal, setOpenEditModal] = useState(false);
     const {register, handleSubmit} = useForm();
     const [editFAQ, setEditFAQ] = useState({title: '', content: ''});
+    const [editModalTitle, setEditModalTitle] = useState("");
 
     const getFAQ = async (page) => {
         try {
             const res = await TokenAxios.get(`/api/faq`);
-            console.log(res.data.result.data.content);
             setTotalPages(res.data.result.data.totalPages);
 
             const mappedDataList = res.data.result.data.content.map((item) => {
@@ -96,7 +96,7 @@ const FAQPage = () => {
                         FAQ번호: item.inquirySeq,
                         작성일시: `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`,
                         FAQ: item.title,
-                        수정하기: (
+                        상세보기: (
                             <IconButton onClick={() => {
                                 currentInquirySeq = item.inquirySeq; // inquirySeq를 저장
                                 setOpenEditModal(true); // 모달을 열기
@@ -115,7 +115,7 @@ const FAQPage = () => {
                 "FAQ번호",
                 "작성일시",
                 "FAQ",
-                "수정하기"
+                "상세보기"
             ];
             setDataListLabels(newLabels);
         }
@@ -134,6 +134,15 @@ const FAQPage = () => {
     const handleCreateEditorChange = (event, editor) => {
         setCreateEditorData(editor.getData());
     }
+    const handleModalTitleChange = (event) => {
+        setEditModalTitle(event.target.value)
+    }
+
+    const handleDeleteClick = () => {
+        if (selectedItem && currentInquirySeq) {
+            faqDelete();
+        }
+    };
 
     // FAQ 생성 모달에서 저장하기 버튼을 누르면 실행하는 함수
     const faqCreate = async (data) => {
@@ -166,13 +175,17 @@ const FAQPage = () => {
         }
     }
 
-    useEffect(() => {
-        // 각 페이지가 마운트될 때 selectedMenu를 업데이트
-        // setSelectedMenu 함수를 호출하여 상태를 업데이트
-        getFAQ(currentPage);
-        setSelectedMenu("FAQ");
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    const faqDelete = async () => {
+        try {
+            const res = await TokenAxios.delete(`/api/faq/${currentInquirySeq}`);
+            console.log(res.data);
+
+            handleCloseEditModal();
+            getFAQ(currentPage);
+        } catch (e) {
+            console.error(e);
+        }
+    }
 
     useEffect(() => {
         const fetchData = async () => {
@@ -181,6 +194,7 @@ const FAQPage = () => {
                     // currentInquirySeq를 문자열로 변환하여 해당 아이템에 대한 정보 가져오기
                     const response = await TokenAxios.get(`/api/inquiry/${currentInquirySeq}`);
 
+                    setEditModalTitle(response.data.result.data.title);
                     // 가져온 정보를 state에 저장
                     setSelectedItem(response.data.result.data);
                 } else {
@@ -196,6 +210,14 @@ const FAQPage = () => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [openEditModal, currentInquirySeq]);
+
+    useEffect(() => {
+        // 각 페이지가 마운트될 때 selectedMenu를 업데이트
+        // setSelectedMenu 함수를 호출하여 상태를 업데이트
+        getFAQ(currentPage);
+        setSelectedMenu("FAQ");
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         <Paper sx={{display: "flex", height: "100vh"}}>
@@ -356,8 +378,8 @@ const FAQPage = () => {
                                 }}
                             >
                                 <InputBoxM
-                                    defaultValue={selectedItem?.title}
-                                    onChange={(e) => setEditFAQ({...editFAQ, title: e.target.value})}
+                                    defaultValue={editModalTitle}
+                                    onChange={handleModalTitleChange}
                                     color="neutral"
                                     placeholder="Text"
                                     disabled={false}
@@ -387,6 +409,9 @@ const FAQPage = () => {
                                 >
                                     <AdminButton type="submit">
                                         수정
+                                    </AdminButton>
+                                    <AdminButton onClick={handleDeleteClick}>
+                                        삭제
                                     </AdminButton>
                                 </DialogActions>
                             </DialogContent>
