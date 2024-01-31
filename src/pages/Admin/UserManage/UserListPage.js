@@ -178,7 +178,7 @@ const AdminListPage = () => {
               {dataList.map((user, index) => (
                 <React.Fragment key={index}>
                   <UserList user={user} />
-                  {index !== dataList.length - 1 && (
+                  {index !== dataList.length && (
                     <Divider component="li" light />
                   )}
                 </React.Fragment>
