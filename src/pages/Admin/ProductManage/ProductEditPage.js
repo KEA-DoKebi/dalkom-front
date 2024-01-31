@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import styled from "styled-components";
 import AdminBar from "components/organisms/AdminBar";
 import {
   Paper,
@@ -17,6 +18,15 @@ import { InputBoxM } from "components/atoms/Input";
 import { InputBoxXS } from "components/atoms/Input";
 import { CustomSelect } from "components/atoms/AdminSelectBox";
 import { PinkSwitch } from "components/atoms/OnOffSwitch";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+
+const CKEditorContainer = styled.div`
+  .ck-editor__editable {
+    min-height: 400px;
+  }
+`;
+
 
 const ProductEditPage = () => {
   // Declare selectedMenu and setSelectedMenu using useState
@@ -94,7 +104,7 @@ const ProductEditPage = () => {
   };
 
   return (
-    <Paper sx={{ display: "flex", height: "100vh" }}>
+    <Paper sx={{ display: "flex" }}>
       {/* AdminBar 컴포넌트에 selectedMenu와 setSelectedMenu props 전달 */}
       <AdminBar selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
       <Box
@@ -118,6 +128,7 @@ const ProductEditPage = () => {
             backgroundColor: "#FFFFFF",
             borderRadius: "27px",
             margin: "16px",
+            padding: "16px"
           }}
         >
           <Grid
@@ -339,13 +350,11 @@ const ProductEditPage = () => {
                 >
                   상세설명
                 </Typography>
-                <InputBoxM
-                  color="neutral"
-                  disabled={false}
-                  placeholder="상세설명 에디터"
-                  variant="soft"
-                  sx={{ mb: 4 }}
+                <CKEditorContainer>
+                <CKEditor
+                  editor={ClassicEditor}
                 />
+              </CKEditorContainer>
               </div>
             </Grid>
           </Grid>

@@ -32,12 +32,15 @@ const UserRegisterPage = () => {
 
   const handleAdminButtonClick = () => {
     // AdminButton이 클릭되면 Alert를 열도록 상태를 업데이트
-    setAlertOpen(true);
+    setAlertOpen();
   };
 
   const userRegister = async (data) => {
+    data.mileage = 0;
+    console.log(data);
+
     try {
-      const res = await TokenAxios.post("/api/user", data);
+      const res = await TokenAxios.post("/api/admin/user", data);
       if (res.data.code === 200) {
         // 성공 메시지 설정
         setAlertMessage("사용자 등록을 완료했습니다!");
@@ -48,12 +51,14 @@ const UserRegisterPage = () => {
         // 실패 메시지 설정 (API 응답에 따라 다를 수 있음)
         setAlertMessage("사용자 등록에 실패했습니다.");
         setAlertSeverity("error");
+        console.log(res);
         setAlertOpen(true); // alert 열기
       }
     } catch (e) {
       // 오류 발생 시 처리
       setAlertMessage("사용자 등록 중 오류가 발생했습니다.");
       setAlertSeverity("error");
+      console.log(e);
       setAlertOpen(true); // alert 열기
     }
   };
@@ -97,7 +102,7 @@ const UserRegisterPage = () => {
             onSubmit={handleSubmit((data) => {
               userRegister(data);
             })}
-          ></form>
+          >
           <div
             style={{
               display: "flex",
@@ -215,14 +220,18 @@ const UserRegisterPage = () => {
               />
             </div>
           </div>
-
-          <AdminButton
-            type="submit"
-            variant="contained"
-            onClick={handleAdminButtonClick}
-          >
-            등록하기
-          </AdminButton>
+            
+          <div style={{ display: "flex", justifyContent: "center" }}> {/* Flexbox 사용 */}
+            <AdminButton
+              type="submit"
+              variant="contained"
+              onClick={handleAdminButtonClick}
+              style={{ margin: "auto" }} 
+            >
+              등록하기
+            </AdminButton>
+          </div>
+          </form>
 
           {/* Alert 컴포넌트 */}
           <Snackbar
