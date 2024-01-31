@@ -3,6 +3,7 @@ import { Paper, Typography, Box, Select, MenuItem } from "@mui/material";
 import "assets/font/font.css";
 import { TokenAxios } from "apis/CommonAxios";
 import { productImageStore } from "store/store";
+import { useParams } from "react-router-dom";
 
 export const ComparisonBody = () => {
   // 카테고리 페이지에서 넘어온 정보를 받아옵니다.
@@ -11,11 +12,18 @@ export const ComparisonBody = () => {
   const [productOptions, setProductOptions] = useState([]);
   const [productInfo, setProductInfo] = useState([]);
 
-  const {subCategorySeq} = productImageStore((state) => state);
 
-  // const getCategoryProductLists = async() => {
-  //   const res = await TokenAxios("")
-  // }
+  const [subCategoryProductList, setSubCategoryProductList ] = useState([]);
+
+  const {} = productImageStore((state) => state);
+
+  const {subCategorySeq} = useParams();
+
+  const getCategoryProductLists = async() => {
+    const res = await TokenAxios(`/api/product/category/detail/${subCategorySeq}?page=0&size=50`)
+    console.log(res.data);
+    setSubCategoryProductList(res.data.result.data.content);
+  }
 
   const selectedProductInfo = [
     {
@@ -88,7 +96,9 @@ export const ComparisonBody = () => {
     // 추가 상품 정보들도 추가할 수 있습니다.
   ];
 
-  console.log(subCategorySeq);
+  useEffect(() => {
+    getCategoryProductLists();
+  },[subCategorySeq])
 
 
   useEffect(() => {
@@ -110,9 +120,10 @@ export const ComparisonBody = () => {
     setProductOptions(dummyProducts);
   }, [selectedCategory]);
 
-  // 선택된 상품을 관리하는 함수
+
   // 선택된 상품을 관리하는 함수
   const handleProductSelect = (productId, selectNumber) => {
+    console.log(productId);
     const selectedProduct = selectedProductInfo.find(
       (product) => product.id === productId
     );
@@ -154,17 +165,17 @@ export const ComparisonBody = () => {
           sx={{ mx: 1, width: "15vw" }}
           disabled={!selectedCategory}
         >
-          {productOptions.map((product) => (
+          {subCategoryProductList.map((product) => (
             <MenuItem
-              key={product.id}
-              value={product.id}
-              disabled={Object.values(selectedProducts).includes(product.id)}
+              key={product.productSeq}
+              value={product.productSeq}
+              disabled={Object.values(selectedProducts).includes(product.productSeq)}
             >
               {product.name}
             </MenuItem>
           ))}
         </Select>
-        {info && (
+        {/* {info && ( */}
           <Box sx={{ mt: 2 }}>
             <img
               src={info.imageUrl}
@@ -272,7 +283,7 @@ export const ComparisonBody = () => {
               ))}
             </Typography>
           </Box>
-        )}
+        {/* )} */}
       </Box>
     );
   };
