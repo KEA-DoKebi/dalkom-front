@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 import {
   Typography,
   Paper,
@@ -77,6 +78,7 @@ export default function OrderListBody() {
   const orderList = useCallback(async () => {
     try {
       const res = await TokenAxios.get("/api/order/user?page=1&size=10");
+      console.log(res)
       const allOrders = res.data.result.data.content;
 
       const filteredOrders = filterPeriod === "all"
@@ -246,7 +248,10 @@ export default function OrderListBody() {
                     {order.ordrDate.substring(0, 10)}
                   </TableCell>
                   <TableCell style={{ textAlign: "center" }}>
-                    {order.ordrSeq}
+                    <Link to={`/order-detail/${order.ordrSeq}`} state={{ orderSeq: order.ordrSeq }}>
+                      {order.ordrSeq}
+                    </Link>
+
                   </TableCell>
                   <TableCell style={{ textAlign: "center" }}>
                     {order.totalPrice}
