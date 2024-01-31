@@ -5,7 +5,7 @@ import Topbar from "../Topbar";
 const Header = () => {
   return (
     <Head>
-      <Topbar />
+      <Topbar/>
     </Head>
   );
 };
@@ -17,7 +17,7 @@ const Head = styled.header`
   margin: 0;
   width: 100vw;
   height: 12vh;
-  z-index: 1;
+  z-index: 100;
 `;
 
 export default Header;
