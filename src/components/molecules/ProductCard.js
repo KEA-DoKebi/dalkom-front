@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Card, Typography } from "@mui/material";
 import { StarRating } from "../atoms/StarRating";
@@ -7,19 +7,34 @@ import { Button } from "react-scroll";
 import { productImageStore } from "store/store";
 import Swal from "sweetalert2";
 
-export const ProductCard = ({ imageUrl, title, price, star, review, seq }) => {
+export const ProductCard = ({ imageUrl, title, price, star, review, seq, categorySeq }) => {
   
-  const {addImageList, addSeq, imageList} = productImageStore((state) => state);
+  const {addImageList, addSeq, imageList, seqList, subCategorySeq, setSubCategorySeq} = productImageStore((state) => state);
 
   const handleAddButtonClick = () => {
-    if(imageList.length < 3){
-      addImageList(imageUrl);
-      addSeq(seq);
+
+    console.log("카드에서 받아오는 카테고리" + categorySeq)
+    console.log("상태에서 받아오는 카테고리" + subCategorySeq)
+
+    if(!seqList.includes(seq)){
+      if(subCategorySeq === 0 || categorySeq === subCategorySeq){
+        if(imageList.length < 3){
+          addImageList(imageUrl);
+          addSeq(seq);
+          setSubCategorySeq(categorySeq);
+        }
+        else{
+          Swal.fire("이미지를 3개까지만 넣을 수 있습니다!", "", "info");
+        }
+      }
+      else{
+        Swal.fire("같은 카테고리의 상품만 넣을 수 있습니다!", "", "info");
+      }
     }
-    else{
-      Swal.fire("이미지를 3개까지만 넣을 수 있습니다!", "", "info");
-    }
+    
   }
+
+    
 
   return (
     <Link to={`/product/${seq}`}>

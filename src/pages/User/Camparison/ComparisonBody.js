@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Paper, Typography, Box, Select, MenuItem } from "@mui/material";
 import "assets/font/font.css";
+import { TokenAxios } from "apis/CommonAxios";
+import { productImageStore } from "store/store";
 
 export const ComparisonBody = () => {
   // 카테고리 페이지에서 넘어온 정보를 받아옵니다.
@@ -8,6 +10,12 @@ export const ComparisonBody = () => {
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [productOptions, setProductOptions] = useState([]);
   const [productInfo, setProductInfo] = useState([]);
+
+  const {subCategorySeq} = productImageStore((state) => state);
+
+  // const getCategoryProductLists = async() => {
+  //   const res = await TokenAxios("")
+  // }
 
   const selectedProductInfo = [
     {
@@ -79,6 +87,9 @@ export const ComparisonBody = () => {
     },
     // 추가 상품 정보들도 추가할 수 있습니다.
   ];
+
+  console.log(subCategorySeq);
+
 
   useEffect(() => {
     // 더미 상품 데이터

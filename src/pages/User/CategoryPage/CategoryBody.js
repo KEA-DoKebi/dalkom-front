@@ -164,6 +164,7 @@ const CategoryBody = () => {
                   star={product.rating}
                   review={product.reviewAmount}
                   seq={product.productSeq}
+                  categorySeq={subCategorySeq}
                 />
               </Grid>
             ))}

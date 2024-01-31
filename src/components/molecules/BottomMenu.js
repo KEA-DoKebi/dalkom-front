@@ -6,16 +6,17 @@ import { styled } from 'styled-components'
 
 export const BottomMenu = () => {
 
-  const {imageList, deleteImage} = productImageStore((state) => state);
+  const {imageList, seqList, deleteImage, deleteSeq, subCategorySeq} = productImageStore((state) => state);
 
   const navigate = useNavigate();
 
-  const handleDeleteBtnClicked = (imageUrl) => {
+  const handleDeleteBtnClicked = (imageUrl, seq) => {
     deleteImage(imageUrl);
+    deleteSeq(seq);
   }
 
   const handleCompareBtnClicked = () => {
-    navigate("/comparison")
+    navigate(`/comparison/${subCategorySeq}`)
   }
 
   return (
@@ -30,7 +31,7 @@ export const BottomMenu = () => {
             <Grid item xs={3}>
                 <ImageContainer>
                     <StyledImage  src={imageList[0] ? imageList[0]: "/images/defaultImage.png"}/>
-                    <DeleteButton className="delete-btn" onClick={() => {handleDeleteBtnClicked(imageList[0])}}>X</DeleteButton>
+                    <DeleteButton className="delete-btn" onClick={() => {handleDeleteBtnClicked(imageList[0], seqList[0])}}>X</DeleteButton>
                 </ImageContainer>
             </Grid>
             <Grid item xs={1}>
@@ -39,7 +40,7 @@ export const BottomMenu = () => {
             <Grid item xs={3}>
                 <ImageContainer>
                     <StyledImage src={imageList[1] ? imageList[1]: "/images/defaultImage.png"}/>
-                    <DeleteButton className="delete-btn" onClick={() => {handleDeleteBtnClicked(imageList[1])}}>X</DeleteButton>
+                    <DeleteButton className="delete-btn" onClick={() => {handleDeleteBtnClicked(imageList[1], seqList[1])}}>X</DeleteButton>
                 </ImageContainer>
             </Grid>
             <Grid item xs={1}>
@@ -48,7 +49,7 @@ export const BottomMenu = () => {
             <Grid item xs={3}>
                 <ImageContainer>
                     <StyledImage  src={imageList[2] ? imageList[2]: "/images/defaultImage.png"}/>
-                    <DeleteButton className="delete-btn" onClick={() => {handleDeleteBtnClicked(imageList[2])}}>X</DeleteButton>
+                    <DeleteButton className="delete-btn" onClick={() => {handleDeleteBtnClicked(imageList[2], seqList[2])}}>X</DeleteButton>
                 </ImageContainer>
             </Grid>
             <Grid item xs={0.5}>

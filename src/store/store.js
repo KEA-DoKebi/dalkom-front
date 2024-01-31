@@ -11,10 +11,12 @@ const store = (set) => ({
 export const productImageStore = create(devtools((set) => ({
   imageList: [],
   seqList : [],
+  subCategorySeq : 0,
 
   addImageList: (newImage) => set((state) => ({
     imageList: [...state.imageList, newImage]
   })),
+
   deleteImage: (imageToRemove) => set((state) => ({
     imageList: state.imageList.filter(image => image !== imageToRemove)
   })),
@@ -25,7 +27,12 @@ export const productImageStore = create(devtools((set) => ({
 
   deleteSeq: (seqToRemove) => set((state) => ({
     seqList: state.seqList.filter(seq => seq !== seqToRemove)
-  }))
+  })),
+
+  setSubCategorySeq: (categorySeq) => set ({
+    subCategorySeq: categorySeq
+  })
+  
 }), "productImageStore")); // 여기에서 "productImageStore"는 DevTools에서 표시될 스토어의 이름입니다.
 
 const useStore = create(
