@@ -4,16 +4,30 @@ import { Card, Typography } from "@mui/material";
 import { StarRating } from "../atoms/StarRating";
 import { Link } from "react-router-dom";
 import { Button } from "react-scroll";
+import { productImageStore } from "store/store";
+import Swal from "sweetalert2";
 
 export const ProductCard = ({ imageUrl, title, price, star, review, seq }) => {
   
+  const {addImageList, addSeq, imageList} = productImageStore((state) => state);
+
+  const handleAddButtonClick = () => {
+    if(imageList.length < 3){
+      addImageList(imageUrl);
+      addSeq(seq);
+    }
+    else{
+      Swal.fire("이미지를 3개까지만 넣을 수 있습니다!", "", "info");
+    }
+  }
+
   return (
     <Link to={`/product/${seq}`}>
       <SungjunCard>
         <CardImage src={imageUrl} alt="카드 이미지" />
         <HoverCardContent>
           <HoverCardTitle>★({star})</HoverCardTitle>
-          <HoverCardButton variant="contained" onClick={() => console.log("안녕")}>
+          <HoverCardButton variant="contained" onClick={handleAddButtonClick}>
             <Typography sx={{fontSize : "15px", fontWeight : "bold", fontFamily : "Noto Sans"}}>➕상품 비교</Typography>
           </HoverCardButton>
         </HoverCardContent>

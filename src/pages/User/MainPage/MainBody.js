@@ -18,6 +18,8 @@ import styled, { css } from "styled-components";
 import { Link } from "react-router-dom";
 import { ProductCard } from "components/molecules/ProductCard";
 import { TokenAxios } from "apis/CommonAxios";
+import { BottomMenu } from "components/molecules/BottomMenu";
+import { productImageStore } from "store/store";
 
 // MainBody코드
 const MainBody = () => {
@@ -29,6 +31,9 @@ const MainBody = () => {
     sports: [],
     kakaofriends: [],
   });
+
+  const {imageList, addImageList, deleteImage} = productImageStore((state) => state);
+
 
   const getMainProductList = async () => {
     const res = await TokenAxios.get("/data/productData/mainPageProduct.json");
