@@ -43,8 +43,8 @@ const ListItemLabelStyled = styled(ListItem)`
   align-items: center;
   width: 100%;
   height: calc(
-    70vh / 10
-  ); // 전체 높이의 70%를 10로 나눈 값으로 레이블 행의 높이를 설정
+    70vh / 14
+  );
   padding: 12px;
   ${itemFlexStyles}// 공통 스타일 적용
 `;
@@ -54,7 +54,7 @@ const ListItemStyled = styled(ListItem)`
   justify-content: space-evenly;
   align-items: center;
   width: 100%;
-  height: calc(70vh / 8); // 전체 높이의 70%를 8로 나눈 값
+  height: calc(70vh / 11); // 전체 높이의 70%를 11로 나눈 값
   padding: 12px;
   ${itemFlexStyles}// 공통 스타일 적용
 `;
@@ -69,7 +69,7 @@ const AdminListPage = () => {
   const dataListLabels = ["번호", "ID", "이름", "부서", "닉네임", "삭제"];
 
   const adminGet = async (page) => {
-    const res = await TokenAxios.get(`/api/admin?page=${page}&size=7`);
+    const res = await TokenAxios.get(`/api/admin?page=${page}&size=10`);
     console.log(res.data.result.data.content);
     setDataList(res.data.result.data.content);
     console.log(res.data.result.data.totalPages);
