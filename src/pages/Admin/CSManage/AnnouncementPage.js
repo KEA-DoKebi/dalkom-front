@@ -85,24 +85,7 @@ const ListItemStyled = styled(ListItem)`
   padding: 12px;
   ${itemFlexStyles}// 공통 스타일 적용
 `;
-// 간격 일정하게 만드는 거
-const getColumnWidth = (label) => {
-  // Define your width ranges for each column label
-  const widthRanges = {
-    공지번호: [0, 10],
-    작성일시: [10, 30],
-    작성자: [30, 40],
-    제목: [40, 50],
-    상단고정: [50, 60],
-    상세보기: [60, 70],
-    // Add more labels as needed
-  };
 
-  const [minWidth, maxWidth] = widthRanges[label] || [0, 100];
-  const width = Math.min(100, maxWidth) - minWidth;
-
-  return `calc(${width}% - 8px)`; // Adjust 8px for spacing
-};
 
 const formatDate = (dateString) => {
   const options = { year: "numeric", month: "2-digit", day: "2-digit" };
@@ -350,7 +333,7 @@ const AnnouncementPage = () => {
                     <Typography
                       variant="h6"
                       fontWeight="bold"
-                      sx={{ width: getColumnWidth(label), textAlign: "center" }}
+                      sx={{  textAlign: "center" }}
                     >
                       {label}
                     </Typography>
@@ -364,7 +347,6 @@ const AnnouncementPage = () => {
                     <Typography
                       variant="body1"
                       sx={{
-                        width: getColumnWidth("공지번호"),
                         textAlign: "center",
                       }}
                     >
@@ -373,7 +355,6 @@ const AnnouncementPage = () => {
                     <Typography
                       variant="body1"
                       sx={{
-                        width: getColumnWidth("작성일시"),
                         textAlign: "center",
                       }}
                     >
@@ -382,7 +363,6 @@ const AnnouncementPage = () => {
                     <Typography
                       variant="body1"
                       sx={{
-                        width: getColumnWidth("작성자"),
                         textAlign: "center",
                       }}
                     >
@@ -391,7 +371,6 @@ const AnnouncementPage = () => {
                     <Typography
                       variant="body1"
                       sx={{
-                        width: getColumnWidth("제목"),
                         textAlign: "center",
                       }}
                     >
@@ -400,7 +379,6 @@ const AnnouncementPage = () => {
                     <Typography
                       variant="body1"
                       sx={{
-                        width: getColumnWidth("상단고정"),
                         textAlign: "center",
                       }}
                     >
@@ -409,7 +387,6 @@ const AnnouncementPage = () => {
                     <IconButton
                       onClick={() => handleLookOpenModal(notice.noticeSeq)}
                       sx={{
-                        width: getColumnWidth("상세보기"),
                         textAlign: "center",
                       }}
                     >
