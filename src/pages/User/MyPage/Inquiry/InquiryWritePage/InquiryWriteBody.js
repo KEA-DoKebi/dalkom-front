@@ -3,7 +3,6 @@ import { Grid, Typography, Paper } from "@mui/material";
 import { Select, selectClasses, Option, Textarea } from "@mui/joy";
 import { KeyboardArrowDown } from "@mui/icons-material";
 import EditorComponent from "components/atoms/Editor";
-import styled from "styled-components";
 import { UserButton } from "../../MyInfoPage/MyInfoBody";
 import { useForm } from "react-hook-form";
 import { TokenAxios } from "apis/CommonAxios";

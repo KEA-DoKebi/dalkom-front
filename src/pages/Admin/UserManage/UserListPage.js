@@ -17,7 +17,6 @@ import {
   IconButton,
 } from "@mui/material";
 import { TokenAxios } from "apis/CommonAxios";
-import { hover } from "@testing-library/user-event/dist/hover";
 
 // 각 항목에 대한 공통 스타일을 설정합니다.
 const itemFlexStyles = {
