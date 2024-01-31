@@ -46,6 +46,7 @@ export default function OrderListBody() {
     const fetchData = async () => {
       try {
         const response = await axios.get("/data/PeopleManage/MyReview.json");
+        console.log(response.data);
         const orderData = response.data.OrderData.map((item) => ({
           ReviewSeq: item.ReviewSeq,
           productName: item.productName,
@@ -53,7 +54,7 @@ export default function OrderListBody() {
           ReviewDate: item.ReviewDate,
           star: item.star,
           content: item.content,
-          imageUrl: item.imageUrl,
+          imageUrl: item.imageUrl
         }));
         setRows(orderData);
       } catch (error) {
