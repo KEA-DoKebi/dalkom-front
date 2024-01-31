@@ -11,6 +11,7 @@ import Swal from "sweetalert2";
 import { TokenAxios } from "apis/CommonAxios";
 import { pink } from "@mui/material/colors";
 import { alpha } from '@mui/material/styles';
+import { PinkSwitch } from "components/atoms/OnOffSwitch";
 
 import {
   Box,
@@ -284,8 +285,19 @@ const AnnouncementPage = () => {
       });
     }
   };
-  //
 
+  const [state, setState] = React.useState({
+    option: false,
+  });
+
+  const handleChange = (event) => {
+    setState({
+      ...state,
+      [event.target.name]: event.target.checked,
+    });
+  };
+
+  
   return (
     <Paper sx={{ display: "flex", height: "100vh" }}>
       {/* AdminBar 컴포넌트에 selectedMenu와 setSelectedMenu props 전달 */}
@@ -424,50 +436,40 @@ const AnnouncementPage = () => {
             })}
             >
 
-              <DialogTitle>
-                <InputBoxM
-                  id="title"
-                  color="neutral"
-                  placeholder="Text"
-                  disabled={false}
-                  variant="soft"
-                  sx={{ mb: 2, mt: 2, width: "100%" }}
-                  {...register("title")}
+            <DialogTitle>
+              <InputBoxM
+                id="title"
+                color="neutral"
+                placeholder="Text"
+                disabled={false}
+                variant="soft"
+                sx={{ mb: 2, mt: 2, width: "100%" }}
+                {...register("title")}
+              />
+              <IconButton
+                aria-label="close"
+                onClick={handleWriteCloseModal}
+                sx={{ position: 'absolute', right: 8, top: 8, color: (theme) => theme.palette.grey[500],}}
+              >
+              <CloseIcon />
+              </IconButton>
+            </DialogTitle>
+            <DialogContent style={{ width: 900, height: "450px", overflowY: "auto", overflowX: "hidden" }}>
+              <CKEditorContainer>
+                <CKEditor
+                  editor={ClassicEditor}
+                  onChange={handleEditorChange}
                 />
-                <IconButton
-                  aria-label="close"
-                  onClick={handleWriteCloseModal}
-                  sx={{ position: 'absolute', right: 8, top: 8, color: (theme) => theme.palette.grey[500], }}
-                >
-                  <CloseIcon />
-                </IconButton>
-              </DialogTitle>
-              <DialogContent style={{ width: 900, height: "450px", overflowY: "auto", overflowX: "hidden" }}>
-                <CKEditorContainer>
-                  <CKEditor
-                    editor={ClassicEditor}
-                    onChange={handleEditorChange}
+              </CKEditorContainer>
+            </DialogContent>
+            <div style={{ display: 'flex', justifyContent: 'flex-start', width: '100%', marginBottom: '20px', marginLeft: '20px', marginRight: '20px' }}>
+            <PinkSwitch
+                    sx={{ mr: 2 }}
+                    label="상단고정"
+                    onChange={handleChange}
                   />
-                </CKEditorContainer>
-              </DialogContent>
-              <div style={{ display: 'flex', justifyContent: 'flex-start', width: '100%', marginBottom: '20px', marginLeft: '20px', marginRight: '20px' }}>
-                <FormControlLabel
-                  control={<Switch checked={switchState} onChange={handleSwitchChange} sx={{
-                    color: pink[600],
-                    '& .MuiSwitch-switchBase.Mui-checked': {
-                      color: pink[600],
-                      '&:hover': {
-                        backgroundColor: alpha(pink[600], 0.08),
-                      }
-                    },
-                    '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-                      backgroundColor: pink[600],
-                    },
-                  }} />}
-                  label="상단 고정"
-                />
-              </div>
-              <DialogActions
+            </div>
+            <DialogActions
                 style={{ justifyContent: "center", marginTop: "20px", marginBottom: "20px" }}
               >
                 <AdminButton type="submit" autoFocus onClick={handleWriteCloseModal}>

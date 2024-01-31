@@ -16,7 +16,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Menu from "@mui/material/Menu";
 import Input from "@mui/joy/Input";
 import "assets/font/font.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const SubMenu = ({ subMenu, top, left, categorySeq }) => {
   return (
@@ -47,6 +47,7 @@ const SubMenu = ({ subMenu, top, left, categorySeq }) => {
 const Topbar = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [subMenuPosition, setSubMenuPosition] = useState({ top: 0, left: 0 });
+  const navigate = useNavigate();
 
   const menuItems = [
     {
@@ -140,6 +141,11 @@ const Topbar = () => {
   //   // 여기에서 선택한 서브 메뉴에 대한 추가적인 로직을 수행할 수 있습니다.
   // };
 
+  const handleLogout = (event) => {
+    localStorage.clear();
+    navigate("/login")
+  }
+
   return (
     <AppBar
       sx={{
@@ -167,10 +173,11 @@ const Topbar = () => {
             fontSize: "15px",
             marginRight: "5px",
           }}
+          onClick={handleLogout}
         >
           로그아웃
         </CustomLink>
-        <CustomLink to="/mypage/1" style={{ fontSize: "15px" }}>
+        <CustomLink to="/mypage/order/list" style={{ fontSize: "15px" }}>
           마이페이지
         </CustomLink>
       </Toolbar>
@@ -279,7 +286,7 @@ const Topbar = () => {
               alignItems: "center",
             }}
           >
-            <CustomLink to="/mypage/1/order/list">
+            <CustomLink to="/mypage/order/list">
               <IconButton>
                 <LocalShippingOutlinedIcon
                   sx={{ fontSize: "40px", color: "black" }}
@@ -319,7 +326,7 @@ const Topbar = () => {
               alignItems: "center",
             }}
           >
-            <img src="/images/M-user.png" alt="유저 마일리지" style={{width : "50px", height : "50px"}}/>
+            <img src="/images/M-user.png" alt="유저 마일리지" style={{width : "50px", height : "50px", marginRight : "10px"}}/>
           </div>
           <div
             style={{
