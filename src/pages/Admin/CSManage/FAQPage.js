@@ -27,6 +27,7 @@ import {useForm} from "react-hook-form";
 import CloseIcon from "@mui/icons-material/Close";
 
 let currentInquirySeq = null;
+const dataListLabels = ['FAQ번호', '작성일시', 'FAQ', '상세보기'];
 
 const StyledList = styled(List)`
   padding: 0;
@@ -66,11 +67,51 @@ const getColumnWidth = (label) => {
     return `calc(${width}% - 8px)`; // Adjust 8px for spacing
 };
 
+const formatDate = (dateString) => {
+    const options = {year: 'numeric', month: '2-digit', day: '2-digit'};
+    return new Date(dateString).toLocaleDateString('ko-KR', options);
+};
+
+// const FaqItem = ({faq, index}) => {
+//     return (
+//         <ListItemStyled>
+//             <Typography
+//                 variant="body1"
+//                 sx={{width: getColumnWidth('FAQ번호'), textAlign: "center"}}
+//             >
+//                 {index + 1}
+//             </Typography>
+//             <Typography
+//                 variant="body1"
+//                 sx={{width: getColumnWidth('작성일시'), textAlign: "center"}}
+//             >
+//                 {formatDate(faq.createdAt)}
+//             </Typography>
+//             <Typography
+//                 variant="body1"
+//                 sx={{width: getColumnWidth('FAQ'), textAlign: "center"}}
+//             >
+//                 {faq.title}
+//             </Typography>
+//             <Typography
+//                 variant="body1"
+//                 sx={{width: getColumnWidth('상세보기'), textAlign: "center"}}
+//             >
+//                 <IconButton onClick={() => {
+//                     currentInquirySeq = faq.inquirySeq; // inquirySeq를 저장
+//                     onClick(faq.inquirySeq);
+//                 }}>
+//                     <InfoOutlinedIcon/>
+//                 </IconButton>
+//             </Typography>
+//         </ListItemStyled>
+//     )
+// };
+
 const FAQPage = () => {
     // Declare selectedMenu and setSelectedMenu using useState
     const [selectedMenu, setSelectedMenu] = useState("FAQ");
     const [dataList, setDataList] = useState([]);
-    const [dataListLabels, setDataListLabels] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState();
     const [selectedItem, setSelectedItem] = useState(null);
@@ -81,43 +122,73 @@ const FAQPage = () => {
     const [editFAQ, setEditFAQ] = useState({title: '', content: ''});
     const [editModalTitle, setEditModalTitle] = useState("");
 
+    // const getFAQ = async (page) => {
+    //     try {
+    //         const res = await TokenAxios.get(`/api/faq`);
+    //         setTotalPages(res.data.result.data.totalPages);
+    //
+    //         const mappedDataList = res.data.result.data.content.map((item) => {
+    //                 const date = new Date(item.createdAt);
+    //                 const year = date.getFullYear();
+    //                 const month = date.getMonth() + 1; // 월은 0부터 시작하므로 +1
+    //                 const day = date.getDate();
+    //
+    //                 return {
+    //                     FAQ번호: item.inquirySeq,
+    //                     작성일시: `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`,
+    //                     FAQ: item.title,
+    //                     상세보기: (
+    //                         <IconButton onClick={() => {
+    //                             currentInquirySeq = item.inquirySeq; // inquirySeq를 저장
+    //                             setOpenEditModal(true); // 모달을 열기
+    //                         }}>
+    //                             <InfoOutlinedIcon/>
+    //                         </IconButton>
+    //                     )
+    //                 };
+    //             })
+    //         ;
+    //         setDataList(mappedDataList);
+    //     } catch (e) {
+    //         console.log(e)
+    //     } finally {
+    //         const newLabels = [
+    //             "FAQ번호",
+    //             "작성일시",
+    //             "FAQ",
+    //             "상세보기"
+    //         ];
+    //         setDataListLabels(newLabels);
+    //     }
+
+    const createDataList = (data) => {
+        return data.map((item) => {
+            const date = formatDate(item.createdAt);
+
+            return {
+                FAQ번호: item.inquirySeq,
+                작성일시: date,
+                FAQ: item.title,
+                상세보기: (
+                    <IconButton onClick={() => {
+                        currentInquirySeq = item.inquirySeq;
+                        setOpenEditModal(true);
+                    }}>
+                        <InfoOutlinedIcon/>
+                    </IconButton>
+                )
+            };
+        });
+    };
+
     const getFAQ = async (page) => {
         try {
-            const res = await TokenAxios.get(`/api/faq`);
+            const res = await TokenAxios.get(`/api/faq?page=${page}&size=7`);
             setTotalPages(res.data.result.data.totalPages);
-
-            const mappedDataList = res.data.result.data.content.map((item) => {
-                    const date = new Date(item.createdAt);
-                    const year = date.getFullYear();
-                    const month = date.getMonth() + 1; // 월은 0부터 시작하므로 +1
-                    const day = date.getDate();
-
-                    return {
-                        FAQ번호: item.inquirySeq,
-                        작성일시: `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`,
-                        FAQ: item.title,
-                        상세보기: (
-                            <IconButton onClick={() => {
-                                currentInquirySeq = item.inquirySeq; // inquirySeq를 저장
-                                setOpenEditModal(true); // 모달을 열기
-                            }}>
-                                <InfoOutlinedIcon/>
-                            </IconButton>
-                        )
-                    };
-                })
-            ;
-            setDataList(mappedDataList);
+            setDataList(createDataList(res.data.result.data.content));
+            console.log(dataList);
         } catch (e) {
-            console.log(e)
-        } finally {
-            const newLabels = [
-                "FAQ번호",
-                "작성일시",
-                "FAQ",
-                "상세보기"
-            ];
-            setDataListLabels(newLabels);
+            console.log(e);
         }
     };
 
@@ -217,7 +288,7 @@ const FAQPage = () => {
         getFAQ(currentPage);
         setSelectedMenu("FAQ");
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [currentPage]);
 
     return (
         <Paper sx={{display: "flex", height: "100vh"}}>

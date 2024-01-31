@@ -1,16 +1,19 @@
 import React, {useEffect, useState} from "react";
 import styled from "styled-components";
-import {Divider, IconButton, List, ListItem, Pagination, Typography} from "@mui/material";
+import {Box, Divider, Grid, IconButton, List, ListItem, Pagination, Typography} from "@mui/material";
 import {TokenAxios} from "../../../apis/CommonAxios";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import Modal from "@mui/material/Modal";
 
 const StyledList = styled(List)`
   padding: 0;
   width: 100%;
   border: none;
-  background-color: background .paper;
+  background-color: background.paper;
   height: 70%; // 전체 높이의 70%로 설정
 `;
+
+const dataListLabels = ['번호', '제목', '등록일'];
 
 const ListItemStyled = styled(ListItem)`
   display: flex;
@@ -20,25 +23,34 @@ const ListItemStyled = styled(ListItem)`
   padding: 12px;
 `;
 
-// 간격 일정하게 만드는 거
-const getColumnWidth = (label) => {
-    // Define your width ranges for each column label
-    const widthRanges = {
-        번호: [0, 10],
-        제목: [10, 30],
-        등록일: [30, 50]
-        // Add more labels as needed
-    };
-    const [minWidth, maxWidth] = widthRanges[label] || [0, 100];
-    const width = Math.min(100, maxWidth) - minWidth;
+const ModalBoxStyled = styled(Box)`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 1200px;
+  height: 800px;
 
-    return `calc(${width}% - 8px)`; // Adjust 8px for spacing
-};
+  padding-left: 150px;
+  padding-right: 150px;
+  padding-bottom: 10px;
+
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  background-color: white;
+  border-radius: 10px;
+  border: 2px solid white;
+`;
 
 const PaginationContainer = styled.div`
-  margin-top: 5px; /* 원하는 여백을 설정하세요 */
-  display: inline-block;
-  margin-top: 2%;
+  display: flex;
+  margin-top: 2.5%;
+  margin-bottom: 2.5%;
+  align-items: center;
+  flex-direction: column;
 `;
 
 const TopField = styled.h1`
@@ -62,52 +74,91 @@ const Body = styled.div`
   min-height: 50vh;
 `;
 
+// 간격 일정하게 만드는 거
+const getColumnWidth = (label) => {
+    // Define your width ranges for each column label
+    const widthRanges = {
+        번호: [0, 10],
+        제목: [10, 30],
+        등록일: [30, 50]
+        // Add more labels as needed
+    };
+    const [minWidth, maxWidth] = widthRanges[label] || [0, 100];
+    const width = Math.min(100, maxWidth) - minWidth;
+
+    return `calc(${width}% - 8px)`; // Adjust 8px for spacing
+};
+
+const formatDate = (dateString) => {
+    const options = {year: 'numeric', month: '2-digit', day: '2-digit'};
+    return new Date(dateString).toLocaleDateString('ko-KR', options);
+};
+
+const FaqItem = ({faq, index, onClick}) => {
+    return (
+        <ListItemStyled onClick={() => onClick(faq)}>
+            <Typography
+                variant="body1"
+                sx={{width: getColumnWidth('번호'), textAlign: "center"}}
+            >
+                {index + 1}
+            </Typography>
+            <Typography
+                variant="body1"
+                sx={{width: getColumnWidth('제목'), textAlign: "center"}}
+            >
+                {faq.title}
+            </Typography>
+            <Typography
+                variant="body1"
+                sx={{width: getColumnWidth('등록일'), textAlign: "center"}}
+            >
+                {formatDate(faq.createdAt)}
+            </Typography>
+        </ListItemStyled>
+    )
+};
+
 export const FAQBody = () => {
     const [dataList, setDataList] = useState([]);
-    const [dataListLabels, setDataListLabels] = useState([]);
+    const [selectedFaq, setSelectedFaq] = useState(null);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState();
+    const [modalOpen, setModalOpen] = useState(false);
+    const pageSize = 10;
 
-    let currentInquirySeq = null;
+    const handleFaqClick = async (inquirySeq) => {
+        try {
+            const res = await TokenAxios.get(`/api/inquiry/${inquirySeq}`);
+            setSelectedFaq(res.data.result.data);
+            setModalOpen(true);
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    const handlePageChange = (event, newPage) => {
+        setCurrentPage(newPage); // 현재 페이지 업데이트
+    };
+
+    const handleCloseModal = () => {
+        setModalOpen(false);
+    }
 
     const getFAQ = async (page) => {
         try {
-            const res = await TokenAxios.get(`/api/faq`);
+            const res = await TokenAxios.get(`/api/faq?page=${page}&size=10`);
             setTotalPages(res.data.result.data.totalPages);
-
-            const mappedDataList = res.data.result.data.content.map(createFAQItem);
-            setDataList(mappedDataList);
+            setDataList(res.data.result.data.content);
         } catch (e) {
             console.error(e);
-        } finally {
-            const newLabels = [
-                "번호",
-                "제목",
-                "작성일시"
-            ];
-            setDataListLabels(newLabels);
         }
-    };
-
-    const formatDate = (date) => {
-        const year = date.getFullYear();
-        const month = date.getMonth() + 1;
-        const day = date.getDate();
-        return `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`;
-    };
-
-    const createFAQItem = (item) => {
-        return {
-            번호: item.inquirySeq,
-            제목: item.title,
-            작성일시: formatDate(new Date(item.createdAt))
-        };
     };
 
     useEffect(() => {
         getFAQ(currentPage);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [currentPage]);
 
     return (
         <Main>
@@ -128,29 +179,102 @@ export const FAQBody = () => {
                         ))}
                     </ListItemStyled>
                     <Divider component="li" light/>
-                    {dataList.map((item, rowIndex) => (
-                        <React.Fragment key={rowIndex}>
-                            <ListItemStyled>
-                                {dataListLabels.map((label, colIndex) => (
-                                    <Typography
-                                        variant="body1"
-                                        key={colIndex}
-                                        sx={{width: getColumnWidth(label), textAlign: "center"}}
-                                    >
-                                        {item[label]}
-                                    </Typography>
-                                ))}
-                            </ListItemStyled>
-                            {rowIndex !== dataList.length - 1 && (
+                    {dataList.map((faq, index) => (
+                        <React.Fragment key={index}>
+                            <FaqItem
+                                faq={faq}
+                                index={index + (currentPage * pageSize)}
+                                onClick={() => handleFaqClick(faq.inquirySeq)}
+                            />
+                            {index !== dataList.length - 1 && (
                                 <Divider component="li" light/>
                             )}
                         </React.Fragment>
                     ))}
                 </StyledList>
-                <PaginationContainer>
-                    <Pagination count={10}/>
-                </PaginationContainer>
             </Body>
+            <PaginationContainer>
+                <Pagination
+                    count={totalPages} // 총 페이지 수를 적용
+                    page={currentPage + 1} // 현재 페이지 설정 (0부터 시작하므로 그대로 사용)
+                    onChange={(event, newPage) =>
+                        handlePageChange(event, newPage - 1)} // 페이지 변경 시 호출되는 함수 설정
+                />
+            </PaginationContainer>
+
+            {/*<Dialog*/}
+            {/*    onClose={handleCloseModal}*/}
+            {/*    open={modalOpen}*/}
+            {/*    maxWidth={false}>*/}
+            {/*    <DialogTitle>*/}
+            {/*        <IconButton*/}
+            {/*            aria-label="close"*/}
+            {/*            onClick={handleCloseModal}*/}
+            {/*            sx={{position: 'absolute', right: 8, top: 8, color: (theme) => theme.palette.grey[500],}}*/}
+            {/*        >*/}
+            {/*            <CloseIcon/>*/}
+            {/*        </IconButton>*/}
+            {/*    </DialogTitle>*/}
+            {/*    <DialogContent style={{width: 900, height: 600}}>*/}
+            {/*        {selectedFaq && (*/}
+            {/*            <div>*/}
+            {/*                <Grid marginTop="2%" style={{textAlign: "center"}}>*/}
+            {/*                    {selectedFaq.title}*/}
+            {/*                </Grid>*/}
+            {/*                <Grid>작성일시 : {formatDate(selectedFaq.createdAt)} 작성자 {selectedFaq.nickname}</Grid>*/}
+            {/*                <Typography style={{marginTop: "5%"}}>*/}
+            {/*                    {selectedFaq.content}*/}
+            {/*                </Typography>*/}
+            {/*            </div>*/}
+            {/*        )}*/}
+            {/*    </DialogContent>*/}
+            {/*</Dialog>*/}
+
+            <Modal
+                open={modalOpen}
+                onClose={handleCloseModal}
+                maxWidth={false}
+                aria-labelledby="simple-modal-title"
+                aria-describedby="simple-modal-description"
+            >
+                <ModalBoxStyled>
+                    <IconButton
+                        onClick={handleCloseModal}
+                        sx={{mt: 4, mr: 4}}
+                        style={{position: "absolute", right: 0, top: 0}}
+                    >
+                        <HighlightOffIcon></HighlightOffIcon>
+                    </IconButton>
+
+                    <Grid container spacing={2}>
+                        <Grid item xs={2}>
+                            <Typography variant="h6" fontWeight="bold" sx={{mb: 2}}>
+                                제목
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={10}>
+                            {/*<Text*/}
+                            <Typography>{selectedFaq?.title}</Typography>
+                        </Grid>
+                        <Grid item xs={2}>
+                            <Typography variant="h6" fontWeight="bold" sx={{mb: 2}}>
+                                내용
+                            </Typography>
+                        </Grid>
+                        <Grid
+                            item
+                            xs={10}
+                            style={{
+                                height: "600px",
+                                maxHeight: "400px",
+                                overflowY: "auto",
+                            }}
+                        >
+                            <Typography>{selectedFaq?.content}</Typography>
+                        </Grid>
+                    </Grid>
+                </ModalBoxStyled>
+            </Modal>
         </Main>
     );
 };
