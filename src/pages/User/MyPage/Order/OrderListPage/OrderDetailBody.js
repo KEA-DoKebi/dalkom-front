@@ -1,7 +1,70 @@
-import React from "react";
-import { Box, Button, Grid, Typography } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { TokenAxios } from "apis/CommonAxios";
+import {
+  Box,
+  Grid,
+  Typography,
+  Button
+} from "@mui/material";
+import { useLocation } from 'react-router-dom';
+import styled from "styled-components";
 
-const OrderDetailBody = () => {
+const ProductDiv = styled.div`
+display: flex;
+flex-direction: row;
+align-items: center;
+
+`;
+
+const ProductImg = styled.img`
+width:50px;
+height 50px;
+object-fit: cover;
+display: block;
+margin-left: 60px;
+margin-right : 30px;
+`;
+
+const ProductInfo = styled.div`
+display: flex;
+flex-direction: column;
+justify-content: center;
+
+`;
+
+const OrderDetailBody = ({ }) => {
+
+  const location = useLocation();
+  const orderSeq = location.state?.orderSeq;
+  const [orderList, setOrderList] = useState([]);
+  const [shipInfo, setShipInfo] = useState([]);
+  const [totalPrice, setTotalPrice] = useState([]);
+
+  const loadOrderDetail = async () => {
+    try {
+      // orderSeq가 정의되어 있는지 확인
+      if (!orderSeq) {
+        // orderSeq가 정의되지 않은 경우 처리 (예: 에러 페이지로 리다이렉트)
+        console.error("OrderSeq가 정의되지 않았습니다");
+        return;
+      }
+
+      const res = await TokenAxios.get(`/api/order/${orderSeq}`);
+      console.log(res.data.result.data);
+
+      setTotalPrice(res.data.result.data.totalPrice);
+      setOrderList(res.data.result.data.orderDetailList);
+      setShipInfo(res.data.result.data.receiverDetail);
+    } catch (e) {
+      console.error(e);
+      // 에러 처리 (예: 에러 페이지로 리다이렉트)
+    }
+  };
+  useEffect(() => {
+    loadOrderDetail();
+  }, [orderSeq]);
+
+
   return (
     <Box style={{ marginTop: "5%" }}>
       <Typography variant="h3" gutterBottom>
@@ -17,145 +80,110 @@ const OrderDetailBody = () => {
           height: "auto",
         }}
       >
+    
         <thead>
           <tr>
             <td style={{ border: "1px solid black", padding: "5px" }}>
+             
               <Grid container spacing={2} justifyContent="space-between">
-                <Grid item xs={2} style={{ textAlign: "center" }}>
+                <Grid item xs={2.5} style={{ textAlign: "center" }}>
                   <Typography style={{ fontWeight: "bold" }}>
                     상품 정보
                   </Typography>
                 </Grid>
-                <Grid item xs={2} style={{ textAlign: "center" }}>
+
+                <Grid item xs={1.5} style={{ textAlign: "center" }}>
                   <Typography style={{ fontWeight: "bold" }}>
                     주문일자
                   </Typography>
                 </Grid>
-                <Grid item xs={2} style={{ textAlign: "center" }}>
+
+                <Grid item xs={1.5} style={{ textAlign: "center" }}>
                   <Typography style={{ fontWeight: "bold" }}>
                     주문번호
                   </Typography>
                 </Grid>
-                <Grid item xs={2} style={{ textAlign: "center" }}>
+
+                <Grid item xs={1.5} style={{ textAlign: "center" }}>
                   <Typography style={{ fontWeight: "bold" }}>
                     수량
                   </Typography>
                 </Grid>
-                <Grid item xs={2} style={{ textAlign: "center" }}>
+
+                <Grid item xs={1.5} style={{ textAlign: "center" }}>
                   <Typography style={{ fontWeight: "bold" }}>
                     주문금액
                   </Typography>
                 </Grid>
-                <Grid
-                  item
-                  xs={2}
-                  style={{ textAlign: "center", paddingLeft: "10px" }}
-                >
+
+                <Grid item xs={1.5} style={{ textAlign: "center", paddingLeft: "10px" }}>
                   <Typography style={{ fontWeight: "bold" }}>
                     배송상태
                   </Typography>
                 </Grid>
+
+                <Grid item xs={1.5} style={{ textAlign: "center", paddingLeft: "10px" }}>
+                  <Typography style={{ fontWeight: "bold" }}>
+                    후기작성
+                  </Typography>
+                </Grid>
+
               </Grid>
+
+
             </td>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <Grid container spacing={2} justifyContent="space-between">
-              <Grid item xs={2} style={{ textAlign: "center" }}>
-                <Typography>갤럭시 s24</Typography>
-                <Typography>(옵션: 블랙)</Typography>
-              </Grid>
 
-              <Grid
-                item
-                xs={2}
-                style={{ textAlign: "center", marginTop: "1%" }}
-              >
-                <Typography>2024-01-11</Typography>
-              </Grid>
-              <Grid
-                item
-                xs={2}
-                style={{ textAlign: "center", marginTop: "1%" }}
-              >
-                <Typography>11</Typography>
-              </Grid>
-              <Grid
-                item
-                xs={2}
-                style={{ textAlign: "center", marginTop: "1%" }}
-              >
-                <Typography>3</Typography>
-              </Grid>
-              <Grid
-                item
-                xs={2}
-                style={{ textAlign: "center", marginTop: "1%" }}
-              >
-                <Typography>1,000,000</Typography>
-              </Grid>
-              <Grid
-                item
-                xs={2}
-                style={{ textAlign: "center", marginTop: "1%" }}
-              >
-                <Typography>
-                  배송준비
-                  <Button>리뷰작성</Button>
-                </Typography>
-              </Grid>
-            </Grid>
-          </tr>
           <tr>
-            <Grid container spacing={2} justifyContent="space-between">
-              <Grid item xs={2} style={{ textAlign: "center" }}>
-                <Typography>갤럭시 버즈</Typography>
-                <Typography>(옵션: 흰색)</Typography>
-              </Grid>
-              <Grid
-                item
-                xs={2}
-                style={{ textAlign: "center", marginTop: "1%" }}
-              >
-                <Typography>2024-01-11</Typography>
-              </Grid>
-              <Grid
-                item
-                xs={2}
-                style={{ textAlign: "center", marginTop: "1%" }}
-              >
-                <Typography>15</Typography>
-              </Grid>
-              <Grid
-                item
-                xs={2}
-                style={{ textAlign: "center", marginTop: "1%" }}
-              >
-                <Typography>5</Typography>
-              </Grid>
-              <Grid
-                item
-                xs={2}
-                style={{ textAlign: "center", marginTop: "1%" }}
-              >
-                <Typography>200,000</Typography>
-              </Grid>
-              <Grid
-                item
-                xs={2}
-                style={{ textAlign: "center", marginTop: "1%" }}
-              >
-                <Typography>
-                  배송준비
+           
+         
+
+          <Grid container spacing={2} justifyContent="space-between" style={{ marginTop: '5px' }}>
+            {orderList.map((orderDetail) => (
+              <>
+                <Grid item xs={2.5} style={{ textAlign: "center", height: "5vh" }}>
+                  <Typography>
+                    <ProductDiv>
+                      <ProductImg src = {orderDetail.imageUrl}/>
+                      <ProductInfo>
+                       <div>{orderDetail.productName}</div> 
+                       <div>{orderDetail.optionSeq}</div> 
+                      </ProductInfo>
+                    </ProductDiv>
+
+{/* 
+                    {orderDetail.productName}
+                    {orderDetail.optionSeq} */}
+                  </Typography>
+                </Grid>
+                <Grid item xs={1.5} style={{ textAlign: "center" }}>
+                  <Typography>{orderDetail.orderDate.substring(0, 10)}</Typography>
+                </Grid>
+                <Grid item xs={1.5} style={{ textAlign: "center" }}>
+                  <Typography>{orderDetail.ordrSeq}</Typography>
+                </Grid>
+                <Grid item xs={1.5} style={{ textAlign: "center" }}>
+                  <Typography>{orderDetail.amount}</Typography>
+                </Grid>
+                <Grid item xs={1.5} style={{ textAlign: "center" }}>
+                  <Typography>{orderDetail.totalPrice}</Typography>
+                </Grid>
+                <Grid item xs={1.5} style={{ textAlign: "center", paddingLeft: "10px" }}>
+                  <Typography>{orderDetail.ordrState}</Typography>
+                </Grid>
+                <Grid item xs={1.5} style={{ textAlign: "center", paddingLeft: "10px" }}>
                   <Button>리뷰작성</Button>
-                </Typography>
-              </Grid>
-            </Grid>
+                </Grid>
+              </>
+            ))}
+          </Grid>
           </tr>
         </tbody>
         <tfoot>
           <tr>
+
             <Grid container spacing={2} justifyContent="space-between">
               <Grid
                 item
@@ -176,7 +204,7 @@ const OrderDetailBody = () => {
                 <Typography>이름</Typography>
               </Grid>
               <Grid item xs={2}>
-                <Typography>배송지 이름</Typography>
+                <Typography>{shipInfo.receiverName}</Typography>
               </Grid>
 
               <Grid item xs={7.5}></Grid>
@@ -186,7 +214,7 @@ const OrderDetailBody = () => {
                 <Typography>연락처</Typography>
               </Grid>
               <Grid item xs={2}>
-                <Typography>010-1234-5678</Typography>
+                <Typography>{shipInfo.receiverMobileNum}</Typography>
               </Grid>
 
               <Grid item xs={7.5}></Grid>
@@ -196,7 +224,7 @@ const OrderDetailBody = () => {
                 <Typography>배송지 주소</Typography>
               </Grid>
               <Grid item xs={2}>
-                <Typography>경기도 고양시 덕양구</Typography>
+                <Typography>{shipInfo.receiverAddress}</Typography>
               </Grid>
 
               <Grid item xs={7.5}></Grid>
@@ -206,7 +234,7 @@ const OrderDetailBody = () => {
                 <Typography>배송 요청사항</Typography>
               </Grid>
               <Grid item xs={3}>
-                <Typography>배송 전 연락 바랍니다.</Typography>
+                <Typography>{shipInfo.receiverMemo}</Typography>
               </Grid>
 
               <Grid item xs={6.5}></Grid>
@@ -232,7 +260,7 @@ const OrderDetailBody = () => {
                 <Typography>상품 합계</Typography>
               </Grid>
               <Grid item xs={3}>
-                <Typography>49,000 마일리지</Typography>
+                <Typography>{totalPrice} 마일리지</Typography>
               </Grid>
 
               <Grid item xs={6.5}></Grid>
@@ -252,7 +280,7 @@ const OrderDetailBody = () => {
                 <Typography>최종 결제 금액</Typography>
               </Grid>
               <Grid item xs={3}>
-                <Typography>49,000 마일리지</Typography>
+                <Typography>{totalPrice} 마일리지</Typography>
               </Grid>
 
               <Grid item xs={6.5}></Grid>
