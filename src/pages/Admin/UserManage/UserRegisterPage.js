@@ -10,12 +10,11 @@ import {
   Alert,
   AlertTitle,
 } from "@mui/material";
-import { InputBoxS } from "components/atoms/Input";
+import { InputBoxS, InputBoxL } from "components/atoms/Input";
 import { AdminButton } from "components/atoms/AdminCommonButton";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { TokenAxios } from "apis/CommonAxios";
-import { InputBoxL } from "components/atoms/Input";
 
 const UserRegisterPage = () => {
   // Declare selectedMenu and setSelectedMenu using useState
