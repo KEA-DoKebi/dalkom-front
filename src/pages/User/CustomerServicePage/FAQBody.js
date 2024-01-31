@@ -9,7 +9,7 @@ const StyledList = styled(List)`
   padding: 0;
   width: 100%;
   border: none;
-  background-color: background.paper;
+  background-color: background .paper;
   height: 70%; // 전체 높이의 70%로 설정
 `;
 
@@ -43,6 +43,11 @@ const ModalBoxStyled = styled(Box)`
   background-color: white;
   border-radius: 10px;
   border: 2px solid white;
+`;
+
+const ModalTitleContentContainer = styled.div`
+  border: 5px solid #ddd;
+  padding: 1%;
 `;
 
 const PaginationContainer = styled.div`
@@ -254,7 +259,9 @@ export const FAQBody = () => {
                         </Grid>
                         <Grid item xs={10}>
                             {/*<Text*/}
-                            <Typography>{selectedFaq?.title}</Typography>
+                            <ModalTitleContentContainer>
+                                <Typography>{selectedFaq?.title}</Typography>
+                            </ModalTitleContentContainer>
                         </Grid>
                         <Grid item xs={2}>
                             <Typography variant="h6" fontWeight="bold" sx={{mb: 2}}>
@@ -270,7 +277,9 @@ export const FAQBody = () => {
                                 overflowY: "auto",
                             }}
                         >
-                            <Typography>{selectedFaq?.content}</Typography>
+                            <ModalTitleContentContainer>
+                                <Typography>{selectedFaq?.content}</Typography>
+                            </ModalTitleContentContainer>
                         </Grid>
                     </Grid>
                 </ModalBoxStyled>

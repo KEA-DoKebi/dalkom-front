@@ -1,19 +1,12 @@
 import React from "react";
-import {Grid, Paper, Typography} from "@mui/material";
-import {Option, Select, selectClasses, Textarea} from "@mui/joy";
-import {KeyboardArrowDown} from "@mui/icons-material";
-import {CKEditor} from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import styled from "styled-components";
-import {UserButton} from "../../MyInfoPage/MyInfoBody";
-import {useForm} from "react-hook-form";
-import {TokenAxios} from "apis/CommonAxios";
+import { Grid, Typography, Paper } from "@mui/material";
+import { Select, selectClasses, Option, Textarea } from "@mui/joy";
+import { KeyboardArrowDown } from "@mui/icons-material";
+import EditorComponent from "components/atoms/Editor";
+import { UserButton } from "../../MyInfoPage/MyInfoBody";
+import { useForm } from "react-hook-form";
+import { TokenAxios } from "apis/CommonAxios";
 
-const CKEditorContainer = styled.div`
-  .ck-editor__editable {
-    min-height: 400px;
-  }
-`;
 
 const InquiryWriteBody = () => {
     const {
@@ -79,33 +72,31 @@ const InquiryWriteBody = () => {
                     </Grid>
                 </Grid>
 
-                <CKEditorContainer>
-                    <CKEditor
-                        id="content"
-                        editor={ClassicEditor}
-                        data=""
-                        config={{
-                            placeholder: "문의내용을 입력해 주세요.",
-                        }}
-                        onChange={(event, editor) => {
-                            setValue('content', editor.getData());
-                            trigger('content');
-                            console.log('content');
-                            // const data = editor.getData();
-                            // console.log({ event, editor, data });
-                            //원하는 작업 수행
-                        }}
-                        // onChange = {(value) => setValue('content', value)}
+        <EditorComponent
+          id = "content"
 
-                        // {...register("content")}
-                    />
-                </CKEditorContainer>
-                <Grid container justifyContent="center" sx={{mt: 15}}>
-                    <UserButton type="submit" variant="solid">저장</UserButton>
-                </Grid>
-            </form>
-        </Paper>
-    );
+          data=""
+          config={{
+            placeholder: "문의내용을 입력해 주세요.",
+          }}
+          onChange={(event, editor) => {
+            setValue('content', editor.getData());
+            trigger('content');
+            console.log('content');
+            // const data = editor.getData();
+            // console.log({ event, editor, data });
+            //원하는 작업 수행
+          }}
+          // onChange = {(value) => setValue('content', value)}
+
+        // {...register("content")}
+        />
+      <Grid container justifyContent="center" sx={{ mt: 15 }}>
+        <UserButton type = "submit" variant="solid">저장</UserButton>
+      </Grid>
+      </form>
+    </Paper>
+  );
 };
 
 export default InquiryWriteBody;

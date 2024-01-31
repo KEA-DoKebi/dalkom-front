@@ -8,9 +8,10 @@ import {CKEditor} from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import {useForm} from "react-hook-form";
 import Swal from "sweetalert2";
-import {DefaultAxios, TokenAxios} from "apis/CommonAxios";
+import {TokenAxios} from "apis/CommonAxios";
 import {pink} from "@mui/material/colors";
 import {alpha} from '@mui/material/styles';
+import {PinkSwitch} from "components/atoms/OnOffSwitch";
 
 import {
     Box,
@@ -234,7 +235,7 @@ const AnnouncementPage = () => {
     // 공지 수정 (put)
     const updateNotice = async () => {
         try {
-            await DefaultAxios.put(`/api/notice/${editNotice.noticeSeq}`, {
+            await TokenAxios.put(`/api/notice/${editNotice.noticeSeq}`, {
                 title: editNotice.title,
                 content: editNotice.content,
                 adminSeq: localStorage.getItem("adminSeq") // 현재 관리자의 Seq
@@ -252,7 +253,7 @@ const AnnouncementPage = () => {
     // 공지 삭제 (delete)
     const deleteNotice = async (noticeSeq) => {
         try {
-            await DefaultAxios.delete(`/api/notice/${noticeSeq}`);
+            await TokenAxios.delete(`/api/notice/${noticeSeq}`);
             Swal.fire("성공", "공지사항이 삭제되었습니다.", "success");
             // 삭제 후 목록 갱신
             getNotice();
@@ -282,7 +283,18 @@ const AnnouncementPage = () => {
             });
         }
     };
-    //
+
+    const [state, setState] = React.useState({
+        option: false,
+    });
+
+    const handleChange = (event) => {
+        setState({
+            ...state,
+            [event.target.name]: event.target.checked,
+        });
+    };
+
 
     return (
         <Paper sx={{display: "flex", height: "100vh"}}>
@@ -462,20 +474,10 @@ const AnnouncementPage = () => {
                                 marginLeft: '20px',
                                 marginRight: '20px'
                             }}>
-                                <FormControlLabel
-                                    control={<Switch checked={switchState} onChange={handleSwitchChange} sx={{
-                                        color: pink[600],
-                                        '& .MuiSwitch-switchBase.Mui-checked': {
-                                            color: pink[600],
-                                            '&:hover': {
-                                                backgroundColor: alpha(pink[600], 0.08),
-                                            }
-                                        },
-                                        '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-                                            backgroundColor: pink[600],
-                                        },
-                                    }}/>}
-                                    label="상단 고정"
+                                <PinkSwitch
+                                    sx={{mr: 2}}
+                                    label="상단고정"
+                                    onChange={handleChange}
                                 />
                             </div>
                             <DialogActions
