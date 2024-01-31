@@ -3,15 +3,19 @@ import styled from "styled-components";
 import { Card, Typography } from "@mui/material";
 import { StarRating } from "../atoms/StarRating";
 import { Link } from "react-router-dom";
+import { Button } from "react-scroll";
 
 export const ProductCard = ({ imageUrl, title, price, star, review, seq }) => {
-
+  
   return (
     <Link to={`/product/${seq}`}>
       <SungjunCard>
         <CardImage src={imageUrl} alt="카드 이미지" />
         <HoverCardContent>
           <HoverCardTitle>★({star})</HoverCardTitle>
+          <HoverCardButton variant="contained" onClick={() => console.log("안녕")}>
+            <Typography sx={{fontSize : "15px", fontWeight : "bold", fontFamily : "Noto Sans"}}>➕상품 비교</Typography>
+          </HoverCardButton>
         </HoverCardContent>
         <CardContent>
           <CardTitle>{title}</CardTitle>
@@ -107,3 +111,23 @@ const HoverCardTitle = styled(Typography)`
   font-size: 24px;
   font-weight: bold;
 `;
+
+const HoverCardButton = styled(Button)`
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(255,255,255,0.7);
+  color: rgba(0,0,0,0.7);
+  width: 100px;
+  height: 23px;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+
+  &:hover {
+    background-color: rgba(255,255,255,1);
+    color: rgba(0,0,0,1);
+  }
+`

@@ -4,7 +4,7 @@ import "assets/font/font.css";
 
 export const ComparisonBody = () => {
   // 카테고리 페이지에서 넘어온 정보를 받아옵니다.
-  const [selectedCategory ] = useState("카테고리1");
+  const [selectedCategory] = useState("카테고리1");
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [productOptions, setProductOptions] = useState([]);
   const [productInfo, setProductInfo] = useState([]);
@@ -13,80 +13,87 @@ export const ComparisonBody = () => {
     {
       id: 1,
       name: "상품 1",
-      // imageUrl: "/public/data/",
+      imageUrl:
+        "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Ffashion1.jpg",
       price: 10000,
       rating: 4.5,
       reviewCount: 100,
-      positiveReviews: 90,
-      negativeReviews: 10,
+      positiveReviews:
+        "가볍다, 튼튼하다, 가볍다, 튼튼하다, 가볍다, 튼튼하다, 가볍다, 튼튼하다",
+      negativeReviews: "투박하다, 딱딱하다",
     },
     {
       id: 2,
       name: "상품 2",
-      // imageUrl: "image-url-2.jpg",
+      imageUrl:
+        "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Ffashion1.jpg",
       price: 8000,
       rating: 4.0,
       reviewCount: 80,
-      positiveReviews: 70,
-      negativeReviews: 10,
+      positiveReviews: "가볍다, 튼튼하다",
+      negativeReviews: "투박하다, 딱딱하다",
     },
     {
       id: 3,
       name: "상품 3",
-      // imageUrl: "image-url-3.jpg",
+      imageUrl:
+        "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Ffashion1.jpg",
       price: 12000,
       rating: 4.8,
       reviewCount: 120,
-      positiveReviews: 110,
-      negativeReviews: 10,
+      positiveReviews: "가볍다, 튼튼하다",
+      negativeReviews: "투박하다, 딱딱하다",
     },
     {
       id: 4,
       name: "상품 1",
-      // imageUrl: "/public/data/",
+      imageUrl:
+        "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Ffashion1.jpg",
       price: 10000,
       rating: 4.5,
       reviewCount: 100,
-      positiveReviews: 90,
-      negativeReviews: 10,
+      positiveReviews: "가볍다, 튼튼하다",
+      negativeReviews: "투박하다, 딱딱하다",
     },
     {
       id: 5,
       name: "상품 2",
-      // imageUrl: "image-url-2.jpg",
+      imageUrl:
+        "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Ffashion1.jpg",
       price: 8000,
       rating: 4.0,
       reviewCount: 80,
-      positiveReviews: 70,
-      negativeReviews: 10,
+      positiveReviews: "가볍다, 튼튼하다",
+      negativeReviews: "투박하다, 딱딱하다",
     },
     {
       id: 6,
       name: "상품 3",
-      // imageUrl: "image-url-3.jpg",
+      imageUrl:
+        "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Ffashion1.jpg",
       price: 12000,
       rating: 4.8,
       reviewCount: 120,
-      positiveReviews: 110,
-      negativeReviews: 10,
+      positiveReviews: "가볍다, 튼튼하다",
+      negativeReviews: "투박하다, 딱딱하다",
     },
     // 추가 상품 정보들도 추가할 수 있습니다.
   ];
 
   useEffect(() => {
-      // 더미 상품 데이터
-  const dummyProducts = [
-    { id: 1, name: "상품 1" },
-    { id: 2, name: "상품 2" },
-    { id: 3, name: "상품 3" },
-    { id: 4, name: "상품 4" },
-    { id: 5, name: "상품 5" },
-    { id: 6, name: "상품 6" },
-    { id: 7, name: "상품 7" },
-    { id: 8, name: "상품 8" },
-    { id: 9, name: "상품 9" },
-    // ... 추가 상품
-  ];
+    // 더미 상품 데이터
+    const dummyProducts = [
+      { id: 1, name: "상품 1" },
+      { id: 2, name: "상품 2" },
+      { id: 3, name: "상품 3" },
+      { id: 4, name: "상품 4" },
+      { id: 5, name: "상품 5" },
+      { id: 6, name: "상품 6" },
+      { id: 7, name: "상품 7" },
+      { id: 8, name: "상품 8" },
+      { id: 9, name: "상품 9" },
+      // ... 추가 상품
+    ];
 
     // 카테고리에 따른 상품 데이터를 설정합니다.
     setProductOptions(dummyProducts);
@@ -117,9 +124,19 @@ export const ComparisonBody = () => {
 
   const ProductSelect = ({ selectNumber }) => {
     const info = productInfo[selectNumber - 1];
-  
+
     return (
-      <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: "20px", marginRight: "2vw", marginLeft: "2vw", minHeight: "250px" }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          marginBottom: "20px",
+          marginRight: "2vw",
+          marginLeft: "2vw",
+          minHeight: "100vh",
+        }}
+      >
         <Select
           value={selectedProducts[selectNumber] || ""}
           onChange={(e) => handleProductSelect(e.target.value, selectNumber)}
@@ -138,12 +155,111 @@ export const ComparisonBody = () => {
         </Select>
         {info && (
           <Box sx={{ mt: 2 }}>
-            <Typography>{info.name}</Typography>
-            <Typography>가격: {info.price}</Typography>
-            <Typography>평점: {info.rating}</Typography>
-            <Typography>리뷰 수: {info.reviewCount}</Typography>
-            <Typography>긍정적인 리뷰: {info.positiveReviews}</Typography>
-            <Typography>부정적인 리뷰: {info.negativeReviews}</Typography>
+            <img
+              src={info.imageUrl}
+              alt={info.name}
+              style={{ width: "15vw", height: "15vw" }}
+            />
+            <Typography
+              sx={{ fontSize: "15px", fontWeight: "bold", color: "#555555" }}
+            >
+              상품명
+            </Typography>
+            <Typography
+              sx={{
+                fontSize: "25px",
+                fontWeight: "bold",
+                color: "#000000",
+                mb: "3vh",
+              }}
+            >
+              {info.name}
+            </Typography>
+            <Typography
+              sx={{ fontSize: "15px", fontWeight: "bold", color: "#555555" }}
+            >
+              가격
+            </Typography>
+            <Typography
+              sx={{
+                fontSize: "25px",
+                fontWeight: "bold",
+                color: "#000000",
+                mb: "3vh",
+              }}
+            >
+              {info.price}
+            </Typography>
+            <Typography
+              sx={{ fontSize: "15px", fontWeight: "bold", color: "#555555" }}
+            >
+              평점
+            </Typography>
+            <Typography
+              sx={{
+                fontSize: "25px",
+                fontWeight: "bold",
+                color: "#000000",
+                mb: "3vh",
+              }}
+            >
+              {info.rating}
+            </Typography>
+            <Typography
+              sx={{ fontSize: "15px", fontWeight: "bold", color: "#555555" }}
+            >
+              리뷰 수
+            </Typography>
+            <Typography
+              sx={{
+                fontSize: "25px",
+                fontWeight: "bold",
+                color: "#000000",
+                mb: "3vh",
+              }}
+            >
+              {info.reviewCount}
+            </Typography>
+            <Typography
+              sx={{ fontSize: "15px", fontWeight: "bold", color: "#555555" }}
+            >
+              긍정적인 리뷰
+            </Typography>
+            <Typography
+              sx={{
+                fontSize: "25px",
+                fontWeight: "bold",
+                color: "#000000",
+                mb: "3vh",
+              }}
+            >
+              {info.positiveReviews.split(",").map((review, index) => (
+                <span key={index}>
+                  {review.trim()}
+                  <br />
+                </span>
+              ))}
+            </Typography>
+            <Typography
+              sx={{ fontSize: "15px", fontWeight: "bold", color: "#555555" }}
+            >
+              부정적인 리뷰
+            </Typography>
+            <Typography
+              sx={{
+                fontSize: "25px",
+                fontWeight: "bold",
+                color: "#000000",
+                mb: "3vh",
+              }}
+            >
+              {info.negativeReviews.split(",").map((review, index) => (
+                <span key={index}>
+                  {review.trim()}
+                  <br />
+                </span>
+              ))}
+            </Typography>
           </Box>
         )}
       </Box>
@@ -179,13 +295,15 @@ export const ComparisonBody = () => {
         }}
       >
         <Box
-          sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
         >
           {selectAndInfoComponents}
         </Box>
       </Box>
-
-     
     </Paper>
   );
 };
