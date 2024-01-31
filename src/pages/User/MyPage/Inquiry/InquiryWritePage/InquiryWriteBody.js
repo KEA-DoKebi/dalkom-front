@@ -70,9 +70,7 @@ const InquiryWriteBody = () => {
           onContentChange={handleEditorContentChange}
           id="content"
           data=""
-          config={{
-            placeholder: "문의내용을 입력해 주세요.",
-          }}
+          placeholder="문의 내용을 입력해주세요."
           onChange={(event, editor) => {
             setValue("content", editor.getData());
             trigger("content");
