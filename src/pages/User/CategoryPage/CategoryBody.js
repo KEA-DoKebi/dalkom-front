@@ -1,4 +1,4 @@
-import { Grid, Typography, Box, Pagination, Tabs, Tab } from "@mui/material";
+import { Grid, Typography, Box, Pagination, Tabs, Tab, Paper } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
@@ -7,11 +7,17 @@ import { TokenAxios } from "apis/CommonAxios";
 import { ProductCard } from "components/molecules/ProductCard";
 
 const CategoryBody = () => {
+
+  // URL에 있는 값 가져오는 함수 (Router에 저장된 변수명으로 가져옴)
+  const { categorySeq, subCategorySeq } = useParams();
+
   const [subCategoryLists, setSubCategoryLists] = useState([]);
   const [productLists, setProductLists] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [tabValue, setTabValue] = useState(0);
+  const [categoryNames] = useState(["패션/뷰티", "생활", "디지털/가전", "출산/유아동", "스포츠/레저", "카카오굿즈"]); // 정적 상위 카테고리 배열
+
   // 페이지 변환하게 하는 함수
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
@@ -22,16 +28,8 @@ const CategoryBody = () => {
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
     console.log(newValue);
-  };
+  }; 
 
-  // URL에 있는 값 가져오는 함수 (Router에 저장된 변수명으로 가져옴)
-  const { categorySeq, subCategorySeq } = useParams();
-
-  // 정적 상위 카테고리 배열
-  const [categoryNames] = useState(["패션/뷰티", "생활", "디지털/가전", "출산/유아동", "스포츠/레저", "카카오굿즈"])
-
-  
-  
 
   // 하위 카테고리 목록 가져오는 api
   const getCategoryLists = async () => {
@@ -171,7 +169,6 @@ const CategoryBody = () => {
           </Grid>
         </Grid>
       </Grid>
-
       <CenterPaginationContainer>
         <Pagination count={totalPages} page={currentPage} onChange={handlePageChange} />
       </CenterPaginationContainer>
