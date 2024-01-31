@@ -36,11 +36,6 @@ export const UserButton = styled(Button)`
   }
 `;
 
-const StyleTextField = styled(TextField)`
-  width: 525px;
-  background-color: #fbfcfe;
-`;
-
 const MyInfoBody = () => {
 
   //기존 유저 정보 불러오기
