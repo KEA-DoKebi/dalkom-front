@@ -76,6 +76,17 @@ const AdminListPage = () => {
     setTotalPages(res.data.result.data.totalPages);
   };
 
+  const handleDeleteAdmin = async (adminSeq) => {
+    // 사용자 삭제 API 호출
+    try {
+      await TokenAxios.delete(`/api/admin/${adminSeq}`);
+      // 삭제 후 목록 갱신
+      adminGet(currentPage);
+    } catch (error) {
+      console.error('Error deleting user:', error);
+    }
+  };
+
   useEffect(() => {
     // 각 페이지가 마운트될 때 selectedMenu를 업데이트
     // setSelectedMenu 함수를 호출하여 상태를 업데이트
@@ -107,7 +118,10 @@ const AdminListPage = () => {
         <Typography variant="body1" sx={{ textAlign: "center" }}>
           {admin.nickname}
         </Typography>
-        <IconButton>
+        <IconButton
+          onClick={() => handleDeleteAdmin(admin.adminSeq)}
+          sx={{ '&:hover': { backgroundColor: '#FFFFFF' } }} // 호버 효과 제거
+        >
           <DeleteIcon />
         </IconButton>
       </ListItemStyled>
