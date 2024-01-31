@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect , useCallback} from "react";
 import { TokenAxios } from "apis/CommonAxios";
 import {
   Box,
@@ -40,7 +40,7 @@ const OrderDetailBody = () => {
   const [shipInfo, setShipInfo] = useState([]);
   const [totalPrice, setTotalPrice] = useState([]);
 
-  const loadOrderDetail = async () => {
+  const loadOrderDetail = useCallback(async () => {
     try {
       // orderSeq가 정의되어 있는지 확인
       if (!orderSeq) {
@@ -59,7 +59,7 @@ const OrderDetailBody = () => {
       console.error(e);
       // 에러 처리 (예: 에러 페이지로 리다이렉트)
     }
-  };
+  }, [orderSeq]);
   useEffect(() => {
     const fetchData = async () => {
       await loadOrderDetail();
@@ -83,16 +83,16 @@ const OrderDetailBody = () => {
           height: "auto",
         }}
       >
-    
-    <thead>
-  <tr>
-    <td style={{ border: "1px solid black", padding: "5px" }}>
-      <Grid container spacing={2} justifyContent="space-between">
-        <Grid item xs={2.5} style={{ textAlign: "center" }}>
-          <Typography style={{ fontWeight: "bold" }}>
-            상품 정보
-          </Typography>
-        </Grid>
+
+        <thead>
+          <tr>
+            <td style={{ border: "1px solid black", padding: "5px" }}>
+              <Grid container spacing={2} justifyContent="space-between">
+                <Grid item xs={2.5} style={{ textAlign: "center" }}>
+                  <Typography style={{ fontWeight: "bold" }}>
+                    상품 정보
+                  </Typography>
+                </Grid>
 
                 <Grid item xs={1.5} style={{ textAlign: "center" }}>
                   <Typography style={{ fontWeight: "bold" }}>
@@ -139,48 +139,48 @@ const OrderDetailBody = () => {
         <tbody>
 
           <tr>
-           
-         
 
-          <Grid container spacing={2} justifyContent="space-between" style={{ marginTop: '5px' }}>
-            {orderList.map((orderDetail) => (
-              <>
-                <Grid item xs={2.5} style={{ textAlign: "center", height: "5vh" }}>
-                  <Typography>
-                    <ProductDiv>
-                      <ProductImg src = {orderDetail.imageUrl}/>
-                      <ProductInfo>
-                       <div>{orderDetail.productName}</div> 
-                       <div>{orderDetail.optionSeq}</div> 
-                      </ProductInfo>
-                    </ProductDiv>
 
-{/* 
+
+            <Grid container spacing={2} justifyContent="space-between" style={{ marginTop: '5px' }}>
+              {orderList.map((orderDetail) => (
+                <>
+                  <Grid item xs={2.5} style={{ textAlign: "center", height: "5vh" }}>
+                    <Typography>
+                      <ProductDiv>
+                        <ProductImg src={orderDetail.imageUrl} />
+                        <ProductInfo>
+                          <div>{orderDetail.productName}</div>
+                          <div>{orderDetail.optionSeq}</div>
+                        </ProductInfo>
+                      </ProductDiv>
+
+                      {/* 
                     {orderDetail.productName}
                     {orderDetail.optionSeq} */}
-                  </Typography>
-                </Grid>
-                <Grid item xs={1.5} style={{ textAlign: "center" }}>
-                  <Typography>{orderDetail.orderDate.substring(0, 10)}</Typography>
-                </Grid>
-                <Grid item xs={1.5} style={{ textAlign: "center" }}>
-                  <Typography>{orderDetail.ordrSeq}</Typography>
-                </Grid>
-                <Grid item xs={1.5} style={{ textAlign: "center" }}>
-                  <Typography>{orderDetail.amount}</Typography>
-                </Grid>
-                <Grid item xs={1.5} style={{ textAlign: "center" }}>
-                  <Typography>{orderDetail.totalPrice}</Typography>
-                </Grid>
-                <Grid item xs={1.5} style={{ textAlign: "center", paddingLeft: "10px" }}>
-                  <Typography>{orderDetail.ordrState}</Typography>
-                </Grid>
-                <Grid item xs={1.5} style={{ textAlign: "center", paddingLeft: "10px" }}>
-                  <Button>리뷰작성</Button>
-                </Grid>
-              </>
-            ))}
-          </Grid>
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={1.5} style={{ textAlign: "center" }}>
+                    <Typography>{orderDetail.orderDate.substring(0, 10)}</Typography>
+                  </Grid>
+                  <Grid item xs={1.5} style={{ textAlign: "center" }}>
+                    <Typography>{orderDetail.ordrSeq}</Typography>
+                  </Grid>
+                  <Grid item xs={1.5} style={{ textAlign: "center" }}>
+                    <Typography>{orderDetail.amount}</Typography>
+                  </Grid>
+                  <Grid item xs={1.5} style={{ textAlign: "center" }}>
+                    <Typography>{orderDetail.totalPrice}</Typography>
+                  </Grid>
+                  <Grid item xs={1.5} style={{ textAlign: "center", paddingLeft: "10px" }}>
+                    <Typography>{orderDetail.ordrState}</Typography>
+                  </Grid>
+                  <Grid item xs={1.5} style={{ textAlign: "center", paddingLeft: "10px" }}>
+                    <Button>리뷰작성</Button>
+                  </Grid>
+                </>
+              ))}
+            </Grid>
           </tr>
         </tbody>
         <tfoot>
