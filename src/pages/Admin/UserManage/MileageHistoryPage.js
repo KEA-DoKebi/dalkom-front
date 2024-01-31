@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import AdminBar from "components/organisms/AdminBar";
+import { TokenAxios } from "apis/CommonAxios";
 import {
   Paper,
   Box,
@@ -8,7 +9,6 @@ import {
   ListItem,
   Typography,
   Divider,
-  IconButton,
   Pagination,
   Button,
 } from "@mui/material";
@@ -17,98 +17,19 @@ import SearchIcon from "@mui/icons-material/Search";
 import CheckIcon from "@mui/icons-material/Check";
 import { InputBoxS } from "components/atoms/Input";
 
-const dataList = [
-  {
-    번호: "1",
-    아이디: "dokebi@dkt.com",
-    닉네임: "깨비",
-    마일리지: 1000000,
-    신청금액: 100000,
-    사용자: "김영희",
-    일시: "2024.01.20",
-  },
-  {
-    번호: "1",
-    아이디: "dokebi@dkt.com",
-    닉네임: "깨비",
-    마일리지: 1000000,
-    신청금액: 100000,
-    사용자: "김영희",
-    일시: "2024.01.20",
-  },
-  {
-    번호: "1",
-    아이디: "dokebi@dkt.com",
-    닉네임: "깨비",
-    마일리지: 1000000,
-    신청금액: 100000,
-    사용자: "김영희",
-    일시: "2024.01.20",
-  },
-  {
-    번호: "1",
-    아이디: "dokebi@dkt.com",
-    닉네임: "깨비",
-    마일리지: 1000000,
-    신청금액: 100000,
-    사용자: "김영희",
-    일시: "2024.01.20",
-  },
-  {
-    번호: "1",
-    아이디: "dokebi@dkt.com",
-    닉네임: "깨비",
-    마일리지: 1000000,
-    신청금액: 100000,
-    사용자: "김영희",
-    일시: "2024.01.20",
-  },
-  {
-    번호: "1",
-    아이디: "dokebi@dkt.com",
-    닉네임: "깨비",
-    마일리지: 1000000,
-    신청금액: 100000,
-    사용자: "김영희",
-    일시: "2024.01.20",
-  },
-  {
-    번호: "1",
-    아이디: "dokebi@dkt.com",
-    닉네임: "깨비",
-    마일리지: 1000000,
-    신청금액: 100000,
-    사용자: "김영희",
-    일시: "2024.01.20",
-  },
-  {
-    번호: "1",
-    아이디: "dokebi@dkt.com",
-    닉네임: "깨비",
-    마일리지: 1000000,
-    신청금액: 100000,
-    사용자: "김영희",
-    일시: "2024.01.20",
-  },
-  {
-    번호: "1",
-    아이디: "dokebi@dkt.com",
-    닉네임: "깨비",
-    마일리지: 1000000,
-    신청금액: 100000,
-    사용자: "김영희",
-    일시: "2024.01.20",
-  },
-  {
-    번호: "1",
-    아이디: "dokebi@dkt.com",
-    닉네임: "깨비",
-    마일리지: 1000000,
-    신청금액: 100000,
-    사용자: "김영희",
-    일시: "2024.01.20",
-  },
-];
+const dataListLabels = ['번호', '아이디', '닉네임', '마일리지', '신청금액', '사용자', '일시', '승인/거부'];
+
+// 각 항목에 대한 공통 스타일을 설정합니다.
+const itemFlexStyles = {
+  "& > *:nth-child(1)": { flex: 1 }, // 번호
+  "& > *:nth-child(2)": { flex: 1.5 }, // 아이디
+  "& > *:nth-child(3)": { flex: 1.5 }, // 닉네임
+  "& > *:nth-child(4)": { flex: 1.5 }, // 마일리지
+  "& > *:nth-child(5)": { flex: 1.5 }, // 신청금액
+  "& > *:nth-child(6)": { flex: 1 }, // 사용자
+  "& > *:nth-child(7)": { flex: 1 }, // 일시
+  "& > *:nth-child(8)": { flex: 1 }, // 승인/거부
+};
 
 const StyledList = styled(List)`
   /* Add styling for the List component */
@@ -116,9 +37,8 @@ const StyledList = styled(List)`
   width: 100%;
   border: none; /* Remove border */
   background-color: background.paper;
+  height: 70%; // 전체 높이의 70%로 설정
 `;
-
-const dataListLabels = Object.keys(dataList[0]);
 
 const ListItemStyled = styled(ListItem)`
   display: flex;
@@ -126,12 +46,24 @@ const ListItemStyled = styled(ListItem)`
   align-items: center;
   width: 100%;
   padding: 12px;
+  height: calc(70vh / 8); // 전체 높이의 70%를 8로 나눈 값
+  ${itemFlexStyles} // 공통 스타일 적용
   //height: 48px;
 
   & > * {
     flex: 1;
     margin: 0 4px;
   }
+`;
+
+const ListItemLabelStyled = styled(ListItem)`
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+  height: calc(70vh / 10); // 전체 높이의 70%를 10로 나눈 값으로 레이블 행의 높이를 설정
+  padding: 12px;
+  ${itemFlexStyles} // 공통 스타일 적용
 `;
 
 // 간격 일정하게 만드는 거
@@ -154,15 +86,83 @@ const getColumnWidth = (label) => {
   return `calc(${width}% - 8px)`; // Adjust 8px for spacing
 };
 
+const formatDate = (dateString) => {
+  const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+  return new Date(dateString).toLocaleDateString('ko-KR', options);
+};
+
 const MileageHistoryPage = () => {
   // Declare selectedMenu and setSelectedMenu using useState
   const [selectedMenu, setSelectedMenu] = useState("마일리지 승인 내역");
+  const [dataList, setDataList] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0); // 현재 페이지 상태
+  const [totalPages, setTotalPages] = useState(0); // 총 페이지 수
+
+  const pageSize = 7;
 
   useEffect(() => {
     // 각 페이지가 마운트될 때 selectedMenu를 업데이트
     // setSelectedMenu 함수를 호출하여 상태를 업데이트
     setSelectedMenu("마일리지 승인 내역");
-  }, []);
+    getMileageApplyHistory(currentPage);
+  }, [currentPage]);
+
+  // 마일리지 신청내역 조회(승인/거부 상태만) (get)
+  const getMileageApplyHistory = async (page) => {
+    const res = await TokenAxios.get(`/api/mileage/apply?page=${page}&size=${pageSize}`);
+    console.log(res.data.result.data.content);
+    setDataList(res.data.result.data.content);
+    console.log(res.data.result.data.totalPages);
+    setTotalPages(res.data.result.data.totalPages);
+  };
+
+  const handlePageChange = (event, newPage) => {
+    setCurrentPage(newPage);
+  };
+
+  const ApplyHistoryList = ({ apply, index }) => {
+    return (
+      <ListItemStyled>
+        <Typography variant="body1" sx={{ width: getColumnWidth('신청번호'), textAlign: "center" }}>
+          {index + 1 + (currentPage * pageSize)}
+        </Typography>
+        <Typography variant="body1" sx={{ width: getColumnWidth('아이디'), textAlign: "center" }}>
+          {apply.email}
+        </Typography>
+        <Typography variant="body1" sx={{ width: getColumnWidth('닉네임'), textAlign: "center" }}>
+          {apply.nickname}
+        </Typography>
+        <Typography variant="body1" sx={{ width: getColumnWidth('마일리지'), textAlign: "center" }}>
+          {apply.balance}
+        </Typography>
+        <Typography variant="body1" sx={{ width: getColumnWidth('신청금액'), textAlign: "center" }}>
+          {apply.amount}
+        </Typography>
+        <Typography variant="body1" sx={{ width: getColumnWidth('사용자명'), textAlign: "center" }}>
+          {apply.name}
+        </Typography>
+        <Typography variant="body1" sx={{ width: getColumnWidth('일시'), textAlign: "center" }}>
+          {formatDate(apply.createdAt)}
+        </Typography>
+        <Typography variant="body1" sx={{ width: getColumnWidth('승인'), textAlign: "center" }}>
+          <Button
+            variant="contained"
+            size="small"
+            sx={{
+              borderRadius: "100px",
+              backgroundColor: apply.approvedState === 'Y' ? "#14BB38" : "#D54C48", // 초록색 또는 빨간색
+              "&:disabled": {
+              backgroundColor: apply.approvedState === 'Y' ? "#14BB38" : "#D54C48", // 비활성화 상태에서도 동일한 색상 유지
+            }
+            }}
+            disabled={true}
+          >
+            <CheckIcon sx={{ color: "#FFFFFF", fontSize: 30 }} />
+          </Button>
+        </Typography>
+      </ListItemStyled>
+    )
+  }
 
   return (
     <Paper sx={{ display: "flex", height: "100vh" }}>
@@ -201,12 +201,13 @@ const MileageHistoryPage = () => {
               startDecorator={<SearchIcon />}
               placeholder="Search"
               variant="soft"
-              sx={{ mb: 4 }}
+              sx={{ mb: 4, mt: 4, ml: "50px" }}
             />
             <div></div>
           </Toolbar>
+          <Box sx={{ width: "100%", height: "80%", overflowY: "auto" }}>
           <StyledList aria-label="mailbox folders">
-            <ListItemStyled>
+            <ListItemLabelStyled>
               {dataListLabels.map((label, index) => (
                 <React.Fragment key={index}>
                   <Typography
@@ -219,46 +220,39 @@ const MileageHistoryPage = () => {
                   </Typography>
                 </React.Fragment>
               ))}
-              <Typography variant="h6" fontWeight="bold">
-                승인/거부
-              </Typography>
-            </ListItemStyled>
+            </ListItemLabelStyled>
             <Divider component="li" light />
-            {dataList.map((item, rowIndex) => (
-              <React.Fragment key={rowIndex}>
-                <ListItemStyled>
-                  {dataListLabels.map((label, colIndex) => (
-                    <Typography
-                      variant="body1"
-                      key={colIndex}
-                      sx={{ width: getColumnWidth(label) }}
-                      align="center"
-                    >
-                      {item[label]}
-                    </Typography>
-                  ))}
-                  <IconButton>
-                    <Button
-                      variant="contained"
-                      size="small"
-                      sx={{
-                        borderRadius: "100px",
-                        backgroundColor: "#14BB38",
-                      }}
-                      disabled={false}
-                    >
-                      <CheckIcon sx={{ color: "#FFFFFF", fontSize: 30 }} />
-                    </Button>
-                  </IconButton>
-                </ListItemStyled>
-                {rowIndex !== dataList.length - 1 && (
+            {dataList.map((apply, index) => (
+              apply.approvedState !== 'W' && (
+                <React.Fragment key={index}>
+                <ApplyHistoryList apply={apply} index={index} />
+                {index !== dataList.length - 1 && (
                   <Divider component="li" light />
                 )}
               </React.Fragment>
+              )
             ))}
           </StyledList>
-
-          <Pagination count={10} />
+          </Box>
+          
+          <Box
+            sx={{
+              flex: 1,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            {" "}
+            {/* 페이지네이션 섹션 */}
+            <Pagination
+              count={totalPages}
+              page={currentPage + 1}
+              onChange={(event, newPage) =>
+                handlePageChange(event, newPage - 1)
+              }
+            />
+          </Box>
         </Box>
       </Box>
     </Paper>
