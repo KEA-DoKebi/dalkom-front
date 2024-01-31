@@ -32,7 +32,7 @@ justify-content: center;
 
 `;
 
-const OrderDetailBody = ({ }) => {
+const OrderDetailBody = () => {
 
   const location = useLocation();
   const orderSeq = location.state?.orderSeq;
@@ -61,8 +61,11 @@ const OrderDetailBody = ({ }) => {
     }
   };
   useEffect(() => {
-    loadOrderDetail();
-  }, [orderSeq]);
+    const fetchData = async () => {
+      await loadOrderDetail();
+    };
+    fetchData();
+  }, [orderSeq, loadOrderDetail]);
 
 
   return (
@@ -81,16 +84,15 @@ const OrderDetailBody = ({ }) => {
         }}
       >
     
-        <thead>
-          <tr>
-            <td style={{ border: "1px solid black", padding: "5px" }}>
-             
-              <Grid container spacing={2} justifyContent="space-between">
-                <Grid item xs={2.5} style={{ textAlign: "center" }}>
-                  <Typography style={{ fontWeight: "bold" }}>
-                    상품 정보
-                  </Typography>
-                </Grid>
+    <thead>
+  <tr>
+    <td style={{ border: "1px solid black", padding: "5px" }}>
+      <Grid container spacing={2} justifyContent="space-between">
+        <Grid item xs={2.5} style={{ textAlign: "center" }}>
+          <Typography style={{ fontWeight: "bold" }}>
+            상품 정보
+          </Typography>
+        </Grid>
 
                 <Grid item xs={1.5} style={{ textAlign: "center" }}>
                   <Typography style={{ fontWeight: "bold" }}>
