@@ -2,18 +2,12 @@ import React from "react";
 import { Grid, Typography, Paper } from "@mui/material";
 import { Select, selectClasses, Option, Textarea } from "@mui/joy";
 import { KeyboardArrowDown } from "@mui/icons-material";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import EditorComponent from "components/atoms/Editor";
 import styled from "styled-components";
 import { UserButton } from "../../MyInfoPage/MyInfoBody";
 import { useForm } from "react-hook-form";
 import { TokenAxios } from "apis/CommonAxios";
 
-const CKEditorContainer = styled.div`
-  .ck-editor__editable {
-    min-height: 400px;
-  }
-`;
 
 const InquiryWriteBody = () => {
   const { register, handleSubmit, setValue, trigger } = useForm();
@@ -75,10 +69,10 @@ const InquiryWriteBody = () => {
         </Grid>
       </Grid>
 
-      <CKEditorContainer>
-        <CKEditor
+
+        <EditorComponent
           id = "content"
-          editor={ClassicEditor}
+
           data=""
           config={{
             placeholder: "문의내용을 입력해 주세요.",
@@ -95,7 +89,6 @@ const InquiryWriteBody = () => {
           
         // {...register("content")}
         />
-      </CKEditorContainer>
       <Grid container justifyContent="center" sx={{ mt: 15 }}>
         <UserButton type = "submit" variant="solid">저장</UserButton>
       </Grid>
