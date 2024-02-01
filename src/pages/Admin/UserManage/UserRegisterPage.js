@@ -33,6 +33,7 @@ const UserRegisterPage = () => {
     // AdminButton이 클릭되면 Alert를 열도록 상태를 업데이트
     setAlertOpen();
   };
+  
 
   const userRegister = async (data) => {
     data.mileage = 0;

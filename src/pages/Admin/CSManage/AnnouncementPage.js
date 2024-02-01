@@ -10,6 +10,8 @@ import { TokenAxios } from "apis/CommonAxios";
 import { pink } from "@mui/material/colors";
 import { alpha } from "@mui/material/styles";
 import { PinkSwitch } from "components/atoms/OnOffSwitch";
+import Search from 'components/molecules/Search';
+
 
 import {
   Box,
@@ -103,6 +105,16 @@ const AnnouncementPage = () => {
   const [currentPage, setCurrentPage] = useState(0); // 현재 페이지 상태
   const [totalPages, setTotalPages] = useState(0); // 총 페이지 수
   const [editorContent, setEditorContent] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedValue, setSelectedValue] = useState("");
+   
+  const optionList = [
+    { label: "작성자" },
+    { label: "제목" },
+  ]
+  const handleSearchInputChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
 
   // const accessToken = localStorage.getItem('accessToken');
 
@@ -115,6 +127,27 @@ const AnnouncementPage = () => {
   // 스위치 변경 처리
   const handleSwitchChange = (event) => {
     setSwitchState(event.target.checked);
+  };
+  const handleSearch = async (searchQuery) => {
+    try {
+      console.log(selectedValue.label);
+      console.log(searchQuery);
+      
+      let apiUrl = "/api/notice/search?page=0&size=10";  // 기본 API URL
+      
+      // 선택된 검색어에 따라 검색 조건 추가
+      if (selectedValue.label === "작성자") {
+        apiUrl += `&nickname=${searchQuery}`;
+      } else if (selectedValue.label === "제목") {
+        apiUrl += `&title=${searchQuery}`;
+      }  
+      const res = await TokenAxios.get(apiUrl);
+      setDataList(res.data.result.data.content);
+      setTotalPages(res.data.result.data.totalPages);
+      console.log(res.data.result.data.content);
+    } catch (error) {
+      console.error('Error searching admin:', error);
+    }
   };
 
   useEffect(() => {
@@ -310,14 +343,12 @@ const AnnouncementPage = () => {
         >
           <Toolbar sx={{ justifyContent: "space-between", width: "100%" }}>
             {/* 중앙 정렬을 위해 앞뒤로 <div/> 추가*/}
-            <div />
-            <InputBoxS
-              color="neutral"
-              disabled={false}
-              startDecorator={<SearchIcon />}
-              placeholder="Search"
-              variant="soft"
-              sx={{ mb: 4, mt: 4, ml: "50px" }}
+            <Search
+              onSearch={handleSearch}
+              searchQuery={searchQuery}
+              onInputChange={handleSearchInputChange}
+               setSelectedValue={setSelectedValue}
+              optionList={optionList}
             />
             {/*작성하기 버튼을 누르면 Editor가 포함된 모달이 나오도록 했습니다.*/}
             <AdminButton variant="contained" onClick={handleWriteOpenModal}>

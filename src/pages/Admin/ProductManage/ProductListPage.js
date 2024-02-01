@@ -6,6 +6,8 @@ import { AdminButton } from "components/atoms/AdminCommonButton";
 import SearchIcon from "@mui/icons-material/Search";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import mileageIcon from "./배경제거M-admin.png"; // 컴포넌트와 같은 디렉토리에 있는 경우
+import Search from 'components/molecules/Search';
+
 import {
   Box,
   Divider,
@@ -66,6 +68,8 @@ const ProductListPage = () => {
   const [selectedMenu, setSelectedMenu] = useState("상품 목록");
   const [currentPage, setCurrentPage] = useState(0); // 현재 페이지를 상태로 관리
   const [totalPages, setTotalPages] = useState();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedValue, setSelectedValue] = useState("");
 
   const [dataList, setDataList] = useState([]);
   const dataListLabels = [
@@ -77,6 +81,13 @@ const ProductListPage = () => {
     "가격",
     "상품 상세",
   ];
+  const optionList = [
+    { label: "이름" },
+    { label: "제조사" },
+  ]
+  const handleSearchInputChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
 
   const productGet = async (page) => {
     const res = await TokenAxios.get(`/api/product?page=${page}&size=7`);
@@ -96,6 +107,27 @@ const ProductListPage = () => {
   // Pagination에서 페이지가 변경될 때 호출되는 함수
   const handlePageChange = (event, newPage) => {
     setCurrentPage(newPage); // 현재 페이지 업데이트
+  };
+  const handleSearch = async (searchQuery) => {
+    try {
+      console.log(selectedValue.label);
+      console.log(searchQuery);
+      
+      let apiUrl = "/api/product/search?page=0&size=10";  // 기본 API URL
+      
+      // 선택된 검색어에 따라 검색 조건 추가
+      if (selectedValue.label === "이름") {
+        apiUrl += `&name=${searchQuery}`;
+      } else if (selectedValue.label === "제조사") {
+        apiUrl += `&company=${searchQuery}`;
+      }  
+      const res = await TokenAxios.get(apiUrl);
+      setDataList(res.data.result.data.content);
+      setTotalPages(res.data.result.data.totalPages);
+      console.log(res.data.result.data.content);
+    } catch (error) {
+      console.error('Error searching admin:', error);
+    }
   };
 
   // 상품 정보를 표시하기 위한 컴포넌트입니다.
@@ -183,14 +215,12 @@ const ProductListPage = () => {
         >
           <Toolbar sx={{ justifyContent: "space-between", width: "100%" }}>
             {/* 중앙 정렬을 위해 앞뒤로 <div/> 추가*/}
-            <div />
-            <InputBoxS
-              color="neutral"
-              disabled={false}
-              startDecorator={<SearchIcon />}
-              placeholder="Search"
-              variant="soft"
-              sx={{ mb: 4, mt: 4, ml: "50px" }}
+            <Search
+              onSearch={handleSearch}
+              searchQuery={searchQuery}
+              onInputChange={handleSearchInputChange}
+               setSelectedValue={setSelectedValue}
+              optionList={optionList}
             />
             <AdminButton variant="contained">등록하기</AdminButton>
           </Toolbar>

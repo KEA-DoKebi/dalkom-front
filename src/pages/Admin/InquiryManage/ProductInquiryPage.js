@@ -1,19 +1,20 @@
 import React, {useEffect, useRef, useState} from "react";
 import styled from "styled-components";
 import AdminBar from "components/organisms/AdminBar";
-import SearchIcon from "@mui/icons-material/Search";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import {Box, Divider, IconButton, List, ListItem, Pagination, Paper, Toolbar, Typography,} from "@mui/material";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import Modal from "@mui/material/Modal";
-import {InputBoxS} from "components/atoms/Input";
 import {MuiColorChip} from "components/atoms/AdminChip";
 import {AdminButton} from "components/atoms/AdminCommonButton";
 import {TokenAxios} from "../../../apis/CommonAxios";
+import Search from 'components/molecules/Search';
+
 
 let currentInquirySeq = null;
+
 
 const StyledList = styled(List)`
   padding: 0;
@@ -79,10 +80,60 @@ const ProductInquiryPage = () => {
     const [selectedItem, setSelectedItemData] = useState(null);
     const [openModal, setOpenModal] = useState(false);
     const textareaRef = useRef(null);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [selectedValue, setSelectedValue] = useState("");
+    //상품 문의 
+    const categorySeq = 34;
+    const optionList = [
+        { label: "문의제목" }
+      ]
+    
+    const handleSearchInputChange = (event) => {
+    setSearchQuery(event.target.value);
+    };
+    const handleSearch = async (searchQuery) => {
+        try {
+          console.log(selectedValue.label);
+          console.log(searchQuery);
+          
+          let apiUrl = `/api/inquiry/category/${categorySeq}/search?page=0&size=7`;  // 기본 API URL
+          
+          // 선택된 검색어에 따라 검색 조건 추가
+          if (selectedValue.label === "문의제목") {
+            apiUrl += `&title=${searchQuery}`;
+          }  
+          const res = await TokenAxios.get(apiUrl);
+          setTotalPages(res.data.result.data.totalPages);
+          const mappedDataList = res.data.result.data.content.map((item) => {
+            const date = new Date(item.createdAt);
+            const year = date.getFullYear();
+            const month = date.getMonth() + 1; // 월은 0부터 시작하므로 +1
+            const day = date.getDate();
+
+            return {
+                문의번호: item.inquirySeq,
+                문의일시: `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`,
+                문의제목: item.title,
+                답변여부: item.answerState === "Y" ? "completed" : "waiting",
+                답변달기: (
+                    <IconButton onClick={() => handleOpenModal(item.inquirySeq)}
+                                disabled={item.answerState === "Y"}>
+                        <InfoOutlinedIcon/>
+                    </IconButton>
+                )
+                
+            };
+        });
+          setDataList(mappedDataList);
+          console.log(res.data.result.data.content);
+        } catch (error) {
+          console.error('Error searching admin:', error);
+        }
+      };
 
     const getInquiryByCategory = async (page) => {
         try {
-            const res = await TokenAxios.get(`/api/inquiry/category/37?page=${page}&size=7`);
+            const res = await TokenAxios.get(`/api/inquiry/category/${categorySeq}/?page=${page}&size=7`);
             console.log(res.data.result.data.content);
             setTotalPages(res.data.result.data.totalPages);
 
@@ -208,17 +259,14 @@ const ProductInquiryPage = () => {
                     }}
                 >
                     <Toolbar sx={{justifyContent: "space-between", width: "100%"}}>
-                        {/* 중앙 정렬을 위해 앞뒤로 <div/> 추가*/}
-                        <div/>
-                        <InputBoxS
-                            color="neutral"
-                            disabled={false}
-                            startDecorator={<SearchIcon/>}
-                            placeholder="Search"
-                            variant="soft"
-                            sx={{mb: 4, mt: 4}}
+                    <Search
+                        onSearch={handleSearch}
+                        searchQuery={searchQuery}
+                        onInputChange={handleSearchInputChange}
+                        setSelectedValue={setSelectedValue}
+                        optionList={optionList}
+                        style= {{paddingRight:60}}
                         />
-                        <div/>
                     </Toolbar>
 
                     <StyledList aria-label="mailbox folders">

@@ -13,9 +13,8 @@ import {
   Button,
 } from "@mui/material";
 import styled from "styled-components";
-import SearchIcon from "@mui/icons-material/Search";
 import CheckIcon from "@mui/icons-material/Check";
-import { InputBoxS } from "components/atoms/Input";
+import Search from 'components/molecules/Search';
 
 const dataListLabels = ['번호', '아이디', '닉네임', '마일리지', '신청금액', '사용자', '일시', '승인/거부'];
 
@@ -97,8 +96,16 @@ const MileageHistoryPage = () => {
   const [dataList, setDataList] = useState([]);
   const [currentPage, setCurrentPage] = useState(0); // 현재 페이지 상태
   const [totalPages, setTotalPages] = useState(0); // 총 페이지 수
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedValue, setSelectedValue] = useState("");
 
   const pageSize = 7;
+
+  const optionList = [
+    { label: "ID" },
+    { label: "닉네임" },
+    { label: "사용자" },
+  ]
 
   useEffect(() => {
     // 각 페이지가 마운트될 때 selectedMenu를 업데이트
@@ -118,6 +125,34 @@ const MileageHistoryPage = () => {
 
   const handlePageChange = (event, newPage) => {
     setCurrentPage(newPage);
+  };
+  const handleSearchInputChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const handleSearch = async (searchQuery) => {
+    try {
+      console.log(selectedValue.label);
+      console.log(searchQuery);
+      
+      let apiUrl = "/api/mileage/apply/search?page=0&size=10";  // 기본 API URL
+      
+      // 선택된 검색어에 따라 검색 조건 추가
+      if (selectedValue.label === "ID") {
+        apiUrl += `&email=${searchQuery}`;
+      } else if (selectedValue.label === "닉네임") {
+        apiUrl += `&nickname=${searchQuery}`;
+      } else if (selectedValue.label === "사용자") {
+        apiUrl += `name&=${searchQuery}`;
+      }  
+      
+      const res = await TokenAxios.get(apiUrl);
+      setDataList(res.data.result.data.content);
+      setTotalPages(res.data.result.data.totalPages);
+      console.log(res.data.result.data.content);
+    } catch (error) {
+      console.error('Error searching admin:', error);
+    }
   };
 
   const ApplyHistoryList = ({ apply, index }) => {
@@ -194,16 +229,13 @@ const MileageHistoryPage = () => {
           <Toolbar sx={{ justifyContent: "space-between", width: "100%" }}>
             {/* 왼쪽에는 빈 공간을 만들어 가운데 정렬을 유지하고, 오른쪽에 등록 버튼을 추가합니다. */}
             {/* 이 디브 있어야 검색창 가운데에 옵니당 왜 그런지는 잘 모르겠어요,,*/}
-            <div></div>
-            <InputBoxS
-              color="neutral"
-              disabled={false}
-              startDecorator={<SearchIcon />}
-              placeholder="Search"
-              variant="soft"
-              sx={{ mb: 4, mt: 4, ml: "50px" }}
+            <Search
+              onSearch={handleSearch}
+              searchQuery={searchQuery}
+              onInputChange={handleSearchInputChange}
+               setSelectedValue={setSelectedValue}
+              optionList={optionList}
             />
-            <div></div>
           </Toolbar>
           <Box sx={{ width: "100%", height: "80%", overflowY: "auto" }}>
           <StyledList aria-label="mailbox folders">

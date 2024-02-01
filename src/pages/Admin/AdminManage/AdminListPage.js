@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import AdminBar from "components/organisms/AdminBar";
-import { InputBoxS } from "components/atoms/Input";
 import { AdminButton } from "components/atoms/AdminCommonButton";
-import SearchIcon from "@mui/icons-material/Search";
 import DeleteIcon from "@mui/icons-material/Delete";
+import Search from 'components/molecules/Search';
+
 import {
   Box,
   Divider,
@@ -59,22 +59,39 @@ const ListItemStyled = styled(ListItem)`
   ${itemFlexStyles}// 공통 스타일 적용
 `;
 
+
+
 const AdminListPage = () => {
   // Declare selectedMenu and setSelectedMenu using useState
   const [selectedMenu, setSelectedMenu] = useState("관리자 목록");
   const [currentPage, setCurrentPage] = useState(0); // 현재 페이지를 상태로 관리
   const [totalPages, setTotalPages] = useState();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedValue, setSelectedValue] = useState("");
+
+ 
+
 
   const [dataList, setDataList] = useState([]);
   const dataListLabels = ["번호", "ID", "이름", "부서", "닉네임", "삭제"];
+  const optionList = [
+    { label: "이름" },
+    { label: "ID" },
+    { label: "부서" },
+    { label: "닉네임" }
+     
+  ]
 
   const adminGet = async (page) => {
     const res = await TokenAxios.get(`/api/admin?page=${page}&size=10`);
-    console.log(res.data.result.data.content);
     setDataList(res.data.result.data.content);
-    console.log(res.data.result.data.totalPages);
     setTotalPages(res.data.result.data.totalPages);
   };
+  const handleSearchInputChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
+ 
 
   const handleDeleteAdmin = async (adminSeq) => {
     // 사용자 삭제 API 호출
@@ -87,6 +104,35 @@ const AdminListPage = () => {
     }
   };
 
+  const handleSearch = async (searchQuery) => {
+    try {
+      console.log(selectedValue.label);
+      console.log(searchQuery);
+      
+      let apiUrl = "/api/admin/search?page=0&size=10";  // 기본 API URL
+      
+      // 선택된 검색어에 따라 검색 조건 추가
+      if (selectedValue.label === "이름") {
+        apiUrl += `&name=${searchQuery}`;
+      } else if (selectedValue.label === "ID") {
+        apiUrl += `&adminId=${searchQuery}`;
+      } else if (selectedValue.label === "부서") {
+        apiUrl += `&depart=${searchQuery}`;
+      } else if (selectedValue.label === "닉네임") {
+        apiUrl += `&nickname=${searchQuery}`;
+      }
+      
+      const res = await TokenAxios.get(apiUrl);
+      setDataList(res.data.result.data.content);
+      setTotalPages(res.data.result.data.totalPages);
+      console.log(res.data.result.data.content);
+    } catch (error) {
+      console.error('Error searching admin:', error);
+    }
+  };
+
+  
+ 
   useEffect(() => {
     // 각 페이지가 마운트될 때 selectedMenu를 업데이트
     // setSelectedMenu 함수를 호출하여 상태를 업데이트
@@ -99,8 +145,7 @@ const AdminListPage = () => {
     setCurrentPage(newPage); // 현재 페이지 업데이트
   };
 
-  // 상품 정보를 표시하기 위한 컴포넌트입니다.
-  const AdminList = ({ admin }) => {
+   const AdminList = ({ admin }) => {
     return (
       <ListItemStyled>
         <Typography variant="body1" sx={{ textAlign: "center" }}>
@@ -157,15 +202,12 @@ const AdminListPage = () => {
           }}
         >
           <Toolbar sx={{ justifyContent: "space-between", width: "100%" }}>
-            {/* 중앙 정렬을 위해 앞뒤로 <div/> 추가*/}
-            <div />
-            <InputBoxS
-              color="neutral"
-              disabled={false}
-              startDecorator={<SearchIcon />}
-              placeholder="Search"
-              variant="soft"
-              sx={{ mb: 4, mt: 4, ml: "50px" }}
+          <Search
+              onSearch={handleSearch}
+              searchQuery={searchQuery}
+              onInputChange={handleSearchInputChange}
+               setSelectedValue={setSelectedValue}
+              optionList={optionList}
             />
             <AdminButton variant="contained">등록하기</AdminButton>
           </Toolbar>
@@ -220,3 +262,13 @@ const AdminListPage = () => {
 };
 
 export default AdminListPage;
+
+
+const FlexContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content :center;
+  margin-left : 640px
+
+`;
+ 
