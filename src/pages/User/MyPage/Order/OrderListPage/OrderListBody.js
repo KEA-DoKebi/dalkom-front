@@ -131,6 +131,7 @@ export default function OrderListBody() {
     }
   };
 
+  
   return (
     <Paper elevation={0}>
       <Typography sx={{ fontSize: "40px", mb: "20px" }}>
@@ -254,7 +255,8 @@ export default function OrderListBody() {
                       state={{ orderSeq: order.ordrSeq }}
                     >
                       {order.ordrSeq}
-                    </Link>
+                    </Link> 
+
                   </TableCell>
                   <TableCell style={{ textAlign: "center" }}>
                     {order.totalPrice}
