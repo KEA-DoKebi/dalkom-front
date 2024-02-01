@@ -1,5 +1,5 @@
-import React, { createContext, useContext } from 'react';
-import { useAuth } from './useAuth'; // useAuth.js 파일에서 가져옴
+import React, { createContext, useContext } from "react";
+import { useAuth } from "./useAuth"; // useAuth.js 파일에서 가져옴
 
 const AuthContext = createContext();
 

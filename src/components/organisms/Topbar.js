@@ -37,7 +37,9 @@ const SubMenu = ({ subMenu, top, left, categorySeq }) => {
           // onClick={() => onSubMenuItemClick(item.title)}
           style={{ fontWeight: "normal" }}
         >
-          <CustomLink to={`/category/${categorySeq}/sub/${item.seq}`}>{item.title}</CustomLink>
+          <CustomLink to={`/category/${categorySeq}/sub/${item.seq}`}>
+            {item.title}
+          </CustomLink>
         </div>
       ))}
     </Paper>
@@ -52,69 +54,63 @@ const Topbar = () => {
   const menuItems = [
     {
       label: "패션/뷰티",
-      seq : 1,
-      subMenu : 
-      [
-        {title : "여성", seq : 7},
-        {title : "남성", seq : 8},
-        {title : "신발", seq : 9},
-        {title : "기타", seq : 10},
-        {title : "메이크업", seq : 11},
-        {title : "향수", seq : 12}
+      seq: 1,
+      subMenu: [
+        { title: "여성", seq: 7 },
+        { title: "남성", seq: 8 },
+        { title: "신발", seq: 9 },
+        { title: "기타", seq: 10 },
+        { title: "메이크업", seq: 11 },
+        { title: "향수", seq: 12 },
       ],
     },
-    { 
-      label: "생활", 
-      seq : 2,
-      subMenu : 
-      [
-        {title : "욕실", seq : 13},
-        {title : "주방", seq : 14},
-        {title : "반려동물", seq : 15},
-        {title : "자동차용품", seq : 16},
-      ] 
+    {
+      label: "생활",
+      seq: 2,
+      subMenu: [
+        { title: "욕실", seq: 13 },
+        { title: "주방", seq: 14 },
+        { title: "반려동물", seq: 15 },
+        { title: "자동차용품", seq: 16 },
+      ],
     },
     {
       label: "디지털/가전",
-      seq : 3,
-      subMenu: 
-      [
-        {title : "영상가전", seq : 17},
-        {title : "생활가전", seq : 18},
-        {title : "건강가전", seq : 19},
-        {title : "주방가전", seq : 20}, 
+      seq: 3,
+      subMenu: [
+        { title: "영상가전", seq: 17 },
+        { title: "생활가전", seq: 18 },
+        { title: "건강가전", seq: 19 },
+        { title: "주방가전", seq: 20 },
       ],
     },
     {
       label: "출산/유아동",
-      seq : 4,
-      subMenu: 
-      [
-        {title : "유아동의류", seq : 21},
-        {title : "분유/기저귀", seq : 22},
-        {title : "출산용품", seq : 23},
-        {title : "완구/교구", seq : 24}, 
+      seq: 4,
+      subMenu: [
+        { title: "유아동의류", seq: 21 },
+        { title: "분유/기저귀", seq: 22 },
+        { title: "출산용품", seq: 23 },
+        { title: "완구/교구", seq: 24 },
       ],
     },
     {
       label: "스포츠/레저",
-      seq : 5,
-      subMenu: 
-      [
-        {title : "등산", seq : 25},
-        {title : "캠핑", seq : 26},
-        {title : "낚시", seq : 27},
-        {title : "헬스", seq : 28}, 
-        {title : "수영", seq : 29},
-        {title : "골프", seq : 30},
-        {title : "자전거", seq : 31},
-        
+      seq: 5,
+      subMenu: [
+        { title: "등산", seq: 25 },
+        { title: "캠핑", seq: 26 },
+        { title: "낚시", seq: 27 },
+        { title: "헬스", seq: 28 },
+        { title: "수영", seq: 29 },
+        { title: "골프", seq: 30 },
+        { title: "자전거", seq: 31 },
       ],
     },
-    { 
+    {
       label: "카카오굿즈",
-      seq : 6, 
-      subMenu: [{title : "카카오굿즈", seq : 32},] 
+      seq: 6,
+      subMenu: [{ title: "카카오굿즈", seq: 32 }],
     },
   ];
 
@@ -136,15 +132,20 @@ const Topbar = () => {
     setMenuOpen(!menuOpen);
   };
 
-  // const handleSubMenuItemClick = (categorySeq ,subMenu) => {
+  // const logout = async() => {
+  //   const res = TokenAxios(`/api/user/logout`);
+  // }
+
+  // const handleSubMenuIteClick = (categorySeq ,subMenu) => {
   //   navigate(`/category/${categorySeq}/sub/${subMenu.seq}`)
   //   // 여기에서 선택한 서브 메뉴에 대한 추가적인 로직을 수행할 수 있습니다.
   // };
 
   const handleLogout = (event) => {
+    
     localStorage.clear();
-    navigate("/login")
-  }
+    navigate("/login");
+  };
 
   return (
     <AppBar
@@ -226,7 +227,7 @@ const Topbar = () => {
                         subMenu={item.subMenu}
                         top={subMenuPosition.top}
                         left={subMenuPosition.left}
-                        categorySeq = {item.seq}
+                        categorySeq={item.seq}
                         // onSubMenuItemClick={() =>handleSubMenuItemClick(item.seq, item.subMenu)}
                       />
                     </>
@@ -326,7 +327,11 @@ const Topbar = () => {
               alignItems: "center",
             }}
           >
-            <img src="/images/M-user.png" alt="유저 마일리지" style={{width : "50px", height : "50px", marginRight : "10px"}}/>
+            <img
+              src="/images/M-user.png"
+              alt="유저 마일리지"
+              style={{ width: "50px", height: "50px", marginRight: "10px" }}
+            />
           </div>
           <div
             style={{
@@ -335,7 +340,9 @@ const Topbar = () => {
               alignItems: "center",
             }}
           >
-            <Typography sx={{ fontSize: "30px" }}>{localStorage.getItem("mileage")}</Typography>
+            <Typography sx={{ fontSize: "30px" }}>
+              {localStorage.getItem("mileage")}
+            </Typography>
           </div>
         </div>
       </Toolbar>

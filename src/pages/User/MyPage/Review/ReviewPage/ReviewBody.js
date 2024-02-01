@@ -54,7 +54,7 @@ export default function OrderListBody() {
           ReviewDate: item.ReviewDate,
           star: item.star,
           content: item.content,
-          imageUrl: item.imageUrl
+          imageUrl: item.imageUrl,
         }));
         setRows(orderData);
       } catch (error) {

@@ -236,11 +236,11 @@ const ProductRegisterPage = () => {
                 </Typography>
 
                 <PinkSwitch
-                    sx={{ mr: 2 }}
-                    checked={state.option}
-                    onChange={handleChange}
-                    name="option"
-                  />
+                  sx={{ mr: 2 }}
+                  checked={state.option}
+                  onChange={handleChange}
+                  name="option"
+                />
 
                 {state.option && (
                   <>

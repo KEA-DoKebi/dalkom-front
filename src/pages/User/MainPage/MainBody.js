@@ -16,8 +16,8 @@ import {
 } from "@mui/material";
 import styled, { css } from "styled-components";
 import { Link } from "react-router-dom";
-import { ProductCard } from "components/molecules/ProductCard";
 import { TokenAxios } from "apis/CommonAxios";
+import { MainProductCard } from "components/molecules/MainProductCard";
 
 // MainBody코드
 const MainBody = () => {
@@ -29,6 +29,7 @@ const MainBody = () => {
     sports: [],
     kakaofriends: [],
   });
+
 
   const getMainProductList = async () => {
     const res = await TokenAxios.get("/data/productData/mainPageProduct.json");
@@ -128,7 +129,7 @@ const MainBody = () => {
                         <Grid container spacing={3}>
                           {productList.map((product) => (
                             <Grid item xs={3} key={product.productSeq}>
-                              <ProductCard
+                              <MainProductCard
                                 key={product.productSeq}
                                 imageUrl={product.imageUrl}
                                 title={product.productName}

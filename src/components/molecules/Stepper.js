@@ -76,7 +76,7 @@ const Stepper = () => {
           maxWidth: "100%",
           overflow: "hidden",
         }}
-      > 
+      >
         <BannerImage src="/images/MainPage/jourdi.jpg" />
       </StyledPaper>
     </StyledCarousel>

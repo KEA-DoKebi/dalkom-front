@@ -13,23 +13,21 @@ import {
 import { TokenAxios } from "apis/CommonAxios";
 
 export default function MileageHistoryBody() {
-
   const [data, setData] = useState([]);
 
   const mileageHistory = async () => {
     try {
       const res = await TokenAxios.get("/api/mileage/history/user");
       setData(res.data.result.data.content);
-      console.log(res.data.result.data.content);  
+      console.log(res.data.result.data.content);
     } catch (e) {
       console.log(e);
     }
-  }
+  };
 
   useEffect(() => {
     mileageHistory();
-  },[])
-
+  }, []);
 
   return (
     <Paper elevation={0}>
