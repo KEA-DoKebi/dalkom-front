@@ -4,10 +4,8 @@ import { useLocation } from 'react-router-dom';
 import { Paper } from "@mui/material";
 import Box from "@mui/joy/Box";
 import Button from "@mui/joy/Button";
-import IconButton from "@mui/joy/IconButton";
-import Textarea from "@mui/joy/Textarea";
 import Typography from "@mui/joy/Typography";
-import Rating from "@mui/material/Rating"; 
+import Rating from "@mui/material/Rating";
 import { styled } from "@mui/system";
 import { useForm } from "react-hook-form";
 import EditorComponent from "components/atoms/Editor";
@@ -26,8 +24,10 @@ const ReviewWriteBody = () => {
   const [rating, setRating] = useState(0);
   const [text, setText] = useState("");
   const addEmoji = (emoji) => () => setText(`${text}${emoji}`);
-  const { register, handleSubmit, setValue, trigger  } = useForm();
+  const { register, handleSubmit, setValue, trigger } = useForm();
+
   const [editorContent, setEditorContent] = useState("");
+
   const handleEditorContentChange = (content) => {
     setEditorContent(content);
   };
@@ -60,7 +60,7 @@ const ReviewWriteBody = () => {
   const reviewCreate = async (data) => {
     data.content = editorContent;
     try {
-      const res = await TokenAxios.post("/api/review/user", data);
+      const res = await TokenAxios.post(`/api/review/${orderDetailSeq}`, data);
       console.log(res.data);
     } catch (e) {
       console.log(e);
@@ -78,9 +78,10 @@ const ReviewWriteBody = () => {
       </Box>
 
       <form
+
         onSubmit={handleSubmit((data) => {
-          //reviewCreate(data);
-        console.log(data);
+          reviewCreate(data);
+          console.log(data);
         })}
       >
         <Box sx={{ mb: 2 }}>
@@ -135,7 +136,7 @@ const ReviewWriteBody = () => {
           sx={{ width: "100%", mb: 2 }}
          {...register("content")}
         /> */}
-         <EditorComponent
+        <EditorComponent
           onContentChange={handleEditorContentChange}
           id="content"
           data=""
@@ -145,8 +146,9 @@ const ReviewWriteBody = () => {
             trigger("content");
             console.log("content");
           }}
-          {...register("content")}
+          
         />
+
         <Box
           sx={{ width: "100%", display: "flex", justifyContent: "center", mt: 2 }}
         >
