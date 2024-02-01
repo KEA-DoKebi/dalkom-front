@@ -136,12 +136,17 @@ const Topbar = () => {
     setMenuOpen(!menuOpen);
   };
 
-  // const handleSubMenuItemClick = (categorySeq ,subMenu) => {
+  // const logout = async() => {
+  //   const res = TokenAxios(`/api/user/logout`);
+  // }
+
+  // const handleSubMenuIteClick = (categorySeq ,subMenu) => {
   //   navigate(`/category/${categorySeq}/sub/${subMenu.seq}`)
   //   // 여기에서 선택한 서브 메뉴에 대한 추가적인 로직을 수행할 수 있습니다.
   // };
 
   const handleLogout = (event) => {
+    
     localStorage.clear();
     navigate("/login")
   }

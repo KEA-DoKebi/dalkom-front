@@ -157,7 +157,7 @@ const Router = () => {
         </Route>
         {/* wow point */}
         <Route>
-          <Route path="/comparison" element={<ComparisonPage />} />
+          <Route path="/comparison/:subCategorySeq" element={<ComparisonPage />} />
         </Route>
         
       </ApmRoutes>

@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { DefaultAxios } from "apis/CommonAxios";
 import { TokenAxios } from "apis/CommonAxios";
 import { ProductCard } from "components/molecules/ProductCard";
+import { BottomMenu } from "components/molecules/BottomMenu";
 
 const CategoryBody = () => {
 
@@ -163,12 +164,14 @@ const CategoryBody = () => {
                   star={product.rating}
                   review={product.reviewAmount}
                   seq={product.productSeq}
+                  categorySeq={subCategorySeq}
                 />
               </Grid>
             ))}
           </Grid>
         </Grid>
       </Grid>
+      <BottomMenu/>
       <CenterPaginationContainer>
         <Pagination count={totalPages} page={currentPage} onChange={handlePageChange} />
       </CenterPaginationContainer>

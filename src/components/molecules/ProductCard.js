@@ -4,16 +4,45 @@ import { Card, Typography } from "@mui/material";
 import { StarRating } from "../atoms/StarRating";
 import { Link } from "react-router-dom";
 import { Button } from "react-scroll";
+import { productImageStore } from "store/store";
+import Swal from "sweetalert2";
 
-export const ProductCard = ({ imageUrl, title, price, star, review, seq }) => {
+export const ProductCard = ({ imageUrl, title, price, star, review, seq, categorySeq }) => {
   
+  const {addImageList, addSeq, imageList, seqList, subCategorySeq, setSubCategorySeq} = productImageStore((state) => state);
+
+  const handleAddButtonClick = () => {
+
+    console.log("카드에서 받아오는 카테고리" + categorySeq)
+    console.log("상태에서 받아오는 카테고리" + subCategorySeq)
+
+    if(!seqList.includes(seq)){
+      if(subCategorySeq === 0 || categorySeq === subCategorySeq){
+        if(imageList.length < 3){
+          addImageList(imageUrl);
+          addSeq(seq);
+          setSubCategorySeq(categorySeq);
+        }
+        else{
+          Swal.fire("이미지를 3개까지만 넣을 수 있습니다!", "", "info");
+        }
+      }
+      else{
+        Swal.fire("같은 카테고리의 상품만 넣을 수 있습니다!", "", "info");
+      }
+    }
+    
+  }
+
+    
+
   return (
     <Link to={`/product/${seq}`}>
       <SungjunCard>
         <CardImage src={imageUrl} alt="카드 이미지" />
         <HoverCardContent>
           <HoverCardTitle>★({star})</HoverCardTitle>
-          <HoverCardButton variant="contained" onClick={() => console.log("안녕")}>
+          <HoverCardButton variant="contained" onClick={handleAddButtonClick}>
             <Typography sx={{fontSize : "15px", fontWeight : "bold", fontFamily : "Noto Sans"}}>➕상품 비교</Typography>
           </HoverCardButton>
         </HoverCardContent>

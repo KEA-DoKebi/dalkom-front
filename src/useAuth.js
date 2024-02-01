@@ -14,7 +14,7 @@ export function useAuth() {
       setIsAuthenticated(true);
 
       if (mileage) {
-        navigate("/");
+        // navigate("/");
         if (window.location.pathname.startsWith("/admin")) {
           navigate("/");
         }
