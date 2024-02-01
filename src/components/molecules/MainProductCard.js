@@ -12,7 +12,7 @@ export const MainProductCard = ({ imageUrl, title, price, star, review, seq }) =
         <CardImage src={imageUrl} alt="카드 이미지" />
         <CardContent>
           <CardTitle>{title}</CardTitle>
-          <CardDescription> 
+          <CardDescription>
             {/* <img src="/images/M-user.png" width="15px" height="15px"/>  {price} */}
             <Typography
               variant="body1"
@@ -20,13 +20,13 @@ export const MainProductCard = ({ imageUrl, title, price, star, review, seq }) =
                 textAlign: "center",
                 display: "flex",
                 alignItems: "center",
-                marginBottom : "7px",
+                marginBottom: "7px",
               }}
             >
               <img
                 src="/images/M-1.png"
                 alt="마일리지"
-                style={{ width: "20px", height: "20px", marginRight : "5px", }}
+                style={{ width: "20px", height: "20px", marginRight: "5px" }}
               />
               {price}
             </Typography>

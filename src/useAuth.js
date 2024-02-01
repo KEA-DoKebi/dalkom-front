@@ -20,24 +20,26 @@ export function useAuth() {
         }
       } else if (Number(role) === "1") {
         navigate("/admin/list");
-        if (!window.location.pathname.startsWith('/admin')) {
-            navigate("/admin/list");
-          }
+        if (!window.location.pathname.startsWith("/admin")) {
+          navigate("/admin/list");
+        }
       } else if (Number(role) === "2") {
         navigate("/admin/user/list");
-        if (!window.location.pathname.startsWith('/admin')) {
-            navigate("/admin/user/list");
-          }
-         else if (window.location.pathname.startsWith('/admin/list')) {
-            navigate("/admin/user/list");
-          }
-          if (!window.location.pathname.startsWith('/admin/register')) {
-            navigate("/admin/user/list");
-          }
+        if (!window.location.pathname.startsWith("/admin")) {
+          navigate("/admin/user/list");
+        } else if (window.location.pathname.startsWith("/admin/list")) {
+          navigate("/admin/user/list");
+        }
+        if (!window.location.pathname.startsWith("/admin/register")) {
+          navigate("/admin/user/list");
+        }
       }
     } else {
       setIsAuthenticated(false);
-      if (!window.location.pathname.includes("/login") && !window.location.pathname.includes("/signUp")) {
+      if (
+        !window.location.pathname.includes("/login") &&
+        !window.location.pathname.includes("/signUp")
+      ) {
         navigate("/login");
       }
     }

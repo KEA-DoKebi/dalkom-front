@@ -17,19 +17,19 @@ import { TokenAxios } from "apis/CommonAxios";
 const InquiryHistoryBody = () => {
   const [data, setData] = useState([]);
 
-  const inquoryHistory = async () =>{
-    try{
+  const inquoryHistory = async () => {
+    try {
       const res = await TokenAxios.get("/api/inquiry/user");
 
       setData(res.data.result.data.content);
-    }catch(e){
+    } catch (e) {
       console.log(e);
     }
-  }
+  };
 
   useEffect(() => {
     inquoryHistory();
-  },[])
+  }, []);
 
   return (
     <Paper elevation={0}>
@@ -95,7 +95,6 @@ const InquiryHistoryBody = () => {
                 </TableCell>
               </TableRow>
             </TableHead>
-
 
             <TableBody>
               {data.map((inquiry) => (

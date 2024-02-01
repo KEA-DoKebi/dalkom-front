@@ -14,8 +14,6 @@ import { useNavigate } from "react-router-dom";
 import { DefaultAxios } from "apis/CommonAxios";
 import Swal from "sweetalert2";
 
-
-
 const Img = styled.img`
   width: 70px;
   height: auto;
@@ -47,7 +45,7 @@ const FinalPaymentContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin : 50px 100px;
+  margin: 50px 100px;
   width: 520px;
   font-size: 16px;
 `;
@@ -73,23 +71,27 @@ export default function CartBody() {
   const [selectedRows, setSelectedRows] = useState([]); // 선택된 상품 이름들을 저장하는 상태
   const [agree, setAgree] = useState(false); // 결제 동의 체크박스 상태
   const navigate = useNavigate(); // useHistory 훅 사용
-   
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await TokenAxios.get("/api/cart/user");
         console.log(response.data);
-  
+
         const result = response.data;
-        if (result && result.result && result.result.data && Array.isArray(result.result.data.content)) {
+        if (
+          result &&
+          result.result &&
+          result.result.data &&
+          Array.isArray(result.result.data.content)
+        ) {
           const cartData = result.result.data.content;
           console.log(cartData);
-          
+
           const mappedData = cartData.map((item) => ({
-            productSeq : item.productSeq,
-            orderCartSeq : item.orderCartSeq,
-            prdtOptionSeq : item.prdtOptionSeq,
+            productSeq: item.productSeq,
+            orderCartSeq: item.orderCartSeq,
+            prdtOptionSeq: item.prdtOptionSeq,
             name: item.productName,
             option: item.prdtOptionDetail,
             price: item.price, // Assuming the price is directly available in the response
@@ -108,7 +110,7 @@ export default function CartBody() {
         console.error("장바구니 데이터 가져오기 실패:", error);
       }
     };
-  
+
     fetchData();
   }, []);
 
@@ -116,11 +118,11 @@ export default function CartBody() {
     if (agree) {
       // 동의한 경우에만 페이지 이동
       console.log(rows);
-      
+
       const selectedRowsData = rows
-        
+
         .filter((row) => selectedRows.includes(row.orderCartSeq))
-        .map((row) => ({          
+        .map((row) => ({
           productSeq: row.productSeq,
           productOptionSeq: row.prdtOptionSeq,
           productAmount: row.amount,
@@ -149,14 +151,15 @@ export default function CartBody() {
     setRows(updatedRows);
   };
 
-  const handleDeleteSelected = async() => {
-    
+  const handleDeleteSelected = async () => {
     const selectedCartSeqList = rows
-    .filter((row) => selectedRows.includes(row.orderCartSeq))
-    .map((row) => row.orderCartSeq);
+      .filter((row) => selectedRows.includes(row.orderCartSeq))
+      .map((row) => row.orderCartSeq);
 
-  // rows 상태에서 선택된 상품들을 제거
-    const updatedRows = rows.filter((row) => !selectedRows.includes(row.orderCartSeq));
+    // rows 상태에서 선택된 상품들을 제거
+    const updatedRows = rows.filter(
+      (row) => !selectedRows.includes(row.orderCartSeq),
+    );
     setRows(updatedRows);
 
     // 선택된 상품을 삭제하는 API 호출
@@ -169,10 +172,10 @@ export default function CartBody() {
       console.error("선택된 상품 삭제 실패:", error);
     }
     Swal.fire({
-      icon: 'success', // 성공 아이콘 (success, error, warning, info 중 선택)
-      title: '장바구니에서 삭제하였습니다',
+      icon: "success", // 성공 아이콘 (success, error, warning, info 중 선택)
+      title: "장바구니에서 삭제하였습니다",
       showConfirmButton: false, // 확인 버튼 감추기
-      timer: 1500 // 1.5초 후에 모달이 자동으로 사라짐
+      timer: 1500, // 1.5초 후에 모달이 자동으로 사라짐
     });
   };
 
@@ -217,46 +220,44 @@ export default function CartBody() {
           </TableHead>
           <TableBody>
             {rows.map((row) => (
-                (
-                <StyledTableRow key={row.orderCartSeq}>
-                  <TableCell>
-                    <Checkbox
-                      color="primary"
-                      checked={selectedRows.includes(row.orderCartSeq)}
-                      onChange={() => handleCheckboxChange(row.orderCartSeq)}
-                    />
-                  </TableCell>
-                  <TableCell component="th" scope="row">
-                    <ProductInfo>
-                      <Img src={row.imageUrl} />
-                      <TextContainer>
-                        <div>{row.name}</div>
-                        {row.option !== "default" && (
-                          <div style={{ marginTop: "4px" }}>{row.option}</div>
-                        )}
-                      </TextContainer>
-                    </ProductInfo>
-                  </TableCell>
-                  <TableCell>{row.price}</TableCell>
-                  <TableCell>
-                    <QuantityControl>
-                      <QuantityButton
-                        onClick={() => handleQuantityChange(row, -1)}
-                        disabled={row.amount === 1}
-                      >
-                        -
-                      </QuantityButton>
-                      {row.amount}
-                      <QuantityButton
-                        onClick={() => handleQuantityChange(row, 1)}
-                      >
-                        +
-                      </QuantityButton>
-                    </QuantityControl>
-                  </TableCell>
-                  <TableCell>{row.totalPrice}</TableCell>
-                </StyledTableRow>
-              )
+              <StyledTableRow key={row.orderCartSeq}>
+                <TableCell>
+                  <Checkbox
+                    color="primary"
+                    checked={selectedRows.includes(row.orderCartSeq)}
+                    onChange={() => handleCheckboxChange(row.orderCartSeq)}
+                  />
+                </TableCell>
+                <TableCell component="th" scope="row">
+                  <ProductInfo>
+                    <Img src={row.imageUrl} />
+                    <TextContainer>
+                      <div>{row.name}</div>
+                      {row.option !== "default" && (
+                        <div style={{ marginTop: "4px" }}>{row.option}</div>
+                      )}
+                    </TextContainer>
+                  </ProductInfo>
+                </TableCell>
+                <TableCell>{row.price}</TableCell>
+                <TableCell>
+                  <QuantityControl>
+                    <QuantityButton
+                      onClick={() => handleQuantityChange(row, -1)}
+                      disabled={row.amount === 1}
+                    >
+                      -
+                    </QuantityButton>
+                    {row.amount}
+                    <QuantityButton
+                      onClick={() => handleQuantityChange(row, 1)}
+                    >
+                      +
+                    </QuantityButton>
+                  </QuantityControl>
+                </TableCell>
+                <TableCell>{row.totalPrice}</TableCell>
+              </StyledTableRow>
             ))}
             {rows.length < 4 &&
               [...Array(4 - rows.length)].map((_, index) => (
@@ -278,11 +279,15 @@ export default function CartBody() {
 
       <FinalPaymentContainer>
         <Divider />
-        <div style={{ fontSize: "30px", marginTop : "20px"}}>최종 결제 금액: {totalAmount}원</div>
-        <div style={{ fontSize: "25px",marginTop : "20px" }}>상품금액: {totalAmount}원</div>
-        <div style={{ fontSize: "25px",marginTop : "20px" }}>배송비: 0원</div>
+        <div style={{ fontSize: "30px", marginTop: "20px" }}>
+          최종 결제 금액: {totalAmount}원
+        </div>
+        <div style={{ fontSize: "25px", marginTop: "20px" }}>
+          상품금액: {totalAmount}원
+        </div>
+        <div style={{ fontSize: "25px", marginTop: "20px" }}>배송비: 0원</div>
         <FormControlLabel
-          style={{marginTop:"20px"}}
+          style={{ marginTop: "20px" }}
           control={
             <Checkbox
               checked={agree}
@@ -300,7 +305,7 @@ export default function CartBody() {
             height: "60px",
             fontSize: "25px",
             color: agree ? "white" : "black",
-            marginTop : "20px"
+            marginTop: "20px",
           }}
           onClick={handlePaymentClick}
         >

@@ -18,19 +18,21 @@ import { TokenAxios } from "apis/CommonAxios";
 import { useForm } from "react-hook-form";
 
 export default function MileageApprovalBody() {
-
   const { register, handleSubmit } = useForm();
   const [data, setData] = useState([]);
 
   //마일리지 충전
   const mileCharge = async (chargeAmount) => {
     try {
-      const res = await TokenAxios.post("/api/mileage/apply/user", chargeAmount);
+      const res = await TokenAxios.post(
+        "/api/mileage/apply/user",
+        chargeAmount,
+      );
       console.log(res.chargeAmount);
     } catch (e) {
       console.log(e);
     }
-  }
+  };
 
   //마일리지 신청 내역
   const chargeRequestHistory = async () => {
@@ -41,11 +43,11 @@ export default function MileageApprovalBody() {
     } catch (e) {
       console.log(e);
     }
-  }
+  };
 
   useEffect(() => {
     chargeRequestHistory();
-  }, [])
+  }, []);
 
   return (
     <Paper elevation={0}>
@@ -62,8 +64,8 @@ export default function MileageApprovalBody() {
           onSubmit={handleSubmit((chargeAmount) => {
             // console.log(chargeAmount);
             mileCharge(chargeAmount);
-          })}>
-
+          })}
+        >
           <Box
             sx={{
               display: "flex",
@@ -71,8 +73,6 @@ export default function MileageApprovalBody() {
               alignItems: "flex-end",
             }}
           >
-
-
             <Box
               sx={{
                 marginRight: "10px" /* TextField를 내리기 위한 추가 스타일 */,
@@ -85,7 +85,11 @@ export default function MileageApprovalBody() {
                 {...register("amount")}
               />
             </Box>
-            <Button type="submit" sx={{ color: "black", mb: "10px" }} onClick={mileCharge}>
+            <Button
+              type="submit"
+              sx={{ color: "black", mb: "10px" }}
+              onClick={mileCharge}
+            >
               <AddCardIcon />
             </Button>
           </Box>
@@ -147,8 +151,7 @@ export default function MileageApprovalBody() {
                         ? "승인"
                         : chargeRequest.approvedState === "N"
                           ? "거부"
-                          : ""
-                    }
+                          : ""}
                   </TableCell>
                   <TableCell style={{ width: "50%", textAlign: "center" }}>
                     {chargeRequest.createdAt.substring(0, 10)}

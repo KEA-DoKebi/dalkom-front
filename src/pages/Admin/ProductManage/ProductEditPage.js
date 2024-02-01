@@ -27,7 +27,6 @@ const CKEditorContainer = styled.div`
   }
 `;
 
-
 const ProductEditPage = () => {
   // Declare selectedMenu and setSelectedMenu using useState
   const [selectedMenu, setSelectedMenu] = useState("상품 수정/삭제");
@@ -128,7 +127,7 @@ const ProductEditPage = () => {
             backgroundColor: "#FFFFFF",
             borderRadius: "27px",
             margin: "16px",
-            padding: "16px"
+            padding: "16px",
           }}
         >
           <Grid
@@ -351,10 +350,8 @@ const ProductEditPage = () => {
                   상세설명
                 </Typography>
                 <CKEditorContainer>
-                <CKEditor
-                  editor={ClassicEditor}
-                />
-              </CKEditorContainer>
+                  <CKEditor editor={ClassicEditor} />
+                </CKEditorContainer>
               </div>
             </Grid>
           </Grid>

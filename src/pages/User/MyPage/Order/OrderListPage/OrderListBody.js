@@ -10,11 +10,10 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import Select, { selectClasses } from '@mui/joy/Select';
-import Option from '@mui/joy/Option';
-import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
+import Select, { selectClasses } from "@mui/joy/Select";
+import Option from "@mui/joy/Option";
+import KeyboardArrowDown from "@mui/icons-material/KeyboardArrowDown";
 import { TokenAxios } from "apis/CommonAxios";
-
 
 const mapOrderState = (stateCode) => {
   switch (stateCode) {
@@ -78,12 +77,15 @@ export default function OrderListBody() {
   const orderList = useCallback(async () => {
     try {
       const res = await TokenAxios.get("/api/order/user?page=1&size=10");
-      console.log(res)
+      console.log(res);
       const allOrders = res.data.result.data.content;
 
-      const filteredOrders = filterPeriod === "all"
-        ? allOrders
-        : allOrders.filter(order => isWithinPeriod(order.ordrDate, filterPeriod));
+      const filteredOrders =
+        filterPeriod === "all"
+          ? allOrders
+          : allOrders.filter((order) =>
+              isWithinPeriod(order.ordrDate, filterPeriod),
+            );
 
       setOrder(filteredOrders);
     } catch (e) {
@@ -94,7 +96,6 @@ export default function OrderListBody() {
   useEffect(() => {
     orderList();
   }, [filterPeriod, orderList]);
-
 
   const isWithinPeriod = (orderDate, period) => {
     // orderDate와 period 형식에 따라 적절한 체크 로직 작성
@@ -142,13 +143,13 @@ export default function OrderListBody() {
         indicator={<KeyboardArrowDown />}
         sx={{
           width: 150,
-          margin: '20px',
-          backgroundColor: '#ffffff',
-          border: '1px solid #E3E3E3',
+          margin: "20px",
+          backgroundColor: "#ffffff",
+          border: "1px solid #E3E3E3",
           [`& .${selectClasses.indicator}`]: {
-            transition: '0.2s',
+            transition: "0.2s",
             [`&.${selectClasses.expanded}`]: {
-              transform: 'rotate(-180deg)',
+              transform: "rotate(-180deg)",
             },
           },
         }}
@@ -249,10 +250,17 @@ export default function OrderListBody() {
                     {order.ordrDate.substring(0, 10)}
                   </TableCell>
                   <TableCell style={{ textAlign: "center" }}>
-                    <Link to={`/order-detail/${order.ordrSeq}`} state={{ orderSeq: order.ordrSeq }}>
+                    <Link
+                      to={`/order-detail/${order.ordrSeq}`}
+                      state={{ orderSeq: order.ordrSeq }}
+                    >
                       {order.ordrSeq}
+<<<<<<< HEAD
                     </Link> 
 
+=======
+                    </Link>
+>>>>>>> 7058f28af3b2fd40daf71ba2d43638c4207abf56
                   </TableCell>
                   <TableCell style={{ textAlign: "center" }}>
                     {order.totalPrice}

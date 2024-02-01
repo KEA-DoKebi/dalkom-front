@@ -5,16 +5,16 @@ import "react-quill/dist/quill.snow.css";
 import AWS from "aws-sdk";
 
 const REACT_APP_AWS_S3_BUCKET_REGION = process.env.REACT_APP_AWS_REGION;
-const REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID = process.env.REACT_APP_AWS_ACCESS_KEY_ID;
-const REACT_APP_AWS_S3_BUCKET_SECRET_ACCESS_KEY = process.env.REACT_APP_AWS_SECRET_ACCESS_KEY;
+const REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID =
+  process.env.REACT_APP_AWS_ACCESS_KEY_ID;
+const REACT_APP_AWS_S3_BUCKET_SECRET_ACCESS_KEY =
+  process.env.REACT_APP_AWS_SECRET_ACCESS_KEY;
 const REACT_APP_AWS_S3_BUCKET_NAME = process.env.REACT_APP_S3_BUCKET_NAME;
-
 
 const EditorComponent = ({ onContentChange, placeholder }) => {
   const handleContentChange = (content) => {
     onContentChange(content);
   };
-  
 
   // 에디터 이미지 업로드 함수
   const quillRef = useRef(null);
@@ -34,7 +34,6 @@ const EditorComponent = ({ onContentChange, placeholder }) => {
           region: REACT_APP_AWS_S3_BUCKET_REGION,
           accessKeyId: REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID,
           secretAccessKey: REACT_APP_AWS_S3_BUCKET_SECRET_ACCESS_KEY,
-          
         });
         //s3에 업로드할 객체 생성
         const upload = new AWS.S3.ManagedUpload({
@@ -75,14 +74,13 @@ const EditorComponent = ({ onContentChange, placeholder }) => {
   }, []);
 
   return (
-
-        <ReactQuill
-          ref={quillRef}
-          onChange={handleContentChange}
-          style={{ width: "100%", height: "400px" }}
-          modules={modules}
-          placeholder={placeholder}
-        />
+    <ReactQuill
+      ref={quillRef}
+      onChange={handleContentChange}
+      style={{ width: "100%", height: "400px" }}
+      modules={modules}
+      placeholder={placeholder}
+    />
   );
 };
 
