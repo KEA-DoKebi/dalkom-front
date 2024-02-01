@@ -39,7 +39,7 @@ const StyledList = styled(List)`
 `;
 
 const StyledDialog = styled(Dialog)`
-    z-index: 900;
+  z-index: 900;
 `
 
 const CKEditorContainer = styled.div`
@@ -276,37 +276,36 @@ const FAQPage = () => {
                                 ))}
                             </ListItemStyled>
                             <Divider component="li" light/>
+
+                            {/* 각 데이터 출력 부분 */}
                             {dataList.map((faq, index) => (
                                 <React.Fragment key={index}>
                                     <ListItemStyled>
-                                        <ListItemStyled>
+                                        <Typography
+                                            variant="body1"
+                                            sx={{width: getColumnWidth('FAQ번호'), textAlign: "center"}}
+                                        >
+                                            {index + 1}
+                                        </Typography>
 
-                                            <Typography
-                                                variant="body1"
-                                                sx={{width: getColumnWidth('FAQ번호'), textAlign: "center"}}
-                                            >
-                                                {index + 1}
-                                            </Typography>
+                                        <Typography
+                                            variant="body1"
+                                            sx={{width: getColumnWidth('작성일시'), textAlign: "center"}}
+                                        >
+                                            {formatDate(faq.createdAt)}
+                                        </Typography>
 
-                                            <Typography
-                                                variant="body1"
-                                                sx={{width: getColumnWidth('작성일시'), textAlign: "center"}}
-                                            >
-                                                {formatDate(faq.createdAt)}
-                                            </Typography>
+                                        <Typography
+                                            variant="body1"
+                                            sx={{width: getColumnWidth('FAQ'), textAlign: "center"}}
+                                        >
+                                            {faq.title}
+                                        </Typography>
 
-                                            <Typography
-                                                variant="body1"
-                                                sx={{width: getColumnWidth('FAQ'), textAlign: "center"}}
-                                            >
-                                                {faq.title}
-                                            </Typography>
-
-                                            <IconButton onClick={() => handleUpdateModalOpen(faq.inquirySeq)}
-                                                        sx={{width: getColumnWidth('상세보기'), textAlign: "center"}}>
-                                                <InfoOutlinedIcon/>
-                                            </IconButton>
-                                        </ListItemStyled>
+                                        <IconButton onClick={() => handleUpdateModalOpen(faq.inquirySeq)}
+                                                    sx={{width: getColumnWidth('상세보기'), textAlign: "center"}}>
+                                            <InfoOutlinedIcon/>
+                                        </IconButton>
                                     </ListItemStyled>
                                     {index !== dataList.length - 1 && (
                                         <Divider component="li" light/>

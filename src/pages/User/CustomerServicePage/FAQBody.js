@@ -9,7 +9,7 @@ const StyledList = styled(List)`
   padding: 0;
   width: 100%;
   border: none;
-  background-color: background .paper;
+  background-color: background.paper;
   height: 70%; // 전체 높이의 70%로 설정
 `;
 
@@ -206,34 +206,6 @@ export const FAQBody = () => {
                         handlePageChange(event, newPage - 1)} // 페이지 변경 시 호출되는 함수 설정
                 />
             </PaginationContainer>
-
-            {/*<Dialog*/}
-            {/*    onClose={handleCloseModal}*/}
-            {/*    open={modalOpen}*/}
-            {/*    maxWidth={false}>*/}
-            {/*    <DialogTitle>*/}
-            {/*        <IconButton*/}
-            {/*            aria-label="close"*/}
-            {/*            onClick={handleCloseModal}*/}
-            {/*            sx={{position: 'absolute', right: 8, top: 8, color: (theme) => theme.palette.grey[500],}}*/}
-            {/*        >*/}
-            {/*            <CloseIcon/>*/}
-            {/*        </IconButton>*/}
-            {/*    </DialogTitle>*/}
-            {/*    <DialogContent style={{width: 900, height: 600}}>*/}
-            {/*        {selectedFaq && (*/}
-            {/*            <div>*/}
-            {/*                <Grid marginTop="2%" style={{textAlign: "center"}}>*/}
-            {/*                    {selectedFaq.title}*/}
-            {/*                </Grid>*/}
-            {/*                <Grid>작성일시 : {formatDate(selectedFaq.createdAt)} 작성자 {selectedFaq.nickname}</Grid>*/}
-            {/*                <Typography style={{marginTop: "5%"}}>*/}
-            {/*                    {selectedFaq.content}*/}
-            {/*                </Typography>*/}
-            {/*            </div>*/}
-            {/*        )}*/}
-            {/*    </DialogContent>*/}
-            {/*</Dialog>*/}
 
             <Modal
                 open={modalOpen}
