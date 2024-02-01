@@ -1,16 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { TokenAxios } from "apis/CommonAxios";
-<<<<<<< HEAD
 import {
   Box,
   Grid,
   Typography
 } from "@mui/material";
 import { useLocation } from 'react-router-dom';
-=======
-import { Box, Grid, Typography, Button } from "@mui/material";
-import { useLocation } from "react-router-dom";
->>>>>>> 7058f28af3b2fd40daf71ba2d43638c4207abf56
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
@@ -189,19 +184,10 @@ const OrderDetailBody = () => {
                   >
                     <Typography>{orderDetail.ordrState}</Typography>
                   </Grid>
-<<<<<<< HEAD
                   <Grid item xs={1.5} style={{ textAlign: "center", paddingLeft: "10px" }}>
                     <Link to={`/mypage/review/write/${orderDetail.ordrDetailSeq}`} state={{ orderDetailSeq: orderDetail.ordrDetailSeq }}>
                     리뷰작성
                     </Link>
-=======
-                  <Grid
-                    item
-                    xs={1.5}
-                    style={{ textAlign: "center", paddingLeft: "10px" }}
-                  >
-                    <Button>리뷰작성</Button>
->>>>>>> 7058f28af3b2fd40daf71ba2d43638c4207abf56
                   </Grid>
                 </>
               ))}
