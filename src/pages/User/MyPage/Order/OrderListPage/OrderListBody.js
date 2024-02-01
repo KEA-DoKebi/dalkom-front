@@ -255,12 +255,8 @@ export default function OrderListBody() {
                       state={{ orderSeq: order.ordrSeq }}
                     >
                       {order.ordrSeq}
-<<<<<<< HEAD
                     </Link> 
 
-=======
-                    </Link>
->>>>>>> 7058f28af3b2fd40daf71ba2d43638c4207abf56
                   </TableCell>
                   <TableCell style={{ textAlign: "center" }}>
                     {order.totalPrice}

@@ -75,29 +75,8 @@ export default function OrderListBody() {
   }, [filterPeriod]);
 
   useEffect(() => {
-<<<<<<< HEAD
     reviewList();
   }, [filterPeriod, reviewList]);
-=======
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("/data/PeopleManage/MyReview.json");
-        console.log(response.data);
-        const orderData = response.data.OrderData.map((item) => ({
-          ReviewSeq: item.ReviewSeq,
-          productName: item.productName,
-          option: item.option,
-          ReviewDate: item.ReviewDate,
-          star: item.star,
-          content: item.content,
-          imageUrl: item.imageUrl,
-        }));
-        setRows(orderData);
-      } catch (error) {
-        console.error("Failed to fetch data:", error);
-      }
-    };
->>>>>>> 7058f28af3b2fd40daf71ba2d43638c4207abf56
 
   const isWithinPeriod = (modifiedAt, period) => {
     const modifiedDate = new Date(modifiedAt);

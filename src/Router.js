@@ -69,19 +69,10 @@ const Router = () => {
           />
 
           <Route path="/product/:productSeq" element={<ProductDetailPage />} />
-          <Route
-<<<<<<< HEAD
-            path="/mypage/review/write/:ordrDetailSeq"
-            element={<ReviewWrite />}
-          />
+          <Route path="/mypage/review/write/:ordrDetailSeq" element={<ReviewWrite />} />
           <Route path="/mypage/review/edit/:reviewSeq" element={<ReviewEdit />} />
           <Route path="/mypage/myinfo" element={<MyInfo />} />
-        </Route>
-=======
-            path="/product/:productSeq/:menuName"
-            element={<ProductDetailPage />}
-          />
->>>>>>> 7058f28af3b2fd40daf71ba2d43638c4207abf56
+          <Route path="/product/:productSeq/:menuName" element={<ProductDetailPage />} />
 
           <Route path="/cart" element={<Cart />} />
 
