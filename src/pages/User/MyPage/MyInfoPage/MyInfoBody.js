@@ -91,7 +91,8 @@ const MyInfoBody = () => {
             <Typography>아이디</Typography>
           </Grid>
           <Grid item xs={4}>
-            <Textarea disabled placeholder={userInfo.email} />
+            <Typography>{userInfo.email}</Typography>
+            {/* <Textarea disabled placeholder={userInfo.email} /> */}
           </Grid>
 
           <Grid item xs={4}></Grid>
