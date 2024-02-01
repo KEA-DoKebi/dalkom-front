@@ -89,7 +89,7 @@ const FAQPage = () => {
     const [editFaq, setEditFaq] = useState({title: '', content: ''});
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState();
-    const [openEditModal, setOpenEditModal] = useState(false);
+    const [setOpenEditModal] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedValue, setSelectedValue] = useState("");
     
