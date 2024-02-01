@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import AdminBar from "components/organisms/AdminBar";
-import { InputBoxS } from "components/atoms/Input";
 import { AdminButton } from "components/atoms/AdminCommonButton";
-import SearchIcon from "@mui/icons-material/Search";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { CustomSelect } from "components/atoms/AdminSelectBox";
 import Search from 'components/molecules/Search';

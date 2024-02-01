@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import AdminBar from "components/organisms/AdminBar";
-import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { useForm } from "react-hook-form";
@@ -31,7 +30,6 @@ import {
   FormControlLabel,
   Switch,
 } from "@mui/material";
-import { InputBoxS } from "components/atoms/Input";
 import { AdminButton } from "components/atoms/AdminCommonButton";
 import { InputBoxM } from "components/atoms/Input";
 import { CustomSelect } from "components/atoms/AdminSelectBox";
