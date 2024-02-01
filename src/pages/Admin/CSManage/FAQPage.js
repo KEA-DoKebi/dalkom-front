@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from "react";
 import styled from "styled-components";
-import SearchIcon from "@mui/icons-material/Search";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import {CKEditor} from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import Search from 'components/molecules/Search';
+
 import {
     Box,
     Dialog,
@@ -19,12 +21,11 @@ import {
     Typography,
 } from "@mui/material";
 import AdminBar from "components/organisms/AdminBar";
-import {InputBoxM, InputBoxS} from "components/atoms/Input";
+import {InputBoxM} from "components/atoms/Input";
 import {AdminButton} from "components/atoms/AdminCommonButton";
 import {TokenAxios} from "../../../apis/CommonAxios";
 import {useForm} from "react-hook-form";
 import CloseIcon from "@mui/icons-material/Close";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import Swal from "sweetalert2";
 
 let currentInquirySeq = null;
@@ -88,6 +89,55 @@ const FAQPage = () => {
     const [editFaq, setEditFaq] = useState({title: '', content: ''});
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState();
+    const [setOpenEditModal] = useState(false);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [selectedValue, setSelectedValue] = useState("");
+    
+    const optionList = [
+        { label: "FAQ제목" }
+      ]
+    const handleSearchInputChange = (event) => {
+        setSearchQuery(event.target.value);
+    };
+    const handleSearch = async (searchQuery) => {
+        try {
+          console.log(selectedValue.label);
+          console.log(searchQuery);
+          
+          let apiUrl = `/api/faq/search?page=0&size=7`;  // 기본 API URL
+          
+          // 선택된 검색어에 따라 검색 조건 추가
+          if (selectedValue.label === "FAQ제목") {
+            apiUrl += `&title=${searchQuery}`;
+          }  
+          const res = await TokenAxios.get(apiUrl);
+          setTotalPages(res.data.result.data.totalPages);
+          const mappedDataList = res.data.result.data.content.map((item) => {
+            const date = new Date(item.createdAt);
+            const year = date.getFullYear();
+            const month = date.getMonth() + 1; // 월은 0부터 시작하므로 +1
+            const day = date.getDate();
+
+            return {
+                FAQ번호: item.inquirySeq,
+                작성일시: `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`,
+                FAQ: item.title,
+                상세보기: (
+                    <IconButton onClick={() => {
+                        currentInquirySeq = item.inquirySeq; // inquirySeq를 저장
+                        setOpenEditModal(true); // 모달을 열기
+                        }}>
+                        <InfoOutlinedIcon/>
+                    </IconButton>
+                    )
+                };
+             });
+          setDataList(mappedDataList);
+          console.log(res.data.result.data.content);
+        } catch (error) {
+          console.error('Error searching admin:', error);
+        }
+      };
 
     const pageSize = 7;
 
@@ -246,14 +296,12 @@ const FAQPage = () => {
                 >
                     <Toolbar sx={{justifyContent: "space-between", width: "100%"}}>
                         {/* 중앙 정렬을 위해 앞뒤로 <div/> 추가*/}
-                        <div/>
-                        <InputBoxS
-                            color="neutral"
-                            disabled={false}
-                            startDecorator={<SearchIcon/>}
-                            placeholder="Search"
-                            variant="soft"
-                            sx={{mb: 4, mt: 4, ml: "50px"}}
+                        <Search
+                            onSearch={handleSearch}
+                            searchQuery={searchQuery}
+                            onInputChange={handleSearchInputChange}
+                            setSelectedValue={setSelectedValue}
+                            optionList={optionList}
                         />
                         <AdminButton variant="contained" onClick={handleCreateModalOpen}>
                             작성하기

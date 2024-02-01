@@ -20,9 +20,9 @@ export function useAuth() {
         }
       } else if (Number(role) === "1") {
         navigate("/admin/list");
-        if (!window.location.pathname.startsWith("/admin")) {
-          navigate("/admin/list");
-        }
+        if (!window.location.pathname.startsWith('/admin')) {
+            navigate("/admin/list");
+          }
       } else if (Number(role) === "2") {
         navigate("/admin/user/list");
         if (!window.location.pathname.startsWith("/admin")) {

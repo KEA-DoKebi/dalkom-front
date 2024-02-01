@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import AdminBar from "components/organisms/AdminBar";
-import { InputBoxS } from "components/atoms/Input";
 import { AdminButton } from "components/atoms/AdminCommonButton";
-import SearchIcon from "@mui/icons-material/Search";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { CustomSelect } from "components/atoms/AdminSelectBox";
+import Search from 'components/molecules/Search';
 import {
   Box,
   Divider,
@@ -73,7 +72,17 @@ const AdminListPage = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(0); // 현재 페이지를 상태로 관리
   const [totalPages, setTotalPages] = useState();
-  const [orderStatus, setOrderStatus] = useState("");
+  const [orderStatus, setOrderStatus] = useState(""); 
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedValue, setSelectedValue] = useState("");
+
+  const optionList = [
+    { label: "주문자" },
+    { label: "수령인" },
+  ]
+  const handleSearchInputChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
 
   const handleOpenModal = () => {
     setModalOpen(true);
@@ -117,6 +126,28 @@ const AdminListPage = () => {
   // Pagination에서 페이지가 변경될 때 호출되는 함수
   const handlePageChange = (event, newPage) => {
     setCurrentPage(newPage); // 현재 페이지 업데이트
+  };
+  const handleSearch = async (searchQuery) => {
+    try {
+      console.log(selectedValue.label);
+      console.log(searchQuery);
+      
+      let apiUrl = "/api/order/admin/search?page=0&size=10";  // 기본 API URL
+      
+      // 선택된 검색어에 따라 검색 조건 추가
+      if (selectedValue.label === "주문자") {
+        apiUrl += `&name=${searchQuery}`;
+      } else if (selectedValue.label === "수령인") {
+        apiUrl += `&receiverName=${searchQuery}`; 
+      }
+      
+      const res = await TokenAxios.get(apiUrl);
+      setDataList(res.data.result.data.content);
+      setTotalPages(res.data.result.data.totalPages);
+      console.log(res.data.result.data.content);
+    } catch (error) {
+      console.error('Error searching admin:', error);
+    }
   };
 
   // 상품 정보를 표시하기 위한 컴포넌트입니다.
@@ -179,16 +210,15 @@ const AdminListPage = () => {
             margin: "16px",
           }}
         >
-          <Toolbar sx={{ justifyContent: "center", width: "100%" }}>
+          <Toolbar sx={{ justifyContent: "left", width: "100%" }}>
             {/* 중앙 정렬을 위해 앞뒤로 <div/> 추가*/}
-            <div />
-            <InputBoxS
-              color="neutral"
-              disabled={false}
-              startDecorator={<SearchIcon />}
-              placeholder="Search"
-              variant="soft"
-              sx={{ mb: 4, mt: 4 }}
+            <Search
+              onSearch={handleSearch}
+              searchQuery={searchQuery}
+              onInputChange={handleSearchInputChange}
+               setSelectedValue={setSelectedValue}
+              optionList={optionList}
+              style= {{paddingRight:60}}
             />
           </Toolbar>
           <Box sx={{ width: "100%", height: "80%", overflowY: "auto" }}>
