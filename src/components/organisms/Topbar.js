@@ -17,6 +17,7 @@ import Menu from "@mui/material/Menu";
 import Input from "@mui/joy/Input";
 import "assets/font/font.css";
 import { Link, useNavigate } from "react-router-dom";
+import { TokenAxios } from "apis/CommonAxios";
 
 const SubMenu = ({ subMenu, top, left, categorySeq }) => {
   return (
@@ -136,12 +137,17 @@ const Topbar = () => {
     setMenuOpen(!menuOpen);
   };
 
+  const logout = async() => {
+    TokenAxios()
+  }
+
   // const handleSubMenuItemClick = (categorySeq ,subMenu) => {
   //   navigate(`/category/${categorySeq}/sub/${subMenu.seq}`)
   //   // 여기에서 선택한 서브 메뉴에 대한 추가적인 로직을 수행할 수 있습니다.
   // };
 
   const handleLogout = (event) => {
+    
     localStorage.clear();
     navigate("/login")
   }

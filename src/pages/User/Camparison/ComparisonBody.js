@@ -12,8 +12,10 @@ export const ComparisonBody = () => {
   const {seqList} = productImageStore((state) => state);
   // 카테고리 페이지에서 넘어온 정보를 받아옵니다.
   const [selectedCategory] = useState("카테고리1");
-  const [productReviewList, setProductReviewList] = useState([]);
   const [selectedProductSeqList, setSelectedProductSeqList] = useState(seqList);
+  const [firstProductReview, setFirstProductReview] = useState();
+  const [secondProductReview, setSecondProductReview] = useState();
+  const [thridProductReview, setThridProductReview] = useState();
 
 
 
@@ -33,38 +35,42 @@ export const ComparisonBody = () => {
     }
   }
 
-  const getProductReview = async (productSeq, index) => {
+  const getProductReview = async(productSeq, index) => {
     try {
       const res = await TokenAxios.get(`/api/product/compare/${productSeq}`);
       console.log(res.data.result.data);
-  
-      setProductReviewList(prevList => {
-        const newArr = [...prevList];
-        newArr[index] = res.data.result.data;
-        return newArr;
-      });
+
+      if(index === 0 ){
+        setFirstProductReview(res.data.result.data);
+      }
+      else if(index === 1){
+       setSecondProductReview(res.data.result.data)
+      }else if(index === 2){
+        setThridProductReview(res.data.result.data);
+      }
+      else {
+        console.log("없는 인덱스 입니다.");
+      }
+      // setProductReviewList(prevList => {
+      //   // 새로운 배열을 만들되, 이전 상태를 기반으로 합니다.
+      //   const newList = [...prevList];
+      //   newList[index] = res.data.result.data;
+      //   return newList;
+      // });
     } catch (e) {
       console.log(e);
-      // 실패 시 처리: 예를 들어, 에러 메시지를 배열에 넣거나, 배열을 변경하지 않음
-      setProductReviewList(prevList => {
-        const newArr = [...prevList];
-        newArr[index] = { error: "Failed to load data" }; // 혹은 다른 적절한 처리
-        return newArr;
-      });
     }
-  };
-  
+  }
 
   const handleSelectChange = (event, index) => {
     console.log(event.target.value);
-    getProductReview(event.target.value);
+    getProductReview(event.target.value, index);
     // 현재 배열을 복사한다.
     const arr = [...selectedProductSeqList];
     // 특정 인덱스의 값을 업데이트한다.
     arr[index] = event.target.value;
     // 변경된 배열로 상태를 업데이트한다.
     setSelectedProductSeqList(arr);
-
     // splice를 쓸수 없는 이유는 배열을 직접 변경하므로 React의 상태 업데이트에는 어울리지 않는다.
   }
 
@@ -76,9 +82,9 @@ export const ComparisonBody = () => {
 
   useEffect(() => {
     if(selectedProductSeqList.length !== 0){
-      getProductReview(selectedProductSeqList[0]);
-      getProductReview(selectedProductSeqList[1]);
-      getProductReview(selectedProductSeqList[2]);
+      getProductReview(selectedProductSeqList[0], 0);
+      getProductReview(selectedProductSeqList[1], 1);
+      getProductReview(selectedProductSeqList[2], 2);
     }
     getCategoryProductLists();
   },[subCategorySeq])
@@ -305,7 +311,7 @@ export const ComparisonBody = () => {
             <Select
               value={selectedProductSeqList[0]}
               onChange={(e) => handleSelectChange(e,0)}
-              sx={{ mx: 1, width: "15vw" }}
+              sx={{ width: "15vw", marginBottom : "3vh" }}
               // disabled={!selectedCategory}
             >
               {subCategoryProductList.map((product) => (
@@ -318,9 +324,9 @@ export const ComparisonBody = () => {
                 </MenuItem>
               ))}
             </Select>
-            
+            <ProductReview info={firstProductReview} />
           </SelectBox>
-          <ProductReview info={productReviewList[0]} />
+          
         </Grid>
         <Grid item xs={2}>
 
@@ -330,7 +336,7 @@ export const ComparisonBody = () => {
             <Select
               value={selectedProductSeqList[1]}
               onChange={(e) => handleSelectChange(e, 1)}
-              sx={{ mx: 1, width: "15vw" }}
+              sx={{ width: "15vw", marginBottom : "3vh" }}
               // disabled={!selectedCategory}
             >
               {subCategoryProductList.map((product) => (
@@ -343,9 +349,9 @@ export const ComparisonBody = () => {
                 </MenuItem>
               ))}
             </Select>
-            
+            <ProductReview info={secondProductReview} />
           </SelectBox>
-          <ProductReview info={productReviewList} />
+          
         </Grid>
         <Grid item xs={2}>
 
@@ -355,7 +361,7 @@ export const ComparisonBody = () => {
             <Select
               value={selectedProductSeqList[2]}
               onChange={(e) => handleSelectChange(e, 2)}
-              sx={{ mx: 1, width: "15vw" }}
+              sx={{ width: "15vw", marginBottom : "3vh" }}
               // disabled={!selectedCategory}
             >
               {subCategoryProductList.map((product) => (
@@ -369,9 +375,9 @@ export const ComparisonBody = () => {
                 </MenuItem>
               ))}
             </Select>
-            
+            <ProductReview info={thridProductReview} />
           </SelectBox>
-          <ProductReview info={123} />
+          
         </Grid>
         <Grid item xs={1}>
 

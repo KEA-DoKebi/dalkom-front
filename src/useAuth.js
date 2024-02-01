@@ -14,16 +14,16 @@ export function useAuth() {
       setIsAuthenticated(true);
 
       if (mileage) {
-        navigate("/");
+        // navigate("/");
         if (window.location.pathname.startsWith("/admin")) {
           navigate("/");
         }
-      } else if (Number(role) === 1) {
+      } else if (Number(role) === "1") {
         navigate("/admin/list");
         if (!window.location.pathname.startsWith('/admin')) {
             navigate("/admin/list");
           }
-      } else if (Number(role) === 2) {
+      } else if (Number(role) === "2") {
         navigate("/admin/user/list");
         if (!window.location.pathname.startsWith('/admin')) {
             navigate("/admin/user/list");
