@@ -7,34 +7,42 @@ import { Button } from "react-scroll";
 import { productImageStore } from "store/store";
 import Swal from "sweetalert2";
 
-export const ProductCard = ({ imageUrl, title, price, star, review, seq, categorySeq }) => {
-  
-  const {addImageList, addSeq, imageList, seqList, subCategorySeq, setSubCategorySeq} = productImageStore((state) => state);
+export const ProductCard = ({
+  imageUrl,
+  title,
+  price,
+  star,
+  review,
+  seq,
+  categorySeq,
+}) => {
+  const {
+    addImageList,
+    addSeq,
+    imageList,
+    seqList,
+    subCategorySeq,
+    setSubCategorySeq,
+  } = productImageStore((state) => state);
 
   const handleAddButtonClick = () => {
+    console.log("카드에서 받아오는 카테고리" + categorySeq);
+    console.log("상태에서 받아오는 카테고리" + subCategorySeq);
 
-    console.log("카드에서 받아오는 카테고리" + categorySeq)
-    console.log("상태에서 받아오는 카테고리" + subCategorySeq)
-
-    if(!seqList.includes(seq)){
-      if(subCategorySeq === 0 || categorySeq === subCategorySeq){
-        if(imageList.length < 3){
+    if (!seqList.includes(seq)) {
+      if (subCategorySeq === 0 || categorySeq === subCategorySeq) {
+        if (imageList.length < 3) {
           addImageList(imageUrl);
           addSeq(seq);
           setSubCategorySeq(categorySeq);
-        }
-        else{
+        } else {
           Swal.fire("이미지를 3개까지만 넣을 수 있습니다!", "", "info");
         }
-      }
-      else{
+      } else {
         Swal.fire("같은 카테고리의 상품만 넣을 수 있습니다!", "", "info");
       }
     }
-    
-  }
-
-    
+  };
 
   return (
     <Link to={`/product/${seq}`}>
@@ -43,12 +51,20 @@ export const ProductCard = ({ imageUrl, title, price, star, review, seq, categor
         <HoverCardContent>
           <HoverCardTitle>★({star})</HoverCardTitle>
           <HoverCardButton variant="contained" onClick={handleAddButtonClick}>
-            <Typography sx={{fontSize : "15px", fontWeight : "bold", fontFamily : "Noto Sans"}}>➕상품 비교</Typography>
+            <Typography
+              sx={{
+                fontSize: "15px",
+                fontWeight: "bold",
+                fontFamily: "Noto Sans",
+              }}
+            >
+              ➕상품 비교
+            </Typography>
           </HoverCardButton>
         </HoverCardContent>
         <CardContent>
           <CardTitle>{title}</CardTitle>
-          <CardDescription> 
+          <CardDescription>
             {/* <img src="/images/M-user.png" width="15px" height="15px"/>  {price} */}
             <Typography
               variant="body1"
@@ -56,13 +72,13 @@ export const ProductCard = ({ imageUrl, title, price, star, review, seq, categor
                 textAlign: "center",
                 display: "flex",
                 alignItems: "center",
-                marginBottom : "7px",
+                marginBottom: "7px",
               }}
             >
               <img
                 src="/images/M-1.png"
                 alt="마일리지"
-                style={{ width: "20px", height: "20px", marginRight : "5px", }}
+                style={{ width: "20px", height: "20px", marginRight: "5px" }}
               />
               {price}
             </Typography>
@@ -145,8 +161,8 @@ const HoverCardButton = styled(Button)`
   position: fixed;
   top: 10px;
   right: 10px;
-  background-color: rgba(255,255,255,0.7);
-  color: rgba(0,0,0,0.7);
+  background-color: rgba(255, 255, 255, 0.7);
+  color: rgba(0, 0, 0, 0.7);
   width: 100px;
   height: 23px;
   border-radius: 30px;
@@ -156,7 +172,7 @@ const HoverCardButton = styled(Button)`
   padding: 0;
 
   &:hover {
-    background-color: rgba(255,255,255,1);
-    color: rgba(0,0,0,1);
+    background-color: rgba(255, 255, 255, 1);
+    color: rgba(0, 0, 0, 1);
   }
-`
+`;

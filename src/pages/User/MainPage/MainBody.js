@@ -30,7 +30,6 @@ const MainBody = () => {
     kakaofriends: [],
   });
 
-
   const getMainProductList = async () => {
     const res = await TokenAxios.get("/data/productData/mainPageProduct.json");
     setProductLists(res.data);
