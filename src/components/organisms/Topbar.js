@@ -142,6 +142,7 @@ const Topbar = () => {
   // };
 
   const handleLogout = (event) => {
+    
     localStorage.clear();
     navigate("/login");
   };

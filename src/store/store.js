@@ -7,57 +7,49 @@ const store = (set) => ({
   removeAllBears: () => set({ bears: 0 }),
 });
 
-export const productImageStore = create(
-  devtools(
-    (set) => ({
-      imageList: [],
-      seqList: [],
-      subCategorySeq: 0,
-      reviewList: [],
 
-      addImageList: (newImage) =>
-        set((state) => ({
-          imageList: [...state.imageList, newImage],
-        })),
+export const productImageStore = create(devtools((set) => ({
+  imageList: [],
+  seqList : [],
+  subCategorySeq : 0,
+  reviewList : [],
 
-      deleteImage: (imageToRemove) =>
-        set((state) => ({
-          imageList: state.imageList.filter((image) => image !== imageToRemove),
-        })),
+  addImageList: (newImage) => set((state) => ({
+    imageList: [...state.imageList, newImage]
+  })),
 
-      addSeq: (newSeq) =>
-        set((state) => ({
-          seqList: [...state.seqList, newSeq],
-        })),
+  deleteImage: (imageToRemove) => set((state) => ({
+    imageList: state.imageList.filter(image => image !== imageToRemove)
+  })),
 
-      deleteSeq: (seqToRemove) =>
-        set((state) => ({
-          seqList: state.seqList.filter((seq) => seq !== seqToRemove),
-        })),
+  addSeq: (newSeq) => set((state) => ({
+    seqList: [...state.seqList, newSeq]
+  })),
 
-      setSubCategorySeq: (categorySeq) =>
-        set({
-          subCategorySeq: categorySeq,
-        }),
+  deleteSeq: (seqToRemove) => set((state) => ({
+    seqList: state.seqList.filter(seq => seq !== seqToRemove)
+  })),
 
-      addReviewList: (newReview) =>
-        set((state) => ({
-          reviewList: [...state, newReview],
-        })),
+  setSubCategorySeq: (categorySeq) => set ({
+    subCategorySeq: categorySeq
+  }),
 
-      deleteReview: (reviewToRemove) =>
-        set((state) => ({
-          reviewList: state.reviewList.filter(
-            (review) => review !== reviewToRemove,
-          ),
-        })),
-    }),
-    "productImageStore",
-  ),
-); // 여기에서 "productImageStore"는 DevTools에서 표시될 스토어의 이름입니다.
+  addReviewList: (newReview) => set((state) => ({
+    reviewList : [...state, newReview]
+  })),
+
+  deleteReview: (reviewToRemove) => set((state) => ({
+    reviewList: state.reviewList.filter(review => review !== reviewToRemove)
+  })),
+  
+}), "productImageStore")); // 여기에서 "productImageStore"는 DevTools에서 표시될 스토어의 이름입니다.
 
 const useStore = create(
   process.env.REACT_APP_NODE_ENV !== "production" ? devtools(store) : store,
 );
 
 export default useStore;
+
+
+
+
