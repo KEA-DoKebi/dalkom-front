@@ -86,6 +86,7 @@ const Login = () => {
         const res = await DefaultAxios.post("api/admin/login", data);
         const tokenData = res.data.result.data;
         localStorage.setItem("accessToken", tokenData.accessToken);
+        localStorage.setItem("role", tokenData.role);
         navigate("/admin/list");
       }
     } catch (e) {
