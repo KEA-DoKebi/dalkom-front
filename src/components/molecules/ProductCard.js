@@ -43,12 +43,20 @@ export const ProductCard = ({ imageUrl, title, price, star, review, seq, categor
         <HoverCardContent>
           <HoverCardTitle>★({star})</HoverCardTitle>
           <HoverCardButton variant="contained" onClick={handleAddButtonClick}>
-            <Typography sx={{fontSize : "15px", fontWeight : "bold", fontFamily : "Noto Sans"}}>➕상품 비교</Typography>
+            <Typography
+              sx={{
+                fontSize: "15px",
+                fontWeight: "bold",
+                fontFamily: "Noto Sans",
+              }}
+            >
+              ➕상품 비교
+            </Typography>
           </HoverCardButton>
         </HoverCardContent>
         <CardContent>
           <CardTitle>{title}</CardTitle>
-          <CardDescription> 
+          <CardDescription>
             {/* <img src="/images/M-user.png" width="15px" height="15px"/>  {price} */}
             <Typography
               variant="body1"
@@ -56,13 +64,13 @@ export const ProductCard = ({ imageUrl, title, price, star, review, seq, categor
                 textAlign: "center",
                 display: "flex",
                 alignItems: "center",
-                marginBottom : "7px",
+                marginBottom: "7px",
               }}
             >
               <img
                 src="/images/M-1.png"
                 alt="마일리지"
-                style={{ width: "20px", height: "20px", marginRight : "5px", }}
+                style={{ width: "20px", height: "20px", marginRight: "5px" }}
               />
               {price}
             </Typography>
@@ -145,8 +153,8 @@ const HoverCardButton = styled(Button)`
   position: fixed;
   top: 10px;
   right: 10px;
-  background-color: rgba(255,255,255,0.7);
-  color: rgba(0,0,0,0.7);
+  background-color: rgba(255, 255, 255, 0.7);
+  color: rgba(0, 0, 0, 0.7);
   width: 100px;
   height: 23px;
   border-radius: 30px;
@@ -156,7 +164,7 @@ const HoverCardButton = styled(Button)`
   padding: 0;
 
   &:hover {
-    background-color: rgba(255,255,255,1);
-    color: rgba(0,0,0,1);
+    background-color: rgba(255, 255, 255, 1);
+    color: rgba(0, 0, 0, 1);
   }
-`
+`;

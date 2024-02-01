@@ -124,19 +124,18 @@ const BodyBottom = styled.div`
 `;
 
 const ProductDetail = () => {
-
-  const getProduct = async() => {
-    try{
+  const getProduct = async () => {
+    try {
       const res = await TokenAxios.get("/api/product/3");
       console.log(res.data);
-    }catch(e){
+    } catch (e) {
       console.log(e);
     }
-  }
+  };
 
   useEffect(() => {
     getProduct();
-  }, [])
+  }, []);
 
   return (
     <>

@@ -8,48 +8,47 @@ import { styled } from "styled-components";
 import { ProductReview } from "components/molecules/ProductReview";
 
 export const ComparisonBody = () => {
-
-  const {seqList} = productImageStore((state) => state);
+  const { seqList } = productImageStore((state) => state);
   // 카테고리 페이지에서 넘어온 정보를 받아옵니다.
-  const [selectedCategory] = useState("카테고리1");
+  const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedProductSeqList, setSelectedProductSeqList] = useState(seqList);
   const [firstProductReview, setFirstProductReview] = useState();
   const [secondProductReview, setSecondProductReview] = useState();
   const [thridProductReview, setThridProductReview] = useState();
-  const [subCategoryProductList, setSubCategoryProductList ] = useState([]);
+  const [subCategoryProductList, setSubCategoryProductList] = useState([]);
 
-  const {subCategorySeq} = useParams();
+  const { subCategorySeq } = useParams();
 
-  const getCategoryProductLists = async() => {
-    try{
-      const res = await TokenAxios.get(`/api/product/category/detail/${subCategorySeq}?page=0&size=50`)
-      console.log(res.data);
-      setSubCategoryProductList(res.data.result.data.content);
-    }catch(e){
+  const getCategoryProductLists = async () => {
+    try {
+      const res = await TokenAxios.get(
+        `/api/product/category/detail/${subCategorySeq}?page=0&size=50`,
+      );
+      setSubCategoryProductList(res.data.result.data.page.content);
+      setSelectedCategory(res.data.result.data.categoryName);
+    } catch (e) {
       console.log(e);
     }
-  }
+  };
 
-  const getProductReview = async(productSeq, index) => {
+  const getProductReview = async (productSeq, index) => {
     try {
       const res = await TokenAxios.get(`/api/product/compare/${productSeq}`);
       console.log(res.data.result.data);
 
-      if(index === 0 ){
+      if (index === 0) {
         setFirstProductReview(res.data.result.data);
-      }
-      else if(index === 1){
-       setSecondProductReview(res.data.result.data)
-      }else if(index === 2){
+      } else if (index === 1) {
+        setSecondProductReview(res.data.result.data);
+      } else if (index === 2) {
         setThridProductReview(res.data.result.data);
-      }
-      else {
+      } else {
         console.log("없는 인덱스 입니다.");
       }
     } catch (e) {
       console.log(e);
     }
-  }
+  };
 
   const handleSelectChange = (event, index) => {
     console.log(event.target.value);
@@ -61,17 +60,17 @@ export const ComparisonBody = () => {
     // 변경된 배열로 상태를 업데이트한다.
     setSelectedProductSeqList(arr);
     // splice를 쓸수 없는 이유는 배열을 직접 변경하므로 React의 상태 업데이트에는 어울리지 않는다.
-  }
+  };
 
   useEffect(() => {
-    if(selectedProductSeqList.length !== 0){
+    if (selectedProductSeqList.length !== 0) {
       getProductReview(selectedProductSeqList[0], 0);
       getProductReview(selectedProductSeqList[1], 1);
       getProductReview(selectedProductSeqList[2], 2);
     }
     getCategoryProductLists();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[subCategorySeq])
+  }, [subCategorySeq]);
 
   return (
     <Paper elevation={0} sx={{ padding: 2 }}>
@@ -87,15 +86,13 @@ export const ComparisonBody = () => {
         {selectedCategory} 상품 비교하기
       </Typography>
       <Grid container>
-        <Grid item xs={1}>
-
-        </Grid>
+        <Grid item xs={1}></Grid>
         <Grid item xs={2}>
           <SelectBox>
             <Select
               value={selectedProductSeqList[0]}
-              onChange={(e) => handleSelectChange(e,0)}
-              sx={{ width: "15vw", marginBottom : "3vh" }}
+              onChange={(e) => handleSelectChange(e, 0)}
+              sx={{ width: "15vw", marginBottom: "3vh" }}
               // disabled={!selectedCategory}
             >
               {subCategoryProductList.map((product) => (
@@ -110,17 +107,14 @@ export const ComparisonBody = () => {
             </Select>
             <ProductReview info={firstProductReview} />
           </SelectBox>
-          
         </Grid>
+        <Grid item xs={2}></Grid>
         <Grid item xs={2}>
-
-        </Grid>
-        <Grid item xs={2}>
-        <SelectBox>
+          <SelectBox>
             <Select
               value={selectedProductSeqList[1]}
               onChange={(e) => handleSelectChange(e, 1)}
-              sx={{ width: "15vw", marginBottom : "3vh" }}
+              sx={{ width: "15vw", marginBottom: "3vh" }}
               // disabled={!selectedCategory}
             >
               {subCategoryProductList.map((product) => (
@@ -135,17 +129,14 @@ export const ComparisonBody = () => {
             </Select>
             <ProductReview info={secondProductReview} />
           </SelectBox>
-          
         </Grid>
+        <Grid item xs={2}></Grid>
         <Grid item xs={2}>
-
-        </Grid>
-        <Grid item xs={2}>
-        <SelectBox>
+          <SelectBox>
             <Select
               value={selectedProductSeqList[2]}
               onChange={(e) => handleSelectChange(e, 2)}
-              sx={{ width: "15vw", marginBottom : "3vh" }}
+              sx={{ width: "15vw", marginBottom: "3vh" }}
               // disabled={!selectedCategory}
             >
               {subCategoryProductList.map((product) => (
@@ -153,7 +144,6 @@ export const ComparisonBody = () => {
                   key={product.productSeq}
                   value={product.productSeq}
                   // disabled={Object.values(selectedProducts).includes(product.productSeq)}
-                  // onChange={handleProductSelect}
                 >
                   {product.name}
                 </MenuItem>
@@ -161,45 +151,19 @@ export const ComparisonBody = () => {
             </Select>
             <ProductReview info={thridProductReview} />
           </SelectBox>
-          
         </Grid>
-        <Grid item xs={1}>
-
-        </Grid>
+        <Grid item xs={1}></Grid>
       </Grid>
-
-      {/* <Box
-        sx={{
-          position: "sticky",
-          top: 0,
-          backgroundColor: "white",
-          padding: "10px 0",
-        }}
-      >
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "black",
-          }}
-        > */}
-          {/* {selectAndInfoComponents} */}
-
-          
-        {/* </Box>
-      </Box> */}
     </Paper>
   );
 };
 
-
 const SelectBox = styled(Box)`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 20px;
-    margin-right: 2vw;
-    margin-left: 2vw;
-    min-height: 100vh;
-`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+  margin-right: 2vw;
+  margin-left: 2vw;
+  min-height: 100vh;
+`;

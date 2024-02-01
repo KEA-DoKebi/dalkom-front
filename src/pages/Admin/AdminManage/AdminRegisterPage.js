@@ -15,7 +15,6 @@ import { TokenAxios } from "apis/CommonAxios";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
-
 const AdminRegisterPage = () => {
   // Declare selectedMenu and setSelectedMenu using useState
   const [selectedMenu, setSelectedMenu] = useState("관리자 등록");
