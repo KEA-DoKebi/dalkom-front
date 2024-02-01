@@ -71,9 +71,7 @@ const ListItemLabelStyled = styled(ListItem)`
   justify-content: space-evenly;
   align-items: center;
   width: 100%;
-  height: calc(
-    70vh / 14
-  );
+  height: calc(70vh / 14);
   padding: 12px;
   ${itemFlexStyles}// 공통 스타일 적용
 `;
@@ -87,7 +85,6 @@ const ListItemStyled = styled(ListItem)`
   padding: 12px;
   ${itemFlexStyles}// 공통 스타일 적용
 `;
-
 
 const formatDate = (dateString) => {
   const options = { year: "numeric", month: "2-digit", day: "2-digit" };
@@ -239,7 +236,7 @@ const AnnouncementPage = () => {
   // 공지 조회 (get)
   const getNotice = async (page) => {
     const res = await TokenAxios.get(
-      `/api/notice?page=${page}&size=${pageSize}`
+      `/api/notice?page=${page}&size=${pageSize}`,
     );
     console.log(res.data.result.data.content);
     setDataList(res.data.result.data.content);
@@ -364,7 +361,7 @@ const AnnouncementPage = () => {
                     <Typography
                       variant="h6"
                       fontWeight="bold"
-                      sx={{  textAlign: "center" }}
+                      sx={{ textAlign: "center" }}
                     >
                       {label}
                     </Typography>
@@ -582,17 +579,17 @@ const AnnouncementPage = () => {
               </IconButton>
             </DialogTitle>
             <DialogContent style={{ width: 900, height: 550 }}>
-            <EditorComponent
-                  onContentChange={handleEditorContentChange}
-                  placeholder="공지 내용을 입력해주세요."
-                  id="content"
-                  data={selectedNotice?.content}
-                  onChange={(event, editor) => {
-                    setValue("content", editor.getData());
-                    trigger("content");
-                    console.log("content");
-                  }}
-                />
+              <EditorComponent
+                onContentChange={handleEditorContentChange}
+                placeholder="공지 내용을 입력해주세요."
+                id="content"
+                data={selectedNotice?.content}
+                onChange={(event, editor) => {
+                  setValue("content", editor.getData());
+                  trigger("content");
+                  console.log("content");
+                }}
+              />
               <DialogActions
                 style={{ justifyContent: "center", marginTop: "20px" }}
               >

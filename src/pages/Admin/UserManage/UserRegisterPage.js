@@ -103,134 +103,136 @@ const UserRegisterPage = () => {
               userRegister(data);
             })}
           >
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-            }}
-          >
-            <div style={{ marginRight: "10px" }}>
-              <div style={{ alignItems: "start" }}>
-                <Typography variant="h7" fontWeight="bold" align="left">
-                  이메일(ID)
-                </Typography>
-                <InputBoxS
-                  color="neutral"
-                  disabled={false}
-                  placeholder="이메일을 입력하세요."
-                  variant="soft"
-                  sx={{ mb: 4 }}
-                  {...register("email")}
-                />
-              </div>
-              <div style={{ alignItems: "start" }}>
-                <Typography variant="h7" fontWeight="bold" align="left">
-                  사원번호
-                </Typography>
-                <InputBoxS
-                  color="neutral"
-                  disabled={false}
-                  placeholder="사원번호를 입력하세요"
-                  variant="soft"
-                  sx={{ mb: 4 }}
-                  {...register("empId")}
-                />
-              </div>
-              <div style={{ alignItems: "start" }}>
-                <Typography variant="h7" fontWeight="bold" align="left">
-                  입사일
-                </Typography>
-                <InputBoxS
-                  color="neutral"
-                  type="date"
-                  disabled={false}
-                  placeholder="입사일을 입력하세요"
-                  variant="soft"
-                  sx={{ mb: 4 }}
-                  slotProps={{
-                    input: {
-                      max: today,
-                    },
-                  }}
-                  {...register("joinedAt")}
-                />
-              </div>
-            </div>
-            <div style={{ marginLeft: "10px" }}>
-              <div style={{ alignItems: "start" }}>
-                <Typography variant="h7" fontWeight="bold" align="left">
-                  비밀번호
-                </Typography>
-                <InputBoxS
-                  color="neutral"
-                  disabled={false}
-                  placeholder="비밀번호를 입력하세요"
-                  variant="soft"
-                  sx={{ mb: 4 }}
-                  {...register("password")}
-                />
-              </div>
-              <div style={{ alignItems: "start" }}>
-                <Typography variant="h7" fontWeight="bold" align="left">
-                  이름
-                </Typography>
-                <InputBoxS
-                  color="neutral"
-                  disabled={false}
-                  placeholder="이름을 입력하세요"
-                  variant="soft"
-                  sx={{ mb: 4 }}
-                  {...register("name")}
-                />
-              </div>
-              <div style={{ alignItems: "start" }}>
-                <Typography variant="h7" fontWeight="bold" align="left">
-                  닉네임
-                </Typography>
-                <InputBoxS
-                  color="neutral"
-                  disabled={false}
-                  placeholder="닉네임을 입력하세요"
-                  variant="soft"
-                  sx={{ mb: 4 }}
-                  {...register("nickname")}
-                />
-              </div>
-            </div>
-          </div>
-          <div style={{ alignItems: "start" }}>
             <div
               style={{
                 display: "flex",
-                flexDirection: "column",
-                marginBottom: "40px", // 등록하기 버튼과의 간격
+                flexDirection: "row",
+                justifyContent: "space-between",
               }}
             >
-              <Typography variant="h7" fontWeight="bold" align="left">
-                주소
-              </Typography>
-              <InputBoxL
-                color="neutral"
-                disabled={false}
-                placeholder="주소를 입력하세요"
-                variant="soft"
-                sx={{ mb: 4, width: "80%" }} // 너비 조절
-                {...register("address")}
-              />
+              <div style={{ marginRight: "10px" }}>
+                <div style={{ alignItems: "start" }}>
+                  <Typography variant="h7" fontWeight="bold" align="left">
+                    이메일(ID)
+                  </Typography>
+                  <InputBoxS
+                    color="neutral"
+                    disabled={false}
+                    placeholder="이메일을 입력하세요."
+                    variant="soft"
+                    sx={{ mb: 4 }}
+                    {...register("email")}
+                  />
+                </div>
+                <div style={{ alignItems: "start" }}>
+                  <Typography variant="h7" fontWeight="bold" align="left">
+                    사원번호
+                  </Typography>
+                  <InputBoxS
+                    color="neutral"
+                    disabled={false}
+                    placeholder="사원번호를 입력하세요"
+                    variant="soft"
+                    sx={{ mb: 4 }}
+                    {...register("empId")}
+                  />
+                </div>
+                <div style={{ alignItems: "start" }}>
+                  <Typography variant="h7" fontWeight="bold" align="left">
+                    입사일
+                  </Typography>
+                  <InputBoxS
+                    color="neutral"
+                    type="date"
+                    disabled={false}
+                    placeholder="입사일을 입력하세요"
+                    variant="soft"
+                    sx={{ mb: 4 }}
+                    slotProps={{
+                      input: {
+                        max: today,
+                      },
+                    }}
+                    {...register("joinedAt")}
+                  />
+                </div>
+              </div>
+              <div style={{ marginLeft: "10px" }}>
+                <div style={{ alignItems: "start" }}>
+                  <Typography variant="h7" fontWeight="bold" align="left">
+                    비밀번호
+                  </Typography>
+                  <InputBoxS
+                    color="neutral"
+                    disabled={false}
+                    placeholder="비밀번호를 입력하세요"
+                    variant="soft"
+                    sx={{ mb: 4 }}
+                    {...register("password")}
+                  />
+                </div>
+                <div style={{ alignItems: "start" }}>
+                  <Typography variant="h7" fontWeight="bold" align="left">
+                    이름
+                  </Typography>
+                  <InputBoxS
+                    color="neutral"
+                    disabled={false}
+                    placeholder="이름을 입력하세요"
+                    variant="soft"
+                    sx={{ mb: 4 }}
+                    {...register("name")}
+                  />
+                </div>
+                <div style={{ alignItems: "start" }}>
+                  <Typography variant="h7" fontWeight="bold" align="left">
+                    닉네임
+                  </Typography>
+                  <InputBoxS
+                    color="neutral"
+                    disabled={false}
+                    placeholder="닉네임을 입력하세요"
+                    variant="soft"
+                    sx={{ mb: 4 }}
+                    {...register("nickname")}
+                  />
+                </div>
+              </div>
             </div>
-          </div>
-            
-          <div style={{ display: "flex", justifyContent: "center" }}> {/* Flexbox 사용 */}
-            <AdminButton
-              type="submit"
-              variant="contained"
-              onClick={handleAdminButtonClick}
-              style={{ margin: "auto" }} 
-            >
-              등록하기
-            </AdminButton>
-          </div>
+            <div style={{ alignItems: "start" }}>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  marginBottom: "40px", // 등록하기 버튼과의 간격
+                }}
+              >
+                <Typography variant="h7" fontWeight="bold" align="left">
+                  주소
+                </Typography>
+                <InputBoxL
+                  color="neutral"
+                  disabled={false}
+                  placeholder="주소를 입력하세요"
+                  variant="soft"
+                  sx={{ mb: 4, width: "80%" }} // 너비 조절
+                  {...register("address")}
+                />
+              </div>
+            </div>
+
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              {" "}
+              {/* Flexbox 사용 */}
+              <AdminButton
+                type="submit"
+                variant="contained"
+                onClick={handleAdminButtonClick}
+                style={{ margin: "auto" }}
+              >
+                등록하기
+              </AdminButton>
+            </div>
           </form>
 
           {/* Alert 컴포넌트 */}

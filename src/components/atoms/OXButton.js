@@ -14,7 +14,7 @@ export function OXButton({ onSelect }) {
     }
 
     setSelectedButton(buttonNumber);
-    onSelect(buttonNumber === 1 ? 'Y' : 'N');
+    onSelect(buttonNumber === 1 ? "Y" : "N");
   };
 
   return (

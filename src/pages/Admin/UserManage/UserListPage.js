@@ -44,9 +44,7 @@ const ListItemLabelStyled = styled(ListItem)`
   justify-content: space-evenly;
   align-items: center;
   width: 100%;
-  height: calc(
-    70vh / 14
-  );
+  height: calc(70vh / 14);
   padding: 12px;
   ${itemFlexStyles}// 공통 스타일 적용
 `;
@@ -83,8 +81,6 @@ const AdminListPage = () => {
     { label: "닉네임" }
   ]
 
-  
-
   const userGet = async (page) => {
     const res = await TokenAxios.get(`/api/user?page=${page}&size=10`);
     console.log(res.data.result.data.content);
@@ -104,7 +100,7 @@ const AdminListPage = () => {
       // 삭제 후 목록 갱신
       userGet(currentPage);
     } catch (error) {
-      console.error('Error deleting user:', error);
+      console.error("Error deleting user:", error);
     }
   };
   const handleSearch = async (searchQuery) => {
@@ -163,7 +159,7 @@ const AdminListPage = () => {
         </Typography>
         <IconButton
           onClick={() => handleDeleteUser(user.userSeq)}
-          sx={{ '&:hover': { backgroundColor: '#FFFFFF' } }} // 호버 효과 제거
+          sx={{ "&:hover": { backgroundColor: "#FFFFFF" } }} // 호버 효과 제거
         >
           <DeleteIcon />
         </IconButton>

@@ -17,7 +17,16 @@ import styled from "styled-components";
 import { OXButton } from "components/atoms/OXButton";
 import Swal from "sweetalert2";
 
-const dataListLabels = ['번호', '아이디', '닉네임', '마일리지', '신청금액', '사용자', '일시', '승인/거부'];
+const dataListLabels = [
+  "번호",
+  "아이디",
+  "닉네임",
+  "마일리지",
+  "신청금액",
+  "사용자",
+  "일시",
+  "승인/거부",
+];
 
 // 각 항목에 대한 공통 스타일을 설정합니다.
 const itemFlexStyles = {
@@ -61,9 +70,11 @@ const ListItemLabelStyled = styled(ListItem)`
   justify-content: space-evenly;
   align-items: center;
   width: 100%;
-  height: calc(70vh / 10); // 전체 높이의 70%를 10로 나눈 값으로 레이블 행의 높이를 설정
+  height: calc(
+    70vh / 10
+  ); // 전체 높이의 70%를 10로 나눈 값으로 레이블 행의 높이를 설정
   padding: 12px;
-  ${itemFlexStyles} // 공통 스타일 적용
+  ${itemFlexStyles}// 공통 스타일 적용
 `;
 
 // 간격 일정하게 만드는 거
@@ -87,8 +98,8 @@ const getColumnWidth = (label) => {
 };
 
 const formatDate = (dateString) => {
-  const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
-  return new Date(dateString).toLocaleDateString('ko-KR', options);
+  const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+  return new Date(dateString).toLocaleDateString("ko-KR", options);
 };
 
 
@@ -124,7 +135,9 @@ const MileageApprovalPage = () => {
   
   // 마일리지 신청내역 조회(대기중 상태만) (get)
   const getMileageApply = async (page) => {
-    const res = await TokenAxios.get(`/api/mileage/apply/wait?page=${page}&size=${pageSize}`);
+    const res = await TokenAxios.get(
+      `/api/mileage/apply/wait?page=${page}&size=${pageSize}`,
+    );
     console.log(res.data.result.data.content);
     setDataList(res.data.result.data.content);
     console.log(res.data.result.data.totalPages);
@@ -134,16 +147,18 @@ const MileageApprovalPage = () => {
   // 마일리지 승인 여부 변경 (put)
   const updateApplyState = async (milgApplySeq, approvedState) => {
     try {
-      const res = await TokenAxios.put(`/api/milage/apply/${milgApplySeq}`, {approvedState});
+      const res = await TokenAxios.put(`/api/milage/apply/${milgApplySeq}`, {
+        approvedState,
+      });
       if (res.status === 200) {
         Swal.fire("성공", "상태를 변경했습니다.", "success");
         getMileageApply(currentPage);
       } else {
-        throw new Error('API response error');
+        throw new Error("API response error");
       }
-    } catch(e) {
-      console.error("상태 변경 실패", e)
-      Swal.fire("실패", "상태를 변경할 수 없습니다.", "error")
+    } catch (e) {
+      console.error("상태 변경 실패", e);
+      Swal.fire("실패", "상태를 변경할 수 없습니다.", "error");
     }
   };
 
@@ -183,28 +198,52 @@ const MileageApprovalPage = () => {
     };
     return (
       <ListItemStyled>
-        <Typography variant="body1" sx={{ width: getColumnWidth('신청번호'), textAlign: "center" }}>
-          {index + 1 + (currentPage * pageSize)}
+        <Typography
+          variant="body1"
+          sx={{ width: getColumnWidth("신청번호"), textAlign: "center" }}
+        >
+          {index + 1 + currentPage * pageSize}
         </Typography>
-        <Typography variant="body1" sx={{ width: getColumnWidth('아이디'), textAlign: "center" }}>
+        <Typography
+          variant="body1"
+          sx={{ width: getColumnWidth("아이디"), textAlign: "center" }}
+        >
           {apply.email}
         </Typography>
-        <Typography variant="body1" sx={{ width: getColumnWidth('닉네임'), textAlign: "center" }}>
+        <Typography
+          variant="body1"
+          sx={{ width: getColumnWidth("닉네임"), textAlign: "center" }}
+        >
           {apply.nickname}
         </Typography>
-        <Typography variant="body1" sx={{ width: getColumnWidth('마일리지'), textAlign: "center" }}>
+        <Typography
+          variant="body1"
+          sx={{ width: getColumnWidth("마일리지"), textAlign: "center" }}
+        >
           {apply.balance}
         </Typography>
-        <Typography variant="body1" sx={{ width: getColumnWidth('신청금액'), textAlign: "center" }}>
+        <Typography
+          variant="body1"
+          sx={{ width: getColumnWidth("신청금액"), textAlign: "center" }}
+        >
           {apply.amount}
         </Typography>
-        <Typography variant="body1" sx={{ width: getColumnWidth('사용자명'), textAlign: "center" }}>
+        <Typography
+          variant="body1"
+          sx={{ width: getColumnWidth("사용자명"), textAlign: "center" }}
+        >
           {apply.name}
         </Typography>
-        <Typography variant="body1" sx={{ width: getColumnWidth('일시'), textAlign: "center" }}>
+        <Typography
+          variant="body1"
+          sx={{ width: getColumnWidth("일시"), textAlign: "center" }}
+        >
           {formatDate(apply.createdAt)}
         </Typography>
-        <Typography variant="body1" sx={{ width: getColumnWidth('승인'), textAlign: "center" }}>
+        <Typography
+          variant="body1"
+          sx={{ width: getColumnWidth("승인"), textAlign: "center" }}
+        >
           <OXButton onSelect={handleSelect}></OXButton>
         </Typography>
       </ListItemStyled>
@@ -257,7 +296,7 @@ const MileageApprovalPage = () => {
                     <Typography
                       variant="h6"
                       fontWeight="bold"
-                      sx={{  textAlign: "center" }}
+                      sx={{ textAlign: "center" }}
                     >
                       {label}
                     </Typography>

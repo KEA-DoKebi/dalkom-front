@@ -99,7 +99,16 @@ const AdminListPage = () => {
   };
 
   const [dataList, setDataList] = useState([]);
-  const dataListLabels = ["주문번호", "주문일시", "수량", "주문자", "수령인", "결제금액", "주문상태", "주문상세"];
+  const dataListLabels = [
+    "주문번호",
+    "주문일시",
+    "수량",
+    "주문자",
+    "수령인",
+    "결제금액",
+    "주문상태",
+    "주문상세",
+  ];
 
   const adminGet = async (page) => {
     const res = await TokenAxios.get(`/api/order?page=${page}&size=7`);

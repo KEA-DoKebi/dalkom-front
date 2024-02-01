@@ -176,7 +176,10 @@ const ProductListPage = () => {
           {product.price.toLocaleString()}
         </Typography>
 
-        <Link to={`/admin/product/edit`} style={{ textDecoration: "none", textAlign:"center" }}>
+        <Link
+          to={`/admin/product/edit`}
+          style={{ textDecoration: "none", textAlign: "center" }}
+        >
           <IconButton>
             <InfoOutlinedIcon />
           </IconButton>

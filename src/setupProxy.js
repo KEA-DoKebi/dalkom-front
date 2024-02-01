@@ -8,7 +8,6 @@ module.exports = function (app) {
       changeOrigin: true,
     }),
   );
-
   app.use(
     createProxyMiddleware("/redis", {
       target: process.env.REACT_APP_SERVER_ADDRESS,

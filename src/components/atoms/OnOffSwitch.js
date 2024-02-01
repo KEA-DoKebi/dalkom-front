@@ -19,6 +19,6 @@ export function OnOffSwitch() {
   return (
     <div>
       <PinkSwitch />
-    </div> 
+    </div>
   );
 }

@@ -14,7 +14,6 @@ import {
   Paper,
 } from "@mui/material";
 
-
 const drawerWidth = 260;
 
 const menuData = [
@@ -34,7 +33,6 @@ const menuData = [
       {
         label: "사용자 목록",
         path: "/admin/user/list",
-          
       },
       {
         label: "사용자 등록",
@@ -100,7 +98,7 @@ const menuData = [
         label: "공지사항",
         path: "/admin/cs/announcement",
       },
-      { label: "FAQ", path: "/admin/cs/faq", },
+      { label: "FAQ", path: "/admin/cs/faq" },
       {
         label: "마일리지 안내",
         path: "/admin/cs/mile",
@@ -150,13 +148,12 @@ function AdminBar() {
     .flatMap((group) => group.items)
     .find((item) => item.path === location.pathname)?.label;
 
-    const handleLogout = () => {
-      localStorage.removeItem("accessToken"); // localStorage에서 accessToken 삭제
-      localStorage.removeItem("role"); // 필요한 경우 다른 관련 정보도 삭제
-      localStorage.removeItem("mileage"); // 사용자 마일리지 정보 삭제
-      navigate("/login"); // 로그인 페이지로 리다이렉트
-    };
-  
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken"); // localStorage에서 accessToken 삭제
+    localStorage.removeItem("role"); // 필요한 경우 다른 관련 정보도 삭제
+    localStorage.removeItem("mileage"); // 사용자 마일리지 정보 삭제
+    navigate("/login"); // 로그인 페이지로 리다이렉트
+  };
 
   return (
     <Paper sx={{ display: "flex", backgroundColor: "#EEF2F6" }}>
@@ -198,7 +195,11 @@ function AdminBar() {
               {selectedMenu}
             </Typography>
           </Box>
-          <Button color="inherit" style={{ color: "#000000" }} onClick={handleLogout}>
+          <Button
+            color="inherit"
+            style={{ color: "#000000" }}
+            onClick={handleLogout}
+          >
             로그아웃
           </Button>
         </Toolbar>
