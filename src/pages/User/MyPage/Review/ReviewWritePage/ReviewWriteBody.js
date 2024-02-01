@@ -22,7 +22,6 @@ const ReviewWriteBody = () => {
   const [productInfo, setProductInfo] = useState([]);
   //저장할 데이터
   const [rating, setRating] = useState(0);
-  const [text, setText] = useState("");
   const { register, handleSubmit, setValue, trigger } = useForm();
 
   const [editorContent, setEditorContent] = useState("");
