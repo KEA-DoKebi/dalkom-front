@@ -3,23 +3,8 @@ import styled from "styled-components";
 import { Card, Typography } from "@mui/material";
 import { StarRating } from "../atoms/StarRating";
 import { Link } from "react-router-dom";
-import { Button } from "react-scroll";
-import { productImageStore } from "store/store";
-import Swal from "sweetalert2";
 
 export const MainProductCard = ({ imageUrl, title, price, star, review, seq }) => {
-  
-  const {addImageList, addSeq, imageList} = productImageStore((state) => state);
-
-  const handleAddButtonClick = () => {
-    if(imageList.length < 3){
-      addImageList(imageUrl);
-      addSeq(seq);
-    }
-    else{
-      Swal.fire("이미지를 3개까지만 넣을 수 있습니다!", "", "info");
-    }
-  }
 
   return (
     <Link to={`/product/${seq}`}>
