@@ -2,15 +2,14 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import AdminBar from "components/organisms/AdminBar";
 import SearchIcon from "@mui/icons-material/Search";
-import CloseIcon from '@mui/icons-material/Close';
+import CloseIcon from "@mui/icons-material/Close";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import { TokenAxios } from "apis/CommonAxios";
 import { pink } from "@mui/material/colors";
-import { alpha } from '@mui/material/styles';
+import { alpha } from "@mui/material/styles";
+import { PinkSwitch } from "components/atoms/OnOffSwitch";
 
 import {
   Box,
@@ -28,15 +27,23 @@ import {
   Toolbar,
   Typography,
   FormControlLabel,
-  Switch
+  Switch,
 } from "@mui/material";
 import { InputBoxS } from "components/atoms/Input";
 import { AdminButton } from "components/atoms/AdminCommonButton";
 import { InputBoxM } from "components/atoms/Input";
 import { CustomSelect } from "components/atoms/AdminSelectBox";
 import { DefaultAxios } from "apis/CommonAxios";
+import EditorComponent from "components/atoms/Editor";
 
-const dataListLabels = ['번호', '작성일시', '작성자', '제목', '상단고정', '상세보기']
+const dataListLabels = [
+  "번호",
+  "작성일시",
+  "작성자",
+  "제목",
+  "상단고정",
+  "상세보기",
+];
 
 const itemFlexStyles = {
   "& > *:nth-child(1)": { flex: 0.5 }, // 번호
@@ -47,12 +54,6 @@ const itemFlexStyles = {
   "& > *:nth-child(6)": { flex: 0.5 }, // 상세보기
   "&:before, &:after": { content: '""', flex: 0.5 },
 };
-
-const CKEditorContainer = styled.div`
-  .ck-editor__editable {
-    min-height: 400px;
-  }
-`;
 
 const StyledList = styled(List)`
   /* Add styling for the List component */
@@ -68,9 +69,11 @@ const ListItemLabelStyled = styled(ListItem)`
   justify-content: space-evenly;
   align-items: center;
   width: 100%;
-  height: calc(70vh / 10); // 전체 높이의 70%를 10로 나눈 값으로 레이블 행의 높이를 설정
+  height: calc(
+    70vh / 14
+  );
   padding: 12px;
-  ${itemFlexStyles} // 공통 스타일 적용
+  ${itemFlexStyles}// 공통 스타일 적용
 `;
 
 const ListItemStyled = styled(ListItem)`
@@ -78,54 +81,36 @@ const ListItemStyled = styled(ListItem)`
   justify-content: space-evenly;
   align-items: center;
   width: 100%;
-  height: calc(70vh / 8); // 전체 높이의 70%를 8로 나눈 값
+  height: calc(70vh / 11); // 전체 높이의 70%를 11로 나눈 값
   padding: 12px;
-  ${itemFlexStyles} // 공통 스타일 적용
+  ${itemFlexStyles}// 공통 스타일 적용
 `;
 
-// 간격 일정하게 만드는 거
-const getColumnWidth = (label) => {
-  // Define your width ranges for each column label
-  const widthRanges = {
-    공지번호: [0, 10],
-    작성일시: [10, 30],
-    작성자: [30, 40],
-    제목: [40, 50],
-    상단고정: [50, 60],
-    상세보기: [60, 70],
-    // Add more labels as needed
-  };
-
-  const [minWidth, maxWidth] = widthRanges[label] || [0, 100];
-  const width = Math.min(100, maxWidth) - minWidth;
-
-  return `calc(${width}% - 8px)`; // Adjust 8px for spacing
-};
 
 const formatDate = (dateString) => {
-  const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
-  return new Date(dateString).toLocaleDateString('ko-KR', options);
+  const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+  return new Date(dateString).toLocaleDateString("ko-KR", options);
 };
 
 const AnnouncementPage = () => {
+  const { register, handleSubmit, setValue, trigger } = useForm();
   // Declare selectedMenu and setSelectedMenu using useState
   const [selectedMenu, setSelectedMenu] = useState("공지사항");
-  const { register, handleSubmit } = useForm();
-  const [editorData, setEditorData] = useState("");
   const [switchState, setSwitchState] = useState(false);
   const [dataList, setDataList] = useState([]);
   const [selectedNotice, setSelectedNotice] = useState(null);
-  const [editNotice, setEditNotice] = useState({ title: '', content: '' });
+  const [editNotice, setEditNotice] = useState({ title: "", content: "" });
   const [currentPage, setCurrentPage] = useState(0); // 현재 페이지 상태
   const [totalPages, setTotalPages] = useState(0); // 총 페이지 수
+  const [editorContent, setEditorContent] = useState("");
 
   // const accessToken = localStorage.getItem('accessToken');
 
-  const pageSize = 7;
-
-  const handleEditorChange = (event, editor) => {
-    setEditorData(editor.getData());
+  const handleEditorContentChange = (content) => {
+    setEditorContent(content);
   };
+
+  const pageSize = 10;
 
   // 스위치 변경 처리
   const handleSwitchChange = (event) => {
@@ -198,7 +183,7 @@ const AnnouncementPage = () => {
 
   // 공지 등록 (post)
   const postNotice = async (data) => {
-    data.content = editorData;
+    data.content = editorContent;
     data.state = switchState ? "Y" : "N";
     // data.adminSeq = localStorage.getItem("accessToken");
 
@@ -211,18 +196,18 @@ const AnnouncementPage = () => {
         text: "공지 등록에 실패하였어요!",
         // footer: `${e.response.data.result.msg}`,
 
-        footer:
-          "다시 한 번 시도해주세요",
+        footer: "다시 한 번 시도해주세요",
       });
       console.log(e);
     }
     setWriteModalOpen(false);
   };
 
-
   // 공지 조회 (get)
   const getNotice = async (page) => {
-    const res = await TokenAxios.get(`/api/notice?page=${page}&size=${pageSize}`);
+    const res = await TokenAxios.get(
+      `/api/notice?page=${page}&size=${pageSize}`
+    );
     console.log(res.data.result.data.content);
     setDataList(res.data.result.data.content);
     console.log(res.data.result.data.totalPages);
@@ -239,7 +224,7 @@ const AnnouncementPage = () => {
       await DefaultAxios.put(`/api/notice/${editNotice.noticeSeq}`, {
         title: editNotice.title,
         content: editNotice.content,
-        adminSeq: localStorage.getItem("adminSeq") // 현재 관리자의 Seq
+        adminSeq: localStorage.getItem("adminSeq"), // 현재 관리자의 Seq
       });
       Swal.fire("성공", "공지사항이 수정되었습니다.", "success");
       handleUpdateCloseModal();
@@ -249,7 +234,6 @@ const AnnouncementPage = () => {
       Swal.fire("오류", "공지사항 수정에 실패했습니다.", "error");
     }
   };
-
 
   // 공지 삭제 (delete)
   const deleteNotice = async (noticeSeq) => {
@@ -276,7 +260,7 @@ const AnnouncementPage = () => {
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
         confirmButtonText: "예, 삭제하겠습니다",
-        cancelButtonText: "아니요"
+        cancelButtonText: "아니요",
       }).then((result) => {
         if (result.isConfirmed) {
           deleteNotice(selectedNotice.noticeSeq);
@@ -284,7 +268,17 @@ const AnnouncementPage = () => {
       });
     }
   };
-  //
+
+  const [state, setState] = React.useState({
+    option: false,
+  });
+
+  const handleChange = (event) => {
+    setState({
+      ...state,
+      [event.target.name]: event.target.checked,
+    });
+  };
 
   return (
     <Paper sx={{ display: "flex", height: "100vh" }}>
@@ -339,7 +333,7 @@ const AnnouncementPage = () => {
                     <Typography
                       variant="h6"
                       fontWeight="bold"
-                      sx={{ width: getColumnWidth(label), textAlign: "center" }}
+                      sx={{  textAlign: "center" }}
                     >
                       {label}
                     </Typography>
@@ -352,40 +346,54 @@ const AnnouncementPage = () => {
                   <ListItemStyled>
                     <Typography
                       variant="body1"
-                      sx={{ width: getColumnWidth('공지번호'), textAlign: "center" }}
+                      sx={{
+                        textAlign: "center",
+                      }}
                     >
-                      {index + 1 + (currentPage * pageSize)}
+                      {index + 1 + currentPage * pageSize}
                     </Typography>
                     <Typography
                       variant="body1"
-                      sx={{ width: getColumnWidth('작성일시'), textAlign: "center" }}
+                      sx={{
+                        textAlign: "center",
+                      }}
                     >
                       {formatDate(notice.createdAt)}
                     </Typography>
                     <Typography
                       variant="body1"
-                      sx={{ width: getColumnWidth('작성자'), textAlign: "center" }}
+                      sx={{
+                        textAlign: "center",
+                      }}
                     >
                       {notice.nickname}
                     </Typography>
                     <Typography
                       variant="body1"
-                      sx={{ width: getColumnWidth('제목'), textAlign: "center" }}
+                      sx={{
+                        textAlign: "center",
+                      }}
                     >
                       {notice.title}
                     </Typography>
                     <Typography
                       variant="body1"
-                      sx={{ width: getColumnWidth('상단고정'), textAlign: "center" }}
+                      sx={{
+                        textAlign: "center",
+                      }}
                     >
                       {notice.state}
                     </Typography>
-                    <IconButton onClick={() => handleLookOpenModal(notice.noticeSeq)}
-                      sx={{ width: getColumnWidth('상세보기'), textAlign: "center" }}>
+                    <IconButton
+                      onClick={() => handleLookOpenModal(notice.noticeSeq)}
+                      sx={{
+                        textAlign: "center",
+                      }}
+                    >
                       <InfoOutlinedIcon />
                     </IconButton>
                   </ListItemStyled>
-                  {index !== dataList.length - 1 && (
+                  {index !== dataList.length && (
                     <Divider component="li" light />
                   )}
                 </React.Fragment>
@@ -417,13 +425,13 @@ const AnnouncementPage = () => {
             open={writeModalOpen}
             maxWidth={false}
           >
-            <form onSubmit={handleSubmit((data) => {
-              postNotice(data);
-              // postNotice(data);})}>
-              // console.log(data)
-            })}
+            <form
+              onSubmit={handleSubmit((data) => {
+                postNotice(data);
+                // postNotice(data);})}>
+                // console.log(data)
+              })}
             >
-
               <DialogTitle>
                 <InputBoxM
                   id="title"
@@ -437,40 +445,64 @@ const AnnouncementPage = () => {
                 <IconButton
                   aria-label="close"
                   onClick={handleWriteCloseModal}
-                  sx={{ position: 'absolute', right: 8, top: 8, color: (theme) => theme.palette.grey[500], }}
+                  sx={{
+                    position: "absolute",
+                    right: 8,
+                    top: 8,
+                    color: (theme) => theme.palette.grey[500],
+                  }}
                 >
                   <CloseIcon />
                 </IconButton>
               </DialogTitle>
-              <DialogContent style={{ width: 900, height: "450px", overflowY: "auto", overflowX: "hidden" }}>
-                <CKEditorContainer>
-                  <CKEditor
-                    editor={ClassicEditor}
-                    onChange={handleEditorChange}
-                  />
-                </CKEditorContainer>
+              <DialogContent
+                style={{
+                  width: 900,
+                  height: "450px",
+                  overflowY: "auto",
+                  overflowX: "hidden",
+                }}
+              >
+                <EditorComponent
+                  onContentChange={handleEditorContentChange}
+                  id="content"
+                  data=""
+                  placeholder="공지 내용을 입력해주세요."
+                  onChange={(event, editor) => {
+                    setValue("content", editor.getData());
+                    trigger("content");
+                    console.log("content");
+                  }}
+                />
               </DialogContent>
-              <div style={{ display: 'flex', justifyContent: 'flex-start', width: '100%', marginBottom: '20px', marginLeft: '20px', marginRight: '20px' }}>
-                <FormControlLabel
-                  control={<Switch checked={switchState} onChange={handleSwitchChange} sx={{
-                    color: pink[600],
-                    '& .MuiSwitch-switchBase.Mui-checked': {
-                      color: pink[600],
-                      '&:hover': {
-                        backgroundColor: alpha(pink[600], 0.08),
-                      }
-                    },
-                    '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-                      backgroundColor: pink[600],
-                    },
-                  }} />}
-                  label="상단 고정"
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "flex-start",
+                  width: "100%",
+                  marginBottom: "20px",
+                  marginLeft: "20px",
+                  marginRight: "20px",
+                }}
+              >
+                <PinkSwitch
+                  sx={{ mr: 2 }}
+                  label="상단고정"
+                  onChange={handleChange}
                 />
               </div>
               <DialogActions
-                style={{ justifyContent: "center", marginTop: "20px", marginBottom: "20px" }}
+                style={{
+                  justifyContent: "center",
+                  marginTop: "20px",
+                  marginBottom: "20px",
+                }}
               >
-                <AdminButton type="submit" autoFocus onClick={handleWriteCloseModal}>
+                <AdminButton
+                  type="submit"
+                  autoFocus
+                  onClick={handleWriteCloseModal}
+                >
                   Save
                 </AdminButton>
               </DialogActions>
@@ -496,31 +528,40 @@ const AnnouncementPage = () => {
               />
               <InputBoxM
                 value={selectedNotice?.title}
-                onChange={(e) => setEditNotice({ ...editNotice, title: e.target.value })}
+                onChange={(e) =>
+                  setEditNotice({ ...editNotice, title: e.target.value })
+                }
                 color="neutral"
                 placeholder="Text"
                 disabled={false}
                 variant="soft"
-                sx={{ mb: 2, mt: 2, width: "70%" }}>
-              </InputBoxM>
+                sx={{ mb: 2, mt: 2, width: "70%" }}
+              ></InputBoxM>
               <IconButton
                 aria-label="close"
                 onClick={handleUpdateCloseModal}
-                sx={{ position: 'absolute', right: 8, top: 8, color: (theme) => theme.palette.grey[500], }}
+                sx={{
+                  position: "absolute",
+                  right: 8,
+                  top: 8,
+                  color: (theme) => theme.palette.grey[500],
+                }}
               >
                 <CloseIcon />
               </IconButton>
             </DialogTitle>
             <DialogContent style={{ width: 900, height: 550 }}>
-              <CKEditorContainer>
-                <CKEditor
-                  editor={ClassicEditor}
+            <EditorComponent
+                  onContentChange={handleEditorContentChange}
+                  placeholder="공지 내용을 입력해주세요."
+                  id="content"
                   data={selectedNotice?.content}
                   onChange={(event, editor) => {
-                    setEditNotice({ ...editNotice, content: editor.getData() });
+                    setValue("content", editor.getData());
+                    trigger("content");
+                    console.log("content");
                   }}
                 />
-              </CKEditorContainer>
               <DialogActions
                 style={{ justifyContent: "center", marginTop: "20px" }}
               >
@@ -541,18 +582,33 @@ const AnnouncementPage = () => {
               <IconButton
                 aria-label="close"
                 onClick={handleLookCloseModal}
-                sx={{ position: 'absolute', right: 8, top: 8, color: (theme) => theme.palette.grey[500], }}
+                sx={{
+                  position: "absolute",
+                  right: 8,
+                  top: 8,
+                  color: (theme) => theme.palette.grey[500],
+                }}
               >
                 <CloseIcon />
               </IconButton>
             </DialogTitle>
-            <DialogContent style={{ width: 900, height: '450px', overflowY: 'auto', overflowX: 'hidden' }}>
+            <DialogContent
+              style={{
+                width: 900,
+                height: "450px",
+                overflowY: "auto",
+                overflowX: "hidden",
+              }}
+            >
               <div>
                 <Grid marginTop="2%" style={{ textAlign: "center" }}>
                   {/* <h2>공지사항 입니다.</h2> */}
                   {selectedNotice?.title}
                 </Grid>
-                <Grid>작성일시 : {formatDate(selectedNotice?.createdAt)} 작성자 {selectedNotice?.nickname}</Grid>
+                <Grid>
+                  작성일시 : {formatDate(selectedNotice?.createdAt)} 작성자{" "}
+                  {selectedNotice?.nickname}
+                </Grid>
 
                 <Typography style={{ marginTop: "5%" }}>
                   {selectedNotice?.content}
@@ -560,26 +616,47 @@ const AnnouncementPage = () => {
               </div>
             </DialogContent>
 
-            <div style={{ display: 'flex', justifyContent: 'flex-start', width: '100%', marginBottom: '0px', marginLeft: '20px', marginRight: '20px' }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-start",
+                width: "100%",
+                marginBottom: "0px",
+                marginLeft: "20px",
+                marginRight: "20px",
+              }}
+            >
               <FormControlLabel
-                control={<Switch checked={selectedNotice?.state === 'Y'} disabled={true} onChange={handleSwitchChange} sx={{
-                  color: pink[600],
-                  '& .MuiSwitch-switchBase.Mui-checked': {
-                    color: pink[600],
-                    '&:hover': {
-                      backgroundColor: alpha(pink[600], 0.08),
-                    },
-                  },
-                  '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-                    backgroundColor: pink[600],
-                  },
-                }} />}
+                control={
+                  <Switch
+                    checked={selectedNotice?.state === "Y"}
+                    disabled={true}
+                    onChange={handleSwitchChange}
+                    sx={{
+                      color: pink[600],
+                      "& .MuiSwitch-switchBase.Mui-checked": {
+                        color: pink[600],
+                        "&:hover": {
+                          backgroundColor: alpha(pink[600], 0.08),
+                        },
+                      },
+                      "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track":
+                        {
+                          backgroundColor: pink[600],
+                        },
+                    }}
+                  />
+                }
                 label="상단 고정"
               />
             </div>
 
             <DialogActions
-              style={{ justifyContent: "center", marginTop: "40px", marginBottom: "30px" }}
+              style={{
+                justifyContent: "center",
+                marginTop: "40px",
+                marginBottom: "30px",
+              }}
             >
               <AdminButton
                 autoFocus

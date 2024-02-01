@@ -43,8 +43,8 @@ const ListItemLabelStyled = styled(ListItem)`
   align-items: center;
   width: 100%;
   height: calc(
-    70vh / 10
-  ); // 전체 높이의 70%를 10로 나눈 값으로 레이블 행의 높이를 설정
+    70vh / 14
+  );
   padding: 12px;
   ${itemFlexStyles}// 공통 스타일 적용
 `;
@@ -54,7 +54,7 @@ const ListItemStyled = styled(ListItem)`
   justify-content: space-evenly;
   align-items: center;
   width: 100%;
-  height: calc(70vh / 8); // 전체 높이의 70%를 8로 나눈 값
+  height: calc(70vh / 11); // 전체 높이의 70%를 11로 나눈 값
   padding: 12px;
   ${itemFlexStyles}// 공통 스타일 적용
 `;
@@ -69,11 +69,22 @@ const AdminListPage = () => {
   const dataListLabels = ["번호", "ID", "이름", "부서", "닉네임", "삭제"];
 
   const adminGet = async (page) => {
-    const res = await TokenAxios.get(`/api/admin?page=${page}&size=7`);
+    const res = await TokenAxios.get(`/api/admin?page=${page}&size=10`);
     console.log(res.data.result.data.content);
     setDataList(res.data.result.data.content);
     console.log(res.data.result.data.totalPages);
     setTotalPages(res.data.result.data.totalPages);
+  };
+
+  const handleDeleteAdmin = async (adminSeq) => {
+    // 사용자 삭제 API 호출
+    try {
+      await TokenAxios.delete(`/api/admin/${adminSeq}`);
+      // 삭제 후 목록 갱신
+      adminGet(currentPage);
+    } catch (error) {
+      console.error('Error deleting user:', error);
+    }
   };
 
   useEffect(() => {
@@ -107,7 +118,10 @@ const AdminListPage = () => {
         <Typography variant="body1" sx={{ textAlign: "center" }}>
           {admin.nickname}
         </Typography>
-        <IconButton>
+        <IconButton
+          onClick={() => handleDeleteAdmin(admin.adminSeq)}
+          sx={{ '&:hover': { backgroundColor: '#FFFFFF' } }} // 호버 효과 제거
+        >
           <DeleteIcon />
         </IconButton>
       </ListItemStyled>
@@ -174,7 +188,7 @@ const AdminListPage = () => {
               {dataList.map((admin, index) => (
                 <React.Fragment key={index}>
                   <AdminList admin={admin} />
-                  {index !== dataList.length - 1 && (
+                  {index !== dataList.length && (
                     <Divider component="li" light />
                   )}
                 </React.Fragment>

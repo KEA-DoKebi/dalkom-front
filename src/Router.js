@@ -10,7 +10,6 @@ import OrderInquiryPage from "pages/Admin/InquiryManage/OrderInquiryPage";
 import PaymentInquiryPage from "pages/Admin/InquiryManage/PaymentInquiryPage";
 import ProductInquiryPage from "pages/Admin/InquiryManage/ProductInquiryPage";
 import OrderListPage from "pages/Admin/OrderManage/OrderListPage";
-import InventoryManagePage from "pages/Admin/ProductManage/InventoryManagePage";
 import ProductEditPage from "pages/Admin/ProductManage/ProductEditPage";
 import ProductListPage from "pages/Admin/ProductManage/ProductListPage";
 import ProductRegisterPage from "pages/Admin/ProductManage/ProductRegisterPage";
@@ -40,9 +39,9 @@ import SignUp from "pages/commonPage/SignUp";
 import ComparisonPage from "pages/User/Camparison/ComparisonPage";
 import React from "react";
 import { BrowserRouter, Route } from "react-router-dom";
-
 import { init as initApm } from '@elastic/apm-rum'
 import ProductDetailPage from "pages/User/ProductDetailPage/ProductDetailPage";
+import { AuthProvider } from './AuthContext';
 
 
 
@@ -58,9 +57,12 @@ const apm = initApm({
 const Router = () => {
   return (
     <BrowserRouter>
+    <AuthProvider>
       <ApmRoutes>
         {/* 사용자 */}
+        
         <Route path="/" element={<MainPage />} />
+        
         <Route path="/signUp" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
         <Route path="/category/:categorySeq" element={<CategoryPage />} />
@@ -72,24 +74,24 @@ const Router = () => {
         <Route path="/cart" element={<Cart />} />
 
         <Route path="/payment" element={<Payment />} />
-        <Route path="/order-detail" element={<OrderDetailPage />} />
+        <Route path="/order-detail/:orderSeq" element={<OrderDetailPage />} />
 
-        <Route path="/mypage/:userSeq">
-          <Route path="/mypage/:userSeq/order/list" element={<OrderList />} />
-          <Route path="/mypage/:userSeq/order/refund" element={<Refund />} />
-          <Route path="/mypage/:userSeq/mile" element={<Mileage />} />
-          <Route path="/mypage/:userSeq/inquiry" element={<Inquiry />} />
+        <Route path="/mypage">
+          <Route path="/mypage/order/list" element={<OrderList />} />
+          <Route path="/mypage/order/refund" element={<Refund />} />
+          <Route path="/mypage/mile" element={<Mileage />} />
+          <Route path="/mypage/inquiry" element={<Inquiry />} />
           <Route
-            path="/mypage/:userSeq/inquiry/history"
+            path="/mypage/inquiry/history"
             element={<InquiryHistory />}
           />
-          <Route path="/mypage/:userSeq/review" element={<Review />} />
+          <Route path="/mypage/review" element={<Review />} />
           <Route
-            path="/mypage/:userSeq/review/write"
+            path="/mypage/review/write"
             element={<ReviewWrite />}
           />
-          <Route path="/mypage/:userSeq/review/edit" element={<ReviewEdit />} />
-          <Route path="/mypage/:userSeq/myinfo" element={<MyInfo />} />
+          <Route path="/mypage/review/edit" element={<ReviewEdit />} />
+          <Route path="/mypage/myinfo" element={<MyInfo />} />
         </Route>
 
         <Route path="/cs">
@@ -123,10 +125,6 @@ const Router = () => {
               element={<ProductRegisterPage />}
             />
             <Route path="/admin/product/edit" element={<ProductEditPage />} />
-            <Route
-              path="/admin/product/inventory"
-              element={<InventoryManagePage />}
-            />
           </Route>
 
           {/* 주문 관리 */}
@@ -161,7 +159,9 @@ const Router = () => {
         <Route>
           <Route path="/comparison" element={<ComparisonPage />} />
         </Route>
+        
       </ApmRoutes>
+      </AuthProvider>
     </BrowserRouter>
   );
 };
