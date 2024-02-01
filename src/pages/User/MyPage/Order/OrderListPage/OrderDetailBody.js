@@ -3,11 +3,11 @@ import { TokenAxios } from "apis/CommonAxios";
 import {
   Box,
   Grid,
-  Typography,
-  Button
+  Typography
 } from "@mui/material";
 import { useLocation } from 'react-router-dom';
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const ProductDiv = styled.div`
 display: flex;
@@ -126,7 +126,7 @@ const OrderDetailBody = () => {
 
                 <Grid item xs={1.5} style={{ textAlign: "center", paddingLeft: "10px" }}>
                   <Typography style={{ fontWeight: "bold" }}>
-                    후기작성
+                   후기작성
                   </Typography>
                 </Grid>
 
@@ -164,7 +164,7 @@ const OrderDetailBody = () => {
                     <Typography>{orderDetail.orderDate.substring(0, 10)}</Typography>
                   </Grid>
                   <Grid item xs={1.5} style={{ textAlign: "center" }}>
-                    <Typography>{orderDetail.ordrSeq}</Typography>
+                    <Typography>{orderDetail.ordrDetailSeq}</Typography>
                   </Grid>
                   <Grid item xs={1.5} style={{ textAlign: "center" }}>
                     <Typography>{orderDetail.amount}</Typography>
@@ -176,7 +176,9 @@ const OrderDetailBody = () => {
                     <Typography>{orderDetail.ordrState}</Typography>
                   </Grid>
                   <Grid item xs={1.5} style={{ textAlign: "center", paddingLeft: "10px" }}>
-                    <Button>리뷰작성</Button>
+                    <Link to={`/mypage/review/write/${orderDetail.ordrDetailSeq}`} state={{ orderDetailSeq: orderDetail.ordrDetailSeq }}>
+                    리뷰작성
+                    </Link>
                   </Grid>
                 </>
               ))}

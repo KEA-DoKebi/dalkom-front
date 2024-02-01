@@ -104,7 +104,7 @@ const InquiryHistoryBody = () => {
                     {inquiry.category}
                   </TableCell>
                   <TableCell style={{ width: "20%", textAlign: "center" }}>
-                    {inquiry.createdAt}
+                    {inquiry.createdAt.substring(1,10)}
                   </TableCell>
                   <TableCell style={{ width: "50%", textAlign: "center" }}>
                     {inquiry.title}

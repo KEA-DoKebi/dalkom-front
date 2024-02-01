@@ -85,7 +85,7 @@ const Router = () => {
           />
           <Route path="/mypage/review" element={<Review />} />
           <Route
-            path="/mypage/review/write"
+            path="/mypage/review/write/:ordrDetailSeq"
             element={<ReviewWrite />}
           />
           <Route path="/mypage/review/edit" element={<ReviewEdit />} />
