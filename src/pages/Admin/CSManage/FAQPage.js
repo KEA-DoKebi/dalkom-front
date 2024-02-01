@@ -38,6 +38,10 @@ const StyledList = styled(List)`
   height: 70%; // 전체 높이의 70%로 설정
 `;
 
+const StyledDialog = styled(Dialog)`
+    z-index: 900;
+`
+
 const CKEditorContainer = styled.div`
   .ck-editor__editable {
     min-height: 400px;
@@ -73,11 +77,6 @@ const formatDate = (dateString) => {
     const options = {year: 'numeric', month: '2-digit', day: '2-digit'};
     return new Date(dateString).toLocaleDateString('ko-KR', options);
 };
-
-// const FaqItem = ({faq, index}) => {
-//     return (
-//     )
-// };
 
 const FAQPage = () => {
     // Declare selectedMenu and setSelectedMenu using useState
@@ -160,25 +159,6 @@ const FAQPage = () => {
         setTotalPages(res.data.result.data.totalPages);
     };
 
-    // const createDataList = (data) => {
-    //     return data.map((item) => {
-    //         const date = formatDate(item.createdAt);
-    //
-    //         return {
-    //             FAQ번호: item.inquirySeq,
-    //             작성일시: date,
-    //             FAQ: item.title,
-    //             상세보기: (
-    //                 <IconButton
-    //                     onClick={() => handleUpdateModalOpen(item.inquirySeq)}
-    //                 >
-    //                     <InfoOutlinedIcon/>
-    //                 </IconButton>
-    //             )
-    //         };
-    //     });
-    // };
-
     const handlePageChange = (event, newPage) => {
         setCurrentPage(newPage); // 현재 페이지 업데이트
     };
@@ -215,7 +195,7 @@ const FAQPage = () => {
     }
 
     const handleDeleteClick = () => {
-        if (selectedFaq && selectedFaq.inquirySeq) {
+        if (selectedFaq && currentInquirySeq) {
             Swal.fire({
                 title: "정말 삭제하시겠습니까?",
                 text: "이 작업은 되돌릴 수 없습니다.",
@@ -224,42 +204,17 @@ const FAQPage = () => {
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
                 confirmButtonText: "예, 삭제하겠습니다",
-                cancelButtonText: "아니요"
+                cancelButtonText: "아니요",
+                customClass: {
+                    container: 'custom-swal-container'
+                }
             }).then((result) => {
                 if (result.isConfirmed) {
-                    deleteFaq(selectedFaq.inquirySeq);
+                    deleteFaq(currentInquirySeq);
                 }
             });
         }
     };
-
-    // const handleModalTitleChange = (event) => {
-    //     setEditModalTitle(event.target.value)
-    // }
-
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         try {
-    //             if (currentInquirySeq !== null) {
-    //                 // currentInquirySeq를 문자열로 변환하여 해당 아이템에 대한 정보 가져오기
-    //                 const response = await TokenAxios.get(`/api/inquiry/${currentInquirySeq}`);
-    //
-    //                 setEditModalTitle(response.data.result.data.title);
-    //                 // 가져온 정보를 state에 저장
-    //                 setSelectedFaq(response.data.result.data);
-    //             } else {
-    //                 console.error("Invalid inquirySeq:", currentInquirySeq);
-    //             }
-    //         } catch (error) {
-    //             console.error("Error fetching item details:", error);
-    //         }
-    //     };
-    //
-    //     if (updateModalOpen) {
-    //         fetchData(); // 모달이 열릴 때 데이터를 가져오는 함수 호출
-    //     }
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [updateModalOpen, currentInquirySeq]);
 
     return (
         <Paper sx={{display: "flex", height: "100vh"}}>
@@ -377,7 +332,7 @@ const FAQPage = () => {
                     </Box>
 
                     {/* FAQ 작성 모달  */}
-                    <Dialog
+                    <StyledDialog
                         // 이 부분이 handleCreateModalClose가 아니라 Open이어야 다른 곳 눌러도 안 꺼진다!!!!
                         onClose={handleCreateModalOpen}
                         open={createModalOpen}
@@ -436,10 +391,10 @@ const FAQPage = () => {
                                 </AdminButton>
                             </DialogActions>
                         </form>
-                    </Dialog>
+                    </StyledDialog>
 
                     {/* FAQ 수정 모달  */}
-                    <Dialog
+                    <StyledDialog
                         onClose={handleUpdateModalClose}
                         open={updateModalOpen}
                         maxWidth={false}
@@ -500,7 +455,7 @@ const FAQPage = () => {
                                 </DialogActions>
                             </DialogContent>
                         </form>
-                    </Dialog>
+                    </StyledDialog>
                 </Box>
             </Box>
         </Paper>

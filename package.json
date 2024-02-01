@@ -22,7 +22,7 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
-    "aws-sdk": "^2.1547.0",
+    "aws-sdk": "^2.1548.0",
     "axios": "^1.6.5",
     "dayjs": "^1.11.10",
     "draft-js": "^0.11.7",
