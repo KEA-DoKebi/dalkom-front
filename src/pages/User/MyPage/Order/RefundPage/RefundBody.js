@@ -9,8 +9,7 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-
-import axios from "axios";
+import { TokenAxios } from "apis/CommonAxios";
 
 const Img = styled.img`
   width: 70px;
@@ -42,29 +41,44 @@ const StyledTableRow = styled(TableRow)`
 `;
 
 export default function RefundBody() {
-  const [rows, setRows] = useState([]); // 상품 데이터 상태를 빈 배열로 초기화
+  const [data, setData] = useState([]);
+  const refundHistory = async () =>{
+    try{
+      const res = await TokenAxios.get("/api/order/canclerefundlist?page=0&size=2");
+
+      setData(res.data.result.data.content);
+    }catch(e){
+      console.log(e);
+    }
+  }
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("/data/PeopleManage/MyRefund.json");
-        // 데이터 변환 과정에서 상태 값을 확인하여 문자열 변환
-        const RefundData = response.data.RefundData.map((item) => ({
-          name: item.productName,
-          option: item.option,
-          imageUrl: item.imageUrl,
-          type: item.type,
-          state: item.state === "Y" ? "완료" : "처리중",
-          RefundDate: item.Date,
-        }));
-        setRows(RefundData);
-      } catch (error) {
-        console.error("Failed to fetch data:", error);
-      }
-    };
+    refundHistory();
+  },[])
 
-    fetchData();
-  }, []);
+  // const [data, setdata] = useState([]); // 상품 데이터 상태를 빈 배열로 초기화
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await axios.get("/data/PeopleManage/MyRefund.json");
+  //       // 데이터 변환 과정에서 상태 값을 확인하여 문자열 변환
+  //       const RefundData = response.data.RefundData.map((item) => ({
+  //         name: item.productName,
+  //         option: item.option,
+  //         imageUrl: item.imageUrl,
+  //         type: item.type,
+  //         state: item.state === "Y" ? "완료" : "처리중",
+  //         RefundDate: item.Date,
+  //       }));
+  //       setdata(RefundData);
+  //     } catch (error) {
+  //       console.error("Failed to fetch data:", error);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, []);
 
   return (
     <Paper>
@@ -125,8 +139,8 @@ export default function RefundBody() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.length > 0
-                ? rows.map((row, index) => (
+              {data.length > 0
+                ? data.map((row, index) => (
                     <StyledTableRow key={index}>
                       <TableCell
                         component="th"
@@ -136,19 +150,19 @@ export default function RefundBody() {
                         <ProductInfo>
                           <Img src={row.imageUrl} />
                           <TextContainer>
-                            <div>{row.name}</div>
-                            <div style={{ marginTop: "4px" }}>{row.option}</div>
+                            <div>{row.productName}</div>
+                            <div style={{ marginTop: "4px" }}>{row.optionDetail}</div>
                           </TextContainer>
                         </ProductInfo>
                       </TableCell>
                       <TableCell style={{ width: "25%", textAlign: "center" }}>
-                        {row.RefundDate}
+                        {row.modifiedAt.substring(1,10)}
                       </TableCell>
                       <TableCell style={{ width: "25%", textAlign: "center" }}>
-                        {row.type}
+                        {row.requestType}
                       </TableCell>
                       <TableCell style={{ width: "25%", textAlign: "center" }}>
-                        {row.state}
+                        {row.requestState}
                       </TableCell>
                     </StyledTableRow>
                   ))
