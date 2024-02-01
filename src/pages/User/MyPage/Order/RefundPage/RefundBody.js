@@ -10,7 +10,6 @@ import {
   TableRow,
 } from "@mui/material";
 import { TokenAxios } from "apis/CommonAxios";
-import axios from "axios";
 
 const Img = styled.img`
   width: 70px;

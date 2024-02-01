@@ -23,7 +23,6 @@ const ReviewWriteBody = () => {
   //저장할 데이터
   const [rating, setRating] = useState(0);
   const [text, setText] = useState("");
-  const addEmoji = (emoji) => () => setText(`${text}${emoji}`);
   const { register, handleSubmit, setValue, trigger } = useForm();
 
   const [editorContent, setEditorContent] = useState("");
@@ -78,7 +77,6 @@ const ReviewWriteBody = () => {
       </Box>
 
       <form
-
         onSubmit={handleSubmit((data) => {
           reviewCreate(data);
           console.log(data);
@@ -95,47 +93,6 @@ const ReviewWriteBody = () => {
           />
         </Box>
 
-        {/* <Textarea
-          placeholder="Type in here…"
-          value={text}
-          onChange={(event) => setText(event.target.value)}
-          minRows={4}
-          startDecorator={
-            <Box sx={{ display: "flex", gap: 0.5, flex: 1 }}>
-              <IconButton
-                variant="outlined"
-                color="neutral"
-                onClick={addEmoji("👍")}
-              >
-                👍
-              </IconButton>
-              <IconButton
-                variant="outlined"
-                color="neutral"
-                onClick={addEmoji("👎")}
-              >
-                👎
-              </IconButton>
-              <IconButton
-                variant="outlined"
-                color="neutral"
-                onClick={addEmoji("😍")}
-              >
-                😍
-              </IconButton>
-              <IconButton
-                variant="outlined"
-                color="neutral"
-                onClick={addEmoji("🙁")}
-              >
-                🙁
-              </IconButton>
-            </Box>
-          }
-          endDecorator={<Typography>{`${text.length} character(s)`}</Typography>}
-          sx={{ width: "100%", mb: 2 }}
-         {...register("content")}
-        /> */}
         <EditorComponent
           onContentChange={handleEditorContentChange}
           id="content"
@@ -146,7 +103,6 @@ const ReviewWriteBody = () => {
             trigger("content");
             console.log("content");
           }}
-          
         />
 
         <Box

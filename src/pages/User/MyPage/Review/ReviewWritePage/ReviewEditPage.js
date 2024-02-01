@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { useLocation } from 'react-router-dom';
+import React from "react";
+// import { useLocation } from 'react-router-dom';
 import SidebarLayout from "components/templete/SidebarLayout";
 import ReviewWriteBody from "./ReviewWriteBody";
 import { Typography } from "@mui/material";
