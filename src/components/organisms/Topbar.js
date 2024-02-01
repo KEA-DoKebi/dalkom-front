@@ -17,6 +17,7 @@ import Menu from "@mui/material/Menu";
 import Input from "@mui/joy/Input";
 import "assets/font/font.css";
 import { Link, useNavigate } from "react-router-dom";
+import { TokenAxios } from "apis/CommonAxios";
 
 const SubMenu = ({ subMenu, top, left, categorySeq }) => {
   return (
@@ -132,9 +133,15 @@ const Topbar = () => {
     setMenuOpen(!menuOpen);
   };
 
-  // const logout = async() => {
-  //   const res = TokenAxios(`/api/user/logout`);
-  // }
+  const logout = async() => {
+    try{
+      const res = await TokenAxios.post(`/api/user/logout`);
+      console.log(res.data);
+    }catch(e){
+      console.log(e);
+    }
+    
+  }
 
   // const handleSubMenuIteClick = (categorySeq ,subMenu) => {
   //   navigate(`/category/${categorySeq}/sub/${subMenu.seq}`)
@@ -142,7 +149,7 @@ const Topbar = () => {
   // };
 
   const handleLogout = (event) => {
-    
+    logout();
     localStorage.clear();
     navigate("/login");
   };
