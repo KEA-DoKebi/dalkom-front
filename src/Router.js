@@ -90,7 +90,7 @@ const Router = () => {
             path="/mypage/review/write/:ordrDetailSeq"
             element={<ReviewWrite />}
           />
-          <Route path="/mypage/review/edit" element={<ReviewEdit />} />
+          <Route path="/mypage/review/edit/:reviewSeq" element={<ReviewEdit />} />
           <Route path="/mypage/myinfo" element={<MyInfo />} />
         </Route>
 

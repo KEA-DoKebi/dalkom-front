@@ -12,7 +12,7 @@ import {
   Typography, // Import Stack for horizontal layout
 } from "@mui/material";
 import styled from "styled-components";
-import axios from "axios";
+import { Link } from "react-router-dom";
 import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
 import Option from '@mui/joy/Option';
 import { TokenAxios } from "apis/CommonAxios";
@@ -245,9 +245,11 @@ export default function OrderListBody() {
                   </TableCell>
                   <TableCell>
                     <Stack direction="row">
+                    <Link to={`/mypage/review/edit/${review.reviewSeq}`} state={{ review_Seq: review.reviewSeq }}>
                       <Button sx={{ color: "#000000", padding: "0px" }}>
                         수정
                       </Button>
+                      </Link>
                       |
                       <Button
                         sx={{ color: "#000000", padding: "0px" }}
