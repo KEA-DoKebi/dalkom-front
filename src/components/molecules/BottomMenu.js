@@ -137,7 +137,7 @@ const DeleteButton = styled(Button)`
   top: 0;
   right: 0;
   display: none;
-  background-color: red;
+  background-color: black;
   color: white;
   width: 25px;
   height: 25px;
@@ -147,6 +147,6 @@ const DeleteButton = styled(Button)`
   line-height: 25px;
 
   &:hover {
-    background-color: darkred;
+    background-color: gray;
   }
 `;

@@ -3,35 +3,35 @@
 
       { "productSeq" : 1,
         "productName": "에어포스1",
-        "productPrice": "89,000",
+        "productPrice": 89000,
         "productStar": "4.6",
         "productReview": "950",
         "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Ffashion1.jpg"
       },
       { "productSeq" : 2,
         "productName": "나이키 후드티",
-        "productPrice": "60,000",
+        "productPrice": 60000,
         "productStar": "4.2",
         "productReview": "800",
         "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Ffashion2.jpg"
       },
       { "productSeq" : 3,
         "productName": "아디다스 운동화",
-        "productPrice": "120,000",
+        "productPrice": 120000,
         "productStar": "4.8",
         "productReview": "1200",
         "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Ffashion3.jpg"
       },
       { "productSeq" : 4,
         "productName": "카카오프렌즈 티셔츠",
-        "productPrice": "25,000",
+        "productPrice": 25000,
         "productStar": "3.2",
         "productReview": "500",
         "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Ffashion4.jpg"
       },
       { "productSeq" : 5,
         "productName": "패션 스니커즈",
-        "productPrice": "75,000",
+        "productPrice": 75000,
         "productStar": "3.8",
         "productReview": "700",
         "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Ffashion5.jpg"
@@ -62,7 +62,7 @@
     "생활": [
       { "productSeq" : 9,
         "productName": "프리미엄 침구 세트",
-        "productPrice": "150,000",
+        "productPrice": 150000,
         "productStar": "4.7",
         "productReview": "900",
         "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Flife1.jpg"
@@ -76,7 +76,7 @@
       },
       { "productSeq" : 11,
         "productName": "전기밥솥",
-        "productPrice": "100,000",
+        "productPrice": 100000,
         "productStar": "4.5",
         "productReview": "700",
         "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Flife3.jpg"

@@ -50,7 +50,7 @@ const SungjunCard = styled(Card)`
   flex-direction: column;
   transition: transform 0.3s ease-in-out;
   position: relative; /* 이 부분 추가 */
-    box-shadow: none;
+  box-shadow: none;
 
   &:hover {
     transform: translateY(-8px);
@@ -67,7 +67,7 @@ const CardContent = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 2vh;
+  padding: 1vh;
 `;
 
 const CardTitle = styled.div`

@@ -97,18 +97,10 @@ const MainBody = () => {
         <Table>
           <TableHead>
             <TableRow sx={{ display: "flex", justifyContent: "center" }}>
-              <TableCell sx={{ fontWeight: "bold", fontSize: "30px" }}>
+              <TableCell sx={{ fontWeight: "bold", fontSize: "30px", height: "50px", borderBottom: "none" }}>
                 <Grid container>
                   <Grid item xs={12}>
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        justifyContent: "center",
-                      }}
-                    >
-                      상품목록
-                    </div>
+                    상품목록
                   </Grid>
                 </Grid>
               </TableCell>
@@ -132,7 +124,7 @@ const MainBody = () => {
                                 key={product.productSeq}
                                 imageUrl={product.imageUrl}
                                 title={product.productName}
-                                price={product.productPrice}
+                                price={Number(product.productPrice).toLocaleString()}
                                 star={product.productStar}
                                 review={product.productReview}
                                 seq={product.productSeq}
@@ -195,11 +187,12 @@ const StyledAvartar = styled(Avatar)`
   height: 100px;
   margin: 25px 50px;
   background-color: #f5f7fb;
+  border-radius: 30px;
   //border: 1px solid gray;
 
   & img { 
-    width: 80%; 
-    height: 80%; 
+    width: 60%; 
+    height: 60%; 
   }
 `;
 

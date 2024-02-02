@@ -140,7 +140,7 @@ const Topbar = () => {
     }catch(e){
       console.log(e);
     }
-    
+
   }
 
   // const handleSubMenuIteClick = (categorySeq ,subMenu) => {
@@ -170,6 +170,7 @@ const Topbar = () => {
                 justifyContent: "flex-end",
                 alignItems: "flex-end",
                 maxHeight: "5vh",
+                marginTop: "0.5vh"
             }}
         >
             {/* <Button sx={{ color: "black" }}>로그아웃</Button>|
@@ -189,13 +190,20 @@ const Topbar = () => {
                     style={{
                         display: "flex",
                         fontSize: "15px",
-                        marginRight: "5px",
+                        color: "gray",
+                        marginRight: "10px",
                     }}
                     onClick={handleLogout}
                 >
                     로그아웃
                 </CustomLink>
-                <CustomLink to="/mypage/order/list" style={{fontSize: "15px"}}>
+                <CustomLink
+                    to="/mypage/order/list"
+                    style={{
+                        fontSize: "15px",
+                        color: "gray",
+                    }}
+                >
                     마이페이지
                 </CustomLink>
             </div>
@@ -301,17 +309,18 @@ const Topbar = () => {
                     <img
                         src="/images/cart.svg"
                         alt="장바구니"
+                        style={{ width: '36px', height: '36px' }}
                     />
                 </IconButton>
-                <Typography variant="body2">장바구니</Typography>
+                <Typography>장바구니</Typography>
             </CustomLink>
           </div>
             <div
                 style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                }}
           >
             <CustomLink to="/mypage/order/list">
                 <IconButton>
@@ -320,7 +329,7 @@ const Topbar = () => {
                       alt="배송조회"
                     />
                 </IconButton>
-                <Typography variant="body2">배송조회</Typography>
+                <Typography>배송조회</Typography>
             </CustomLink>
             </div>
             <div
@@ -337,7 +346,7 @@ const Topbar = () => {
                         alt="고객센터"
                     />
                 </IconButton>
-                <Typography variant="body2">고객센터</Typography>
+                <Typography>고객센터</Typography>
             </CustomLink>
             </div>
         </div>
@@ -361,7 +370,7 @@ const Topbar = () => {
             <img
               src="/images/M-user.png"
               alt="유저 마일리지"
-              style={{ width: "40px", height: "40px", marginRight: "10px" }}
+              style={{ width: "30px", height: "30px", marginRight: "10px" }}
             />
           </div>
           <div
