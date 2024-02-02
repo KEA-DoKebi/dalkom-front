@@ -22,10 +22,10 @@ export const BottomMenu = () => {
   return (
     <StyledPopUpContainer>
       <Grid container>
-        <Grid item xs={12} sx={{ marginBottom: "0.5vh", textAlign: "center" }}>
+        <Grid item xs={12} sx={{ marginBottom: "0.5vh", textAlign: "center", padding: "20px" }}>
           <StyledPopUpTitle>상품 비교하기</StyledPopUpTitle>
         </Grid>
-        <Grid item xs={0.5}></Grid>
+        <Grid item xs={1}></Grid>
         <Grid item xs={3}>
           <ImageContainer>
             <StyledImage
@@ -41,7 +41,7 @@ export const BottomMenu = () => {
             </DeleteButton>
           </ImageContainer>
         </Grid>
-        <Grid item xs={1}></Grid>
+        <Grid item xs={0.5}></Grid>
         <Grid item xs={3}>
           <ImageContainer>
             <StyledImage
@@ -57,7 +57,7 @@ export const BottomMenu = () => {
             </DeleteButton>
           </ImageContainer>
         </Grid>
-        <Grid item xs={1}></Grid>
+        <Grid item xs={0.5}></Grid>
         <Grid item xs={3}>
           <ImageContainer>
             <StyledImage
@@ -73,8 +73,8 @@ export const BottomMenu = () => {
             </DeleteButton>
           </ImageContainer>
         </Grid>
-        <Grid item xs={0.5}></Grid>
-        <Grid item xs={12} sx={{ textAlign: "center", marginTop: "0.5vh" }}>
+        <Grid item xs={1}></Grid>
+        <Grid item xs={12} sx={{ textAlign: "center", marginTop: "1.5vh", marginBottom: "1.5vh" }}>
           <StyledButton variant="contained" onClick={handleCompareBtnClicked}>
             비교하기
           </StyledButton>
@@ -88,11 +88,16 @@ const StyledPopUpContainer = styled(Box)`
   position: fixed;
   bottom: 0;
   right: 0;
+  width: 30%;
   min-width: 700px;
-  min-height: 250px;
+  min-height: 150px;
   background-color: white;
-  border: 1px solid black;
+  //border: 1px solid gray;
+  border-radius: 0.5vh;
   z-index: 15;
+  margin-bottom: 0.5vh;
+  margin-right: 0.5vh;
+  box-shadow: 1px 1px 5px 1.5px darkgrey;
 `;
 
 const StyledPopUpTitle = styled(Typography)`
@@ -104,8 +109,9 @@ const ImageContainer = styled(Box)`
   position: relative;
   width: 100%;
   height: 100%;
-  border: 1px solid black;
+  border: 1px dotted gray;
   text-align: center;
+  border-radius: 10px;
 
   &:hover .delete-btn {
     display: block;
@@ -120,6 +126,10 @@ const StyledImage = styled.img`
 const StyledButton = styled(Button)`
   background-color: black;
   color: white;
+
+  &:hover {
+    background-color: gray;
+  }
 `;
 
 const DeleteButton = styled(Button)`

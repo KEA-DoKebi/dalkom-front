@@ -125,6 +125,7 @@ const CategoryBody = () => {
               centered
               sx={{
                 marginBottom: "3vh",
+                textColor: "black",
                 // 선택되지 않은 탭의 글자 색상
                 ".MuiTab-root": { color: "gray" },
                 // 선택된 탭의 글자 색상

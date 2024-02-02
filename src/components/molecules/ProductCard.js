@@ -41,13 +41,12 @@ export const ProductCard = ({ imageUrl, title, price, star, review, seq, categor
       <SungjunCard>
         <CardImage src={imageUrl} alt="카드 이미지" />
         <HoverCardContent>
-          <HoverCardTitle>★({star})</HoverCardTitle>
+          <HoverCardTitle>★ {star}</HoverCardTitle>
           <HoverCardButton variant="contained" onClick={handleAddButtonClick}>
             <Typography
               sx={{
                 fontSize: "15px",
                 fontWeight: "bold",
-                fontFamily: "Noto Sans",
               }}
             >
               ➕상품 비교
