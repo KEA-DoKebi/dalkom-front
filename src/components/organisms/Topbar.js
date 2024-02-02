@@ -164,33 +164,51 @@ const Topbar = () => {
         position: "fixed",
       }}
     >
-      <Toolbar
-        variant="dense"
-        sx={{
-          justifyContent: "flex-end",
-          alignItems: "flex-end",
-          maxHeight: "5vh",
-        }}
-      >
-        {/* <Button sx={{ color: "black" }}>로그아웃</Button>|
-        <Button sx={{ color: "black" }}>마이페이지</Button> */}
-        <CustomLink
-          to="/login"
-          style={{
-            display: "flex",
-            fontSize: "15px",
-            marginRight: "5px",
-          }}
-          onClick={handleLogout}
+        <Toolbar
+            variant="dense"
+            sx={{
+                justifyContent: "flex-end",
+                alignItems: "flex-end",
+                maxHeight: "5vh",
+            }}
         >
-          로그아웃
-        </CustomLink>
-        <CustomLink to="/mypage/order/list" style={{ fontSize: "15px" }}>
-          마이페이지
-        </CustomLink>
-      </Toolbar>
-      <Divider />
-      <Toolbar sx={{ justifyContent: "space-between" }}>
+            {/* <Button sx={{ color: "black" }}>로그아웃</Button>|
+            <Button sx={{ color: "black" }}>마이페이지</Button> */}
+            <div
+                style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "flex-end",
+                    width: "200px",
+                    marginRight: "8vh"
+                }}
+            >
+                <CustomLink
+                    to="/login"
+                    style={{
+                        display: "flex",
+                        fontSize: "15px",
+                        marginRight: "5px",
+                    }}
+                    onClick={handleLogout}
+                >
+                    로그아웃
+                </CustomLink>
+                <CustomLink to="/mypage/order/list" style={{fontSize: "15px"}}>
+                    마이페이지
+                </CustomLink>
+            </div>
+        </Toolbar>
+        <Toolbar sx={{
+            justifyContent: "space-between",
+            height: "100px",
+            minHeight: "100px",
+            maxHeight: "110px",
+            boxShadow: "0px 3px 5px rgba(0, 0, 0, 0.1)",
+            paddingTop: "0px",
+            paddingBottom: "10px",
+        }}>
         <div>
           <IconButton
             aria-label="menu"
@@ -279,52 +297,58 @@ const Topbar = () => {
             }}
           >
             <CustomLink to="/cart">
-              <IconButton>
-                <ShoppingCartCheckoutIcon
-                  sx={{ fontSize: "40px", color: "black" }}
-                />
-              </IconButton>
-              <Typography variant="body2">장바구니</Typography>
+                <IconButton>
+                    <img
+                        src="/images/cart.svg"
+                        alt="장바구니"
+                    />
+                </IconButton>
+                <Typography variant="body2">장바구니</Typography>
             </CustomLink>
           </div>
-          <div
-            style={{
+            <div
+                style={{
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
             }}
           >
             <CustomLink to="/mypage/order/list">
-              <IconButton>
-                <LocalShippingOutlinedIcon
-                  sx={{ fontSize: "40px", color: "black" }}
-                />
-              </IconButton>
-              <Typography variant="body2">배송조회</Typography>
+                <IconButton>
+                    <img
+                      src="/images/delivery.svg"
+                      alt="배송조회"
+                    />
+                </IconButton>
+                <Typography variant="body2">배송조회</Typography>
             </CustomLink>
-          </div>
-          <div
-            style={{
-              display: "flex",
+            </div>
+            <div
+                style={{
+                    display: "flex",
               flexDirection: "column",
               alignItems: "center",
             }}
           >
             <CustomLink to="/cs/notice">
-              <IconButton>
-                <SupportAgentIcon sx={{ fontSize: "40px", color: "black" }} />
-              </IconButton>
-              <Typography variant="body2">고객센터</Typography>
+                <IconButton>
+                    <img
+                        src="/images/cs.svg"
+                        alt="고객센터"
+                    />
+                </IconButton>
+                <Typography variant="body2">고객센터</Typography>
             </CustomLink>
-          </div>
+            </div>
         </div>
         <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-around",
-            width: "200px",
+            style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "flex-end",
+                width: "200px",
+                marginRight: "8vh"
           }}
         >
           <div
@@ -337,7 +361,7 @@ const Topbar = () => {
             <img
               src="/images/M-user.png"
               alt="유저 마일리지"
-              style={{ width: "50px", height: "50px", marginRight: "10px" }}
+              style={{ width: "40px", height: "40px", marginRight: "10px" }}
             />
           </div>
           <div
@@ -348,7 +372,7 @@ const Topbar = () => {
             }}
           >
             <Typography sx={{ fontSize: "30px" }}>
-              {localStorage.getItem("mileage")}
+              {Number(localStorage.getItem("mileage")).toLocaleString()}
             </Typography>
           </div>
         </div>

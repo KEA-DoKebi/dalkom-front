@@ -47,9 +47,10 @@ export const ProductCard = ({ imageUrl, title, price, star, review, seq, categor
               sx={{
                 fontSize: "15px",
                 fontWeight: "bold",
+                lineHeight: "normal"
               }}
             >
-              ➕상품 비교
+              ➕ 상품 비교
             </Typography>
           </HoverCardButton>
         </HoverCardContent>
@@ -160,7 +161,7 @@ const HoverCardButton = styled(Button)`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0;
+  padding: 5px 0;
 
   &:hover {
     background-color: rgba(255, 255, 255, 1);

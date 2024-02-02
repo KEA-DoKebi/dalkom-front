@@ -1,5 +1,5 @@
 {
-    "패션": [
+    "패션/뷰티": [
 
       { "productSeq" : 1,
         "productName": "에어포스1",
@@ -118,7 +118,7 @@
       }
     ],
 
-    "디지털": [
+    "디지털/가전": [
       { "productSeq" : 17,
         "productName": "스마트폰",
         "productPrice": "800,000",
@@ -177,7 +177,7 @@
       }
     ],
 
-    "유아": [
+    "출산/유아동": [
       { "productSeq" : 25,
         "productName": "유아 장난감 세트",
         "productPrice": "50,000",
@@ -236,7 +236,7 @@
       }
     ],
 
-    "스포츠": [
+    "스포츠/레저": [
       { "productSeq" : 33,
         "productName": "축구공",
         "productPrice": "30,000",

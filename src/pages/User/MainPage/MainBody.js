@@ -57,7 +57,6 @@ const MainBody = () => {
 
   return (
     <StyledBox>
-      <Divider />
       <StyledCarousel>
         <StyledPaper sx={{ backgroundColor: "#FFF8DC" }}>
           <Link to="/cs/manual">
@@ -172,6 +171,8 @@ const StyledCarousel = styled(Carousel)`
 
 const StyledPaper = styled(Paper)`
   ${centerFlex}
+  box-shadow: none;
+  
 `;
 
 const BannerImage = styled.img`
@@ -194,7 +195,12 @@ const StyledAvartar = styled(Avatar)`
   height: 100px;
   margin: 25px 50px;
   background-color: #f5f7fb;
-  border: 1px solid gray;
+  //border: 1px solid gray;
+
+  & img { 
+    width: 80%; 
+    height: 80%; 
+  }
 `;
 
 const StyledLink = styled(Link)`
@@ -207,12 +213,12 @@ const StyledLink = styled(Link)`
 
 const StyledGrid = styled(Grid)`
   padding: 15px;
-  border: 1px solid black;
+  //border: 1px solid black;
 `;
 
 const CenterGrid = styled(Grid)`
   ${centerFlex}
-  border : 1px solid black;
+  //border : 1px solid black;
 `;
 
 const StyleTypoGrapy = styled(Typography)`
