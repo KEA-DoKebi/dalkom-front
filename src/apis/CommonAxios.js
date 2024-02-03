@@ -17,10 +17,6 @@ export const TokenAxios = axios.create({
   baseURL, // 조건에 따라 설정된 baseURL 사용
   headers: {
     "Content-Type": "application/json",
-    // 로컬 스토리지에서 토큰을 가져오는 로직은 호출 시점에 실행되도록 변경
-    // 이렇게 해야 토큰이 갱신되었을 때 최신 토큰을 사용할 수 있음
-    get AccessToken() {
-      return localStorage.getItem("accessToken");
-    },
+    "AccessToken" : localStorage.getItem("accessToken"),
   },
 });
