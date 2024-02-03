@@ -4,12 +4,12 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import AWS from "aws-sdk";
 
-const REACT_APP_AWS_S3_BUCKET_REGION = process.env.REACT_APP_AWS_REGION;
+const REACT_APP_AWS_S3_BUCKET_REGION = process.env.REACT_APP_AWS_S3_BUCKET_REGION;
 const REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID =
-  process.env.REACT_APP_AWS_ACCESS_KEY_ID;
+  process.env.REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID;
 const REACT_APP_AWS_S3_BUCKET_SECRET_ACCESS_KEY =
-  process.env.REACT_APP_AWS_SECRET_ACCESS_KEY;
-const REACT_APP_AWS_S3_BUCKET_NAME = process.env.REACT_APP_S3_BUCKET_NAME;
+  process.env.REACT_APP_AWS_S3_BUCKET_SECRET_ACCESS_KEY;
+const REACT_APP_AWS_S3_STORAGE_BUCKET_NAME = process.env.REACT_APP_AWS_S3_STORAGE_BUCKET_NAME;
 
 const EditorComponent = ({ onContentChange, placeholder }) => {
   const handleContentChange = (content) => {
@@ -39,7 +39,7 @@ const EditorComponent = ({ onContentChange, placeholder }) => {
         const upload = new AWS.S3.ManagedUpload({
           params: {
             ACL: "public-read",
-            Bucket: REACT_APP_AWS_S3_BUCKET_NAME, //버킷 이름
+            Bucket: REACT_APP_AWS_S3_STORAGE_BUCKET_NAME, //버킷 이름
             Key: `upload/${name}.${file.type.split("/")[1]}`,
             Body: file,
             ContentType: file.type,
