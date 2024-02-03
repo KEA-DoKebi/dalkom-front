@@ -5,13 +5,9 @@ import {
   Toolbar,
   Typography,
   IconButton,
-  Divider,
   Paper,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
-import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
-import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 import MenuIcon from "@mui/icons-material/Menu";
 import Menu from "@mui/material/Menu";
 import Input from "@mui/joy/Input";
