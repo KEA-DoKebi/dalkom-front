@@ -211,7 +211,7 @@ const OrderInquiryPage = () => {
         getInquiryByCategory(currentPage);
         setSelectedMenu("주문 문의");
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [currentPage]);
 
     return (
         <Paper sx={{display: "flex", height: "100vh"}}>
