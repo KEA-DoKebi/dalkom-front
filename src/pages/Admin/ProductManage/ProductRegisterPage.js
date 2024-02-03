@@ -31,6 +31,7 @@ const ProductRegisterPage = () => {
   const [selectedCategoryDetail, setSelectedCategoryDetail] = useState(" ");
   const [selectedOption, setSelectedOption] = useState(" ");
   const [selectedOptionDetail, setSelectedOptionDetail] = useState(" ");
+
   const options = [
     { label: "Option 1", value: "option1" },
     { label: "Option 2", value: "option2" },
@@ -85,6 +86,10 @@ const ProductRegisterPage = () => {
     const selectedValue = event.target.value;
     setSelectedOptionDetail(selectedValue);
   };
+
+  const handleRegisterBtnClicked = (event) => {
+    
+  }
 
   return (
     <Paper sx={{ display: "flex", height: "100vh" }}>

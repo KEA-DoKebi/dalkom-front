@@ -85,7 +85,7 @@ const ProductInquiryPage = () => {
 
     const getInquiryByCategory = async (page) => {
         try {
-            const res = await TokenAxios.get(`/api/inquiry/category/37?page=${page}&size=7`);
+            const res = await TokenAxios.get(`/api/inquiry/category/34?page=${page}&size=7`);
             console.log(res.data.result.data.content);
             setTotalPages(res.data.result.data.totalPages);
 
