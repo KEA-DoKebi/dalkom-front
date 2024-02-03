@@ -14,7 +14,7 @@ export const ProductReview = ({ info }) => {
             style={{ width: "15vw", height: "15vw" }}
           />
           <Typography
-            sx={{ fontSize: "15px", fontWeight: "bold", color: "#555555" }}
+            sx={{ fontSize: "15px", fontWeight: "bold", color: "#555555", marginTop: "2vw" }}
           >
             상품명
           </Typography>

@@ -1,10 +1,21 @@
 import { Box, Button, Grid, Typography } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { productImageStore } from "store/store";
 import { styled } from "styled-components";
 
 export const BottomMenu = () => {
+  // 마우스 호버 상태를 관리하기 위한 상태
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsHovered(true); // 마우스가 컴포넌트 위에 있을 때
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false); // 마우스가 컴포넌트를 벗어났을 때
+  };
+
   const { imageList, seqList, deleteImage, deleteSeq, subCategorySeq } =
     productImageStore((state) => state);
 
@@ -20,7 +31,15 @@ export const BottomMenu = () => {
   };
 
   return (
-    <StyledPopUpContainer>
+      <StyledPopUpContainer
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          // isHovered 상태에 따라 스타일 변경
+          style={{
+            marginBottom: isHovered ? "0.5vh" : "-250px",
+            transition: "margin-bottom 0.5s",
+          }}
+      >
       <Grid container>
         <Grid item xs={12} sx={{ marginBottom: "0.5vh", textAlign: "center", padding: "20px" }}>
           <StyledPopUpTitle>상품 비교하기</StyledPopUpTitle>
