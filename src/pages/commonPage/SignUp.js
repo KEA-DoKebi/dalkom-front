@@ -8,9 +8,11 @@ import { DefaultAxios } from "apis/CommonAxios";
 import { useForm } from "react-hook-form";
 import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
+import { styled as muiStyled } from "@mui/system";
 import Swal from "sweetalert2";
-import {styled as muiStyled} from "@mui/system";
-import Button from "@mui/material/Button";
+import {FaEye} from "react-icons/fa"
+import {FaEyeSlash} from "react-icons/fa"
+import { Button } from "@mui/material";
 
 const Base = styled.div`
   width: 1920px;
@@ -23,7 +25,6 @@ const Base = styled.div`
 `;
 
 const Body = styled.div`
-  //width: 1300px;
   width: auto;
   height: 800px;
   display: flex;
@@ -95,7 +96,18 @@ const CustomButton = muiStyled(Button)({
 });
 
 const SignUp = () => {
+  const { register, handleSubmit, watch } = useForm();
   const [joinedDate, setJoinedDate] = useState(null);
+  const [isShowPw, setShowPwState] = useState(true);
+
+  const password = watch("password");
+  const comfirmPassword = watch("confirmPassword");
+
+
+
+  const toggleHidePassword =()=>{
+    setShowPwState(!isShowPw);
+  }
 
   const handleDateSelect = (date) => {
     // 여기서 date는 선택된 날짜 정보입니다.
@@ -106,6 +118,7 @@ const SignUp = () => {
   const navigate = useNavigate();
 
   const signUp = async (data) => {
+    console.log(data);
     try {
       const res = await DefaultAxios.post("/api/user/sign-up", data);
       if (res.data.message === "회원가입 성공") {
@@ -130,8 +143,6 @@ const SignUp = () => {
       });
     }
   };
-
-  const { register, handleSubmit } = useForm();
 
   return (
     <Base>
@@ -172,20 +183,28 @@ const SignUp = () => {
                 placeholder="이름을 입력하세요."
                 {...register("name")}
               />
-              <StyleTextField
-                id="password"
-                label="비밀번호"
-                variant="outlined"
-                placeholder="비밀번호를 입력하세요."
-                {...register("password")}
-              />
-              <StyleTextField
-                id="confirmPassword"
-                label="비밀번호 확인"
-                variant="outlined"
-                placeholder="비밀번호를 다시 입력하세요."
-                {...register("confirmPassword")}
-              />
+              <div style={{display : "flex", justifyContent : "space-between", position : "relative"}}>
+                <StyleTextField
+                  id="password"
+                  label="비밀번호"
+                  type={isShowPw? "password":"text"}
+                  variant="outlined"
+                  placeholder="비밀번호를 입력하세요."
+                  {...register("password")}
+                />
+                <Icon onClick={toggleHidePassword}> {isShowPw ? <FaEyeSlash /> : <FaEye />}</Icon>
+              </div>
+              <div style={{display : "flex", justifyContent : "space-between", position : "relative"}}>
+                <StyleTextField
+                  id="confirmPassword"
+                  label="비밀번호 확인"
+                  type={isShowPw? "password":"text"}
+                  variant="outlined"
+                  placeholder="비밀번호를 다시 입력하세요."
+                  {...register("confirmPassword")}
+                />
+                <Icon onClick={toggleHidePassword}> {isShowPw ? <FaEyeSlash /> : <FaEye />}</Icon>
+              </div>
               <StyleTextField
                 id="nickname"
                 label="닉네임"
@@ -201,10 +220,7 @@ const SignUp = () => {
                 placeholder="주소를 입력하세요."
                 {...register("address")}
               />
-              <CustomButton type="submit" variant="contained">
-                회원가입
-              </CustomButton>
-              {/* <button onClick={textAxios}>테스트</button> */}
+              {password === comfirmPassword ? <CustomButton type="submit" variant="contained">회원가입</CustomButton>: <CustomButton disabled>회원가입</CustomButton>}
             </InputWrapper>
           </form>
         </Container>
@@ -221,3 +237,26 @@ const StyleTextField = styled(TextField)`
   margin-bottom: 0.5%;
   background-color: #fbfcfe;
 `;
+
+
+const Icon = styled.div`
+  position: absolute;
+  top: 20px;
+  bottom: 0px;
+  left : 93%;
+  height: 30px;
+  cursor: pointer;
+`;
+
+const CustomButton = muiStyled(Button)({
+  backgroundColor: "#FFD465", // 배경색
+  marginTop : "1vh",
+  color: "#000000", // 글씨색
+  "&:hover": {
+    backgroundColor: "#FFD465", // 클릭 시의 배경색
+  },
+  width: "150px", // 너비
+  height: "50px", // 높이
+  fontSize: "20px",
+  alignSelf: "center",
+});
