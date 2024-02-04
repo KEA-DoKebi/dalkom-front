@@ -19,7 +19,7 @@ import Swal from "sweetalert2";
 
 const dataListLabels = [
   "번호",
-  "아이디",
+  "이메일",
   "닉네임",
   "마일리지",
   "신청금액",
@@ -31,13 +31,13 @@ const dataListLabels = [
 // 각 항목에 대한 공통 스타일을 설정합니다.
 const itemFlexStyles = {
   "& > *:nth-child(1)": { flex: 1 }, // 번호
-  "& > *:nth-child(2)": { flex: 1.5 }, // 아이디
+  "& > *:nth-child(2)": { flex: 1.5 }, // 이메일
   "& > *:nth-child(3)": { flex: 1.5 }, // 닉네임
-  "& > *:nth-child(4)": { flex: 1.5 }, // 마일리지
-  "& > *:nth-child(5)": { flex: 1.5 }, // 신청금액
+  "& > *:nth-child(4)": { flex: 1 }, // 마일리지
+  "& > *:nth-child(5)": { flex: 1 }, // 신청금액
   "& > *:nth-child(6)": { flex: 1 }, // 사용자
-  "& > *:nth-child(7)": { flex: 1 }, // 일시
-  "& > *:nth-child(8)": { flex: 1 }, // 승인/거부
+  "& > *:nth-child(7)": { flex: 1.5 }, // 일시
+  "& > *:nth-child(8)": { flex: 1.5 }, // 승인/거부
 };
 
 const StyledList = styled(List)`
@@ -81,14 +81,14 @@ const ListItemLabelStyled = styled(ListItem)`
 const getColumnWidth = (label) => {
   // Define your width ranges for each column label
   const widthRanges = {
-    신청번호: [0, 10],
-    아이디: [10, 28],
+    신청번호: [0, 5],
+    이메일: [10, 28],
     닉네임: [28, 40],
-    마일리지: [40, 52],
-    신청금액: [52, 64],
-    사용자명: [64, 76],
-    일시: [76, 88],
-    승인: [88, 100],
+    마일리지: [40, 45],
+    신청금액: [45, 55],
+    사용자명: [55, 67],
+    일시: [67, 80],
+    승인: [80, 100],
     // Add more labels as needed
   };
   const [minWidth, maxWidth] = widthRanges[label] || [0, 100];
@@ -117,7 +117,7 @@ const MileageApprovalPage = () => {
   const pageSize = 7;
 
   const optionList = [
-    { label: "아이디" },
+    { label: "이메일" },
     { label: "닉네임" },
     { label: "사용자" },
   ]
@@ -147,7 +147,7 @@ const MileageApprovalPage = () => {
   // 마일리지 승인 여부 변경 (put)
   const updateApplyState = async (milgApplySeq, approvedState) => {
     try {
-      const res = await TokenAxios.put(`/api/milage/apply/${milgApplySeq}`, {
+      const res = await TokenAxios.put(`/api/mileage/apply/${milgApplySeq}`, {
         approvedState,
       });
       if (res.status === 200) {
@@ -206,7 +206,7 @@ const MileageApprovalPage = () => {
         </Typography>
         <Typography
           variant="body1"
-          sx={{ width: getColumnWidth("아이디"), textAlign: "center" }}
+          sx={{ width: getColumnWidth("이메일"), textAlign: "center" }}
         >
           {apply.email}
         </Typography>

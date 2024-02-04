@@ -3,11 +3,11 @@ import SidebarLayout from "components/templete/SidebarLayout";
 import MyInfoBody from "./MyInfoBody";
 
 const MyInfo = () => {
-  return (
-    <SidebarLayout>
-      <MyInfoBody />
-    </SidebarLayout>
-  );
+    return (
+        <SidebarLayout>
+            <MyInfoBody/>
+        </SidebarLayout>
+    );
 };
 
 export default MyInfo;
