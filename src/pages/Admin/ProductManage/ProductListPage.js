@@ -18,7 +18,7 @@ import {
   IconButton,
 } from "@mui/material";
 import { TokenAxios } from "apis/CommonAxios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const StyledList = styled(List)`
   padding: 0;
@@ -62,12 +62,17 @@ const ListItemStyled = styled(ListItem)`
 `;
 
 const ProductListPage = () => {
+
+  const navigate = useNavigate();
+
   // Declare selectedMenu and setSelectedMenu using useState
   const [selectedMenu, setSelectedMenu] = useState("상품 목록");
   const [currentPage, setCurrentPage] = useState(0); // 현재 페이지를 상태로 관리
   const [totalPages, setTotalPages] = useState();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedValue, setSelectedValue] = useState("");
+
+  
 
   const [dataList, setDataList] = useState([]);
   const dataListLabels = [
@@ -223,7 +228,12 @@ const ProductListPage = () => {
                setSelectedValue={setSelectedValue}
               optionList={optionList}
             />
-            <AdminButton variant="contained">등록하기</AdminButton>
+            <AdminButton 
+              variant="contained" 
+              onClick={() => {navigate("/admin/product/register")}}
+            >
+              등록하기
+            </AdminButton>
           </Toolbar>
           <Box sx={{ width: "100%", height: "80%", overflowY: "auto" }}>
             <StyledList aria-label="mailbox folders">

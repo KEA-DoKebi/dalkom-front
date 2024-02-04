@@ -36,7 +36,7 @@ export const MainProductCard = ({ imageUrl, title, price, star, review, seq }) =
               star={Math.round(Number(star))}
               rating={star}
             ></StarRating>
-            <Typography>리뷰 : {review}</Typography>
+            <Typography>리뷰 : {review} 개</Typography>
           </CardDescription>
         </CardContent>
       </SungjunCard>
@@ -50,6 +50,7 @@ const SungjunCard = styled(Card)`
   flex-direction: column;
   transition: transform 0.3s ease-in-out;
   position: relative; /* 이 부분 추가 */
+  box-shadow: none;
 
   &:hover {
     transform: translateY(-8px);
@@ -66,11 +67,11 @@ const CardContent = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 8px;
+  padding: 1vh;
 `;
 
 const CardTitle = styled.div`
-  font-size: 16px;
+  font-size: 20px;
   font-weight: bold;
   margin-bottom: 8px;
 `;

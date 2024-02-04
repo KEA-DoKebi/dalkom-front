@@ -128,7 +128,7 @@ const CategoryBody = () => {
                 // 선택되지 않은 탭의 글자 색상
                 ".MuiTab-root": { color: "gray" },
                 // 선택된 탭의 글자 색상
-                ".Mui-selected": { color: "black" },
+                ".Mui-selected": { color: "black !important" },
                 // 선택된 탭의 배경 색상
                 ".MuiTabs-indicator": { backgroundColor: "black" },
               }}
