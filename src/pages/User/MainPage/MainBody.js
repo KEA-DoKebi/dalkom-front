@@ -30,14 +30,11 @@ const MainBody = () => {
 
 
   const getMainProductList = async () => {
-    const res = await TokenAxios.get("/data/productData/mainPageProduct.json");
+    const res = await TokenAxios.get("/api/product/category/main?page=0&size=8");
     setProductLists(res.data);
+    // setProductLists(res.data);
   };
 
-  const tempGetMainProductList = async () => {
-    const res = await TokenAxios.get("/api/product/category/main");
-    console.log(res.data);
-  };
 
   const [categoryLists] = useState([
     { categorySeq: 1, categoryName: "패션/뷰티", categoryNameEng: "Fashion / Beauty" },
@@ -50,7 +47,6 @@ const MainBody = () => {
 
   useEffect(() => {
     getMainProductList();
-    tempGetMainProductList();
   }, []);
 
   return (
@@ -125,10 +121,10 @@ const MainBody = () => {
                                         <MainProductCard
                                             key={product.productSeq}
                                             imageUrl={product.imageUrl}
-                                            title={product.productName}
-                                            price={Number(product.productPrice).toLocaleString()}
-                                            star={product.productStar}
-                                            review={product.productReview}
+                                            title={product.name}
+                                            price={Number(product.price).toLocaleString()}
+                                            star={product.rating}
+                                            review={product.reviewAmount}
                                             seq={product.productSeq}
                                         />
                                       </Grid>
