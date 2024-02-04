@@ -37,13 +37,13 @@ const Img = styled.img`
 const TextXL = styled.h1`
   font-size: 30px;
   margin-top: 7%;
-  margin-bottom: -2%;
+  margin-bottom: -1%;
 `;
 
 const TextL = styled.h1`
   font-size: 20px;
 
-  margin-bottom: -2%;
+  margin-bottom: -1%;
 `;
 
 const TextL2 = styled.h1`
@@ -64,7 +64,7 @@ const TextS2 = styled.h1`
 
 const Container = styled.div`
   display: flex;
-  align-items: left;
+  align-items: flex-start;
   flex-direction: column;
 `;
 

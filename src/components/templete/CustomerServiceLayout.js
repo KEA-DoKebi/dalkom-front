@@ -32,7 +32,20 @@ const StyledButton = styled(Button)`
   color: #000000;
   font-size: 20px;
   margin-left: 5px;
-  margin-eight: 5px;
+`;
+
+// Link 컴포넌트를 위한 별도의 스타일드 컴포넌트
+const StyledLink = styled(Link)`
+  color: #000000; // 링크 색상을 검은색으로 설정
+  text-decoration: none; // 링크 밑줄 제거
+
+  &:visited {
+    color: #000000; // 방문한 링크 색상을 검은색으로 유지
+  }
+
+  &:hover, &:active {
+    color: #000000; // 링크 마우스 오버나 클릭 시 색상을 검은색으로 유지
+  }
 `;
 
 const Body = styled.div`
@@ -52,13 +65,13 @@ export const CustomerServiceLayout = ({ children }) => {
         <TextL>고객센터</TextL>
         <Choice>
           <StyledButton>
-            <Link to="/cs/manual">이용안내</Link>
+            <StyledLink to="/cs/manual">이용안내</StyledLink>
           </StyledButton>
           <StyledButton>
-            <Link to="/cs/notice">공지사항</Link>
+            <StyledLink to="/cs/notice">공지사항</StyledLink>
           </StyledButton>
           <StyledButton>
-            <Link to="/cs/user-faq">FAQ</Link>
+            <StyledLink to="/cs/user-faq">FAQ</StyledLink>
           </StyledButton>
         </Choice>
       </Top>

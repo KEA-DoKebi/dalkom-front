@@ -130,6 +130,7 @@ const Login = () => {
               label="비밀번호"
               variant="outlined"
               placeholder="비밀번호를 입력하세요."
+              type={"password"}
               {...register("password")}
             />
           </InputWrapper>

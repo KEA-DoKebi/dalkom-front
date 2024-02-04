@@ -9,6 +9,8 @@ import { useForm } from "react-hook-form";
 import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import {styled as muiStyled} from "@mui/system";
+import Button from "@mui/material/Button";
 
 const Base = styled.div`
   width: 1920px;
@@ -21,9 +23,11 @@ const Base = styled.div`
 `;
 
 const Body = styled.div`
-  width: 1300px;
+  //width: 1300px;
+  width: auto;
   height: 800px;
   display: flex;
+  padding-right: 5%;
 
   justify-content: flex-start;
   background-color: ${colors.white};
@@ -39,8 +43,8 @@ const Img = styled.div`
 `;
 
 const Img2 = styled.img`
-  width: 10%
-  height: auto
+  width: 10%;
+  height: auto;
   position: absolute;
   transform: translate(-31%, 45%);
 `;
@@ -77,6 +81,18 @@ const InputWrapper = styled.div`
   gap: 10px;
   margin-bottom: 7px;
 `;
+
+const CustomButton = muiStyled(Button)({
+  backgroundColor: "#FFD465", // 배경색
+  color: "#000000", // 글씨색
+  "&:hover": {
+    backgroundColor: "#FFD465", // 클릭 시의 배경색
+  },
+  width: "150px", // 너비
+  height: "50px", // 높이
+  fontSize: "20px",
+  alignSelf: "center",
+});
 
 const SignUp = () => {
   const [joinedDate, setJoinedDate] = useState(null);
@@ -185,7 +201,9 @@ const SignUp = () => {
                 placeholder="주소를 입력하세요."
                 {...register("address")}
               />
-              <button type="submit">회원가입</button>
+              <CustomButton type="submit" variant="contained">
+                회원가입
+              </CustomButton>
               {/* <button onClick={textAxios}>테스트</button> */}
             </InputWrapper>
           </form>
@@ -199,5 +217,7 @@ export default SignUp;
 
 const StyleTextField = styled(TextField)`
   width: 525px;
+  margin-top: 0.5%;
+  margin-bottom: 0.5%;
   background-color: #fbfcfe;
 `;

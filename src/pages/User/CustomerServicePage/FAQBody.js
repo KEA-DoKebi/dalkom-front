@@ -1,9 +1,18 @@
 import React, {useEffect, useState} from "react";
 import styled from "styled-components";
-import {Box, Divider, Grid, IconButton, List, ListItem, Pagination, Typography} from "@mui/material";
+import {
+    Dialog,
+    DialogContent, DialogTitle,
+    Divider,
+    IconButton,
+    List,
+    ListItem,
+    Pagination,
+    Typography
+} from "@mui/material";
 import {TokenAxios} from "../../../apis/CommonAxios";
-import HighlightOffIcon from "@mui/icons-material/HighlightOff";
-import Modal from "@mui/material/Modal";
+import {AdminButton} from "../../../components/atoms/AdminCommonButton";
+import CloseIcon from "@mui/icons-material/Close";
 
 const StyledList = styled(List)`
   padding: 0;
@@ -21,33 +30,6 @@ const ListItemStyled = styled(ListItem)`
   align-items: center;
   width: 100%;
   padding: 12px;
-`;
-
-const ModalBoxStyled = styled(Box)`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 1200px;
-  height: 800px;
-
-  padding-left: 150px;
-  padding-right: 150px;
-  padding-bottom: 10px;
-
-  align-items: center;
-  justify-content: center;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  background-color: white;
-  border-radius: 10px;
-  border: 2px solid white;
-`;
-
-const ModalTitleContentContainer = styled.div`
-  border: 5px solid #ddd;
-  padding: 1%;
 `;
 
 const PaginationContainer = styled.div`
@@ -207,55 +189,50 @@ export const FAQBody = () => {
                 />
             </PaginationContainer>
 
-            <Modal
-                open={modalOpen}
-                onClose={handleCloseModal}
-                maxWidth={false}
-                aria-labelledby="simple-modal-title"
-                aria-describedby="simple-modal-description"
-            >
-                <ModalBoxStyled>
+            <Dialog onClose={handleCloseModal} open={modalOpen} maxWidth={false}>
+                <DialogTitle>
+                    <Typography variant="h6" fontWeight="bold" sx={{ textAlign: "center", mt: 2, mb: 2 }}>
+                        FAQ
+                    </Typography>
                     <IconButton
+                        aria-label="close"
                         onClick={handleCloseModal}
-                        sx={{mt: 4, mr: 4}}
-                        style={{position: "absolute", right: 0, top: 0}}
+                        sx={{
+                            position: "absolute",
+                            right: 8,
+                            top: 8,
+                            color: (theme) => theme.palette.grey[500],
+                        }}
                     >
-                        <HighlightOffIcon></HighlightOffIcon>
+                        <CloseIcon />
                     </IconButton>
-
-                    <Grid container spacing={2}>
-                        <Grid item xs={2}>
-                            <Typography variant="h6" fontWeight="bold" sx={{mb: 2}}>
-                                제목
+                </DialogTitle>
+                <DialogContent
+                    style={{
+                        width: 900,
+                        height: "450px",
+                        overflowY: "auto",
+                        overflowX: "hidden",
+                    }}
+                >
+                    {selectedFaq && (
+                        <div>
+                            <Typography variant="h6" gutterBottom fontWeight="bold" sx={{ textAlign: "center" }}>
+                                {selectedFaq.title}
                             </Typography>
-                        </Grid>
-                        <Grid item xs={10}>
-                            {/*<Text*/}
-                            <ModalTitleContentContainer>
-                                <Typography>{selectedFaq?.title}</Typography>
-                            </ModalTitleContentContainer>
-                        </Grid>
-                        <Grid item xs={2}>
-                            <Typography variant="h6" fontWeight="bold" sx={{mb: 2}}>
-                                내용
+                            <Typography variant="body2" align={"right"} sx={{ mb: 2 }}>
+                                작성일시: {formatDate(selectedFaq.createdAt)} 작성자: {selectedFaq.name}
                             </Typography>
-                        </Grid>
-                        <Grid
-                            item
-                            xs={10}
-                            style={{
-                                height: "600px",
-                                maxHeight: "400px",
-                                overflowY: "auto",
-                            }}
-                        >
-                            <ModalTitleContentContainer>
-                                <Typography>{selectedFaq?.content}</Typography>
-                            </ModalTitleContentContainer>
-                        </Grid>
-                    </Grid>
-                </ModalBoxStyled>
-            </Modal>
+                            <Typography variant="body1" sx={{ whiteSpace: "pre-line" }}>
+                                {selectedFaq.content}
+                            </Typography>
+                        </div>
+                    )}
+                </DialogContent>
+                <AdminButton onClick={handleCloseModal} sx={{ margin: "auto", marginBottom: 2 }}>
+                    닫기
+                </AdminButton>
+            </Dialog>
         </Main>
     );
 };
