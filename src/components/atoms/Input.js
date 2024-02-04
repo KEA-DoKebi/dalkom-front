@@ -12,7 +12,7 @@ export const InputBoxS = styled(Input)`
 `;
 
 export const InputBoxM = styled(Input)`
-  width: 820px;
+  width: 37vw;
   height: 50px;
 `;
 

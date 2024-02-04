@@ -10,10 +10,11 @@ import {
   Alert,
   AlertTitle,
 } from "@mui/material";
-import { InputBoxS } from "components/atoms/Input";
+import { InputBoxS, InputBoxL } from "components/atoms/Input";
 import { AdminButton } from "components/atoms/AdminCommonButton";
-import IconButton from "@mui/joy/IconButton";
-import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { TokenAxios } from "apis/CommonAxios";
 
 const UserRegisterPage = () => {
   // Declare selectedMenu and setSelectedMenu using useState
@@ -21,9 +22,45 @@ const UserRegisterPage = () => {
   const [isAlertOpen, setAlertOpen] = useState(false);
   // Alert의 열림 여부 상태
 
+  const [alertMessage, setAlertMessage] = useState("");
+  const [alertSeverity, setAlertSeverity] = useState("success");
+
+  const today = new Date().toISOString().split("T")[0];
+
+  const navigate = useNavigate();
+
   const handleAdminButtonClick = () => {
     // AdminButton이 클릭되면 Alert를 열도록 상태를 업데이트
-    setAlertOpen(true);
+    setAlertOpen();
+  };
+  
+
+  const userRegister = async (data) => {
+    data.mileage = 0;
+    console.log(data);
+
+    try {
+      const res = await TokenAxios.post("/api/admin/user", data);
+      if (res.data.code === 200) {
+        // 성공 메시지 설정
+        setAlertMessage("사용자 등록을 완료했습니다!");
+        setAlertSeverity("success");
+        setAlertOpen(true); // alert 열기
+        navigate("/admin/user/list");
+      } else {
+        // 실패 메시지 설정 (API 응답에 따라 다를 수 있음)
+        setAlertMessage("사용자 등록에 실패했습니다.");
+        setAlertSeverity("error");
+        console.log(res);
+        setAlertOpen(true); // alert 열기
+      }
+    } catch (e) {
+      // 오류 발생 시 처리
+      setAlertMessage("사용자 등록 중 오류가 발생했습니다.");
+      setAlertSeverity("error");
+      console.log(e);
+      setAlertOpen(true); // alert 열기
+    }
   };
 
   useEffect(() => {
@@ -31,6 +68,8 @@ const UserRegisterPage = () => {
     // setSelectedMenu 함수를 호출하여 상태를 업데이트
     setSelectedMenu("사용자 등록");
   }, []);
+
+  const { register, handleSubmit } = useForm();
 
   return (
     <Paper sx={{ display: "flex", height: "100vh" }}>
@@ -59,144 +98,161 @@ const UserRegisterPage = () => {
             margin: "16px",
           }}
         >
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-              marginBottom: "80px",
-            }}
+          <form
+            onSubmit={handleSubmit((data) => {
+              userRegister(data);
+            })}
           >
-            <div style={{ marginRight: "10px" }}>
-              <div style={{ alignItems: "start" }}>
-                <Typography variant="h7" fontWeight="bold" align="left">
-                  ID(이메일)
-                </Typography>
-                <InputBoxS
-                  color="neutral"
-                  disabled={false}
-                  placeholder="아이디를 입력하세요"
-                  variant="soft"
-                  sx={{ mb: 4 }}
-                />
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
+            >
+              <div style={{ marginRight: "10px" }}>
+                <div style={{ alignItems: "start" }}>
+                  <Typography variant="h7" fontWeight="bold" align="left">
+                    이메일(ID)
+                  </Typography>
+                  <InputBoxS
+                    color="neutral"
+                    disabled={false}
+                    placeholder="이메일을 입력하세요."
+                    variant="soft"
+                    sx={{ mb: 4 }}
+                    {...register("email")}
+                  />
+                </div>
+                <div style={{ alignItems: "start" }}>
+                  <Typography variant="h7" fontWeight="bold" align="left">
+                    사원번호
+                  </Typography>
+                  <InputBoxS
+                    color="neutral"
+                    disabled={false}
+                    placeholder="사원번호를 입력하세요"
+                    variant="soft"
+                    sx={{ mb: 4 }}
+                    {...register("empId")}
+                  />
+                </div>
+                <div style={{ alignItems: "start" }}>
+                  <Typography variant="h7" fontWeight="bold" align="left">
+                    입사일
+                  </Typography>
+                  <InputBoxS
+                    color="neutral"
+                    type="date"
+                    disabled={false}
+                    placeholder="입사일을 입력하세요"
+                    variant="soft"
+                    sx={{ mb: 4 }}
+                    slotProps={{
+                      input: {
+                        max: today,
+                      },
+                    }}
+                    {...register("joinedAt")}
+                  />
+                </div>
               </div>
-              <div style={{ alignItems: "start" }}>
-                <Typography variant="h7" fontWeight="bold" align="left">
-                  비밀번호
-                </Typography>
-                <InputBoxS
-                  color="neutral"
-                  disabled={false}
-                  placeholder="비밀번호를 입력하세요"
-                  variant="soft"
-                  sx={{ mb: 4 }}
-                />
-              </div>
-              <div style={{ alignItems: "start" }}>
-                <Typography variant="h7" fontWeight="bold" align="left">
-                  사원번호
-                </Typography>
-                <InputBoxS
-                  color="neutral"
-                  disabled={false}
-                  placeholder="사원번호를 입력하세요"
-                  variant="soft"
-                  sx={{ mb: 4 }}
-                />
-              </div>
-              <div style={{ alignItems: "start" }}>
-                <Typography variant="h7" fontWeight="bold" align="left">
-                  전화번호
-                </Typography>
-                <InputBoxS
-                  color="neutral"
-                  disabled={false}
-                  placeholder="전화번호를 입력하세요"
-                  variant="soft"
-                  sx={{ mb: 4 }}
-                />
+              <div style={{ marginLeft: "10px" }}>
+                <div style={{ alignItems: "start" }}>
+                  <Typography variant="h7" fontWeight="bold" align="left">
+                    비밀번호
+                  </Typography>
+                  <InputBoxS
+                    color="neutral"
+                    disabled={false}
+                    placeholder="비밀번호를 입력하세요"
+                    variant="soft"
+                    sx={{ mb: 4 }}
+                    {...register("password")}
+                  />
+                </div>
+                <div style={{ alignItems: "start" }}>
+                  <Typography variant="h7" fontWeight="bold" align="left">
+                    이름
+                  </Typography>
+                  <InputBoxS
+                    color="neutral"
+                    disabled={false}
+                    placeholder="이름을 입력하세요"
+                    variant="soft"
+                    sx={{ mb: 4 }}
+                    {...register("name")}
+                  />
+                </div>
+                <div style={{ alignItems: "start" }}>
+                  <Typography variant="h7" fontWeight="bold" align="left">
+                    닉네임
+                  </Typography>
+                  <InputBoxS
+                    color="neutral"
+                    disabled={false}
+                    placeholder="닉네임을 입력하세요"
+                    variant="soft"
+                    sx={{ mb: 4 }}
+                    {...register("nickname")}
+                  />
+                </div>
               </div>
             </div>
-            <div style={{ marginLeft: "10px" }}>
-              <div style={{ alignItems: "start" }}>
-                <Typography variant="h7" fontWeight="bold" align="left">
-                  이름
-                </Typography>
-                <InputBoxS
-                  color="neutral"
-                  disabled={false}
-                  placeholder="이름을 입력하세요"
-                  variant="soft"
-                  sx={{ mb: 4 }}
-                />
-              </div>
-              <div style={{ alignItems: "start" }}>
-                <Typography variant="h7" fontWeight="bold" align="left">
-                  닉네임
-                </Typography>
-                <InputBoxS
-                  color="neutral"
-                  disabled={false}
-                  placeholder="닉네임을 입력하세요"
-                  variant="soft"
-                  sx={{ mb: 4 }}
-                />
-              </div>
-              <div style={{ alignItems: "start" }}>
-                <Typography variant="h7" fontWeight="bold" align="left">
-                  부서
-                </Typography>
-                <InputBoxS
-                  color="neutral"
-                  disabled={false}
-                  placeholder="부서를 입력하세요"
-                  variant="soft"
-                  sx={{ mb: 4 }}
-                />
-              </div>
-              <div style={{ alignItems: "start" }}>
+            <div style={{ alignItems: "start" }}>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  marginBottom: "40px", // 등록하기 버튼과의 간격
+                }}
+              >
                 <Typography variant="h7" fontWeight="bold" align="left">
                   주소
                 </Typography>
-                <InputBoxS
+                <InputBoxL
                   color="neutral"
                   disabled={false}
                   placeholder="주소를 입력하세요"
                   variant="soft"
-                  sx={{ mb: 4 }}
+                  sx={{ mb: 4, width: "80%" }} // 너비 조절
+                  {...register("address")}
                 />
               </div>
             </div>
-          </div>
 
-          <AdminButton variant="contained" onClick={handleAdminButtonClick}>
-            등록하기
-          </AdminButton>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              {" "}
+              {/* Flexbox 사용 */}
+              <AdminButton
+                type="submit"
+                variant="contained"
+                onClick={handleAdminButtonClick}
+                style={{ margin: "auto" }}
+              >
+                등록하기
+              </AdminButton>
+            </div>
+          </form>
 
           {/* Alert 컴포넌트 */}
           <Snackbar
-            sx={{ width: "50%" }}
-            spacing={2}
             open={isAlertOpen}
+            autoHideDuration={2000}
             onClose={() => setAlertOpen(false)}
-            autoHideDuration={2000} // alert 떠 있는 시간
             anchorOrigin={{ vertical: "top", horizontal: "right" }}
           >
             <Alert
               onClose={() => setAlertOpen(false)}
-              severity="success"
+              severity={alertSeverity}
               sx={{ width: "100%" }}
-              color="success"
-              endDecorator={
-                <IconButton variant="soft" color="success">
-                  <CloseRoundedIcon />
-                </IconButton>
-              }
             >
               <AlertTitle>
-                <Typography fontWeight="bold">Success</Typography>
+                <Typography fontWeight="bold">
+                  {alertSeverity === "success" ? "Success" : "Error"}
+                </Typography>
               </AlertTitle>
-              사용자 등록을 완료했습니다!
+              {alertMessage}
             </Alert>
           </Snackbar>
         </Box>

@@ -12,6 +12,8 @@ import StyledSwitchLabels from "components/atoms/SwitchLabels";
 import TextButton from "components/atoms/TextButton";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
+import {FaEye} from "react-icons/fa"
+import {FaEyeSlash} from "react-icons/fa"
 
 const Base = styled.div`
   width: 1920px;
@@ -66,12 +68,17 @@ const CustomButton = muiStyled(Button)({
 const Login = () => {
   const { register, handleSubmit } = useForm();
   const [mode, setMode] = useState("user");
+  const [isShowPw, setShowPwState] = useState(true);
 
   const navigate = useNavigate();
 
   const handleModeChange = (isAdmin) => {
     setMode(isAdmin ? "admin" : "user");
   };
+
+  const toggleHidePassword =()=>{
+    setShowPwState(!isShowPw);
+  }
 
   const signIn = async (data) => {
     try {
@@ -86,6 +93,7 @@ const Login = () => {
         const res = await DefaultAxios.post("api/admin/login", data);
         const tokenData = res.data.result.data;
         localStorage.setItem("accessToken", tokenData.accessToken);
+        localStorage.setItem("role", tokenData.role);
         navigate("/admin/list");
       }
     } catch (e) {
@@ -94,7 +102,7 @@ const Login = () => {
         title: "헉!!!",
         text: "로그인에 실패하였어요!",
         // footer: `${e.response.data.result.msg}`,
-        
+
         footer:
           "자세한 이유는 백엔드의 에러 코드가 전부 구현됐을 때에 알 수 있습니다!",
       });
@@ -124,13 +132,17 @@ const Login = () => {
               placeholder="이메일을 입력하세요."
               {...register("email")}
             />
-            <StyleTextField
-              id="password"
-              label="비밀번호"
-              variant="outlined"
-              placeholder="비밀번호를 입력하세요."
-              {...register("password")}
-            />
+            <div style={{display : "flex", justifyContent : "space-between", position : "relative"}}>
+              <StyleTextField
+                id="password"
+                label="비밀번호"
+                type={isShowPw? "password":"text"}
+                variant="outlined"
+                placeholder="비밀번호를 입력하세요."
+                {...register("password")}
+              />
+              <Icon onClick={toggleHidePassword}> {isShowPw ? <FaEyeSlash /> : <FaEye />}</Icon>
+            </div>
           </InputWrapper>
 
           <Find>
@@ -168,4 +180,14 @@ const CenterDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center; /* 추가: 요소를 수직으로 가운데 정렬 */
+`;
+
+
+const Icon = styled.div`
+  position: absolute;
+  top: 20px;
+  bottom: 0px;
+  left : 93%;
+  height: 30px;
+  cursor: pointer;
 `;

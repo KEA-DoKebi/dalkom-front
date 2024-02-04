@@ -10,87 +10,192 @@ import {
   RadioGroup,
   FormControlLabel,
   FormControl,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import { pink } from "@mui/material/colors";
+import { InputBoxXS, InputBoxM } from "components/atoms/Input";
+
 import { AdminButton } from "components/atoms/AdminCommonButton";
-import { InputBoxM } from "components/atoms/Input";
-import { InputBoxXS } from "components/atoms/Input";
-import { CustomSelect } from "components/atoms/AdminSelectBox";
+import { PinkSwitch } from "components/atoms/OnOffSwitch";
+import { useForm, Controller } from "react-hook-form";
+import { TokenAxios } from "apis/CommonAxios";
+import AWS from "aws-sdk";
+import EditorComponent from "components/atoms/Editor";
+import Swal from "sweetalert2";
 
-const ProductEditPage = () => {
-  // Declare selectedMenu and setSelectedMenu using useState
+const ProductRegisterPage = () => {
+
+  // env 파일 변수로 설정
+  const REACT_APP_AWS_S3_BUCKET_REGION = process.env.REACT_APP_AWS_S3_BUCKET_REGION;
+  const REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID = process.env.REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID;
+  const REACT_APP_AWS_S3_BUCKET_SECRET_ACCESS_KEY = process.env.REACT_APP_AWS_S3_BUCKET_SECRET_ACCESS_KEY;
+  const REACT_APP_AWS_S3_STORAGE_BUCKET_NAME = process.env.REACT_APP_AWS_S3_STORAGE_BUCKET_NAME;
+
+  // react-hook-form에 필요한 메소드들
+  const { control, register, handleSubmit, setValue, trigger } = useForm();
+
+  // useState들 선언
   const [selectedMenu, setSelectedMenu] = useState("상품 수정/삭제");
+  const [categoryList, setCategoryList] = useState([]);
+  const [subCategoryList, setSubCategoryList] = useState([]);
+  const [selectedCategorySeq, setSelectedCategorySeq] = useState(0);
+  const [selectedProductSeq, setSelectedProductSeq] = useState(0);
+  const [productList, setProductList] = useState([]);
+  const [productImage, setProductImage] = useState("https://nayemdevs.com/wp-content/uploads/2020/03/default-product-image.png");
+  const [productName, setProductName] = useState("");
+  const [productCompany, setProductCompany] = useState("");
+  const [productPrice, setProductPrice] = useState();
+  const [productStockList, setProductStockList] = useState([]);
+  
 
-  useEffect(() => {
-    // 각 페이지가 마운트될 때 selectedMenu를 업데이트
-    // setSelectedMenu 함수를 호출하여 상태를 업데이트
-    setSelectedMenu("상품 수정/삭제");
-  }, []);
+  
 
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const [selectedCategoryDetail, setSelectedCategoryDetail] = useState("");
-  const [selectedOption, setSelectedOption] = useState("");
-  const [selectedOptionDetail, setSelectedOptionDetail] = useState("");
-  const [selectedProduct, setSelectedProduct] = useState("");
-  const options = [
-    { label: "Option 1", value: "option1" },
-    { label: "Option 2", value: "option2" },
-    // Add more options as needed
-  ];
+  // 상위 카테고리 API 
+  const getCategoryList = async() => {
+    const res = await TokenAxios.get(`/api/category`);
+    console.log(res.data);
+    setCategoryList(res.data.result.data);
+  }
 
-  const [imagePreview, setImagePreview] = useState(
-    "https://nayemdevs.com/wp-content/uploads/2020/03/default-product-image.png",
-  );
+  // 하위 카테고리 API
+  const getSubCategoryList = async(categorySeq) => {
+    const res = await TokenAxios.get(`/api/category/${categorySeq}`)
+    setSubCategoryList(res.data.result.data);
+  }
 
-  const onUpload = (e) => {
-    const file = e.target.files[0];
+  const getProductList = async(subCategorySeq) => {
+    const res = await TokenAxios.get(`/api/product/category/detail/${subCategorySeq}?page=0&size=50`)
+    setProductList(res.data.result.data.page.content);
+  }
 
-    if (file) {
-      const reader = new FileReader();
+  const getProduct = async(productSeq) => {
+    const res = await TokenAxios.get(`/api/product/${productSeq}`);
+    const data =res.data.result.data;
+    console.log(res.data.result.data);
+    setProductImage(data.imageUrl);
+    setProductName(data.name)
+    setProductCompany(data.company);
+    setProductPrice(Number(data.price))
+    setProductStockList(data.stockList);
+  }
 
-      reader.readAsDataURL(file);
+  // 이미지 S3 통한 URL 반환
+  const selectFile = async (e) => {
+    if (e.target.files[0]) {
+      const file = e.target.files[0];
+      try {
+        //업로드할 파일의 이름으로 Date 사용
+        const name = Date.now();
+        //s3 관련 설정
+        AWS.config.update({
+          region: REACT_APP_AWS_S3_BUCKET_REGION,
+          accessKeyId: REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID,
+          secretAccessKey: REACT_APP_AWS_S3_BUCKET_SECRET_ACCESS_KEY,
+          
+        });
+        //s3에 업로드할 객체 생성
+        const upload = new AWS.S3.ManagedUpload({
+          params: {
+            ACL: "public-read",
+            Bucket: REACT_APP_AWS_S3_STORAGE_BUCKET_NAME, //버킷 이름
+            Key: `upload/${name}.${file.type.split("/")[1]}`,
+            Body: file,
+            ContentType: file.type,
+          },
+        });
+        //이미지 업로드 url 반환
+        const IMG_URL = await upload.promise().then((res) => res.Location);
+        console.log(IMG_URL);
+        
+        setProductImage(IMG_URL)  
+              
+      } catch (error) {
+        console.error('Error during S3 upload:', error);
 
-      reader.onload = () => {
-        setImagePreview(reader.result);
-      };
+        // 오류 메시지 또는 에러 코드 출력
+        if (error.message) {
+          console.error('Error message:', error.message);
+        }
+        if (error.code) {
+          console.error('Error code:', error.code);
+        }
+      }
+    } else {
+      //업로드 취소할 시
+      
+      return;
     }
+
+    //화면에 프로필 사진 표시
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (reader.readyState === 2) {
+        //setForm({...form, profileImage : reader.result});
+      }
+    };
+
+    reader.readAsDataURL(e.target.files[0]);
   };
 
-  const [state] = React.useState({
+  // 옵션 스위치
+  const [state, setState] = React.useState({
     option: false,
   });
 
-  // const handleChange = (event) => {
-  //   setState({
-  //     ...state,
-  //     [event.target.name]: event.target.checked,
-  //   });
-  // };
-
-  const selectCategory = (event) => {
-    const selectedValue = event.target.value;
-    setSelectedCategory(selectedValue);
+  // 옵션 스위치 상태 변경함수
+  const handleChange = (event) => {
+    setState({
+      ...state,
+      [event.target.name]: event.target.checked,
+    });
   };
 
-  const selectCategoryDetail = (event) => {
-    const selectedValue = event.target.value;
-    setSelectedCategoryDetail(selectedValue);
+  // 에디터 값 react-hook-form으로 전달하기 위한 함수
+  const handleEditorContentChange = (productDetail) => {
+    setValue('productDetail', productDetail, { shouldValidate: true });
+    trigger('productDetail');
   };
 
-  const selectOption = (event) => {
-    const selectedValue = event.target.value;
-    setSelectedOption(selectedValue);
-  };
 
-  const selectOptionDetail = (event) => {
-    const selectedValue = event.target.value;
-    setSelectedOptionDetail(selectedValue);
-  };
+  // 상품 수정 클릭시 API 요청
+  const handleRegisterBtnClicked = async(data) => {
+    data.optionAmountList = [{amount : data.amount, prdtOptionSeq : data.prdtOptionSeq}];
+    delete data.amount;
+    delete data.prdtOptionSeq;
+    data.info = "이 가격에 나올 수 없는 아주 좋은 상품이니 품절되기 전에 가져가세요~~"
+    data.imageUrl = productImage;
+    data.price = productPrice;
+    data.name = productName;
+    data.company = productCompany;
+    data.categorySeq = selectedCategorySeq;
+    
+    try{
+      const res = await TokenAxios.put(`/api/product/${selectedProductSeq}`, data);
+      if(res.data.success){
+        Swal.fire({
+          icon: "success",
+          title: "🎉🎉상품이 수정되었습니다!",
+          showConfirmButton: false,
+          timer: 1000,
+        });
+      }else{
+        Swal.fire("상품 수정하는데에 문제가 발생하였습니다", "", "info");
+      }
+    }catch(e){
+      console.log(e);
+      Swal.fire("상품 수정하는데에 문제가 발생하였습니다", "", "info");
+    }
+    
+  }
 
-  const selectProduct = (event) => {
-    const selectedValue = event.target.value;
-    setSelectedProduct(selectedValue);
-  };
+  useEffect(() => {
+    setSelectedMenu("상품 수정/삭제");
+    getCategoryList();
+  }, []);
+  
+  
 
   return (
     <Paper sx={{ display: "flex", height: "100vh" }}>
@@ -119,21 +224,26 @@ const ProductEditPage = () => {
             margin: "16px",
           }}
         >
-          <Grid
-            item
-            xs={12}
-            sx={{ display: "flex", justifyContent: "center", mb: 10 }}
-          >
-            <CustomSelect
-              options={options}
-              value={selectedProduct}
-              onChange={selectProduct}
-              size="l"
-              sx={{ mr: 3 }}
-            />
-          </Grid>
+        <form
+          onSubmit={handleSubmit((data) => {
+            handleRegisterBtnClicked(data);
+          })}
+        >
+          <Select
+                  onChange={(e) => {
+                    getProduct(e.target.value);
+                    setSelectedProductSeq(e.target.value)
+                  }}
+                  sx={{ m : "5vh", width: "85%" }}
+                >
+                  {productList.map((product) => (
+                    <MenuItem key={product.productSeq} value={product.productSeq}>
+                      {product.name}
+                    </MenuItem>
+                  ))}
+          </Select>
           <Grid container spacing={2}>
-            <Grid item xs={5}>
+            <Grid item xs={3.5}>
               <div
                 style={{
                   display: "flex",
@@ -141,17 +251,17 @@ const ProductEditPage = () => {
                   alignItems: "center",
                 }}
               >
-                <img
-                  src={imagePreview}
+                {productImage && <img
+                  src={productImage}
                   alt="Preview"
-                  style={{ maxWidth: "100%", maxHeight: "500px" }}
-                />
+                  style={{ minWidth: "500px", minHeight: "500px", maxWidth : "500px", maxHeight : "500px", marginBottom : "3vh" }}
+                />}
                 <input
                   accept="image/*"
                   style={{ display: "none" }}
                   id="photo-upload"
                   type="file"
-                  onChange={onUpload}
+                  onChange={selectFile}
                 />
                 <label htmlFor="photo-upload">
                   <AdminButton variant="contained" component="span">
@@ -159,6 +269,9 @@ const ProductEditPage = () => {
                   </AdminButton>
                 </label>
               </div>
+            </Grid>
+            <Grid item xs={1.5}>
+
             </Grid>
             <Grid item xs={7}>
               <div
@@ -175,20 +288,36 @@ const ProductEditPage = () => {
                 >
                   카테고리
                 </Typography>
-                <CustomSelect
-                  options={options}
-                  value={selectedCategory}
-                  onChange={selectCategory}
-                  size="m"
-                  sx={{ mr: 6 }}
-                />
-                <CustomSelect
-                  options={options}
-                  value={selectedCategoryDetail}
-                  onChange={selectCategoryDetail}
-                  size="m"
-                  sx={{ mr: 6 }}
-                />
+                <Select
+                  onChange={(e) => {
+                    getSubCategoryList(e.target.value);
+                  }}
+                  sx={{ mr: 6, width: "47%" }}
+                >
+                  {categoryList.map((category) => (
+                    <MenuItem key={category.categorySeq} value={category.categorySeq}>
+                      {category.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+                <Select
+                  onChange={(e) => {
+                    getProductList(e.target.value)
+                    setSelectedCategorySeq(e.target.value)
+                  }}
+                  sx={{width : "47%" }}
+                  // {...register("categorySeq")}  
+                >
+                  {subCategoryList.map((subCategory) => (
+                    <MenuItem 
+                      key={subCategory.categorySeq} 
+                      value={subCategory.categorySeq}
+                      
+                    >
+                      {subCategory.name}
+                    </MenuItem>
+                  ))}
+                </Select>
               </div>
               <div style={{ display: "flex", alignItems: "center" }}>
                 <Typography
@@ -199,9 +328,12 @@ const ProductEditPage = () => {
                   이름
                 </Typography>
                 <InputBoxM
+                  id="name"
                   color="neutral"
                   disabled={false}
                   placeholder="이름"
+                  value={productName}
+                  onChange={(e) => {setProductName(e.target.value)}}
                   variant="soft"
                   sx={{ mb: 4 }}
                 />
@@ -218,6 +350,8 @@ const ProductEditPage = () => {
                   color="neutral"
                   disabled={false}
                   placeholder="제조사"
+                  value={productCompany}
+                  onChange={(e) => {setProductCompany(e.target.value)}}
                   variant="soft"
                   sx={{ mb: 4 }}
                 />
@@ -234,6 +368,8 @@ const ProductEditPage = () => {
                   color="neutral"
                   disabled={false}
                   placeholder="가격"
+                  value={productPrice}
+                  onChange={(e) => setProductPrice(e.target.value)}
                   variant="soft"
                   sx={{ mb: 4 }}
                 />
@@ -253,34 +389,33 @@ const ProductEditPage = () => {
                 >
                   옵션
                 </Typography>
-                {/* 오류 뜨는데 해결하지 못하겠음 */}
-                {/* <PinkSwitch
+
+                <PinkSwitch
                   sx={{ mr: 2 }}
                   checked={state.option}
                   onChange={handleChange}
                   name="option"
-                /> */}
+                />
+
                 {state.option && (
                   <>
-                    <CustomSelect
-                      options={options}
-                      value={selectedOption}
-                      onChange={selectOption}
-                      size="s"
-                      sx={{ mr: 3 }}
-                    />
-                    <CustomSelect
-                      options={options}
-                      value={selectedOptionDetail}
-                      onChange={selectOptionDetail}
-                      size="s"
-                      sx={{ mr: 3 }}
-                    />
+                    <Select
+                      sx={{ width : "60%", mr: 3, }}
+                      {...register("prdtOptionSeq")}
+                    >
+                      {productStockList.map((productStock) => (
+                        <MenuItem key={productStock.productOptionSeq} value={productStock.productOptionSeq}>
+                          {`${productStock.detail} : ${productStock.amount}개`}
+                        </MenuItem>
+                      ))}
+                    </Select>
                     <InputBoxXS
+                      type="number"
                       color="neutral"
                       disabled={false}
-                      placeholder="수량"
+                      placeholder="바꿀 수량"
                       variant="soft"
+                      {...register("amount")}
                     />
                   </>
                 )}
@@ -300,34 +435,44 @@ const ProductEditPage = () => {
                   판매여부
                 </Typography>
                 <FormControl>
-                  <RadioGroup row name="use-radio-group" defaultValue="Y">
-                    <FormControlLabel
-                      value="Y"
-                      control={
-                        <Radio
-                          size="large"
-                          sx={{
-                            color: pink[800],
-                            "&.Mui-checked": { color: pink[600] },
-                          }}
+                  <Controller
+                    name="state"
+                    control={control}
+                    render={({ field }) => (
+                      <RadioGroup
+                        {...field}
+                        row
+                        onChange={(e) => field.onChange(e.target.value)}
+                      >
+                        <FormControlLabel
+                          value="Y"
+                          control={
+                            <Radio
+                              size="large"
+                              sx={{
+                                color: pink[800],
+                                "&.Mui-checked": { color: pink[600] },
+                              }}
+                            />
+                          }
+                          label="판매중"
                         />
-                      }
-                      label="판매중"
-                    />
-                    <FormControlLabel
-                      value="N"
-                      control={
-                        <Radio
-                          size="large"
-                          sx={{
-                            color: pink[800],
-                            "&.Mui-checked": { color: pink[600] },
-                          }}
+                        <FormControlLabel
+                          value="N"
+                          control={
+                            <Radio
+                              size="large"
+                              sx={{
+                                color: pink[800],
+                                "&.Mui-checked": { color: pink[600] },
+                              }}
+                            />
+                          }
+                          label="판매중단"
                         />
-                      }
-                      label="판매중단"
-                    />
-                  </RadioGroup>
+                      </RadioGroup>
+                    )}
+                  />
                 </FormControl>
               </div>
               <div style={{ display: "flex", alignItems: "center" }}>
@@ -338,12 +483,15 @@ const ProductEditPage = () => {
                 >
                   상세설명
                 </Typography>
-                <InputBoxM
-                  color="neutral"
-                  disabled={false}
-                  placeholder="상세설명 에디터"
-                  variant="soft"
-                  sx={{ mb: 4 }}
+                <EditorComponent
+                    onContentChange={handleEditorContentChange}
+                    placeholder="상품 정보를 입력하세요"
+                    id="productDetail"
+                    onChange={(event, editor) => {
+                        setValue("productDetail", editor.getData());
+                        trigger("productDetail");
+                        console.log("productDetail");
+                    }}
                 />
               </div>
             </Grid>
@@ -353,17 +501,18 @@ const ProductEditPage = () => {
             xs={12}
             sx={{ display: "flex", justifyContent: "center", mt: 10 }}
           >
-            <AdminButton variant="contained" component="span" sx={{ mr: 3 }}>
+            <AdminButton 
+              variant="contained" 
+              type="submit"
+            >
               수정
             </AdminButton>
-            <AdminButton variant="contained" component="span">
-              삭제
-            </AdminButton>
           </Grid>
+        </form>
         </Box>
       </Box>
     </Paper>
   );
 };
 
-export default ProductEditPage;
+export default ProductRegisterPage;

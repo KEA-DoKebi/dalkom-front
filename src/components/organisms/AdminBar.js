@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   Box,
   Drawer,
@@ -33,7 +33,6 @@ const menuData = [
       {
         label: "사용자 목록",
         path: "/admin/user/list",
-          
       },
       {
         label: "사용자 등록",
@@ -63,10 +62,6 @@ const menuData = [
       {
         label: "상품 수정/삭제",
         path: "/admin/product/edit",
-      },
-      {
-        label: "재고 관리",
-        path: "/admin/product/inventory",
       },
     ],
   },
@@ -103,7 +98,7 @@ const menuData = [
         label: "공지사항",
         path: "/admin/cs/announcement",
       },
-      { label: "FAQ", path: "/admin/cs/faq", },
+      { label: "FAQ", path: "/admin/cs/faq" },
       {
         label: "마일리지 안내",
         path: "/admin/cs/mile",
@@ -148,9 +143,17 @@ const MenuItem = ({ label, path }) => {
 
 function AdminBar() {
   const location = useLocation();
+  const navigate = useNavigate();
   const selectedMenu = menuData
     .flatMap((group) => group.items)
     .find((item) => item.path === location.pathname)?.label;
+
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken"); // localStorage에서 accessToken 삭제
+    localStorage.removeItem("role"); // 필요한 경우 다른 관련 정보도 삭제
+    localStorage.removeItem("mileage"); // 사용자 마일리지 정보 삭제
+    navigate("/login"); // 로그인 페이지로 리다이렉트
+  };
 
   return (
     <Paper sx={{ display: "flex", backgroundColor: "#EEF2F6" }}>
@@ -192,7 +195,11 @@ function AdminBar() {
               {selectedMenu}
             </Typography>
           </Box>
-          <Button color="inherit" style={{ color: "#000000" }}>
+          <Button
+            color="inherit"
+            style={{ color: "#000000" }}
+            onClick={handleLogout}
+          >
             로그아웃
           </Button>
         </Toolbar>

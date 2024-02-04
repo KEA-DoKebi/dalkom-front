@@ -10,7 +10,6 @@ import OrderInquiryPage from "pages/Admin/InquiryManage/OrderInquiryPage";
 import PaymentInquiryPage from "pages/Admin/InquiryManage/PaymentInquiryPage";
 import ProductInquiryPage from "pages/Admin/InquiryManage/ProductInquiryPage";
 import OrderListPage from "pages/Admin/OrderManage/OrderListPage";
-import InventoryManagePage from "pages/Admin/ProductManage/InventoryManagePage";
 import ProductEditPage from "pages/Admin/ProductManage/ProductEditPage";
 import ProductListPage from "pages/Admin/ProductManage/ProductListPage";
 import ProductRegisterPage from "pages/Admin/ProductManage/ProductRegisterPage";
@@ -40,128 +39,143 @@ import SignUp from "pages/commonPage/SignUp";
 import ComparisonPage from "pages/User/Camparison/ComparisonPage";
 import React from "react";
 import { BrowserRouter, Route } from "react-router-dom";
-
-import { init as initApm } from '@elastic/apm-rum'
+import { init as initApm } from "@elastic/apm-rum";
 import ProductDetailPage from "pages/User/ProductDetailPage/ProductDetailPage";
-
-
+import { AuthProvider } from "./AuthContext";
 
 // eslint-disable-next-line no-unused-vars, no-undef
 const apm = initApm({
-  serviceName: 'dalkom-front',
+  serviceName: "dalkom-front",
   serverUrl: process.env.REACT_APP_APM_URL,
   secretToken: process.env.REACT_APP_APM_TOKEN,
-  environment: "dalkom-front"
+  environment: "dalkom-front",
 });
-
 
 const Router = () => {
   return (
     <BrowserRouter>
-      <ApmRoutes>
-        {/* 사용자 */}
-        <Route path="/" element={<MainPage />} />
-        <Route path="/signUp" element={<SignUp />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/category/:categorySeq" element={<CategoryPage />} />
-        <Route path="/category/:categorySeq/sub/:subCategorySeq" element={<CategoryPage />} />
+      <AuthProvider>
+        <ApmRoutes>
+          {/* 사용자 */}
 
-        <Route path="/product/:productSeq" element={<ProductDetailPage />} />
-        <Route path="/product/:productSeq/:menuName" element={<ProductDetailPage />} />
+          <Route path="/" element={<MainPage />} />
 
-        <Route path="/cart" element={<Cart />} />
-
-        <Route path="/payment" element={<Payment />} />
-        <Route path="/order-detail" element={<OrderDetailPage />} />
-
-        <Route path="/mypage/:userSeq">
-          <Route path="/mypage/:userSeq/order/list" element={<OrderList />} />
-          <Route path="/mypage/:userSeq/order/refund" element={<Refund />} />
-          <Route path="/mypage/:userSeq/mile" element={<Mileage />} />
-          <Route path="/mypage/:userSeq/inquiry" element={<Inquiry />} />
+          <Route path="/signUp" element={<SignUp />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/category/:categorySeq" element={<CategoryPage />} />
           <Route
-            path="/mypage/:userSeq/inquiry/history"
-            element={<InquiryHistory />}
+            path="/category/:categorySeq/sub/:subCategorySeq"
+            element={<CategoryPage />}
           />
-          <Route path="/mypage/:userSeq/review" element={<Review />} />
-          <Route
-            path="/mypage/:userSeq/review/write"
-            element={<ReviewWrite />}
-          />
-          <Route path="/mypage/:userSeq/review/edit" element={<ReviewEdit />} />
-          <Route path="/mypage/:userSeq/myinfo" element={<MyInfo />} />
-        </Route>
 
-        <Route path="/cs">
-          <Route path="/cs/manual" element={<ManualPage />} />
-          <Route path="/cs/notice" element={<NoticePage />} />
-          <Route path="/cs/user-faq" element={<UserFAQPage />} />
-        </Route>
+          <Route path="/product/:productSeq" element={<ProductDetailPage />} />
+          <Route path="/mypage/review/write/:ordrDetailSeq" element={<ReviewWrite />} />
+          <Route path="/mypage/review/edit/:reviewSeq" element={<ReviewEdit />} />
+          <Route path="/mypage/myinfo" element={<MyInfo />} />
+          <Route path="/product/:productSeq/:menuName" element={<ProductDetailPage />} />
 
-        {/* 관리자 */}
-        <Route path="/admin">
-          {/* 관리자 관리 */}
-          <Route path="/admin/list" element={<AdminListPage />} />
-          <Route path="/admin/register" element={<AdminRegisterPage />} />
+          <Route path="/cart" element={<Cart />} />
 
-          {/* 사용자 관리 */}
-          <Route path="/admin/user">
-            <Route path="/admin/user/list" element={<UserListPage />} />
-            <Route path="/admin/user/register" element={<UserRegisterPage />} />
-            <Route path="/admin/user/mile" element={<MileageApprovalPage />} />
+          <Route path="/payment" element={<Payment />} />
+          <Route path="/order-detail/:orderSeq" element={<OrderDetailPage />} />
+
+          <Route path="/mypage">
+            <Route path="/mypage/order/list" element={<OrderList />} />
+            <Route path="/mypage/order/refund" element={<Refund />} />
+            <Route path="/mypage/mile" element={<Mileage />} />
+            <Route path="/mypage/inquiry" element={<Inquiry />} />
             <Route
-              path="/admin/user/mile/history"
-              element={<MileageHistoryPage />}
+              path="/mypage/inquiry/history"
+              element={<InquiryHistory />}
             />
+            <Route path="/mypage/review" element={<Review />} />
+            <Route path="/mypage/review/write" element={<ReviewWrite />} />
+            <Route path="/mypage/review/edit" element={<ReviewEdit />} />
+            <Route path="/mypage/myinfo" element={<MyInfo />} />
           </Route>
 
-          {/* 상품 관리 */}
-          <Route path="/admin/product">
-            <Route path="/admin/product/list" element={<ProductListPage />} />
-            <Route
-              path="/admin/product/register"
-              element={<ProductRegisterPage />}
-            />
-            <Route path="/admin/product/edit" element={<ProductEditPage />} />
-            <Route
-              path="/admin/product/inventory"
-              element={<InventoryManagePage />}
-            />
+          <Route path="/cs">
+            <Route path="/cs/manual" element={<ManualPage />} />
+            <Route path="/cs/notice" element={<NoticePage />} />
+            <Route path="/cs/user-faq" element={<UserFAQPage />} />
           </Route>
 
-          {/* 주문 관리 */}
-          <Route path="/admin/order/list" element={<OrderListPage />} />
+          {/* 관리자 */}
+          <Route path="/admin">
+            {/* 관리자 관리 */}
+            <Route path="/admin/list" element={<AdminListPage />} />
+            <Route path="/admin/register" element={<AdminRegisterPage />} />
 
-          {/* 문의 관리 */}
-          <Route path="/admin/inquiry">
-            <Route path="/admin/inquiry/order" element={<OrderInquiryPage />} />
+            {/* 사용자 관리 */}
+            <Route path="/admin/user">
+              <Route path="/admin/user/list" element={<UserListPage />} />
+              <Route
+                path="/admin/user/register"
+                element={<UserRegisterPage />}
+              />
+              <Route
+                path="/admin/user/mile"
+                element={<MileageApprovalPage />}
+              />
+              <Route
+                path="/admin/user/mile/history"
+                element={<MileageHistoryPage />}
+              />
+            </Route>
+
+            {/* 상품 관리 */}
+            <Route path="/admin/product">
+              <Route path="/admin/product/list" element={<ProductListPage />} />
+              <Route
+                path="/admin/product/register"
+                element={<ProductRegisterPage />}
+              />
+              <Route path="/admin/product/edit" element={<ProductEditPage />} />
+            </Route>
+
+            {/* 주문 관리 */}
+            <Route path="/admin/order/list" element={<OrderListPage />} />
+
+            {/* 문의 관리 */}
+            <Route path="/admin/inquiry">
+              <Route
+                path="/admin/inquiry/order"
+                element={<OrderInquiryPage />}
+              />
+              <Route
+                path="/admin/inquiry/payment"
+                element={<PaymentInquiryPage />}
+              />
+              <Route
+                path="/admin/inquiry/product"
+                element={<ProductInquiryPage />}
+              />
+            </Route>
+
+            {/* 고객센터 */}
+            <Route path="/admin/cs">
+              <Route
+                path="/admin/cs/announcement"
+                element={<AnnouncementPage />}
+              />
+              <Route
+                path="/admin/cs/banner"
+                element={<BannerManagementPage />}
+              />
+              <Route path="/admin/cs/faq" element={<FAQPage />} />
+              <Route path="/admin/cs/mile" element={<MileageInfoPage />} />
+              <Route path="/admin/cs/shipping" element={<ShippingInfoPage />} />
+            </Route>
+          </Route>
+          {/* wow point */}
+          <Route>
             <Route
-              path="/admin/inquiry/payment"
-              element={<PaymentInquiryPage />}
-            />
-            <Route
-              path="/admin/inquiry/product"
-              element={<ProductInquiryPage />}
+              path="/comparison/:subCategorySeq"
+              element={<ComparisonPage />}
             />
           </Route>
-
-          {/* 고객센터 */}
-          <Route path="/admin/cs">
-            <Route
-              path="/admin/cs/announcement"
-              element={<AnnouncementPage />}
-            />
-            <Route path="/admin/cs/banner" element={<BannerManagementPage />} />
-            <Route path="/admin/cs/faq" element={<FAQPage />} />
-            <Route path="/admin/cs/mile" element={<MileageInfoPage />} />
-            <Route path="/admin/cs/shipping" element={<ShippingInfoPage />} />
-          </Route>
-        </Route>
-        {/* wow point */}
-        <Route>
-          <Route path="/comparison" element={<ComparisonPage />} />
-        </Route>
-      </ApmRoutes>
+        </ApmRoutes>
+      </AuthProvider>
     </BrowserRouter>
   );
 };

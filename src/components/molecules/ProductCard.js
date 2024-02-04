@@ -3,19 +3,60 @@ import styled from "styled-components";
 import { Card, Typography } from "@mui/material";
 import { StarRating } from "../atoms/StarRating";
 import { Link } from "react-router-dom";
+import { Button } from "react-scroll";
+import { productImageStore } from "store/store";
+import Swal from "sweetalert2";
 
-export const ProductCard = ({ imageUrl, title, price, star, review, seq }) => {
+export const ProductCard = ({ imageUrl, title, price, star, review, seq, categorySeq }) => {
+  
+  const {addImageList, addSeq, imageList, seqList, subCategorySeq, setSubCategorySeq} = productImageStore((state) => state);
+
+  const handleAddButtonClick = () => {
+
+    console.log("카드에서 받아오는 카테고리" + categorySeq)
+    console.log("상태에서 받아오는 카테고리" + subCategorySeq)
+
+    if(!seqList.includes(seq)){
+      if(subCategorySeq === 0 || categorySeq === subCategorySeq){
+        if(imageList.length < 3){
+          addImageList(imageUrl);
+          addSeq(seq);
+          setSubCategorySeq(categorySeq);
+        }
+        else{
+          Swal.fire("이미지를 3개까지만 넣을 수 있습니다!", "", "info");
+        }
+      }
+      else{
+        Swal.fire("같은 카테고리의 상품만 넣을 수 있습니다!", "", "info");
+      }
+    }
+    
+  }
+
+    
 
   return (
     <Link to={`/product/${seq}`}>
       <SungjunCard>
         <CardImage src={imageUrl} alt="카드 이미지" />
         <HoverCardContent>
-          <HoverCardTitle>★({star})</HoverCardTitle>
+          <HoverCardTitle>★ {star}</HoverCardTitle>
+          <HoverCardButton variant="contained" onClick={handleAddButtonClick}>
+            <Typography
+              sx={{
+                fontSize: "15px",
+                fontWeight: "bold",
+                lineHeight: "normal"
+              }}
+            >
+              ➕ 상품 비교
+            </Typography>
+          </HoverCardButton>
         </HoverCardContent>
         <CardContent>
           <CardTitle>{title}</CardTitle>
-          <CardDescription> 
+          <CardDescription>
             {/* <img src="/images/M-user.png" width="15px" height="15px"/>  {price} */}
             <Typography
               variant="body1"
@@ -23,15 +64,15 @@ export const ProductCard = ({ imageUrl, title, price, star, review, seq }) => {
                 textAlign: "center",
                 display: "flex",
                 alignItems: "center",
-                marginBottom : "7px",
+                marginBottom: "7px",
               }}
             >
               <img
                 src="/images/M-1.png"
                 alt="마일리지"
-                style={{ width: "20px", height: "20px", marginRight : "5px", }}
+                style={{ width: "20px", height: "20px", marginRight: "5px" }}
               />
-              {price}
+              {Number(price).toLocaleString()}
             </Typography>
           </CardDescription>
           <CardDescription>
@@ -53,6 +94,7 @@ const SungjunCard = styled(Card)`
   flex-direction: column;
   transition: transform 0.3s ease-in-out;
   position: relative; /* 이 부분 추가 */
+  box-shadow: none;
 
   &:hover {
     transform: translateY(-8px);
@@ -69,11 +111,11 @@ const CardContent = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 8px;
+  padding: 1vh;
 `;
 
 const CardTitle = styled.div`
-  font-size: 16px;
+  font-size: 20px;
   font-weight: bold;
   margin-bottom: 8px;
 `;
@@ -106,4 +148,24 @@ const HoverCardTitle = styled(Typography)`
   color: gold;
   font-size: 24px;
   font-weight: bold;
+`;
+
+const HoverCardButton = styled(Button)`
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(255, 255, 255, 0.7);
+  color: rgba(0, 0, 0, 0.7);
+  width: 100px;
+  height: 23px;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 0;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 1);
+    color: rgba(0, 0, 0, 1);
+  }
 `;
