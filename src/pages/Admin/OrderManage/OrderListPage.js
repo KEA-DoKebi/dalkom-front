@@ -4,6 +4,7 @@ import AdminBar from "components/organisms/AdminBar";
 import { AdminButton } from "components/atoms/AdminCommonButton";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { CustomSelect } from "components/atoms/AdminSelectBox";
+import Swal from "sweetalert2";
 import Search from 'components/molecules/Search';
 import {
   Box,
@@ -11,9 +12,7 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  FormControl,
   Grid,
-  InputLabel,
   Paper,
   Toolbar,
   Pagination,
@@ -21,8 +20,10 @@ import {
   ListItem,
   Typography,
   IconButton,
+  DialogTitle,
 } from "@mui/material";
 import { TokenAxios } from "apis/CommonAxios";
+import { Button } from "react-scroll";
 
 // 각 항목에 대한 공통 스타일을 설정합니다.
 const itemFlexStyles = {
@@ -88,13 +89,40 @@ const AdminListPage = () => {
     setModalOpen(true);
   };
 
-  const handleCloseModal = () => {
+  const handleCloseSaveModal = (saveAction = false) => {
+    if (saveAction) {
+      // Display swal when the "저장" button is clicked
+      Swal.fire({
+        title: '저장 완료',
+        text: '주문 상세 정보가 저장되었습니다.',
+        icon: 'success',
+        confirmButtonText: '확인',
+        onClose: () => {
+          // Close the modal when the "확인" button is clicked
+          setModalOpen(false);
+        },
+      });
+      // Add logic for saving data or other actions if needed
+    }
+  
+    // Close the modal
+    setModalOpen(false);
+  };
+
+  const handleCloseModal = (saveAction = false) => {
+    // Close the modal
     setModalOpen(false);
   };
 
   const handleOrderStatusChange = (event) => {
     setOrderStatus(event.target.value); // Update orderStatus when the value changes
   };
+  const [selectedOption, setSelectedOption] = useState("");
+  const options = [
+    { label: "Option 1", value: "option1" },
+    { label: "Option 2", value: "option2" },
+    // Add more options as needed
+  ];
 
   const [dataList, setDataList] = useState([]);
   const dataListLabels = [
@@ -152,13 +180,25 @@ const AdminListPage = () => {
 
   // 상품 정보를 표시하기 위한 컴포넌트입니다.
   const OrderList = ({ order }) => {
+    
+    // Get the date as a string in the format YYYY-MM-DD
+    const orderDate = new Date(order.ordrDate);
+    
+    // Get the date as a string in the format YYYY. MM. DD.
+    const formatDate = (dateString) => {
+      const options = {year: 'numeric', month: '2-digit', day: '2-digit'};
+      return new Date(dateString).toLocaleDateString('ko-KR', options);
+  };
+  
+
+
     return (
       <ListItemStyled>
         <Typography variant="body1" sx={{ textAlign: "center" }}>
           {order.ordrSeq}
         </Typography>
         <Typography variant="body1" sx={{ textAlign: "center" }}>
-          {order.ordrDate}
+          {formatDate(new Date(order.ordrDate))}
         </Typography>
         <Typography variant="body1" sx={{ textAlign: "center" }}>
           {order.ordrCnt}
@@ -173,11 +213,16 @@ const AdminListPage = () => {
           {order.totalPrice}
         </Typography>
         <Typography variant="body1" sx={{ textAlign: "center" }}>
-          {order.ordrState}
+          {order.ordrStateName}
         </Typography>
-        <IconButton onClick={handleOpenModal}>
-          <InfoOutlinedIcon />
+        <div style={{textAlign:"center"}}>
+          <IconButton   
+         onClick={handleOpenModal}>
+          <InfoOutlinedIcon>
+          </InfoOutlinedIcon>
         </IconButton>
+        </div>
+        
       </ListItemStyled>
     );
   };
@@ -265,81 +310,107 @@ const AdminListPage = () => {
               }
             />
           </Box>
-          <Dialog onClose={handleCloseModal} open={modalOpen} maxWidth={false}>
-            <DialogContent style={{ width: 900, height: 600 }}>
+          <Dialog  onClose={handleCloseModal} open={modalOpen} maxWidth={false} style={{ borderRadius: '30%' }}
+            PaperProps={{ sx: { borderRadius: "30px" } }}   >
+            <DialogTitle style={{ fontWeight: "bold" ,fontSize: "1.5rem",textAlign:"center",marginTop:"10px"}}>주문 상세 정보</DialogTitle>
+            <DialogContent style={{ width: 1200, height: 650 }}>
               <div>
                 <Grid container spacing={2} marginTop="2%">
                   <Grid item xs={1}>
                     {" "}
                   </Grid>
-                  <Grid item xs={1.5}>
+                  <Grid item xs={2}>
                     <Typography style={{ fontWeight: "bold" }}>
-                      주문자 정보
+                      주문자 
                     </Typography>
                   </Grid>
                   <Grid item xs={1}>
                     <Typography>김주혜</Typography>
                   </Grid>
-                  <Grid item xs={3}>
-                    <Typography>010-5432-9943</Typography>
+                  <Grid item xs={2.5}>
                   </Grid>
+                  <Grid item xs={1.8}>
+                    <Typography style={{ fontWeight: "bold" }}>
+                      주문 상태
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={1.2}>
+                  <CustomSelect
+                        options={options}
+                        value={selectedOption}
+                        onChange={handleOrderStatusChange}
+                        size="xs"
+                      ></CustomSelect>
+                  </Grid>
+                  <Grid item xs={2}>
+                    <Typography> </Typography>
+                  </Grid>
+                </Grid>
 
-                  <Grid item xs={1.5}>
+                <Grid container spacing={2} marginTop="0.5%">
+                  <Grid item xs={1}>
+                    {" "}
+                  </Grid>
+                  <Grid item xs={2}>
+                    {/* 배송지 정보와 배송 요청 사항 */}
+                    <Typography style={{ fontWeight: "bold" }}>
+                      주문 번호
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={2.8}>
+                    <Typography>1</Typography>
+                  </Grid>
+                  <Grid item xs={1.8} marginLeft={"6%"}>
+                    <Typography style={{ fontWeight: "bold" }}>
+                      주문 일시
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={3}>
+                    <Typography>2024.01.09 10:00</Typography>
+                  </Grid>
+                </Grid>
+
+                <Grid container spacing={2} marginTop="0.5%">
+                  <Grid item xs={1}>
+                    {" "}
+                  </Grid>
+                  <Grid item xs={2}>
                     <Typography style={{ fontWeight: "bold" }}>
                       수령인
                     </Typography>
                   </Grid>
-                  <Grid item xs={1}>
+                  <Grid item xs={2.8}>
                     <Typography>김주혜</Typography>
                   </Grid>
-                  <Grid item xs={2}>
-                    <Typography>010-5432-9943</Typography>
+                  <Grid item xs={1.8} marginLeft={"6%"}>
+                    <Typography style={{ fontWeight: "bold" }}>
+                      수령인 연락처
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={3}>
+                    <Typography>010-9192-1234</Typography>
                   </Grid>
                 </Grid>
-
                 <Grid container spacing={2} marginTop="0.5%">
                   <Grid item xs={1}>
                     {" "}
                   </Grid>
-                  <Grid item xs={1.5}>
-                    {/* 배송지 정보와 배송 요청 사항 */}
+                  <Grid item xs={2}>
                     <Typography style={{ fontWeight: "bold" }}>
                       배송지 정보
                     </Typography>
                   </Grid>
-                  <Grid item xs={3}>
-                    <Typography>경기도 고양시 덕양구</Typography>
-                  </Grid>
-                  <Grid item xs={1.8} marginLeft={"6%"}>
-                    <Typography style={{ fontWeight: "bold" }}>
-                      배송 요청 사항
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={3}>
-                    <Typography>"문앞에 두고 가세요"</Typography>
+                  <Grid item xs={2}>
+                    <Typography>2024-01-21</Typography>
                   </Grid>
                 </Grid>
-
                 <Grid container spacing={2} marginTop="0.5%">
                   <Grid item xs={1}>
                     {" "}
-                  </Grid>
-                  <Grid item xs={1.5}>
-                    <Typography style={{ fontWeight: "bold" }}>
-                      주문번호
-                    </Typography>
                   </Grid>
                   <Grid item xs={2}>
-                    <Typography>1</Typography>
-                  </Grid>
-                </Grid>
-                <Grid container spacing={2} marginTop="0.5%">
-                  <Grid item xs={1}>
-                    {" "}
-                  </Grid>
-                  <Grid item xs={1.5}>
                     <Typography style={{ fontWeight: "bold" }}>
-                      주문일시
+                      배송 요청 사항
                     </Typography>
                   </Grid>
                   <Grid item xs={2}>
@@ -349,13 +420,13 @@ const AdminListPage = () => {
 
                 <table
                   style={{
-                    marginLeft: "15%",
-                    marginTop: "2%",
+                    marginLeft: "5%",
+                    marginTop: "5%",
                     border: "1px solid black",
                     borderCollapse: "collapse",
-                    width: "80%",
+                    width: "90%",
                     height: "auto",
-                    borderRadius: "10px", // 테두리를 둥글게 만드는 부분
+                    borderRadius: "30px", // 테두리를 둥글게 만드는 부분
                   }}
                 >
                   <thead>
@@ -365,7 +436,7 @@ const AdminListPage = () => {
                         spacing={2}
                         justifyContent="space-between"
                       >
-                        <Grid item xs={7} style={{ textAlign: "center" }}>
+                        <Grid item xs={5} style={{ textAlign: "center" }}>
                           <Typography style={{ fontWeight: "bold" }}>
                             주문 상품
                           </Typography>
@@ -380,6 +451,11 @@ const AdminListPage = () => {
                             수량
                           </Typography>
                         </Grid>
+                        <Grid item xs={2} style={{ textAlign: "center" }}>
+                          <Typography style={{ fontWeight: "bold" }}>
+                            마일리지
+                          </Typography>
+                        </Grid>
                       </Grid>
                     </tr>
                   </thead>
@@ -390,7 +466,7 @@ const AdminListPage = () => {
                         spacing={2}
                         justifyContent="space-between"
                       >
-                        <Grid item xs={7} style={{ textAlign: "center" }}>
+                        <Grid item xs={5} style={{ textAlign: "center" }}>
                           <Typography
                             style={{ fontSize: "14px", marginTop: "2%" }}
                           >
@@ -411,6 +487,13 @@ const AdminListPage = () => {
                             1
                           </Typography>
                         </Grid>
+                        <Grid item xs={2} style={{ textAlign: "center" }}>
+                          <Typography
+                            style={{ fontSize: "14px", marginTop: "2%" }}
+                          >
+                            1
+                          </Typography>
+                        </Grid>
                       </Grid>
                     </tr>
                     <tr>
@@ -419,7 +502,7 @@ const AdminListPage = () => {
                         spacing={2}
                         justifyContent="space-between"
                       >
-                        <Grid item xs={7} style={{ textAlign: "center" }}>
+                        <Grid item xs={5} style={{ textAlign: "center" }}>
                           <Typography
                             style={{ fontSize: "14px", marginTop: "2%" }}
                           >
@@ -431,6 +514,13 @@ const AdminListPage = () => {
                             style={{ fontSize: "14px", marginTop: "2%" }}
                           >
                             사이즈 - Free
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={2} style={{ textAlign: "center" }}>
+                          <Typography
+                            style={{ fontSize: "14px", marginTop: "2%" }}
+                          >
+                            1
                           </Typography>
                         </Grid>
                         <Grid item xs={2} style={{ textAlign: "center" }}>
@@ -445,12 +535,12 @@ const AdminListPage = () => {
                   </tbody>
                 </table>
 
-                <Grid container spacing={2} marginTop="1%">
-                  <Grid item xs={1}>
+                <Grid container spacing={2} sx={{marginTop:"2%"}}>
+                  <Grid item xs={8.5}>
                     {" "}
                   </Grid>
                   <Grid item xs={1.5}>
-                    <Typography style={{ fontWeight: "bold" }}>
+                    <Typography style={{ marginTop:"2%" ,fontWeight: "bold" }}>
                       결제 금액
                     </Typography>
                   </Grid>
@@ -458,32 +548,13 @@ const AdminListPage = () => {
                     <Typography>39,600원</Typography>
                   </Grid>
                 </Grid>
-                <Grid container spacing={2} marginTop="1%">
-                  <Grid item xs={1}>
-                    {" "}
-                  </Grid>
-                  <Grid item xs={1.5}>
-                    <Typography style={{ fontWeight: "bold", marginTop: "8%" }}>
-                      주문 상태
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={2}>
-                    <FormControl>
-                      <InputLabel>주문 상태</InputLabel>
-                      <CustomSelect
-                        value={orderStatus}
-                        onChange={handleOrderStatusChange}
-                        size="s"
-                      ></CustomSelect>
-                    </FormControl>
-                  </Grid>
-                </Grid>
+                
               </div>
               <DialogActions
-                style={{ justifyContent: "center", marginTop: "40px" }}
+                style={{ justifyContent: "center", marginTop: "60px" }}
               >
-                <AdminButton autoFocus onClick={handleCloseModal}>
-                  Save
+                <AdminButton autoFocus onClick={() => handleCloseSaveModal(true)}>
+                  저장
                 </AdminButton>
               </DialogActions>
             </DialogContent>
@@ -495,3 +566,6 @@ const AdminListPage = () => {
 };
 
 export default AdminListPage;
+
+
+ 

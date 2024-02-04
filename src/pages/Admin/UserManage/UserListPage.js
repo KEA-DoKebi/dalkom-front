@@ -4,6 +4,8 @@ import AdminBar from "components/organisms/AdminBar";
 import { AdminButton } from "components/atoms/AdminCommonButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Search from 'components/molecules/Search';
+import mileageIcon from "../ProductManage/배경제거M-admin.png"; // 컴포넌트와 같은 디렉토리에 있는 경우
+
 
 
 import {
@@ -78,6 +80,7 @@ const AdminListPage = () => {
     { label: "ID" },
     { label: "닉네임" }
   ]
+  const pageSize = 10;
 
   const userGet = async (page) => {
     const res = await TokenAxios.get(`/api/user?page=${page}&size=10`);
@@ -137,27 +140,42 @@ const AdminListPage = () => {
   };
 
   // 상품 정보를 표시하기 위한 컴포넌트입니다.
-  const UserList = ({ user }) => {
+  const UserList = ({ user, currentPage, pageSize}) => {
+    console.log("currentPage",currentPage);
+    console.log("pageSize",pageSize);
+    
+        
+    const userNumber = currentPage * pageSize + dataList.indexOf(user) + 1;
+
     return (
       <ListItemStyled>
         <Typography variant="body1" sx={{ textAlign: "center" }}>
-          {user.userSeq}
+          {userNumber}
         </Typography>
-        <Typography variant="body1" sx={{ textAlign: "center" }}>
+        <Typography variant="body1" sx={{ marginLeft:"10px", textAlign: "center" }}>
           {user.email}
         </Typography>
-        <Typography variant="body1" sx={{ textAlign: "center" }}>
+        <Typography variant="body1" sx={{ marginLeft:"20px",  textAlign: "center" }}>
           {user.nickname}
         </Typography>
-        <Typography variant="body1" sx={{ textAlign: "center" }}>
-          {user.mileage}
+        <Typography variant="body1" sx={{  marginLeft:"10px",textAlign: "left" }}>
+           <div style={{marginLeft:"100px"}}>
+              <img
+                src={mileageIcon}
+                alt="마일리지"
+                style={{ width: "15px", height: "15px", marginRight: "10px" }}
+              />
+              {user.mileage}
+           </div>
+           
         </Typography>
-        <Typography variant="body1" sx={{ textAlign: "center" }}>
+        <Typography variant="body1" sx={{ marginLeft:"20px", textAlign: "center" }}>
           {user.address}
         </Typography>
         <IconButton
           onClick={() => handleDeleteUser(user.userSeq)}
-          sx={{ "&:hover": { backgroundColor: "#FFFFFF" } }} // 호버 효과 제거
+          sx={{  
+            "&:hover": { backgroundColor: "#FFFFFF" } }} // 호버 효과 제거
         >
           <DeleteIcon />
         </IconButton>
@@ -222,7 +240,10 @@ const AdminListPage = () => {
               <Divider component="li" />
               {dataList.map((user, index) => (
                 <React.Fragment key={index}>
-                  <UserList user={user} />
+                  <UserList 
+                  user={user} 
+                  currentPage={currentPage}
+                  pageSize={pageSize}/>
                   {index !== dataList.length && (
                     <Divider component="li" light />
                   )}

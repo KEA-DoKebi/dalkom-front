@@ -44,6 +44,6 @@ const FlexContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content :center;
-  margin-left : 640px
+  margin-left : 440px
 
 `;

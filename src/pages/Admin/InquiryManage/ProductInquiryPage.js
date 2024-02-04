@@ -5,16 +5,18 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import {Box, Divider, IconButton, List, ListItem, Pagination, Paper, Toolbar, Typography,} from "@mui/material";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
-import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import Modal from "@mui/material/Modal";
 import {MuiColorChip} from "components/atoms/AdminChip";
 import {AdminButton} from "components/atoms/AdminCommonButton";
 import {TokenAxios} from "../../../apis/CommonAxios";
 import Search from 'components/molecules/Search';
+import Swal from "sweetalert2";
+
 
 
 let currentInquirySeq = null;
 const dataListLabels = ['문의번호', '문의일시', '문의제목', '답변여부', '상세보기'];
+const pageSize = 7;
 
 
 const StyledList = styled(List)`
@@ -90,7 +92,26 @@ const ProductInquiryPage = () => {
     const optionList = [
         { label: "문의제목" }
       ]
-    
+      
+      const handleCloseSaveModal = (saveAction = false) => {
+        if (saveAction) {
+          // Display swal when the "저장" button is clicked
+          Swal.fire({
+            title: '저장 완료',
+            text: '주문 상세 정보가 저장되었습니다.',
+            icon: 'success',
+            confirmButtonText: '확인',
+            onClose: () => {
+              // Close the modal when the "확인" button is clicked
+              setOpenModal(false);
+            },
+          });
+          // Add logic for saving data or other actions if needed
+        }
+      
+        // Close the modal
+        setOpenModal(false);
+      };
     const handleSearchInputChange = (event) => {
     setSearchQuery(event.target.value);
     };
@@ -140,9 +161,16 @@ const ProductInquiryPage = () => {
             console.log(res.data.result.data.content);
             setTotalPages(res.data.result.data.totalPages);
 
-            const mappedDataList = res.data.result.data.content.map((item) => {
+            const mappedDataList = res.data.result.data.content.map((item,index) => {
+                const userNumber = page * pageSize + index + 1;
+                console.log(currentPage);
+                    console.log(pageSize);
+                    console.log(dataList.indexOf(item.index));
+                    
+                    
+                    
                     return {
-                        문의번호: item.inquirySeq,
+                        문의번호: userNumber,
                         문의일시: formatDate(item.createdAt),
                         문의제목: item.title,
                         답변여부: item.answerState === "Y" ? "completed" : "waiting",
@@ -348,16 +376,21 @@ const ProductInquiryPage = () => {
                         aria-describedby="simple-modal-description"
                     >
                         <ModalBoxStyled>
-                            <IconButton
+                            {/* <IconButton
                                 onClick={handleCloseModal}
                                 sx={{mt: 4, mr: 4}}
                                 style={{position: "absolute", right: 0, top: 0}}
                             >
                                 <HighlightOffIcon></HighlightOffIcon>
-                            </IconButton>
+                            </IconButton> */}
 
                             <Grid container spacing={2}>
-                                <Grid item xs={2}>
+                                <Grid item xs={12}>
+                                    <Typography variant="h4" fontWeight="bold" sx={{mt: 4, textAlign:"center"}}>
+                                        문의 내용
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={2} >
                                     <Typography variant="h6" fontWeight="bold" sx={{mb: 2}}>
                                         제목
                                     </Typography>
@@ -395,7 +428,7 @@ const ProductInquiryPage = () => {
                                 inputRef={textareaRef}  // ref를 설정
                                 sx={{mb: 4, width: "100%", backgroundColor: "#f8fafc"}}
                             />
-                            <AdminButton variant="contained" onClick={handleModalSaveButton}>저장</AdminButton>
+                            <AdminButton variant="contained" onClick={handleCloseSaveModal}>저장</AdminButton>
                         </ModalBoxStyled>
                     </Modal>
                 </Box>
