@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import styled from "styled-components";
 import {
-    Dialog,
+    Dialog, DialogActions,
     DialogContent, DialogTitle,
     Divider,
     IconButton,
@@ -220,18 +220,23 @@ export const FAQBody = () => {
                             <Typography variant="h6" gutterBottom fontWeight="bold" sx={{ textAlign: "center" }}>
                                 {selectedFaq.title}
                             </Typography>
-                            <Typography variant="body2" align={"right"} sx={{ mb: 2 }}>
-                                작성일시: {formatDate(selectedFaq.createdAt)} 작성자: {selectedFaq.name}
-                            </Typography>
-                            <Typography variant="body1" sx={{ whiteSpace: "pre-line" }}>
-                                {selectedFaq.content}
+                            <Typography variant="body1" sx={{whiteSpace: "pre-line"}}>
+                                <div dangerouslySetInnerHTML={{__html: selectedFaq.content}}/>
                             </Typography>
                         </div>
                     )}
                 </DialogContent>
-                <AdminButton onClick={handleCloseModal} sx={{ margin: "auto", marginBottom: 2 }}>
-                    닫기
-                </AdminButton>
+                <DialogActions
+                    style={{
+                        justifyContent: "center",
+                        marginTop: "20px",
+                        marginBottom: "20px",
+                    }}
+                >
+                    <AdminButton onClick={handleCloseModal} sx={{ margin: "auto", marginBottom: 2 }}>
+                        확인
+                    </AdminButton>
+                </DialogActions>
             </Dialog>
         </Main>
     );

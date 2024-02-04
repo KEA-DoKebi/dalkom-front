@@ -233,8 +233,10 @@ export const NoticeBody = () => {
                         <Typography variant="body2" align={"right"} sx={{ mb: 2 }}>
                             작성일시: {formatDate(selectedNotice.createdAt)} 작성자: {selectedNotice.nickname}
                         </Typography>
-                        <Typography sx={{ whiteSpace: "pre-line" }}>
-                            {selectedNotice.content}
+                        <Typography sx={{whiteSpace: "pre-line"}}>
+                            {/*<ContentStyle dangerouslySetInnerHTML={{ __html: selectedNotice.content }} />*/}
+                            {/*{selectedNotice.content}*/}
+                            <div dangerouslySetInnerHTML={{__html: selectedNotice.content}}/>
                         </Typography>
                     </div>
                 )}
@@ -247,7 +249,7 @@ export const NoticeBody = () => {
                 }}
             >
                 <AdminButton onClick={handleCloseModal} >
-                    닫기
+                    확인
                 </AdminButton>
             </DialogActions>
         </Dialog>

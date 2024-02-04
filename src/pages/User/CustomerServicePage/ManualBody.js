@@ -100,7 +100,7 @@ export const ManualBody = ({ active, onButtonClick }) => {
         </ImgWithText>
         <ImgWithText>
           <Img src={cancel} />
-          <TextL>취소 교환 반품품</TextL>
+          <TextL>취소 교환 반품</TextL>
           <TextS>1. 주문취소</TextS>
           <TextS>2. 교환 반품</TextS>
         </ImgWithText>
