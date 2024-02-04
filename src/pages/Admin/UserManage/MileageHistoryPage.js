@@ -18,7 +18,7 @@ import Search from 'components/molecules/Search';
 
 const dataListLabels = [
   "번호",
-  "아이디",
+  "이메일",
   "닉네임",
   "마일리지",
   "신청금액",
@@ -30,13 +30,13 @@ const dataListLabels = [
 // 각 항목에 대한 공통 스타일을 설정합니다.
 const itemFlexStyles = {
   "& > *:nth-child(1)": { flex: 1 }, // 번호
-  "& > *:nth-child(2)": { flex: 1.5 }, // 아이디
+  "& > *:nth-child(2)": { flex: 1.5 }, // 이메일
   "& > *:nth-child(3)": { flex: 1.5 }, // 닉네임
-  "& > *:nth-child(4)": { flex: 1.5 }, // 마일리지
-  "& > *:nth-child(5)": { flex: 1.5 }, // 신청금액
+  "& > *:nth-child(4)": { flex: 1 }, // 마일리지
+  "& > *:nth-child(5)": { flex: 1 }, // 신청금액
   "& > *:nth-child(6)": { flex: 1 }, // 사용자
-  "& > *:nth-child(7)": { flex: 1 }, // 일시
-  "& > *:nth-child(8)": { flex: 1 }, // 승인/거부
+  "& > *:nth-child(7)": { flex: 1.5 }, // 일시
+  "& > *:nth-child(8)": { flex: 1.5 }, // 승인/거부
 };
 
 const StyledList = styled(List)`
@@ -81,7 +81,7 @@ const getColumnWidth = (label) => {
   // Define your width ranges for each column label
   const widthRanges = {
     회원번호: [0, 10],
-    아이디: [10, 28],
+    이메일: [10, 28],
     닉네임: [28, 40],
     마일리지: [40, 52],
     신청금액: [52, 64],
@@ -110,10 +110,10 @@ const MileageHistoryPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedValue, setSelectedValue] = useState("");
 
-  const pageSize = 7;
+  const pageSize = 10;
 
   const optionList = [
-    { label: "ID" },
+    { label: "이메일" },
     { label: "닉네임" },
     { label: "사용자" },
   ]
@@ -151,12 +151,12 @@ const MileageHistoryPage = () => {
       let apiUrl = "/api/mileage/apply/search?page=0&size=10";  // 기본 API URL
       
       // 선택된 검색어에 따라 검색 조건 추가
-      if (selectedValue.label === "ID") {
+      if (selectedValue.label === "이메일") {
         apiUrl += `&email=${searchQuery}`;
       } else if (selectedValue.label === "닉네임") {
         apiUrl += `&nickname=${searchQuery}`;
       } else if (selectedValue.label === "사용자") {
-        apiUrl += `name&=${searchQuery}`;
+        apiUrl += `&name=${searchQuery}`;
       }  
       
       const res = await TokenAxios.get(apiUrl);
@@ -179,7 +179,7 @@ const MileageHistoryPage = () => {
         </Typography>
         <Typography
           variant="body1"
-          sx={{ width: getColumnWidth("아이디"), textAlign: "center" }}
+          sx={{ width: getColumnWidth("이메일"), textAlign: "center" }}
         >
           {apply.email}
         </Typography>
