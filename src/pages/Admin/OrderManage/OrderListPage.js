@@ -5,14 +5,12 @@ import { AdminButton } from "components/atoms/AdminCommonButton";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { CustomSelect } from "components/atoms/AdminSelectBox";
 import Swal from "sweetalert2";
-import CloseIcon from '@mui/icons-material/Close';
 import Search from 'components/molecules/Search';
 import {
   Box,
   Divider,
   Dialog,
   DialogActions,
-  DialogTitle,
   DialogContent,
   Grid,
   Paper,
@@ -30,12 +28,12 @@ import { Button } from "react-scroll";
 // 각 항목에 대한 공통 스타일을 설정합니다.
 const itemFlexStyles = {
   "& > *:nth-child(1)": { flex: 1 }, // 주문번호
-  "& > *:nth-child(2)": { flex: 1 }, // 주문일시
-  "& > *:nth-child(3)": { flex: 0.5 }, // 수량
+  "& > *:nth-child(2)": { flex: 2 }, // 주문일시
+  "& > *:nth-child(3)": { flex: 1 }, // 수량
   "& > *:nth-child(4)": { flex: 1 }, // 주문자
   "& > *:nth-child(5)": { flex: 1 }, // 수령인
   "& > *:nth-child(6)": { flex: 1 }, // 결제금액
-  "& > *:nth-child(7)": { flex: 1.5 }, // 주문상태
+  "& > *:nth-child(7)": { flex: 1 }, // 주문상태
   "& > *:nth-child(8)": { flex: 1 }, // 주문상세
 };
 
@@ -69,89 +67,26 @@ const ListItemStyled = styled(ListItem)`
   ${itemFlexStyles}// 공통 스타일 적용
 `;
 
-const formatDate = (dateString) => {
-  const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
-  return new Date(dateString).toLocaleDateString('ko-KR', options);
-};
-
-const dataListLabels = ["주문번호", "주문일시", "수량", "주문자", "수령인", "결제금액", "주문상태", "주문상세"];
-
-const options = [
-  { label: "주문확인", value: "11" },
-  { label: "배송준비", value: "12" },
-  { label: "배송시작", value: "13" },
-  { label: "배송완료", value: "14" },
-  { label: "구매확정", value: "15" },
-  { label: "주문취소", value: "21" },
-  { label: "반품/환불접수", value: "31" },
-  { label: "반송완료", value: "32" },
-  { label: "반품/환불완료", value: "33" }
-]
-
 const AdminListPage = () => {
   // Declare selectedMenu and setSelectedMenu using useState
   const [selectedMenu, setSelectedMenu] = useState("주문 목록");
-  const [dataList, setDataList] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(0); // 현재 페이지를 상태로 관리
   const [totalPages, setTotalPages] = useState();
-  const [orderState, setOrderState] = useState("");
-  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [orderStatus, setOrderStatus] = useState(""); 
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedValue, setSelectedValue] = useState("");
-
-  const pageSize = 10;
 
   const optionList = [
     { label: "주문자" },
     { label: "수령인" },
   ]
-
   const handleSearchInputChange = (event) => {
     setSearchQuery(event.target.value);
   };
 
-  const handleSearch = async (searchQuery) => {
-    try {
-      console.log(selectedValue.label);
-      console.log(searchQuery);
-
-      let apiUrl = "/api/order/admin/search?page=0&size=10";  // 기본 API URL
-
-      // 선택된 검색어에 따라 검색 조건 추가
-      if (selectedValue.label === "주문자") {
-        apiUrl += `&name=${searchQuery}`;
-      } else if (selectedValue.label === "수령인") {
-        apiUrl += `&receiverName=${searchQuery}`;
-      }
-
-      const res = await TokenAxios.get(apiUrl);
-      setDataList(res.data.result.data.content);
-      setTotalPages(res.data.result.data.totalPages);
-      console.log(res.data.result.data.content);
-    } catch (error) {
-      console.error('Error searching admin:', error);
-    }
-  };
-
-  // 주문 상세 조회 (get)
-  const handleOpenModal = async (order) => {
-    try {
-      const res = await TokenAxios.get(`/api/order/${order.ordrSeq}`);
-      console.log("Selected Order:", res.data);
-      setSelectedOrder({
-        detailList: res.data.result.data.orderDetailList,
-        receiverDetail: res.data.result.data.receiverDetail,
-        totalPrice: res.data.result.data.totalPrice,
-        orderSeq: order.ordrSeq,
-        orderDate: order.ordrDate,
-        orderName: order.name,
-      });
-      setOrderState(order.ordrState);
-      setModalOpen(true);
-    } catch (e) {
-      console.error("주문 상세 정보 가져오기 실패", e);
-    }
+  const handleOpenModal = () => {
+    setModalOpen(true);
   };
 
   const handleCloseSaveModal = (saveAction = false) => {
@@ -179,9 +114,8 @@ const AdminListPage = () => {
     setModalOpen(false);
   };
 
-  const handleOrderStateChange = (event) => {
-    setOrderState(event.target.value); // Update orderStatus when the value changes
-    // updateState(selectedOrder.orderSeq, event.target.value);
+  const handleOrderStatusChange = (event) => {
+    setOrderStatus(event.target.value); // Update orderStatus when the value changes
   };
   const [selectedOption, setSelectedOption] = useState("");
   const options = [
@@ -190,14 +124,25 @@ const AdminListPage = () => {
     // Add more options as needed
   ];
 
-  const handleSaveClick = () => {
-    if (selectedOrder && orderState) {
-      updateState(selectedOrder.orderSeq, orderState);
-      handleCloseModal();
-    } else {
-      console.log("주문 정보 또는 상태가 없습니다.")
-    }
-  }
+  const [dataList, setDataList] = useState([]);
+  const dataListLabels = [
+    "주문번호",
+    "주문일시",
+    "수량",
+    "주문자",
+    "수령인",
+    "결제금액",
+    "주문상태",
+    "주문상세",
+  ];
+
+  const adminGet = async (page) => {
+    const res = await TokenAxios.get(`/api/order?page=${page}&size=7`);
+    console.log(res.data.result.data.content);
+    setDataList(res.data.result.data.content);
+    console.log(res.data.result.data.totalPages);
+    setTotalPages(res.data.result.data.totalPages);
+  };
 
   useEffect(() => {
     // 각 페이지가 마운트될 때 selectedMenu를 업데이트
@@ -210,31 +155,28 @@ const AdminListPage = () => {
   const handlePageChange = (event, newPage) => {
     setCurrentPage(newPage); // 현재 페이지 업데이트
   };
-
-  // 전체 주문 조회 (get)
-  const adminGet = async (page) => {
-    const res = await TokenAxios.get(`/api/order?page=${page}&size=${pageSize}`);
-    console.log(res.data.result.data.content);
-    setDataList(res.data.result.data.content);
-    console.log(res.data.result.data.totalPages);
-    setTotalPages(res.data.result.data.totalPages);
-  };
-
-  // 주문 상태 변경
-  const updateState = async (orderSeq, newState) => {
+  const handleSearch = async (searchQuery) => {
     try {
-      const res = await TokenAxios.put(`/api/order/${orderSeq}/state`, { orderState: newState });
-      if (res.status === 200) {
-        Swal.fire("성공", "상태를 변경했습니다.", "success");
-        adminGet(currentPage);
-      } else {
-        throw new Error('API response error');
+      console.log(selectedValue.label);
+      console.log(searchQuery);
+      
+      let apiUrl = "/api/order/admin/search?page=0&size=10";  // 기본 API URL
+      
+      // 선택된 검색어에 따라 검색 조건 추가
+      if (selectedValue.label === "주문자") {
+        apiUrl += `&name=${searchQuery}`;
+      } else if (selectedValue.label === "수령인") {
+        apiUrl += `&receiverName=${searchQuery}`; 
       }
-    } catch (e) {
-      console.error("상태 변경 실패", e)
-      Swal.fire("실패", "상태를 변경할 수 없습니다.", "error")
+      
+      const res = await TokenAxios.get(apiUrl);
+      setDataList(res.data.result.data.content);
+      setTotalPages(res.data.result.data.totalPages);
+      console.log(res.data.result.data.content);
+    } catch (error) {
+      console.error('Error searching admin:', error);
     }
-  }
+  };
 
   // 상품 정보를 표시하기 위한 컴포넌트입니다.
   const OrderList = ({ order }) => {
@@ -253,21 +195,21 @@ const AdminListPage = () => {
     return (
       <ListItemStyled>
         <Typography variant="body1" sx={{ textAlign: "center" }}>
-          {index + 1 + (currentPage * pageSize)}
+          {order.ordrSeq}
         </Typography>
         <Typography variant="body1" sx={{ textAlign: "center" }}>
           {formatDate(new Date(order.ordrDate))}
         </Typography>
-        <Typography variant="body1" sx={{ textAlign: "center", ml: "10px" }}>
+        <Typography variant="body1" sx={{ textAlign: "center" }}>
           {order.ordrCnt}
         </Typography>
-        <Typography variant="body1" sx={{ textAlign: "center", ml: "10px" }}>
+        <Typography variant="body1" sx={{ textAlign: "center" }}>
           {order.name}
         </Typography>
-        <Typography variant="body1" sx={{ textAlign: "center", ml: "10px" }}>
+        <Typography variant="body1" sx={{ textAlign: "center" }}>
           {order.receiveName}
         </Typography>
-        <Typography variant="body1" sx={{ textAlign: "center", ml: "10px" }}>
+        <Typography variant="body1" sx={{ textAlign: "center" }}>
           {order.totalPrice}
         </Typography>
         <Typography variant="body1" sx={{ textAlign: "center" }}>
@@ -314,13 +256,14 @@ const AdminListPage = () => {
           }}
         >
           <Toolbar sx={{ justifyContent: "left", width: "100%" }}>
+            {/* 중앙 정렬을 위해 앞뒤로 <div/> 추가*/}
             <Search
               onSearch={handleSearch}
               searchQuery={searchQuery}
               onInputChange={handleSearchInputChange}
-              setSelectedValue={setSelectedValue}
+               setSelectedValue={setSelectedValue}
               optionList={optionList}
-              style={{ paddingRight: 60 }}
+              style= {{paddingRight:60}}
             />
           </Toolbar>
           <Box sx={{ width: "100%", height: "80%", overflowY: "auto" }}>
@@ -335,14 +278,13 @@ const AdminListPage = () => {
                     >
                       {label}
                     </Typography>
-                    
                   </React.Fragment>
                 ))}
               </ListItemLabelStyled>
               <Divider component="li" />
               {dataList.map((order, index) => (
                 <React.Fragment key={index}>
-                  <OrderList order={order} index={index} />
+                  <OrderList order={order} />
                   {index !== dataList.length - 1 && (
                     <Divider component="li" light />
                   )}
