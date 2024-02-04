@@ -1,19 +1,18 @@
-import React, { useState, useEffect , useCallback} from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { TokenAxios } from "apis/CommonAxios";
 import {
   Box,
   Grid,
-  Typography,
-  Button
+  Typography
 } from "@mui/material";
-import { useLocation } from 'react-router-dom';
 import styled from "styled-components";
+import { Link } from "react-router-dom";
+import { useParams } from 'react-router-dom';
 
 const ProductDiv = styled.div`
-display: flex;
-flex-direction: row;
-align-items: center;
-
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 `;
 
 const ProductImg = styled.img`
@@ -26,16 +25,13 @@ margin-right : 30px;
 `;
 
 const ProductInfo = styled.div`
-display: flex;
-flex-direction: column;
-justify-content: center;
-
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 const OrderDetailBody = () => {
-
-  const location = useLocation();
-  const orderSeq = location.state?.orderSeq;
+  const { orderSeq } = useParams();
   const [orderList, setOrderList] = useState([]);
   const [shipInfo, setShipInfo] = useState([]);
   const [totalPrice, setTotalPrice] = useState([]);
@@ -67,7 +63,6 @@ const OrderDetailBody = () => {
     fetchData();
   }, [orderSeq, loadOrderDetail]);
 
-
   return (
     <Box style={{ marginTop: "5%" }}>
       <Typography variant="h3" gutterBottom>
@@ -83,7 +78,6 @@ const OrderDetailBody = () => {
           height: "auto",
         }}
       >
-
         <thead>
           <tr>
             <td style={{ border: "1px solid black", padding: "5px" }}>
@@ -107,9 +101,7 @@ const OrderDetailBody = () => {
                 </Grid>
 
                 <Grid item xs={1.5} style={{ textAlign: "center" }}>
-                  <Typography style={{ fontWeight: "bold" }}>
-                    수량
-                  </Typography>
+                  <Typography style={{ fontWeight: "bold" }}>수량</Typography>
                 </Grid>
 
                 <Grid item xs={1.5} style={{ textAlign: "center" }}>
@@ -118,34 +110,44 @@ const OrderDetailBody = () => {
                   </Typography>
                 </Grid>
 
-                <Grid item xs={1.5} style={{ textAlign: "center", paddingLeft: "10px" }}>
+                <Grid
+                  item
+                  xs={1.5}
+                  style={{ textAlign: "center", paddingLeft: "10px" }}
+                >
                   <Typography style={{ fontWeight: "bold" }}>
                     배송상태
                   </Typography>
                 </Grid>
 
-                <Grid item xs={1.5} style={{ textAlign: "center", paddingLeft: "10px" }}>
+                <Grid
+                  item
+                  xs={1.5}
+                  style={{ textAlign: "center", paddingLeft: "10px" }}
+                >
                   <Typography style={{ fontWeight: "bold" }}>
-                    후기작성
+                   후기작성
                   </Typography>
                 </Grid>
-
               </Grid>
-
-
             </td>
           </tr>
         </thead>
         <tbody>
-
           <tr>
-
-
-
-            <Grid container spacing={2} justifyContent="space-between" style={{ marginTop: '5px' }}>
+            <Grid
+              container
+              spacing={2}
+              justifyContent="space-between"
+              style={{ marginTop: "5px" }}
+            >
               {orderList.map((orderDetail) => (
                 <>
-                  <Grid item xs={2.5} style={{ textAlign: "center", height: "5vh" }}>
+                  <Grid
+                    item
+                    xs={2.5}
+                    style={{ textAlign: "center", height: "5vh" }}
+                  >
                     <Typography>
                       <ProductDiv>
                         <ProductImg src={orderDetail.imageUrl} />
@@ -161,10 +163,12 @@ const OrderDetailBody = () => {
                     </Typography>
                   </Grid>
                   <Grid item xs={1.5} style={{ textAlign: "center" }}>
-                    <Typography>{orderDetail.orderDate.substring(0, 10)}</Typography>
+                    <Typography>
+                      {orderDetail.orderDate.substring(0, 10)}
+                    </Typography>
                   </Grid>
                   <Grid item xs={1.5} style={{ textAlign: "center" }}>
-                    <Typography>{orderDetail.ordrSeq}</Typography>
+                    <Typography>{orderDetail.ordrDetailSeq}</Typography>
                   </Grid>
                   <Grid item xs={1.5} style={{ textAlign: "center" }}>
                     <Typography>{orderDetail.amount}</Typography>
@@ -172,11 +176,17 @@ const OrderDetailBody = () => {
                   <Grid item xs={1.5} style={{ textAlign: "center" }}>
                     <Typography>{orderDetail.totalPrice}</Typography>
                   </Grid>
-                  <Grid item xs={1.5} style={{ textAlign: "center", paddingLeft: "10px" }}>
+                  <Grid
+                    item
+                    xs={1.5}
+                    style={{ textAlign: "center", paddingLeft: "10px" }}
+                  >
                     <Typography>{orderDetail.ordrState}</Typography>
                   </Grid>
                   <Grid item xs={1.5} style={{ textAlign: "center", paddingLeft: "10px" }}>
-                    <Button>리뷰작성</Button>
+                    <Link to={`/mypage/review/write/${orderDetail.ordrDetailSeq}`} state={{ orderDetailSeq: orderDetail.ordrDetailSeq }}>
+                    리뷰작성
+                    </Link>
                   </Grid>
                 </>
               ))}
@@ -185,7 +195,6 @@ const OrderDetailBody = () => {
         </tbody>
         <tfoot>
           <tr>
-
             <Grid container spacing={2} justifyContent="space-between">
               <Grid
                 item

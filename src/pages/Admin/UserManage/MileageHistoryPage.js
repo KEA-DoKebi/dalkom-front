@@ -13,22 +13,30 @@ import {
   Button,
 } from "@mui/material";
 import styled from "styled-components";
-import SearchIcon from "@mui/icons-material/Search";
 import CheckIcon from "@mui/icons-material/Check";
-import { InputBoxS } from "components/atoms/Input";
+import Search from 'components/molecules/Search';
 
-const dataListLabels = ['번호', '아이디', '닉네임', '마일리지', '신청금액', '사용자', '일시', '승인/거부'];
+const dataListLabels = [
+  "번호",
+  "이메일",
+  "닉네임",
+  "마일리지",
+  "신청금액",
+  "사용자",
+  "일시",
+  "승인/거부",
+];
 
 // 각 항목에 대한 공통 스타일을 설정합니다.
 const itemFlexStyles = {
   "& > *:nth-child(1)": { flex: 1 }, // 번호
-  "& > *:nth-child(2)": { flex: 1.5 }, // 아이디
+  "& > *:nth-child(2)": { flex: 1.5 }, // 이메일
   "& > *:nth-child(3)": { flex: 1.5 }, // 닉네임
-  "& > *:nth-child(4)": { flex: 1.5 }, // 마일리지
-  "& > *:nth-child(5)": { flex: 1.5 }, // 신청금액
+  "& > *:nth-child(4)": { flex: 1 }, // 마일리지
+  "& > *:nth-child(5)": { flex: 1 }, // 신청금액
   "& > *:nth-child(6)": { flex: 1 }, // 사용자
-  "& > *:nth-child(7)": { flex: 1 }, // 일시
-  "& > *:nth-child(8)": { flex: 1 }, // 승인/거부
+  "& > *:nth-child(7)": { flex: 1.5 }, // 일시
+  "& > *:nth-child(8)": { flex: 1.5 }, // 승인/거부
 };
 
 const StyledList = styled(List)`
@@ -61,9 +69,11 @@ const ListItemLabelStyled = styled(ListItem)`
   justify-content: space-evenly;
   align-items: center;
   width: 100%;
-  height: calc(70vh / 10); // 전체 높이의 70%를 10로 나눈 값으로 레이블 행의 높이를 설정
+  height: calc(
+    70vh / 10
+  ); // 전체 높이의 70%를 10로 나눈 값으로 레이블 행의 높이를 설정
   padding: 12px;
-  ${itemFlexStyles} // 공통 스타일 적용
+  ${itemFlexStyles}// 공통 스타일 적용
 `;
 
 // 간격 일정하게 만드는 거
@@ -71,7 +81,7 @@ const getColumnWidth = (label) => {
   // Define your width ranges for each column label
   const widthRanges = {
     회원번호: [0, 10],
-    아이디: [10, 28],
+    이메일: [10, 28],
     닉네임: [28, 40],
     마일리지: [40, 52],
     신청금액: [52, 64],
@@ -87,8 +97,8 @@ const getColumnWidth = (label) => {
 };
 
 const formatDate = (dateString) => {
-  const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
-  return new Date(dateString).toLocaleDateString('ko-KR', options);
+  const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+  return new Date(dateString).toLocaleDateString("ko-KR", options);
 };
 
 const MileageHistoryPage = () => {
@@ -97,8 +107,16 @@ const MileageHistoryPage = () => {
   const [dataList, setDataList] = useState([]);
   const [currentPage, setCurrentPage] = useState(0); // 현재 페이지 상태
   const [totalPages, setTotalPages] = useState(0); // 총 페이지 수
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedValue, setSelectedValue] = useState("");
 
-  const pageSize = 7;
+  const pageSize = 10;
+
+  const optionList = [
+    { label: "이메일" },
+    { label: "닉네임" },
+    { label: "사용자" },
+  ]
 
   useEffect(() => {
     // 각 페이지가 마운트될 때 selectedMenu를 업데이트
@@ -109,7 +127,9 @@ const MileageHistoryPage = () => {
 
   // 마일리지 신청내역 조회(승인/거부 상태만) (get)
   const getMileageApplyHistory = async (page) => {
-    const res = await TokenAxios.get(`/api/mileage/apply?page=${page}&size=${pageSize}`);
+    const res = await TokenAxios.get(
+      `/api/mileage/apply?page=${page}&size=${pageSize}`,
+    );
     console.log(res.data.result.data.content);
     setDataList(res.data.result.data.content);
     console.log(res.data.result.data.totalPages);
@@ -119,41 +139,95 @@ const MileageHistoryPage = () => {
   const handlePageChange = (event, newPage) => {
     setCurrentPage(newPage);
   };
+  const handleSearchInputChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const handleSearch = async (searchQuery) => {
+    try {
+      console.log(selectedValue.label);
+      console.log(searchQuery);
+      
+      let apiUrl = "/api/mileage/apply/search?page=0&size=10";  // 기본 API URL
+      
+      // 선택된 검색어에 따라 검색 조건 추가
+      if (selectedValue.label === "이메일") {
+        apiUrl += `&email=${searchQuery}`;
+      } else if (selectedValue.label === "닉네임") {
+        apiUrl += `&nickname=${searchQuery}`;
+      } else if (selectedValue.label === "사용자") {
+        apiUrl += `&name=${searchQuery}`;
+      }  
+      
+      const res = await TokenAxios.get(apiUrl);
+      setDataList(res.data.result.data.content);
+      setTotalPages(res.data.result.data.totalPages);
+      console.log(res.data.result.data.content);
+    } catch (error) {
+      console.error('Error searching admin:', error);
+    }
+  };
 
   const ApplyHistoryList = ({ apply, index }) => {
     return (
       <ListItemStyled>
-        <Typography variant="body1" sx={{ width: getColumnWidth('신청번호'), textAlign: "center" }}>
-          {index + 1 + (currentPage * pageSize)}
+        <Typography
+          variant="body1"
+          sx={{ width: getColumnWidth("신청번호"), textAlign: "center" }}
+        >
+          {index + 1 + currentPage * pageSize}
         </Typography>
-        <Typography variant="body1" sx={{ width: getColumnWidth('아이디'), textAlign: "center" }}>
+        <Typography
+          variant="body1"
+          sx={{ width: getColumnWidth("이메일"), textAlign: "center" }}
+        >
           {apply.email}
         </Typography>
-        <Typography variant="body1" sx={{ width: getColumnWidth('닉네임'), textAlign: "center" }}>
+        <Typography
+          variant="body1"
+          sx={{ width: getColumnWidth("닉네임"), textAlign: "center" }}
+        >
           {apply.nickname}
         </Typography>
-        <Typography variant="body1" sx={{ width: getColumnWidth('마일리지'), textAlign: "center" }}>
+        <Typography
+          variant="body1"
+          sx={{ width: getColumnWidth("마일리지"), textAlign: "center" }}
+        >
           {apply.balance}
         </Typography>
-        <Typography variant="body1" sx={{ width: getColumnWidth('신청금액'), textAlign: "center" }}>
+        <Typography
+          variant="body1"
+          sx={{ width: getColumnWidth("신청금액"), textAlign: "center" }}
+        >
           {apply.amount}
         </Typography>
-        <Typography variant="body1" sx={{ width: getColumnWidth('사용자명'), textAlign: "center" }}>
+        <Typography
+          variant="body1"
+          sx={{ width: getColumnWidth("사용자명"), textAlign: "center" }}
+        >
           {apply.name}
         </Typography>
-        <Typography variant="body1" sx={{ width: getColumnWidth('일시'), textAlign: "center" }}>
+        <Typography
+          variant="body1"
+          sx={{ width: getColumnWidth("일시"), textAlign: "center" }}
+        >
           {formatDate(apply.createdAt)}
         </Typography>
-        <Typography variant="body1" sx={{ width: getColumnWidth('승인'), textAlign: "center" }}>
+        <Typography
+          variant="body1"
+          sx={{ width: getColumnWidth("승인"), textAlign: "center" }}
+        >
           <Button
             variant="contained"
             size="small"
             sx={{
               borderRadius: "100px",
-              backgroundColor: apply.approvedState === 'Y' ? "#14BB38" : "#D54C48", // 초록색 또는 빨간색
+              backgroundColor:
+                apply.approvedState === "Y" ? "#14BB38" : "#D54C48", // 초록색 또는 빨간색
               "&:disabled": {
-              backgroundColor: apply.approvedState === 'Y' ? "#14BB38" : "#D54C48", // 비활성화 상태에서도 동일한 색상 유지
-            }
+                backgroundColor:
+                  apply.approvedState === "Y" ? "#14BB38" : "#D54C48", // 비활성화 상태에서도 동일한 색상 유지
+              },
             }}
             disabled={true}
           >
@@ -161,8 +235,8 @@ const MileageHistoryPage = () => {
           </Button>
         </Typography>
       </ListItemStyled>
-    )
-  }
+    );
+  };
 
   return (
     <Paper sx={{ display: "flex", height: "100vh" }}>
@@ -194,47 +268,45 @@ const MileageHistoryPage = () => {
           <Toolbar sx={{ justifyContent: "space-between", width: "100%" }}>
             {/* 왼쪽에는 빈 공간을 만들어 가운데 정렬을 유지하고, 오른쪽에 등록 버튼을 추가합니다. */}
             {/* 이 디브 있어야 검색창 가운데에 옵니당 왜 그런지는 잘 모르겠어요,,*/}
-            <div></div>
-            <InputBoxS
-              color="neutral"
-              disabled={false}
-              startDecorator={<SearchIcon />}
-              placeholder="Search"
-              variant="soft"
-              sx={{ mb: 4, mt: 4, ml: "50px" }}
+            <Search
+              onSearch={handleSearch}
+              searchQuery={searchQuery}
+              onInputChange={handleSearchInputChange}
+               setSelectedValue={setSelectedValue}
+              optionList={optionList}
             />
-            <div></div>
           </Toolbar>
           <Box sx={{ width: "100%", height: "80%", overflowY: "auto" }}>
-          <StyledList aria-label="mailbox folders">
-            <ListItemLabelStyled>
-              {dataListLabels.map((label, index) => (
-                <React.Fragment key={index}>
-                  <Typography
-                    variant="h6"
-                    fontWeight="bold"
-                    sx={{ width: getColumnWidth(label) }}
-                    align="center"
-                  >
-                    {label}
-                  </Typography>
-                </React.Fragment>
-              ))}
-            </ListItemLabelStyled>
-            <Divider component="li" light />
-            {dataList.map((apply, index) => (
-              apply.approvedState !== 'W' && (
-                <React.Fragment key={index}>
-                <ApplyHistoryList apply={apply} index={index} />
-                {index !== dataList.length - 1 && (
-                  <Divider component="li" light />
-                )}
-              </React.Fragment>
-              )
-            ))}
-          </StyledList>
+            <StyledList aria-label="mailbox folders">
+              <ListItemLabelStyled>
+                {dataListLabels.map((label, index) => (
+                  <React.Fragment key={index}>
+                    <Typography
+                      variant="h6"
+                      fontWeight="bold"
+                      sx={{ width: getColumnWidth(label) }}
+                      align="center"
+                    >
+                      {label}
+                    </Typography>
+                  </React.Fragment>
+                ))}
+              </ListItemLabelStyled>
+              <Divider component="li" light />
+              {dataList.map(
+                (apply, index) =>
+                  apply.approvedState !== "W" && (
+                    <React.Fragment key={index}>
+                      <ApplyHistoryList apply={apply} index={index} />
+                      {index !== dataList.length - 1 && (
+                        <Divider component="li" light />
+                      )}
+                    </React.Fragment>
+                  ),
+              )}
+            </StyledList>
           </Box>
-          
+
           <Box
             sx={{
               flex: 1,

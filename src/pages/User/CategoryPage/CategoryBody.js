@@ -5,9 +5,9 @@ import styled from "styled-components";
 import { DefaultAxios } from "apis/CommonAxios";
 import { TokenAxios } from "apis/CommonAxios";
 import { ProductCard } from "components/molecules/ProductCard";
+import { BottomMenu } from "components/molecules/BottomMenu";
 
 const CategoryBody = () => {
-
   // URL에 있는 값 가져오는 함수 (Router에 저장된 변수명으로 가져옴)
   const { categorySeq, subCategorySeq } = useParams();
 
@@ -16,7 +16,14 @@ const CategoryBody = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [tabValue, setTabValue] = useState(0);
-  const [categoryNames] = useState(["패션/뷰티", "생활", "디지털/가전", "출산/유아동", "스포츠/레저", "카카오굿즈"]); // 정적 상위 카테고리 배열
+  const [categoryNames] = useState([
+    "패션/뷰티",
+    "생활",
+    "디지털/가전",
+    "출산/유아동",
+    "스포츠/레저",
+    "카카오굿즈",
+  ]); // 정적 상위 카테고리 배열
 
   // 페이지 변환하게 하는 함수
   const handlePageChange = (event, value) => {
@@ -28,43 +35,46 @@ const CategoryBody = () => {
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
     console.log(newValue);
-  }; 
-
+  };
 
   // 하위 카테고리 목록 가져오는 api
   const getCategoryLists = async () => {
-    try{
-      if(categorySeq <= 6){
+    try {
+      if (categorySeq <= 6) {
         const res = await DefaultAxios.get(`/api/category/${categorySeq}`);
         setSubCategoryLists(res.data.result.data);
       }
-    }catch(e){
+    } catch (e) {
       console.log(e);
     }
-    
   };
 
   // 상위 카테고리 페이지별 상품 가져오는 api
-  const getMainProductLists = async() => {
-    try{
-      const res = await TokenAxios.get(`/api/product/category/${categorySeq}?page=${currentPage-1}&size=12`);
+  const getMainProductLists = async () => {
+    try {
+      const res = await TokenAxios.get(
+        `/api/product/category/${categorySeq}?page=${currentPage - 1}&size=12`,
+      );
       setProductLists(res.data.result.data.content);
       setTotalPages(res.data.result.data.totalPages);
-    }catch(e){
+    } catch (e) {
       console.log(e);
     }
-  }
+  };
 
   // 하위 카테고리 페이지별 상품 가져오는 api
-  const getSubProductLists = async() => {
-    try{
-      const res = await TokenAxios.get(`/api/product/category/detail/${subCategorySeq}?page=${currentPage-1}&size=12`);
-      setProductLists(res.data.result.data.content);
-      setTotalPages(res.data.result.data.totalPages)
-    }catch(e){
+  const getSubProductLists = async () => {
+    try {
+      const res = await TokenAxios.get(
+        `/api/product/category/detail/${subCategorySeq}?page=${currentPage - 1}&size=12`,
+      );
+      console.log(res.data);
+      setProductLists(res.data.result.data.page.content);
+      setTotalPages(res.data.result.data.page.totalPages);
+    } catch (e) {
       console.log(e);
     }
-  }
+  };
 
   // 처음 렌더링 될때 수행
   useEffect(() => {
@@ -72,34 +82,35 @@ const CategoryBody = () => {
     getMainProductLists();
     setCurrentPage(1);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[categorySeq])
+  }, [categorySeq]);
 
   // 현재 페이지가 바뀔 때 수행
   useEffect(() => {
-    if(subCategorySeq === undefined){
+    if (subCategorySeq === undefined) {
       getMainProductLists();
-    }
-    else{
+    } else {
       getSubProductLists();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[currentPage])
-
+  }, [currentPage]);
 
   useEffect(() => {
     setCurrentPage(1);
     getSubProductLists();
+    setTabValue(Number(subCategorySeq));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[subCategorySeq])
-  
+  }, [subCategorySeq]);
 
   return (
     <StyledBox>
       <Grid container spacing={0}>
         <Grid item xs={12}>
-          <StyleTypoGrapy onClick={getMainProductLists} sx={{ textAlign: "center", marginBottom: "2vh" }}>
+          <StyleTypoGrapy
+            onClick={getMainProductLists}
+            sx={{ textAlign: "center", marginBottom: "2vh" }}
+          >
             <StyledLink to={`/category/${categorySeq}`}>
-              {categorySeq <= 6 && categoryNames[categorySeq-1]}
+              {categorySeq <= 6 && categoryNames[categorySeq - 1]}
             </StyledLink>
           </StyleTypoGrapy>
         </Grid>
@@ -108,43 +119,32 @@ const CategoryBody = () => {
       <Grid container spacing={0}>
         <Grid item xs={2}></Grid>
         <Grid item xs={8}>
-        <Box sx={{ width: '100%', }}>
-          <Tabs value={tabValue} 
-            onChange={handleTabChange} 
-            centered 
-            sx={{
-              marginBottom : "3vh",
-              // 선택되지 않은 탭의 글자 색상
-              '.MuiTab-root': { color: 'gray' },
-              // 선택된 탭의 글자 색상
-              '.Mui-selected': { color: 'black' },
-              // 선택된 탭의 배경 색상
-              '.MuiTabs-indicator': { backgroundColor: 'black' }
-            }}>
-            {subCategoryLists.map((subCategory) => (
-              <Tab 
-                key={subCategory.categorySeq}
-                label={subCategory.name}
-                value={subCategory.categorySeq} 
-                component={Link} 
-                to={`/category/${categorySeq}/sub/${subCategory.categorySeq}`}
-              />
-            ))}
-            
-          </Tabs>
-        </Box>
-          {/* <MenuList>
-            {subCategoryLists.map((subCategory) => (
-              <MenuItem key={subCategory.categorySeq}>
-                <StyledNavLink
+          <Box sx={{ width: "100%" }}>
+            <Tabs
+              value={tabValue}
+              onChange={handleTabChange}
+              centered
+              sx={{
+                marginBottom: "3vh",
+                // 선택되지 않은 탭의 글자 색상
+                ".MuiTab-root": { color: "gray" },
+                // 선택된 탭의 글자 색상
+                ".Mui-selected": { color: "black !important" },
+                // 선택된 탭의 배경 색상
+                ".MuiTabs-indicator": { backgroundColor: "black" },
+              }}
+            >
+              {subCategoryLists.map((subCategory) => (
+                <Tab
+                  key={subCategory.categorySeq}
+                  label={subCategory.name}
+                  value={subCategory.categorySeq}
+                  component={Link}
                   to={`/category/${categorySeq}/sub/${subCategory.categorySeq}`}
-                  activeStyle={{ backgroundColor: "transparent" }}
-                >
-                  {subCategory.name}
-                </StyledNavLink>
-              </MenuItem>
-            ))}
-          </MenuList> */}
+                />
+              ))}
+            </Tabs>
+          </Box>
         </Grid>
         <Grid item xs={2}></Grid>
       </Grid>
@@ -163,14 +163,20 @@ const CategoryBody = () => {
                   star={product.rating}
                   review={product.reviewAmount}
                   seq={product.productSeq}
+                  categorySeq={subCategorySeq}
                 />
               </Grid>
             ))}
           </Grid>
         </Grid>
       </Grid>
+      <BottomMenu />
       <CenterPaginationContainer>
-        <Pagination count={totalPages} page={currentPage} onChange={handlePageChange} />
+        <Pagination
+          count={totalPages}
+          page={currentPage}
+          onChange={handlePageChange}
+        />
       </CenterPaginationContainer>
     </StyledBox>
   );
@@ -194,6 +200,6 @@ const StyleTypoGrapy = styled(Typography)`
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: black;
-`
+`;
 
 export default CategoryBody;
