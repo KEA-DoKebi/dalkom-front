@@ -3,16 +3,6 @@ import DefaultLayout from "components/templete/DefaultLayout";
 import MainBody from "./MainBody";
 
 const MainPage = () => {
-  // const testAxios = async() => {
-  //   const res = await DefaultAxios.get("api/product/13");
-  //   console.log(res.data)
-  // }
-
-  // useEffect(() => {
-  //   testAxios();
-  // })
-
-  // console.log(process.env);
 
   return (
     <DefaultLayout>

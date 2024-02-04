@@ -30,7 +30,7 @@ const Search = ({ onSearch, searchQuery, onInputChange,setSelectedValue,optionLi
         startDecorator={<SearchIcon onClick={handleSearchIconClick} />}
         placeholder="Search"
         variant="soft"
-        sx={{ mb: 4, mt: 4, ml: "50px" }}
+        sx={{ mb: 4, mt: 4, ml: "60px" }}
         value={searchQuery}
         onChange={onInputChange}
       />

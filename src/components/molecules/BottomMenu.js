@@ -1,10 +1,21 @@
 import { Box, Button, Grid, Typography } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { productImageStore } from "store/store";
 import { styled } from "styled-components";
 
 export const BottomMenu = () => {
+  // 마우스 호버 상태를 관리하기 위한 상태
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsHovered(true); // 마우스가 컴포넌트 위에 있을 때
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false); // 마우스가 컴포넌트를 벗어났을 때
+  };
+
   const { imageList, seqList, deleteImage, deleteSeq, subCategorySeq } =
     productImageStore((state) => state);
 
@@ -20,12 +31,20 @@ export const BottomMenu = () => {
   };
 
   return (
-    <StyledPopUpContainer>
+      <StyledPopUpContainer
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          // isHovered 상태에 따라 스타일 변경
+          style={{
+            marginBottom: isHovered ? "0.5vh" : "-250px",
+            transition: "margin-bottom 0.5s",
+          }}
+      >
       <Grid container>
-        <Grid item xs={12} sx={{ marginBottom: "0.5vh", textAlign: "center" }}>
+        <Grid item xs={12} sx={{ marginBottom: "0.5vh", textAlign: "center", padding: "20px" }}>
           <StyledPopUpTitle>상품 비교하기</StyledPopUpTitle>
         </Grid>
-        <Grid item xs={0.5}></Grid>
+        <Grid item xs={1}></Grid>
         <Grid item xs={3}>
           <ImageContainer>
             <StyledImage
@@ -41,7 +60,7 @@ export const BottomMenu = () => {
             </DeleteButton>
           </ImageContainer>
         </Grid>
-        <Grid item xs={1}></Grid>
+        <Grid item xs={0.5}></Grid>
         <Grid item xs={3}>
           <ImageContainer>
             <StyledImage
@@ -57,7 +76,7 @@ export const BottomMenu = () => {
             </DeleteButton>
           </ImageContainer>
         </Grid>
-        <Grid item xs={1}></Grid>
+        <Grid item xs={0.5}></Grid>
         <Grid item xs={3}>
           <ImageContainer>
             <StyledImage
@@ -73,8 +92,8 @@ export const BottomMenu = () => {
             </DeleteButton>
           </ImageContainer>
         </Grid>
-        <Grid item xs={0.5}></Grid>
-        <Grid item xs={12} sx={{ textAlign: "center", marginTop: "0.5vh" }}>
+        <Grid item xs={1}></Grid>
+        <Grid item xs={12} sx={{ textAlign: "center", marginTop: "1.5vh", marginBottom: "1.5vh" }}>
           <StyledButton variant="contained" onClick={handleCompareBtnClicked}>
             비교하기
           </StyledButton>
@@ -88,11 +107,16 @@ const StyledPopUpContainer = styled(Box)`
   position: fixed;
   bottom: 0;
   right: 0;
+  width: 30%;
   min-width: 700px;
-  min-height: 250px;
+  min-height: 150px;
   background-color: white;
-  border: 1px solid black;
+  //border: 1px solid gray;
+  border-radius: 0.5vh;
   z-index: 15;
+  margin-bottom: 0.5vh;
+  margin-right: 0.5vh;
+  box-shadow: 1px 1px 5px 1.5px darkgrey;
 `;
 
 const StyledPopUpTitle = styled(Typography)`
@@ -104,8 +128,9 @@ const ImageContainer = styled(Box)`
   position: relative;
   width: 100%;
   height: 100%;
-  border: 1px solid black;
+  border: 1px dotted gray;
   text-align: center;
+  border-radius: 10px;
 
   &:hover .delete-btn {
     display: block;
@@ -120,6 +145,10 @@ const StyledImage = styled.img`
 const StyledButton = styled(Button)`
   background-color: black;
   color: white;
+
+  &:hover {
+    background-color: gray;
+  }
 `;
 
 const DeleteButton = styled(Button)`
@@ -127,7 +156,7 @@ const DeleteButton = styled(Button)`
   top: 0;
   right: 0;
   display: none;
-  background-color: red;
+  background-color: black;
   color: white;
   width: 25px;
   height: 25px;
@@ -137,6 +166,6 @@ const DeleteButton = styled(Button)`
   line-height: 25px;
 
   &:hover {
-    background-color: darkred;
+    background-color: gray;
   }
 `;

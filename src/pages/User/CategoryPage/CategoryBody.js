@@ -97,6 +97,7 @@ const CategoryBody = () => {
   useEffect(() => {
     setCurrentPage(1);
     getSubProductLists();
+    setTabValue(Number(subCategorySeq));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [subCategorySeq]);
 
@@ -128,7 +129,7 @@ const CategoryBody = () => {
                 // 선택되지 않은 탭의 글자 색상
                 ".MuiTab-root": { color: "gray" },
                 // 선택된 탭의 글자 색상
-                ".Mui-selected": { color: "black" },
+                ".Mui-selected": { color: "black !important" },
                 // 선택된 탭의 배경 색상
                 ".MuiTabs-indicator": { backgroundColor: "black" },
               }}
@@ -144,18 +145,6 @@ const CategoryBody = () => {
               ))}
             </Tabs>
           </Box>
-          {/* <MenuList>
-            {subCategoryLists.map((subCategory) => (
-              <MenuItem key={subCategory.categorySeq}>
-                <StyledNavLink
-                  to={`/category/${categorySeq}/sub/${subCategory.categorySeq}`}
-                  activeStyle={{ backgroundColor: "transparent" }}
-                >
-                  {subCategory.name}
-                </StyledNavLink>
-              </MenuItem>
-            ))}
-          </MenuList> */}
         </Grid>
         <Grid item xs={2}></Grid>
       </Grid>

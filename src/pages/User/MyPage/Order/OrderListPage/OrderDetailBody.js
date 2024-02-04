@@ -5,9 +5,9 @@ import {
   Grid,
   Typography
 } from "@mui/material";
-import { useLocation } from 'react-router-dom';
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { useParams } from 'react-router-dom';
 
 const ProductDiv = styled.div`
   display: flex;
@@ -31,8 +31,7 @@ const ProductInfo = styled.div`
 `;
 
 const OrderDetailBody = () => {
-  const location = useLocation();
-  const orderSeq = location.state?.orderSeq;
+  const { orderSeq } = useParams();
   const [orderList, setOrderList] = useState([]);
   const [shipInfo, setShipInfo] = useState([]);
   const [totalPrice, setTotalPrice] = useState([]);
