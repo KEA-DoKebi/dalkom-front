@@ -72,20 +72,6 @@ const formatDate = (dateString) => {
   return new Date(dateString).toLocaleDateString('ko-KR', options);
 };
 
-const dataListLabels = ["주문번호", "주문일시", "수량", "주문자", "수령인", "결제금액", "주문상태", "주문상세"];
-
-const options = [
-  { label: "주문확인", value: "11" },
-  { label: "배송준비", value: "12" },
-  { label: "배송시작", value: "13" },
-  { label: "배송완료", value: "14" },
-  { label: "구매확정", value: "15" },
-  { label: "주문취소", value: "21" },
-  { label: "반품/환불접수", value: "31" },
-  { label: "반송완료", value: "32" },
-  { label: "반품/환불완료", value: "33" }
-]
-
 const AdminListPage = () => {
   // Declare selectedMenu and setSelectedMenu using useState
   const [selectedMenu, setSelectedMenu] = useState("주문 목록");
@@ -113,7 +99,7 @@ const AdminListPage = () => {
       adminOrderGet(currentPage);
     }
      // 페이지가 변경될 때 API 호출
-  }, [currentPage,searchQuery]);
+  }, [currentPage,searchQuery,handleSearch]);
 
   const adminOrderGet = async (page) => {
     const res = await TokenAxios.get(`/api/order?page=${page}&size=${pageSize}`);
@@ -156,10 +142,7 @@ const AdminListPage = () => {
     // updateState(selectedOrder.orderSeq, event.target.value);
   };
 
-  const handleOrderStatusChange = (event) => {
-    setOrderState(event.target.value); // Update orderStatus when the value changes
-  };
-  const [selectedOption] = useState("");
+   
   const options = [
     { label: "Option 1", value: "option1" },
     { label: "Option 2", value: "option2" },

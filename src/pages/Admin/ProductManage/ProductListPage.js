@@ -105,7 +105,7 @@ const ProductListPage = () => {
       productGet(currentPage);
     }
     setSelectedMenu("마일리지 승인");
-  },[currentPage,searchQuery]);
+  },[currentPage,searchQuery,handleSearch]);
 
   
 

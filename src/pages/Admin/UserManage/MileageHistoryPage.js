@@ -128,7 +128,7 @@ const MileageHistoryPage = () => {
     }
     setSelectedMenu("마일리지 승인 내역");
 
-  }, [currentPage,searchQuery]);
+  }, [currentPage,searchQuery,handleSearch]);
 
   // 마일리지 신청내역 조회(승인/거부 상태만) (get)
   const getMileageApplyHistory = async (page) => {

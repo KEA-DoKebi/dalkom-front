@@ -160,7 +160,7 @@ const AnnouncementPage = () => {
       getNotice(currentPage); 
     }
     setSelectedMenu("공지사항");
-  }, [currentPage,searchQuery, selectedNotice]);
+  }, [currentPage,searchQuery, selectedNotice,handleSearch]);
 
   // Modal의 상태를 관리하는 state
   const [writeModalOpen, setWriteModalOpen] = useState(false);

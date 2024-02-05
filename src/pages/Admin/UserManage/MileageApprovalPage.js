@@ -133,7 +133,7 @@ const MileageApprovalPage = () => {
     }
     setSelectedMenu("마일리지 승인");
     
-  }, [currentPage,searchQuery]);
+  }, [currentPage,searchQuery,handleSearch]);
 
   
   // 마일리지 신청내역 조회(대기중 상태만) (get)
