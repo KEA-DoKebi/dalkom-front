@@ -1,4 +1,5 @@
 import { ApmRoutes } from "@elastic/apm-rum-react";
+import AdminPage from "pages/Admin/AdminManage/AdminPage";
 import AdminListPage from "pages/Admin/AdminManage/AdminListPage";
 import AdminRegisterPage from "pages/Admin/AdminManage/AdminRegisterPage";
 import AnnouncementPage from "pages/Admin/CSManage/AnnouncementPage";
@@ -75,6 +76,10 @@ const Router = () => {
           <Route path="/product/:productSeq/:menuName" element={<ProductDetailPage />} />
 
           <Route path="/cart" element={<Cart />} />
+          {/* 관리자 관리 */}
+          <Route path="/admin" element={<AdminPage />} />
+          <Route path="/admin/list" element={<AdminListPage />} />
+          <Route path="/admin/register" element={<AdminRegisterPage />} />
 
           <Route path="/payment" element={<Payment />} />
           <Route path="/order-detail/:orderSeq" element={<OrderDetailPage />} />

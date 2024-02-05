@@ -19,6 +19,7 @@ import {
     Paper,
     Toolbar,
     Typography,
+    Grid
 } from "@mui/material";
 import AdminBar from "components/organisms/AdminBar";
 import {InputBoxM} from "components/atoms/Input";
@@ -296,13 +297,17 @@ const FAQPage = () => {
                 >
                     <Toolbar sx={{justifyContent: "space-between", width: "100%"}}>
                         {/* 중앙 정렬을 위해 앞뒤로 <div/> 추가*/}
-                        <Search
-                            onSearch={handleSearch}
-                            searchQuery={searchQuery}
-                            onInputChange={handleSearchInputChange}
-                            setSelectedValue={setSelectedValue}
-                            optionList={optionList}
-                        />
+                        <div sx={{marginLeft:"10px"}}>
+                            <Search
+                                onSearch={handleSearch}
+                                searchQuery={searchQuery}
+                                onInputChange={handleSearchInputChange}
+                                setSelectedValue={setSelectedValue}
+                                optionList={optionList}
+                                
+                            />
+                        </div>
+                        
                         <AdminButton variant="contained" onClick={handleCreateModalOpen}>
                             작성하기
                         </AdminButton>
@@ -329,31 +334,46 @@ const FAQPage = () => {
                             {dataList.map((faq, index) => (
                                 <React.Fragment key={index}>
                                     <ListItemStyled>
+                                        <Grid container spacing={2} marginTop="1%">
+                                        <Grid item xs={1}>
+                                         
+                                        </Grid>
+                                        <Grid item xs={1} sx={{textAlign:"center"}}>
                                         <Typography
                                             variant="body1"
-                                            sx={{width: getColumnWidth('FAQ번호'), textAlign: "center"}}
                                         >
                                             {index + 1}
                                         </Typography>
-
+                                        
+                                        </Grid>
+                                        <Grid item xs={3}  sx={{textAlign:"center"}}>
                                         <Typography
                                             variant="body1"
-                                            sx={{width: getColumnWidth('작성일시'), textAlign: "center"}}
+                                            sx={{marginLeft:"160px"}}
                                         >
                                             {formatDate(faq.createdAt)}
                                         </Typography>
-
+                                        </Grid>
+                                        <Grid item xs={4.5} sx={{textAlign:"center"}}>
                                         <Typography
+                                            sx={{ marginLeft:"20px"}}
                                             variant="body1"
-                                            sx={{width: getColumnWidth('FAQ'), textAlign: "center"}}
                                         >
                                             {faq.title}
                                         </Typography>
-
-                                        <IconButton onClick={() => handleUpdateModalOpen(faq.inquirySeq)}
-                                                    sx={{width: getColumnWidth('상세보기'), textAlign: "center"}}>
-                                            <InfoOutlinedIcon/>
-                                        </IconButton>
+                                        </Grid>
+                                        <Grid item xs={2.5}  sx={{textAlign:"center"}}>
+                                        <div >
+                                            <IconButton 
+                                            sx={{marginRight:"70px",marginBottom:"30px"}}
+                                            onClick={() => handleUpdateModalOpen(faq.inquirySeq)}
+                                                        >
+                                                <InfoOutlinedIcon />
+                                            </IconButton>
+                                        </div>
+                                        </Grid>
+                                        
+                                        </Grid>
                                     </ListItemStyled>
                                     {index !== dataList.length - 1 && (
                                         <Divider component="li" light/>
