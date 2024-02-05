@@ -93,7 +93,7 @@ const ProductListPage = () => {
   };
 
   const productGet = async (page) => {
-    const res = await TokenAxios.get(`/api/product?page=${page}&size=7`);
+    const res = await TokenAxios.get(`/api/product?page=${page}&size=${pageSize}`);
     console.log(res.data.result.data.content);
     setDataList(res.data.result.data.content);
     console.log(res.data.result.data.totalPages);
@@ -163,22 +163,16 @@ const ProductListPage = () => {
           {product.optionDetail}
         </Typography>
         <Typography
-          variant="body1"
-          sx={{
-            textAlign: "center",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <img
-            src={mileageIcon}
-            alt="마일리지"
-            style={{ width: "20px", height: "20px", marginRight: "10px" }}
-          />
-          {product.price.toLocaleString()}
+          variant="body1" sx={{ textAlign: "left", marginLeft: "10px" }}>
+            <div style={{ marginLeft: "70px" }}>
+              <img
+                src={mileageIcon}
+                alt="마일리지"
+                style={{ width: "15px", height: "15px", marginRight: "10px" }}
+              />
+              {product.price.toLocaleString()}
+            </div>
         </Typography>
-
         <Link
           to={`/admin/product/edit`}
           style={{ textDecoration: "none", textAlign: "center" }}

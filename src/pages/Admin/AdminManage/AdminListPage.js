@@ -64,7 +64,7 @@ const AdminListPage = () => {
     const pageSize = 10;
 
     const adminGet = async (page) => {
-        const res = await TokenAxios.get(`/api/admin?page=${page}&size=10`);
+        const res = await TokenAxios.get(`/api/admin?page=${page}&size=${pageSize}`);
         setDataList(res.data.result.data.content);
         setTotalPages(res.data.result.data.totalPages);
     };
