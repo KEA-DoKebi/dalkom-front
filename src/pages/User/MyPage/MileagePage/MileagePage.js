@@ -4,12 +4,12 @@ import React from "react";
 import MileageHistoryBody from "./MileageHistoryBody";
 
 const Mileage = () => {
-  return (
-    <SidebarLayout>
-      <MileageApprovalBody />
-      <MileageHistoryBody />
-    </SidebarLayout>
-  );
+    return (
+        <SidebarLayout>
+            <MileageApprovalBody/>
+            <MileageHistoryBody/>
+        </SidebarLayout>
+    );
 };
 
 export default Mileage;
