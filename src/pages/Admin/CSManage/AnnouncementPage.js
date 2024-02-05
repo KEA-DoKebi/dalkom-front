@@ -412,14 +412,8 @@ const AnnouncementPage = () => {
                     >
                       {notice.state}
                     </Typography>
-                    <IconButton
-                      onClick={() => handleLookOpenModal(notice.noticeSeq)}
-                      sx={{
-                        textAlign: "center",
-                      }}
-                    >
-                      <InfoOutlinedIcon />
-                    </IconButton>
+                      <InfoOutlinedIcon onClick={() => handleLookOpenModal(notice.noticeSeq)}
+                      sx={{ textAlign: "center" }}/>
                   </ListItemStyled>
                   {index !== dataList.length && (
                     <Divider component="li" light />
@@ -452,6 +446,9 @@ const AnnouncementPage = () => {
             onClose={handleWriteOpenModal}
             open={writeModalOpen}
             maxWidth={false}
+            sx={{ "& .MuiDialog-paper": {
+              borderRadius: "30px",
+            }, }}
           >
             <form
               onSubmit={handleSubmit((data) => {
@@ -542,6 +539,9 @@ const AnnouncementPage = () => {
             onClose={handleUpdateOpenModal}
             open={updateModalOpen}
             maxWidth={false}
+            sx={{ "& .MuiDialog-paper": {
+              borderRadius: "30px",
+            }, }}
           >
             <DialogTitle>
               <Typography
@@ -625,8 +625,10 @@ const AnnouncementPage = () => {
             onClose={handleLookOpenModal}
             open={lookModalOpen}
             maxWidth={false}
-            sx={{ overflowX: "hidden" }}
-
+            sx={{ overflowX: "hidden",
+            "& .MuiDialog-paper": {
+              borderRadius: "30px",
+            }, }}
           >
             <DialogTitle>
               <Typography

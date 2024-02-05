@@ -72,7 +72,7 @@ const ProductListPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedValue, setSelectedValue] = useState("");
 
-  
+  const pageSize = 10;
 
   const [dataList, setDataList] = useState([]);
   const dataListLabels = [
@@ -134,11 +134,11 @@ const ProductListPage = () => {
   };
 
   // 상품 정보를 표시하기 위한 컴포넌트입니다.
-  const ProductItem = ({ product }) => {
+  const ProductItem = ({ product, index }) => {
     return (
       <ListItemStyled>
         <Typography variant="body1" sx={{ textAlign: "center" }}>
-          {product.productSeq}
+        {index + 1 + (currentPage * pageSize)}
         </Typography>
         <div
           style={{
@@ -253,7 +253,7 @@ const ProductListPage = () => {
               <Divider component="li" />
               {dataList.map((product, index) => (
                 <React.Fragment key={index}>
-                  <ProductItem product={product} />
+                  <ProductItem product={product} index={index} />
                   {index !== dataList.length && (
                     <Divider component="li" light />
                   )}
