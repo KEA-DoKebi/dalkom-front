@@ -121,10 +121,7 @@ const AnnouncementPage = () => {
 
   const handleSearch = async (searchQuery) => {
     try {
-      console.log(selectedValue.label);
-      console.log(searchQuery);
-
-      let apiUrl = "/api/notice/search?page=0&size=10";  // 기본 API URL
+      let apiUrl = `/api/notice/search?${currentPage}&size=${pageSize}`;  // 기본 API URL
 
       // 선택된 검색어에 따라 검색 조건 추가
       if (selectedValue.label === "작성자") {
@@ -155,29 +152,22 @@ const AnnouncementPage = () => {
   useEffect(() => {
     // 각 페이지가 마운트될 때 selectedMenu를 업데이트
     // setSelectedMenu 함수를 호출하여 상태를 업데이트
+   
+   // 페이지가 변경될 때마다 API 호출
+    if (searchQuery.trim() !== "") {
+      handleSearch(searchQuery);
+    } else {
+      getNotice(currentPage); 
+    }
     setSelectedMenu("공지사항");
-    getNotice(currentPage); // 페이지가 변경될 때마다 API 호출
-    console.log("Updated Selected Notice:", selectedNotice);
-  }, [currentPage, selectedNotice]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPage,searchQuery, selectedNotice]);
 
   // Modal의 상태를 관리하는 state
   const [writeModalOpen, setWriteModalOpen] = useState(false);
   const [lookModalOpen, setLookModalOpen] = useState(false);
   const [updateModalOpen, setUpdateModalOpen] = useState(false);
 
-  //수정 내역 불러오기
-  // const [title] = useState(`공지사항 입니다.`);
-  // const [content] =
-  //   useState(`안녕하세요. 소중한 고객 여러분께 알려드리는 공지사항이 있습니다. 최근의 업데이트로 인해 당사의 서비스가 더욱 원활하고 효율적으로 운영될 수 있도록 노력하고 있습니다. 새롭게 추가된 기능들과 향상된 사용자 경험을 통해 더욱 편리한 서비스를 제공하고자 합니다.
-  // <br/>
-  // <br/>
-  //   이번 업데이트로는 보안 강화 및 속도 개선에 중점을 두었습니다.고객님들의 개인 정보를 보호하기 위해 최신 보안 기술을 도입하여 더욱 안전한 환경을 제공하고 있습니다. 또한, 서비스의 속도를 향상시켜 더 빠르고 신속한 이용이 가능하도록 조치하였습니다.
-  //   <br/>
-  //   <br/>
-  //   우리는 항상 고객님들의 소중한 의견에 귀 기울이고 있습니다. 서비스 이용 중 발생하는 어떠한 문제나 피드백이 있다면 언제든지 고객센터를 통해 알려주시기 바랍니다. 고객님들의 의견을 토대로 더 나은 서비스를 제공하기 위해 끊임없이 노력하고 있습니다.
-  //   <br/>
-  //   <br/>
-  //   많은 관심과 협조를 부탁드리며, 더 나은 서비스로 찾아뵙겠습니다. 감사합니다.`);
 
   const handleWriteOpenModal = () => {
     setWriteModalOpen(true);
@@ -242,14 +232,18 @@ const AnnouncementPage = () => {
     const res = await TokenAxios.get(
       `/api/notice?page=${page}&size=${pageSize}`
     );
-    console.log(res.data.result.data.content);
     setDataList(res.data.result.data.content);
-    console.log(res.data.result.data.totalPages);
     setTotalPages(res.data.result.data.totalPages);
   };
 
   const handlePageChange = (event, newPage) => {
     setCurrentPage(newPage);
+    if (searchQuery.trim() !== "") {
+      handleSearch(searchQuery);
+  } else {
+      // 검색어가 없는 경우 전체 데이터에 대한 페이징 수행
+      getNotice(newPage);
+  }
   };
 
   // 공지 수정 (put)

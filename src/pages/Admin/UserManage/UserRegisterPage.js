@@ -34,6 +34,11 @@ const UserRegisterPage = () => {
     setAlertOpen();
   };
   
+  useEffect(() => {
+    // 각 페이지가 마운트될 때 selectedMenu를 업데이트
+    // setSelectedMenu 함수를 호출하여 상태를 업데이트
+    setSelectedMenu("사용자 등록");
+  }, []);
 
   const userRegister = async (data) => {
     data.mileage = 0;
@@ -63,11 +68,7 @@ const UserRegisterPage = () => {
     }
   };
 
-  useEffect(() => {
-    // 각 페이지가 마운트될 때 selectedMenu를 업데이트
-    // setSelectedMenu 함수를 호출하여 상태를 업데이트
-    setSelectedMenu("사용자 등록");
-  }, []);
+  
 
   const { register, handleSubmit } = useForm();
 
