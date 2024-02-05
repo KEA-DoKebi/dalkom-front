@@ -61,7 +61,16 @@ const AdminListPage = () => {
         { label: "닉네임" }
     ]
 
-    const pageSize = 10;
+    const pageSize = 5;
+
+    useEffect(() => {
+        if (searchQuery.trim() !== "") {
+            handleSearch(searchQuery);
+        } else {
+            adminGet(currentPage);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [currentPage, searchQuery]);
 
     const adminGet = async (page) => {
         const res = await TokenAxios.get(`/api/admin?page=${page}&size=${pageSize}`);
@@ -89,7 +98,7 @@ const AdminListPage = () => {
             console.log(selectedValue.label);
             console.log(searchQuery);
 
-            let apiUrl = "/api/admin/search?page=0&size=10";  // 기본 API URL
+            let apiUrl = `/api/admin/search?page=${currentPage}&size=${pageSize}`;  // 기본 API URL
 
             // 선택된 검색어에 따라 검색 조건 추가
             if (selectedValue.label === "이름") {
@@ -111,16 +120,19 @@ const AdminListPage = () => {
         }
     };
 
-    useEffect(() => {
-        // 각 페이지가 마운트될 때 selectedMenu를 업데이트
-        // setSelectedMenu 함수를 호출하여 상태를 업데이트
-        adminGet(currentPage); // 페이지가 변경될 때 API 호출
-        setSelectedMenu("관리자 목록");
-    }, [currentPage]);
+    
 
     // Pagination에서 페이지가 변경될 때 호출되는 함수
     const handlePageChange = (event, newPage) => {
         setCurrentPage(newPage); // 현재 페이지 업데이트
+
+        if (searchQuery.trim() !== "") {
+            handleSearch(searchQuery);
+        } else {
+            // 검색어가 없는 경우 전체 데이터에 대한 페이징 수행
+            adminGet(newPage);
+        }
+
     };
 
     const AdminList = ({ admin, index }) => {
