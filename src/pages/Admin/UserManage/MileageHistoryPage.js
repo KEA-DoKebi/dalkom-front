@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import styled from "styled-components";
 import CheckIcon from "@mui/icons-material/Check";
+import ClearIcon from "@mui/icons-material/Clear";
 import Search from 'components/molecules/Search';
 
 const dataListLabels = [
@@ -117,6 +118,7 @@ const MileageHistoryPage = () => {
     { label: "닉네임" },
     { label: "사용자" },
   ]
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleSearch = async (searchQuery) => {
     try {
@@ -150,7 +152,7 @@ const MileageHistoryPage = () => {
     setSelectedMenu("마일리지 승인 내역");
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPage,searchQuery]);
+  }, [currentPage, searchQuery]);
 
   // 마일리지 신청내역 조회(승인/거부 상태만) (get)
   const getMileageApplyHistory = async (page) => {
@@ -201,13 +203,13 @@ const MileageHistoryPage = () => {
           variant="body1"
           sx={{ width: getColumnWidth("마일리지"), textAlign: "center" }}
         >
-          {apply.balance}
+          {Number(apply.balance).toLocaleString()}
         </Typography>
         <Typography
           variant="body1"
           sx={{ width: getColumnWidth("신청금액"), textAlign: "center" }}
         >
-          {apply.amount}
+          {Number(apply.amount).toLocaleString()}
         </Typography>
         <Typography
           variant="body1"
@@ -239,7 +241,12 @@ const MileageHistoryPage = () => {
             }}
             disabled={true}
           >
-            <CheckIcon sx={{ color: "#FFFFFF", fontSize: 30 }} />
+            {apply.approvedState === "Y" ? (
+              <CheckIcon sx={{ color: "#FFFFFF", fontSize: 30 }} />
+            ) : (
+              <ClearIcon sx={{ color: "#FFFFFF", fontSize: 30 }} />
+            )}
+            {/* <CheckIcon sx={{ color: "#FFFFFF", fontSize: 30 }} /> */}
           </Button>
         </Typography>
       </ListItemStyled>
@@ -280,7 +287,7 @@ const MileageHistoryPage = () => {
               onSearch={handleSearch}
               searchQuery={searchQuery}
               onInputChange={handleSearchInputChange}
-               setSelectedValue={setSelectedValue}
+              setSelectedValue={setSelectedValue}
               optionList={optionList}
             />
           </Toolbar>

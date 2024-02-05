@@ -254,7 +254,7 @@ export default function OrderListBody() {
 
                                     {/*금액*/}
                                     <TableCell style={{textAlign: "center"}}>
-                                        {order.totalPrice}
+                                        {Number(order.totalPrice).toLocaleString()}
                                     </TableCell>
 
                                     {/*상태*/}
