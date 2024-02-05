@@ -5,7 +5,6 @@ import { AdminButton } from "components/atoms/AdminCommonButton";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import mileageIcon from "./배경제거M-admin.png"; // 컴포넌트와 같은 디렉토리에 있는 경우
 import Search from 'components/molecules/Search';
-
 import {
   Box,
   Divider,
@@ -94,29 +93,28 @@ const ProductListPage = () => {
 
   const productGet = async (page) => {
     const res = await TokenAxios.get(`/api/product?page=${page}&size=${pageSize}`);
-    console.log(res.data.result.data.content);
     setDataList(res.data.result.data.content);
-    console.log(res.data.result.data.totalPages);
     setTotalPages(res.data.result.data.totalPages);
   };
-
-  useEffect(() => {
-    // 각 페이지가 마운트될 때 selectedMenu를 업데이트
-    // setSelectedMenu 함수를 호출하여 상태를 업데이트
-    productGet(currentPage); // 페이지가 변경될 때 API 호출
-    setSelectedMenu("상품 목록");
-  }, [currentPage]);
 
   // Pagination에서 페이지가 변경될 때 호출되는 함수
   const handlePageChange = (event, newPage) => {
     setCurrentPage(newPage); // 현재 페이지 업데이트
+    if (searchQuery.trim() !== "") {
+      handleSearch(searchQuery);
+  } else {
+      // 검색어가 없는 경우 전체 데이터에 대한 페이징 수행
+      productGet(newPage);
+  }
   };
+  
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleSearch = async (searchQuery) => {
     try {
       console.log(selectedValue.label);
       console.log(searchQuery);
       
-      let apiUrl = "/api/product/search?page=0&size=10";  // 기본 API URL
+      let apiUrl = `/api/product/search?${currentPage}&size=${pageSize}`;  // 기본 API URL
       
       // 선택된 검색어에 따라 검색 조건 추가
       if (selectedValue.label === "이름") {
@@ -127,11 +125,20 @@ const ProductListPage = () => {
       const res = await TokenAxios.get(apiUrl);
       setDataList(res.data.result.data.content);
       setTotalPages(res.data.result.data.totalPages);
-      console.log(res.data.result.data.content);
     } catch (error) {
       console.error('Error searching admin:', error);
     }
   };
+
+  useEffect(() => {
+    if (searchQuery.trim() !== "") {
+      handleSearch(searchQuery);
+    } else {
+      productGet(currentPage);
+    }
+    setSelectedMenu("마일리지 승인");
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[currentPage,searchQuery]);
 
   // 상품 정보를 표시하기 위한 컴포넌트입니다.
   const ProductItem = ({ product, index }) => {
