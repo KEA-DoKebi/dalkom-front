@@ -83,12 +83,12 @@ const AdminListPage = () => {
         }
     };
 
-    const handleSearch = async (searchQuery) => {
+    const handleSearch = async (searchQuery,newPage) => {
         try {
             console.log(selectedValue.label);
             console.log(searchQuery);
 
-            let apiUrl = "/api/admin/search?page=0&size=10";  // 기본 API URL
+            let apiUrl = `/api/admin/search?page=${newPage}&size=10`;  // 기본 API URL
 
             // 선택된 검색어에 따라 검색 조건 추가
             if (selectedValue.label === "이름") {
@@ -120,6 +120,14 @@ const AdminListPage = () => {
     // Pagination에서 페이지가 변경될 때 호출되는 함수
     const handlePageChange = (event, newPage) => {
         setCurrentPage(newPage); // 현재 페이지 업데이트
+
+        if (searchQuery.trim() !== "") {
+            handleSearch(searchQuery,newPage);
+        } else {
+            // 검색어가 없는 경우 전체 데이터에 대한 페이징 수행
+            adminGet(newPage);
+        }
+
     };
 
     const AdminList = ({admin}) => {
@@ -128,10 +136,10 @@ const AdminListPage = () => {
                 <Typography variant="body1" sx={{textAlign: "center"}}>
                     {admin.adminSeq}
                 </Typography>
-                <Typography variant="body1" sx={{textAlign: "center"}}>
+                <Typography variant="body1" sx={{textAlign: "center",marginLeft:"15px"}}>
                     {admin.adminId}
                 </Typography>
-                <Typography variant="body1" sx={{textAlign: "center"}}>
+                <Typography variant="body1" sx={{textAlign: "center", }}>
                     {admin.name}
                 </Typography>
                 <Typography variant="body1" sx={{textAlign: "center"}}>

@@ -72,6 +72,7 @@ const getColumnWidth = (label) => {
     return `calc(${width}% - 8px)`;
 };
 
+//날짜 format 수정 
 const formatDate = (dateString) => {
     const options = {year: 'numeric', month: '2-digit', day: '2-digit'};
     return new Date(dateString).toLocaleDateString('ko-KR', options);
@@ -93,13 +94,40 @@ const ProductInquiryPage = () => {
     const textareaRef = useRef(null);
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedValue, setSelectedValue] = useState("");
-    //상품 문의 
+   
     const categorySeq = 34;
     const optionList = [
         { label: "문의제목" }
       ]
       
-      
+    
+    const getInquiryByCategory = async (page) => {
+        try {
+            const res = await TokenAxios.get(`/api/inquiry/category/${categorySeq}/?page=${page}&size=7`);
+            console.log(res.data.result.data.content);
+            setTotalPages(res.data.result.data.totalPages);
+
+            const mappedDataList = res.data.result.data.content.map((item,index) => {
+                const productInquiryNumber = page * pageSize + index + 1;
+                 
+                return {
+                    문의번호: productInquiryNumber,
+                    문의일시: formatDate(item.createdAt),
+                    문의제목: item.title,
+                    답변상태: item.answerState === "Y" ? "completed" : "waiting",
+                    답변작성: (
+                        <IconButton onClick={() => handleOpenModal(item.inquirySeq)}
+                                    disabled={item.answerState === "Y"}>
+                            <CreateIcon/>
+                        </IconButton>
+                    )
+                };
+            });
+            setDataList(mappedDataList);
+        } catch (e) {
+            console.log(e)
+        }
+    };
     const handleSearchInputChange = (event) => {
     setSearchQuery(event.target.value);
     };
@@ -116,6 +144,7 @@ const ProductInquiryPage = () => {
           }  
           const res = await TokenAxios.get(apiUrl);
           setTotalPages(res.data.result.data.totalPages);
+
           const mappedDataList = res.data.result.data.content.map((item,index) => {
             const productInquiryNumber = currentPage * pageSize + index + 1;
             const date = new Date(item.createdAt);
@@ -144,42 +173,17 @@ const ProductInquiryPage = () => {
         }
       };
 
-    const getInquiryByCategory = async (page) => {
-        try {
-            const res = await TokenAxios.get(`/api/inquiry/category/${categorySeq}/?page=${page}&size=7`);
-            console.log(res.data.result.data.content);
-            setTotalPages(res.data.result.data.totalPages);
-
-            const mappedDataList = res.data.result.data.content.map((item,index) => {
-                const productInquiryNumber = page * pageSize + index + 1;
-                console.log(currentPage);
-                    console.log(pageSize);
-                    console.log(dataList.indexOf(item.index));
-                    
-                    
-                    
-                    return {
-                        문의번호: productInquiryNumber,
-                        문의일시: formatDate(item.createdAt),
-                        문의제목: item.title,
-                        답변상태: item.answerState === "Y" ? "completed" : "waiting",
-                        답변작성: (
-                            <IconButton onClick={() => handleOpenModal(item.inquirySeq)}
-                                        disabled={item.answerState === "Y"}>
-                                <CreateIcon/>
-                            </IconButton>
-                        )
-                    };
-                })
-            ;
-            setDataList(mappedDataList);
-        } catch (e) {
-            console.log(e)
-        }
-    };
+    
 
     const handlePageChange = (event, newPage) => {
         setCurrentPage(newPage); // 현재 페이지 업데이트
+
+        if (searchQuery.trim() !== "") {
+            handleSearch(searchQuery,newPage);
+        } else {
+            // 검색어가 없는 경우 전체 데이터에 대한 페이징 수행
+            getInquiryByCategory(newPage);
+        }
     };
     const handleOpenModal = async (inquirySeq) => {
         console.log("inquirySeq:", inquirySeq);
@@ -209,8 +213,7 @@ const ProductInquiryPage = () => {
             const answerContent = textareaRef.current.value;
             // 저장 요청 보내기
             const res = await TokenAxios.put(
-                `/api/inquiry/${currentInquirySeq}`,
-                {
+                `/api/inquiry/${currentInquirySeq}`,{
                     answerContent: answerContent,
                 }
             );
@@ -229,6 +232,7 @@ const ProductInquiryPage = () => {
                 onClose: () => {
                     // Close the modal when the "확인" button is clicked
                     setOpenModal(false);
+                    getInquiryByCategory(currentPage);
                 },
             });
     
@@ -242,13 +246,13 @@ const ProductInquiryPage = () => {
     };
 
     useEffect(() => {
-        // 각 페이지가 마운트될 때 selectedMenu를 업데이트
-        // setSelectedMenu 함수를 호출하여 상태를 업데이트
-        getInquiryByCategory(currentPage);
-        setSelectedMenu("상품 문의");
+        if (searchQuery.trim() !== "") {
+            handleSearch(searchQuery, currentPage);
+        } else {
+            getInquiryByCategory(currentPage);
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [currentPage]);
-
+    }, [currentPage, searchQuery]);
     return (
         <Paper sx={{display: "flex", height: "100vh"}}>
             {/* AdminBar 컴포넌트에 selectedMenu와 setSelectedMenu props 전달 */}

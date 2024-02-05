@@ -11,6 +11,7 @@ import {MuiColorChip} from "components/atoms/AdminChip";
 import {TokenAxios} from "../../../apis/CommonAxios";
 import Search from 'components/molecules/Search';
 import CreateIcon from '@mui/icons-material/Create';
+import Swal from "sweetalert2";
 
 let currentInquirySeq = null;
 const pageSize = 7;
@@ -94,6 +95,32 @@ const PaymentInquiryPage = () => {
         { label: "문의제목" }
       ]
     
+    const getInquiryByCategory = async (page) => {
+    try{
+        const res = await TokenAxios.get(`/api/inquiry/category/${categorySeq}?page=${page}&size=7`);
+        console.log(res.data.result.data.content);
+        setTotalPages(res.data.result.data.totalPages);
+
+        const mappedDataList = res.data.result.data.content.map((item,index) => {
+                    const paymentInquiryNumber = page * pageSize + index + 1;
+                return {
+                    문의번호: paymentInquiryNumber,
+                    문의일시: formatDate(item.createdAt), 문의제목: item.title,
+                    답변상태: item.answerState === "Y" ? "completed" : "waiting",
+                    답변작성: (
+                        <IconButton onClick={() => handleOpenModal(item.inquirySeq)}
+                                    disabled={item.answerState === "Y"}>
+                            <CreateIcon/>
+                        </IconButton>
+                    )
+                };
+            });
+            setDataList(mappedDataList);
+        } catch (e) {
+            console.log(e)
+        }
+    };
+
     const handleSearchInputChange = (event) => {
         setSearchQuery(event.target.value);
     };
@@ -113,66 +140,36 @@ const PaymentInquiryPage = () => {
             const mappedDataList = res.data.result.data.content.map((item,index) => {
                 const paymentInquiryNumber = newPage * pageSize + index + 1;
 
-            const date = new Date(item.createdAt);
-            const year = date.getFullYear();
-            const month = date.getMonth() + 1; // 월은 0부터 시작하므로 +1
-            const day = date.getDate();
+                const date = new Date(item.createdAt);
+                const year = date.getFullYear();
+                const month = date.getMonth() + 1; // 월은 0부터 시작하므로 +1
+                const day = date.getDate();
 
-            return {
-                문의번호:paymentInquiryNumber,
-                문의일시: `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`,
-                문의제목: item.title,
-                답변상태: item.answerState === "Y" ? "completed" : "waiting",
-                답변작성: (
-                    <IconButton onClick={() => handleOpenModal(item.inquirySeq)}
-                                disabled={item.answerState === "Y"}>
-                        <CreateIcon/>
-                    </IconButton>
-                )
-                
-            };
-        });
+                return {
+                    문의번호:paymentInquiryNumber,
+                    문의일시: `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`,
+                    문의제목: item.title,
+                    답변상태: item.answerState === "Y" ? "completed" : "waiting",
+                    답변작성: (
+                        <IconButton onClick={() => handleOpenModal(item.inquirySeq)}
+                                    disabled={item.answerState === "Y"}>
+                            <CreateIcon/>
+                        </IconButton>
+                    )
+                    
+                };
+            });
             setDataList(mappedDataList);
             console.log(res.data.result.data.content);
         } catch (error) {
             console.error('Error searching admin:', error);
         }
-        };
-
-    const getInquiryByCategory = async (page) => {
-        try{
-            const res = await TokenAxios.get(`/api/inquiry/category/${categorySeq}?page=${page}&size=7`);
-            console.log(res.data.result.data.content);
-            setTotalPages(res.data.result.data.totalPages);
-
-            const mappedDataList = res.data.result.data.content.map((item,index) => {
-                     const paymentInquiryNumber = page * pageSize + index + 1;
-                    return {
-                        문의번호: paymentInquiryNumber,
-                        문의일시: formatDate(item.createdAt), 문의제목: item.title,
-                        답변상태: item.answerState === "Y" ? "completed" : "waiting",
-                        답변작성: (
-                            <IconButton onClick={() => handleOpenModal(item.inquirySeq)}
-                                        disabled={item.answerState === "Y"}>
-                                <CreateIcon/>
-                            </IconButton>
-                        )
-                    };
-                })
-            ;
-            setDataList(mappedDataList);
-        } catch (e) {
-            console.log(e)
-        }
     };
+
+    
 
     const handlePageChange = (event, newPage) => {
         setCurrentPage(newPage); // 현재 페이지 업데이트
-        console.log("newPage");
-        console.log(newPage);
-        console.log("searchQuery");
-        console.log(searchQuery);
-        
         
         if (searchQuery.trim() !== "") {
             handleSearch(searchQuery,newPage);
@@ -212,8 +209,7 @@ const PaymentInquiryPage = () => {
             const answerContent = textareaRef.current.value;
             // 저장 요청 보내기
             const res = await TokenAxios.put(
-                `/api/inquiry/${currentInquirySeq}`,
-                {
+                `/api/inquiry/${currentInquirySeq}`,{
                     answerContent: answerContent,
                 }
             );
@@ -222,7 +218,17 @@ const PaymentInquiryPage = () => {
 
             // 모달 닫기
             handleCloseModal();
-            getInquiryByCategory(currentPage);
+            Swal.fire({
+                title: '저장 완료',
+                text: '결제 문의에 대한 답변이 저장되었습니다.',
+                icon: 'success',
+                confirmButtonText: '확인',
+                onClose: () => {
+                    // Close the modal when the "확인" button is clicked
+                    setOpenModal(false);
+                    getInquiryByCategory(currentPage);
+                },
+            });
         } catch (error) {
             // 오류 처리
             console.error("저장 중 오류 발생:", error);
@@ -230,10 +236,13 @@ const PaymentInquiryPage = () => {
     };
 
     useEffect(() => {
-        getInquiryByCategory(currentPage);
-        setSelectedMenu("결제 문의");
+        if (searchQuery.trim() !== "") {
+            handleSearch(searchQuery, currentPage);
+        } else {
+            getInquiryByCategory(currentPage);
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [currentPage]);
+    }, [currentPage, searchQuery]);
 
     return (
         <Paper sx={{display: "flex", height: "100vh"}}>
