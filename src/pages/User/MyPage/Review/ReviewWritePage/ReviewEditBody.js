@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from "react";
 import { TokenAxios } from "apis/CommonAxios";
 import {
   Box,
-  Grid,
   Typography
 } from "@mui/material";
 import { useLocation } from 'react-router-dom';
@@ -26,8 +25,8 @@ const Img = styled("img")({
     const [defaultContent, setDefaultContent] = useState("");
     //저장할 데이터
     const [rating, setRating] = useState(0);
-    const { register, handleSubmit, setValue, trigger } = useForm();
-    const [editorContent, setEditorContent] = useState("");
+    const {handleSubmit, setValue, trigger } = useForm();
+    const [ setEditorContent] = useState("");
     
     const handleEditorContentChange = (content) => {
       setValue('content', content, { shouldValidate: true });
