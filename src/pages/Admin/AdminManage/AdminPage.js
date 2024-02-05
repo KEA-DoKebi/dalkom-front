@@ -27,19 +27,6 @@ const AdminPage = () => {
     const [productData, setProductData] = useState([]);
     const [categoryData, setCategoryData] = useState([]);
 
-
-
-    const adminGet = async () => {
-        const res = await TokenAxios.get(`/api/admin/dashboard`);
-        setTotalPrice(res.data.result.data.totalMileage);
-        setTotalMonthlyPrice(res.data.result.data.totalMonthlyMileage);
-        setTotalDailyPrice(res.data.result.data.totalDailyMileage);
-        prepareChartData(res.data.result.data.monthlyPriceList);
-        setProductData(res.data.result.data.monthlyProductList.content);
-        setCategoryData(res.data.result.data.monthlyCategoryList);
-        console.log(res.data.result.data)
-    };
-
     const prepareChartData = (monthlyData) => {
         const labels = monthlyData.map(item => item.month);
         const data = monthlyData.map(item => item.monthlyPrice);
