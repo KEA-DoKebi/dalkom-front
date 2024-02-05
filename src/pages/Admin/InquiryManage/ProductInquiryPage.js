@@ -2,7 +2,6 @@ import React, {useEffect, useRef, useState} from "react";
 import styled from "styled-components";
 import AdminBar from "components/organisms/AdminBar";
 import CreateIcon from '@mui/icons-material/Create';
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import {Box, Divider, IconButton, List, ListItem, Pagination, Paper, Toolbar, Typography,} from "@mui/material";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";

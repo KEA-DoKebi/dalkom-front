@@ -93,7 +93,7 @@ const OrderInquiryPage = () => {
         { label: "문의제목" }
       ]
 
-    const getInquiryByCategory = async (page, isSearch = false) => {
+    const getInquiryByCategory = async (page ) => {
         try {
             // const apiUrl = isSearch
             //     ? `/api/inquiry/category/${categorySeq}/search?page=${page}&size=7`

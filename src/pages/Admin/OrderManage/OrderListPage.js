@@ -23,7 +23,6 @@ import {
   DialogTitle,
 } from "@mui/material";
 import { TokenAxios } from "apis/CommonAxios";
-import { Button } from "react-scroll";
 
 // 각 항목에 대한 공통 스타일을 설정합니다.
 const itemFlexStyles = {
@@ -198,7 +197,7 @@ const AdminListPage = () => {
           {order.ordrSeq}
         </Typography>
         <Typography variant="body1" sx={{ textAlign: "center" }}>
-          {formatDate(new Date(order.ordrDate))}
+          {formatDate(orderDate)}
         </Typography>
         <Typography variant="body1" sx={{ textAlign: "center" }}>
           {order.ordrCnt}
