@@ -6,8 +6,11 @@ import EditorComponent from "components/atoms/Editor";
 import { UserButton } from "../../MyInfoPage/MyInfoBody";
 import { useForm } from "react-hook-form";
 import { TokenAxios } from "apis/CommonAxios";
+import Swal from 'sweetalert2'
+import { useNavigate } from "react-router-dom";
 
 const InquiryWriteBody = () => {
+  const navigate = useNavigate();
   const { register, handleSubmit, setValue, trigger } = useForm();
 
   const handleEditorContentChange = (content) => {
@@ -15,10 +18,25 @@ const InquiryWriteBody = () => {
     trigger('content');
   };
 
+
   const inquoryCreate = async (data) => {
     try {
       const res = await TokenAxios.post("/api/inquiry/user", data);
       console.log(res.data);
+       // Swal.fire 성공 메시지
+       Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "문의가 접수되었습니다!",
+        showConfirmButton: false,
+        timer: 1500,
+        didClose: () => {
+          // 얼럿이 닫힌 후에 페이지 이동
+
+          navigate("/mypage/inquiry/history"); // history 객체를 통해 페이지 이동
+        }
+      });
+
     } catch (e) {
       console.log(e);
     }
@@ -74,6 +92,7 @@ const InquiryWriteBody = () => {
             console.log("content");
           }}
         />
+
         <Grid container justifyContent="center" sx={{ mt: 15 }}>
           <UserButton type="submit" variant="solid">
             저장

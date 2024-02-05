@@ -115,30 +115,6 @@ export default function OrderListBody() {
     }
   };
 
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await axios.get("/data/PeopleManage/MyReview.json");
-  //       console.log(response.data);
-  //       const orderData = response.data.OrderData.map((item) => ({
-  //         ReviewSeq: item.ReviewSeq,
-  //         productName: item.productName,
-  //         option: item.option,
-  //         ReviewDate: item.ReviewDate,
-  //         star: item.star,
-  //         content: item.content,
-  //         imageUrl: item.imageUrl
-  //       }));
-  //       setRows(orderData);
-  //     } catch (error) {
-  //       console.error("Failed to fetch data:", error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
-
   return (
     <Paper elevation={0}>
       <Typography sx={{ fontSize: "40px", mb: "3vh" }}>리뷰 관리</Typography>
@@ -241,7 +217,7 @@ export default function OrderListBody() {
                       readOnly
                       size="small"
                     />
-                    <div>{review.content}</div>
+                    <div dangerouslySetInnerHTML={{ __html: review.content }} />
                   </TableCell>
                   <TableCell>
                     <Stack direction="row">
