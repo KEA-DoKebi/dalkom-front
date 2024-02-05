@@ -68,13 +68,8 @@ export default function MileageApprovalBody() {
 
     return (
         <Paper elevation={0}>
-            <div
-                style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    padding: "10px",
-                }}
-            >
+            <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px"}}>
+
                 <Typography sx={{fontSize: "40px", mb: "10px"}}>신청 내역</Typography>
 
                 <form
@@ -88,23 +83,19 @@ export default function MileageApprovalBody() {
                             display: "flex",
                             justifyContent: "flex-end",
                             alignItems: "flex-end",
+                            marginRight: "10px" /* TextField를 내리기 위한 추가 스타일 */,
+                            mb: "10px"
                         }}
                     >
-                        <Box
-                            sx={{
-                                marginRight: "10px" /* TextField를 내리기 위한 추가 스타일 */,
-                            }}
-                        >
-                            <TextField
-                                id="amount"
-                                placeholder="충전하기"
-                                variant="standard"
-                                {...register("amount")}
-                            />
-                        </Box>
+                        <TextField
+                            id="amount"
+                            placeholder="충전하기"
+                            variant="standard"
+                            {...register("amount")}
+                        />
                         <Button
                             type="submit"
-                            sx={{color: "black", mb: "10px"}}
+                            sx={{color: "black"}}
                             onClick={mileCharge}
                         >
                             <AddCardIcon/>

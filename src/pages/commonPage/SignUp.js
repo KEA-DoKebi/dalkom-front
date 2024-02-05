@@ -25,9 +25,10 @@ const Base = styled.div`
 `;
 
 const Body = styled.div`
-  width: 1300px;
+  width: auto;
   height: 800px;
   display: flex;
+  padding-right: 5%;
 
   justify-content: flex-start;
   background-color: ${colors.white};
@@ -43,8 +44,8 @@ const Img = styled.div`
 `;
 
 const Img2 = styled.img`
-  width: 10%
-  height: auto
+  width: 10%;
+  height: auto;
   position: absolute;
   transform: translate(-31%, 45%);
 `;
@@ -82,6 +83,18 @@ const InputWrapper = styled.div`
   margin-bottom: 7px;
 `;
 
+const CustomButton = muiStyled(Button)({
+  backgroundColor: "#FFD465", // 배경색
+  color: "#000000", // 글씨색
+  "&:hover": {
+    backgroundColor: "#FFD465", // 클릭 시의 배경색
+  },
+  width: "150px", // 너비
+  height: "50px", // 높이
+  fontSize: "20px",
+  alignSelf: "center",
+});
+
 const SignUp = () => {
   const { register, handleSubmit, watch } = useForm();
   const [joinedDate, setJoinedDate] = useState(null);
@@ -89,7 +102,7 @@ const SignUp = () => {
 
   const password = watch("password");
   const comfirmPassword = watch("confirmPassword");
-  
+
 
 
   const toggleHidePassword =()=>{
@@ -111,7 +124,7 @@ const SignUp = () => {
       if (res.data.message === "회원가입 성공") {
         Swal.fire({
           icon: "success",
-          title: "회원가입이 완료되었습니다!",
+          title: "회원가입이 완료되었습니다.",
           showConfirmButton: false,
           timer: 1500,
         }).then(() => {
@@ -122,16 +135,13 @@ const SignUp = () => {
       // console.log(e);
       Swal.fire({
         icon: "error",
-        title: "헉!",
-        text: "회원가입에 실패하였어요!",
+        title: "회원 가입에 실패했습니다.",
         // footer: `${e.response.data.result.msg}`,
         footer:
           "자세한 이유는 백엔드의 에러 코드가 전부 구현됐을 때에 알 수 있습니다!",
       });
     }
   };
-
-  
 
   return (
     <Base>
@@ -222,6 +232,8 @@ export default SignUp;
 
 const StyleTextField = styled(TextField)`
   width: 525px;
+  margin-top: 0.5%;
+  margin-bottom: 0.5%;
   background-color: #fbfcfe;
 `;
 
@@ -234,16 +246,3 @@ const Icon = styled.div`
   height: 30px;
   cursor: pointer;
 `;
-
-const CustomButton = muiStyled(Button)({
-  backgroundColor: "#FFD465", // 배경색
-  marginTop : "1vh",
-  color: "#000000", // 글씨색
-  "&:hover": {
-    backgroundColor: "#FFD465", // 클릭 시의 배경색
-  },
-  width: "150px", // 너비
-  height: "50px", // 높이
-  fontSize: "20px",
-  alignSelf: "center",
-});

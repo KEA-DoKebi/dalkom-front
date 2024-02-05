@@ -260,7 +260,7 @@ const AnnouncementPage = () => {
       await TokenAxios.put(`/api/notice/${currentNoticeSeq}`, {
         title: editNotice.title,
         content: editNotice.content,
-        // adminSeq: localStorage.getItem("adminSeq"), // 현재 관리자의 Seq
+        adminSeq: localStorage.getItem("adminSeq"), // 현재 관리자의 Seq
         state: editNotice.state
       });
       Swal.fire("성공", "공지사항이 수정되었습니다.", "success");
@@ -412,14 +412,8 @@ const AnnouncementPage = () => {
                     >
                       {notice.state}
                     </Typography>
-                    <IconButton
-                      onClick={() => handleLookOpenModal(notice.noticeSeq)}
-                      sx={{
-                        textAlign: "center",
-                      }}
-                    >
-                      <InfoOutlinedIcon />
-                    </IconButton>
+                    <InfoOutlinedIcon onClick={() => handleLookOpenModal(notice.noticeSeq)}
+                      sx={{ textAlign: "center" }} />
                   </ListItemStyled>
                   {index !== dataList.length && (
                     <Divider component="li" light />
@@ -452,6 +446,11 @@ const AnnouncementPage = () => {
             onClose={handleWriteOpenModal}
             open={writeModalOpen}
             maxWidth={false}
+            sx={{
+              "& .MuiDialog-paper": {
+                borderRadius: "30px",
+              },
+            }}
           >
             <form
               onSubmit={handleSubmit((data) => {
@@ -517,6 +516,7 @@ const AnnouncementPage = () => {
                     trigger("content");
                     console.log("content");
                   }}
+                  maxWidth={false}
                 />
               </DialogContent>
               <DialogActions
@@ -542,6 +542,11 @@ const AnnouncementPage = () => {
             onClose={handleUpdateOpenModal}
             open={updateModalOpen}
             maxWidth={false}
+            sx={{
+              "& .MuiDialog-paper": {
+                borderRadius: "30px",
+              },
+            }}
           >
             <DialogTitle>
               <Typography
@@ -625,8 +630,12 @@ const AnnouncementPage = () => {
             onClose={handleLookOpenModal}
             open={lookModalOpen}
             maxWidth={false}
-            sx={{ overflowX: "hidden" }}
-
+            sx={{
+              overflowX: "hidden",
+              "& .MuiDialog-paper": {
+                borderRadius: "30px",
+              },
+            }}
           >
             <DialogTitle>
               <Typography
@@ -682,9 +691,9 @@ const AnnouncementPage = () => {
                   </Grid>
                   <Grid item xs={10}>
                     <Box sx={{ maxHeight: "350px", overflowY: "auto" }}>
-                    <Typography varient="subtitle2" sx={{ textAlign: "left" }}>
-                    {selectedNotice?.content}
-                    </Typography>
+                      <Typography varient="subtitle2" sx={{ textAlign: "left" }}>
+                        <div dangerouslySetInnerHTML={{ __html: selectedNotice?.content }} />
+                      </Typography>
                     </Box>
                   </Grid>
                 </Grid>
