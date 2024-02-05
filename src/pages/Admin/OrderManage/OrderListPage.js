@@ -72,7 +72,7 @@ const AdminListPage = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(0); // 현재 페이지를 상태로 관리
   const [totalPages, setTotalPages] = useState();
-  const [orderStatus, setOrderStatus] = useState(""); 
+  const [setOrderStatus] = useState(""); 
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedValue, setSelectedValue] = useState("");
 
@@ -116,7 +116,7 @@ const AdminListPage = () => {
   const handleOrderStatusChange = (event) => {
     setOrderStatus(event.target.value); // Update orderStatus when the value changes
   };
-  const [selectedOption, setSelectedOption] = useState("");
+  const [selectedOption] = useState("");
   const options = [
     { label: "Option 1", value: "option1" },
     { label: "Option 2", value: "option2" },
