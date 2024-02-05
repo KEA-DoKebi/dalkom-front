@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import styled from "styled-components";
 import CheckIcon from "@mui/icons-material/Check";
+import ClearIcon from "@mui/icons-material/Clear";
 import Search from 'components/molecules/Search';
 
 const dataListLabels = [
@@ -147,9 +148,9 @@ const MileageHistoryPage = () => {
     try {
       console.log(selectedValue.label);
       console.log(searchQuery);
-      
+
       let apiUrl = "/api/mileage/apply/search?page=0&size=10";  // 기본 API URL
-      
+
       // 선택된 검색어에 따라 검색 조건 추가
       if (selectedValue.label === "이메일") {
         apiUrl += `&email=${searchQuery}`;
@@ -157,8 +158,8 @@ const MileageHistoryPage = () => {
         apiUrl += `&nickname=${searchQuery}`;
       } else if (selectedValue.label === "사용자") {
         apiUrl += `&name=${searchQuery}`;
-      }  
-      
+      }
+
       const res = await TokenAxios.get(apiUrl);
       setDataList(res.data.result.data.content);
       setTotalPages(res.data.result.data.totalPages);
@@ -193,13 +194,13 @@ const MileageHistoryPage = () => {
           variant="body1"
           sx={{ width: getColumnWidth("마일리지"), textAlign: "center" }}
         >
-          {apply.balance}
+          {Number(apply.balance).toLocaleString()}
         </Typography>
         <Typography
           variant="body1"
           sx={{ width: getColumnWidth("신청금액"), textAlign: "center" }}
         >
-          {apply.amount}
+          {Number(apply.amount).toLocaleString()}
         </Typography>
         <Typography
           variant="body1"
@@ -231,7 +232,12 @@ const MileageHistoryPage = () => {
             }}
             disabled={true}
           >
-            <CheckIcon sx={{ color: "#FFFFFF", fontSize: 30 }} />
+            {apply.approvedState === "Y" ? (
+              <CheckIcon sx={{ color: "#FFFFFF", fontSize: 30 }} />
+            ) : (
+              <ClearIcon sx={{ color: "#FFFFFF", fontSize: 30 }} />
+            )}
+            {/* <CheckIcon sx={{ color: "#FFFFFF", fontSize: 30 }} /> */}
           </Button>
         </Typography>
       </ListItemStyled>
@@ -272,7 +278,7 @@ const MileageHistoryPage = () => {
               onSearch={handleSearch}
               searchQuery={searchQuery}
               onInputChange={handleSearchInputChange}
-               setSelectedValue={setSelectedValue}
+              setSelectedValue={setSelectedValue}
               optionList={optionList}
             />
           </Toolbar>

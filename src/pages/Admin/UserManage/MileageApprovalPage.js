@@ -220,13 +220,13 @@ const MileageApprovalPage = () => {
           variant="body1"
           sx={{ width: getColumnWidth("마일리지"), textAlign: "center" }}
         >
-          {apply.balance}
+          {Number(apply.balance).toLocaleString()}
         </Typography>
         <Typography
           variant="body1"
           sx={{ width: getColumnWidth("신청금액"), textAlign: "center" }}
         >
-          {apply.amount}
+          {Number(apply.amount).toLocaleString()}
         </Typography>
         <Typography
           variant="body1"

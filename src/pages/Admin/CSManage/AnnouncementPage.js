@@ -446,6 +446,7 @@ const AnnouncementPage = () => {
             onClose={handleWriteOpenModal}
             open={writeModalOpen}
             maxWidth={false}
+            width="1200px"
             sx={{
               "& .MuiDialog-paper": {
                 borderRadius: "30px",
@@ -542,6 +543,7 @@ const AnnouncementPage = () => {
             onClose={handleUpdateOpenModal}
             open={updateModalOpen}
             maxWidth={false}
+            width="1200px"
             sx={{
               "& .MuiDialog-paper": {
                 borderRadius: "30px",
