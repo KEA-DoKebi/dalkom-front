@@ -253,7 +253,7 @@ const AnnouncementPage = () => {
       await TokenAxios.put(`/api/notice/${currentNoticeSeq}`, {
         title: editNotice.title,
         content: editNotice.content,
-        // adminSeq: localStorage.getItem("adminSeq"), // 현재 관리자의 Seq
+        adminSeq: localStorage.getItem("adminSeq"), // 현재 관리자의 Seq
         state: editNotice.state
       });
       Swal.fire("성공", "공지사항이 수정되었습니다.", "success");
