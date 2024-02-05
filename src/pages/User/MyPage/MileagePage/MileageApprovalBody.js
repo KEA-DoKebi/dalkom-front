@@ -68,24 +68,23 @@ export default function MileageApprovalBody() {
 
     return (
         <Paper elevation={0}>
-            <Typography sx={{fontSize: "40px", mb: "10px"}}>신청 내역</Typography>
+            <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px"}}>
 
-            <form
-                onSubmit={handleSubmit((chargeAmount) => {
-                    // console.log(chargeAmount);
-                    mileCharge(chargeAmount);
-                })}
-            >
-                <Box
-                    sx={{
-                        display: "flex",
-                        justifyContent: "flex-end",
-                        alignItems: "flex-end",
-                    }}
+                <Typography sx={{fontSize: "40px", mb: "10px"}}>신청 내역</Typography>
+
+                <form
+                    onSubmit={handleSubmit((chargeAmount) => {
+                        // console.log(chargeAmount);
+                        mileCharge(chargeAmount);
+                    })}
                 >
                     <Box
                         sx={{
+                            display: "flex",
+                            justifyContent: "flex-end",
+                            alignItems: "flex-end",
                             marginRight: "10px" /* TextField를 내리기 위한 추가 스타일 */,
+                            mb: "10px"
                         }}
                     >
                         <TextField
@@ -94,16 +93,16 @@ export default function MileageApprovalBody() {
                             variant="standard"
                             {...register("amount")}
                         />
+                        <Button
+                            type="submit"
+                            sx={{color: "black"}}
+                            onClick={mileCharge}
+                        >
+                            <AddCardIcon/>
+                        </Button>
                     </Box>
-                    <Button
-                        type="submit"
-                        sx={{color: "black", mb: "10px"}}
-                        onClick={mileCharge}
-                    >
-                        <AddCardIcon/>
-                    </Button>
-                </Box>
-            </form>
+                </form>
+            </div>
             <Paper variant="outlined">
                 <TableContainer>
                     <Table sx={{width: "100%", margin: "auto"}}>

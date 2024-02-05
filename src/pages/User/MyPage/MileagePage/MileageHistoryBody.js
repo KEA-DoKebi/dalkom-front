@@ -58,9 +58,7 @@ export default function MileageHistoryBody() {
 
     return (
         <Paper elevation={0}>
-            <Typography sx={{fontSize: "40px", mt: "30px", mb: "10px"}}>
-                히스토리
-            </Typography>
+            <Typography sx={{fontSize: "40px", mt: "30px", mb: "10px"}}>히스토리</Typography>
 
             <Paper variant="outlined">
                 <TableContainer style={{maxHeight: "none"}}>
