@@ -1,20 +1,20 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import AdminBar from "components/organisms/AdminBar";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Search from 'components/molecules/Search';
-import {Box, Divider, IconButton, List, ListItem, Pagination, Paper, Toolbar, Typography,} from "@mui/material";
-import {TokenAxios} from "apis/CommonAxios";
+import { Box, Divider, IconButton, List, ListItem, Pagination, Paper, Toolbar, Typography, } from "@mui/material";
+import { TokenAxios } from "apis/CommonAxios";
 
 // 각 항목에 대한 공통 스타일을 설정합니다.
 const itemFlexStyles = {
-    "& > *:nth-child(1)": {flex: 0.5}, // 번호
-    "& > *:nth-child(2)": {flex: 2}, // ID
-    "& > *:nth-child(3)": {flex: 2}, // 닉네임
-    "& > *:nth-child(4)": {flex: 2}, // 마일리지
-    "& > *:nth-child(5)": {flex: 2}, // 기본배송지
-    "& > *:nth-child(6)": {flex: 0.5}, // 삭제
-    "&:before, &:after": {content: '""', flex: 0.5},
+    "& > *:nth-child(1)": { flex: 0.5 }, // 번호
+    "& > *:nth-child(2)": { flex: 2 }, // ID
+    "& > *:nth-child(3)": { flex: 2 }, // 닉네임
+    "& > *:nth-child(4)": { flex: 2 }, // 마일리지
+    "& > *:nth-child(5)": { flex: 2 }, // 기본배송지
+    "& > *:nth-child(6)": { flex: 0.5 }, // 삭제
+    "&:before, &:after": { content: '""', flex: 0.5 },
 };
 
 const StyledList = styled(List)`
@@ -55,15 +55,16 @@ const AdminListPage = () => {
     const [dataList, setDataList] = useState([]);
     const dataListLabels = ["번호", "ID", "이름", "부서", "닉네임", "삭제"];
     const optionList = [
-        {label: "이름"},
-        {label: "ID"},
-        {label: "부서"},
-        {label: "닉네임"}
-
+        { label: "이름" },
+        { label: "ID" },
+        { label: "부서" },
+        { label: "닉네임" }
     ]
 
+    const pageSize = 10;
+
     const adminGet = async (page) => {
-        const res = await TokenAxios.get(`/api/admin?page=${page}&size=10`);
+        const res = await TokenAxios.get(`/api/admin?page=${page}&size=${pageSize}`);
         setDataList(res.data.result.data.content);
         setTotalPages(res.data.result.data.totalPages);
     };
@@ -122,38 +123,38 @@ const AdminListPage = () => {
         setCurrentPage(newPage); // 현재 페이지 업데이트
     };
 
-    const AdminList = ({admin}) => {
+    const AdminList = ({ admin, index }) => {
         return (
             <ListItemStyled>
-                <Typography variant="body1" sx={{textAlign: "center"}}>
-                    {admin.adminSeq}
+                <Typography variant="body1" sx={{ textAlign: "center" }}>
+                    {index + 1 + (currentPage * pageSize)}
                 </Typography>
-                <Typography variant="body1" sx={{textAlign: "center"}}>
+                <Typography variant="body1" sx={{ textAlign: "center" }}>
                     {admin.adminId}
                 </Typography>
-                <Typography variant="body1" sx={{textAlign: "center"}}>
+                <Typography variant="body1" sx={{ textAlign: "center" }}>
                     {admin.name}
                 </Typography>
-                <Typography variant="body1" sx={{textAlign: "center"}}>
+                <Typography variant="body1" sx={{ textAlign: "center" }}>
                     {admin.depart}
                 </Typography>
-                <Typography variant="body1" sx={{textAlign: "center"}}>
+                <Typography variant="body1" sx={{ textAlign: "center" }}>
                     {admin.nickname}
                 </Typography>
                 <IconButton
                     onClick={() => handleDeleteAdmin(admin.adminSeq)}
-                    sx={{"&:hover": {backgroundColor: "#FFFFFF"}}} // 호버 효과 제거
+                    sx={{ "&:hover": { backgroundColor: "#FFFFFF" } }} // 호버 효과 제거
                 >
-                    <DeleteIcon/>
+                    <DeleteIcon />
                 </IconButton>
             </ListItemStyled>
         );
     };
 
     return (
-        <Paper sx={{display: "flex", height: "100vh"}}>
+        <Paper sx={{ display: "flex", height: "100vh" }}>
             {/* AdminBar 컴포넌트에 selectedMenu와 setSelectedMenu props 전달 */}
-            <AdminBar selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu}/>
+            <AdminBar selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
             <Box
                 sx={{
                     display: "flex",
@@ -163,7 +164,7 @@ const AdminListPage = () => {
                     flexGrow: 1,
                 }}
             >
-                <Toolbar/>
+                <Toolbar />
                 <Box
                     component="main"
                     justifyContent="center"
@@ -178,7 +179,7 @@ const AdminListPage = () => {
                         margin: "16px",
                     }}
                 >
-                    <Toolbar sx={{justifyContent: "space-between", width: "100%"}}>
+                    <Toolbar sx={{ justifyContent: "space-between", width: "100%" }}>
                         <Search
                             onSearch={handleSearch}
                             searchQuery={searchQuery}
@@ -187,7 +188,7 @@ const AdminListPage = () => {
                             optionList={optionList}
                         />
                     </Toolbar>
-                    <Box sx={{width: "100%", height: "80%", overflowY: "auto"}}>
+                    <Box sx={{ width: "100%", height: "80%", overflowY: "auto" }}>
                         <StyledList aria-label="mailbox folders">
                             <ListItemLabelStyled>
                                 {dataListLabels.map((label, index) => (
@@ -195,19 +196,19 @@ const AdminListPage = () => {
                                         <Typography
                                             variant="h6"
                                             fontWeight="bold"
-                                            sx={{textAlign: "center"}}
+                                            sx={{ textAlign: "center" }}
                                         >
                                             {label}
                                         </Typography>
                                     </React.Fragment>
                                 ))}
                             </ListItemLabelStyled>
-                            <Divider component="li"/>
+                            <Divider component="li" />
                             {dataList.map((admin, index) => (
                                 <React.Fragment key={index}>
-                                    <AdminList admin={admin}/>
+                                    <AdminList admin={admin} index={index} />
                                     {index !== dataList.length && (
-                                        <Divider component="li" light/>
+                                        <Divider component="li" light />
                                     )}
                                 </React.Fragment>
                             ))}
@@ -240,5 +241,4 @@ const AdminListPage = () => {
 export default AdminListPage;
 
 
- 
- 
+

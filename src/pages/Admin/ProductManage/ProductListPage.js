@@ -72,7 +72,7 @@ const ProductListPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedValue, setSelectedValue] = useState("");
 
-  
+  const pageSize = 10;
 
   const [dataList, setDataList] = useState([]);
   const dataListLabels = [
@@ -93,7 +93,7 @@ const ProductListPage = () => {
   };
 
   const productGet = async (page) => {
-    const res = await TokenAxios.get(`/api/product?page=${page}&size=7`);
+    const res = await TokenAxios.get(`/api/product?page=${page}&size=${pageSize}`);
     console.log(res.data.result.data.content);
     setDataList(res.data.result.data.content);
     console.log(res.data.result.data.totalPages);
@@ -134,11 +134,11 @@ const ProductListPage = () => {
   };
 
   // 상품 정보를 표시하기 위한 컴포넌트입니다.
-  const ProductItem = ({ product }) => {
+  const ProductItem = ({ product, index }) => {
     return (
       <ListItemStyled>
         <Typography variant="body1" sx={{ textAlign: "center" }}>
-          {product.productSeq}
+        {index + 1 + (currentPage * pageSize)}
         </Typography>
         <div
           style={{
@@ -163,22 +163,16 @@ const ProductListPage = () => {
           {product.optionDetail}
         </Typography>
         <Typography
-          variant="body1"
-          sx={{
-            textAlign: "center",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <img
-            src={mileageIcon}
-            alt="마일리지"
-            style={{ width: "20px", height: "20px", marginRight: "10px" }}
-          />
-          {product.price.toLocaleString()}
+          variant="body1" sx={{ textAlign: "left", marginLeft: "10px" }}>
+            <div style={{ marginLeft: "70px" }}>
+              <img
+                src={mileageIcon}
+                alt="마일리지"
+                style={{ width: "15px", height: "15px", marginRight: "10px" }}
+              />
+              {product.price.toLocaleString()}
+            </div>
         </Typography>
-
         <Link
           to={`/admin/product/edit`}
           style={{ textDecoration: "none", textAlign: "center" }}
@@ -253,7 +247,7 @@ const ProductListPage = () => {
               <Divider component="li" />
               {dataList.map((product, index) => (
                 <React.Fragment key={index}>
-                  <ProductItem product={product} />
+                  <ProductItem product={product} index={index} />
                   {index !== dataList.length && (
                     <Divider component="li" light />
                   )}
