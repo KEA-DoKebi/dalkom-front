@@ -58,7 +58,6 @@ const Payment = () => {
         Swal.fire({
           title: "정말 결제하시겠습니까?",
           showDenyButton: true,
-          showDenyButton: true,
           buttonsStyling: true, 
           confirmButtonText: "확인",
           denyButtonText: `취소`,

@@ -201,35 +201,6 @@ const ProductDetailPage = () => {
                 </Select>
               </FormControl>
 
-              <PriceContainer>
-                <SpaceBetweenContainer>
-                  <h3> 상품가격</h3>
-                  <Typography
-                    variant="body1"
-                    sx={{
-                      textAlign: "center",
-                      display: "flex",
-                      alignItems: "center",
-                      marginTop: "0",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    <img
-                      src="/images/M-1.png"
-                      alt="마일리지"
-                      style={{
-                        width: "20px",
-                        height: "20px",
-                        marginRight: "5px",
-                      }}
-                    />
-                    <BoldText style={{ fontSize: "20px" }}>
-                    {Number(productInfo.price).toLocaleString()}
-                    </BoldText>
-                  </Typography>
-                </SpaceBetweenContainer>
-              </PriceContainer>
-
               <FormControl sx={{ marginTop: "1vh" }}>
                 <FormLabel sx={{ fontSize : "20px", marginTop : "5vh", color : "black", fontWeight : "bold"}}>수량</FormLabel>
                 <Input
@@ -343,13 +314,6 @@ const ProductImageContainer = styled(Box)`
   text-align: center;
 `;
 
-const ShippingImageContainer = styled(Box)`
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  text-align: center;
-`;
-
 const ProductImage = styled.img`
   width: 100%;
   height: 100%;
@@ -442,10 +406,4 @@ const StyledNavLink = styled(NavLink)`
   &:not(.active) {
     background-color: #eeeeee; // 비활성화됐을 때의 스타일
   }
-`;
-
-const ShippingInfoImage = styled.img`
-  width: 80%;
-  height: 100%;
-  object-fit: cover;
 `;
