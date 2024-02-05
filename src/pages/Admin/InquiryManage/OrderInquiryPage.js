@@ -1,6 +1,5 @@
 import React, {useEffect, useRef, useState} from "react";
 import styled from "styled-components";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import {Box, Divider, Grid, IconButton, List, ListItem, Pagination, Paper, Toolbar, Typography,} from "@mui/material";
 import TextField from "@mui/material/TextField";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
@@ -10,11 +9,12 @@ import {MuiColorChip} from "components/atoms/AdminChip";
 import {AdminButton} from "components/atoms/AdminCommonButton";
 import {TokenAxios} from "../../../apis/CommonAxios";
 import Search from 'components/molecules/Search';
+import CreateIcon from '@mui/icons-material/Create';
 
 
 let currentInquirySeq = null;
-const dataListLabels = ['문의번호', '문의일시', '문의제목', '답변여부', '상세보기'];
-
+const dataListLabels = ['문의번호', '문의일시', '문의제목', '답변상태', '답변작성'];
+const pageSize = 7;
 const StyledList = styled(List)`
   padding: 0;
   width: 100%;
@@ -59,8 +59,8 @@ const getColumnWidth = (label) => {
         문의번호: [0, 10],
         문의일시: [0, 20],
         문의제목: [0, 30],
-        답변여부: [0, 10],
-        상세보기: [0, 20],
+        답변상태: [0, 10],
+        답변작성: [0, 20],
     };
     const [minWidth, maxWidth] = widthRanges[label] || [0, 100];
     const width = Math.min(100, maxWidth) - minWidth;
@@ -70,6 +70,11 @@ const getColumnWidth = (label) => {
 const formatDate = (dateString) => {
     const options = {year: 'numeric', month: '2-digit', day: '2-digit'};
     return new Date(dateString).toLocaleDateString('ko-KR', options);
+};
+
+const removeHtmlTags = (htmlString) => {
+    const doc = new DOMParser().parseFromString(htmlString, 'text/html');
+    return doc.body.textContent || "";
 };
 
 const OrderInquiryPage = () => {
@@ -88,25 +93,31 @@ const OrderInquiryPage = () => {
         { label: "문의제목" }
       ]
 
-    const getInquiryByCategory = async (page) => {
+    const getInquiryByCategory = async (page, isSearch = false) => {
         try {
-            console.log(page);
+            // const apiUrl = isSearch
+            //     ? `/api/inquiry/category/${categorySeq}/search?page=${page}&size=7`
+            //     : `/api/inquiry/category/${categorySeq}/?page=${page}&size=7`;
+            // const res = await TokenAxios.get(apiUrl);
+            // setTotalPages(res.data.result.data.totalPages);
             const res = await TokenAxios.get(`/api/inquiry/category/${categorySeq}/?page=${page}&size=7`);
             console.log(res.data.result.data.content);
             setTotalPages(res.data.result.data.totalPages);
 
-            const mappedDataList = res.data.result.data.content.map((item) => {
+            const mappedDataList = res.data.result.data.content.map((item,index) => {
+                const orderInquiryNumber = page * pageSize + index + 1;
+                
                 return {
-                    문의번호: item.inquirySeq,
+                    문의번호: orderInquiryNumber,
                     문의일시: formatDate(item.createdAt),
                     문의제목: item.title,
-                    답변여부: item.answerState === "Y" ? "completed" : "waiting",
-                    상세보기: (
+                    답변상태: item.answerState === "Y" ? "completed" : "waiting",
+                    답변작성: (
                         <IconButton
                             onClick={() => handleOpenModal(item.inquirySeq)}
                             disabled={item.answerState === "Y"}
                         >
-                            <InfoOutlinedIcon/>
+                            <CreateIcon/>
                         </IconButton>
                     ),
                 };
@@ -119,49 +130,63 @@ const OrderInquiryPage = () => {
 
     const handleSearchInputChange = (event) => {
         setSearchQuery(event.target.value);
-        };
-        const handleSearch = async (searchQuery) => {
-            try {
-              console.log(selectedValue.label);
-              console.log(searchQuery);
-              
-              let apiUrl = `/api/inquiry/category/${categorySeq}/search?page=0&size=7`;  // 기본 API URL
-              
-              // 선택된 검색어에 따라 검색 조건 추가
-              if (selectedValue.label === "문의제목") {
-                apiUrl += `&title=${searchQuery}`;
-              }  
-              const res = await TokenAxios.get(apiUrl);
-              setTotalPages(res.data.result.data.totalPages);
-              const mappedDataList = res.data.result.data.content.map((item) => {
+    };
+    const handleSearch = async (searchQuery,newPage) => {
+        try {
+            console.log(selectedValue.label);
+            console.log(searchQuery);
+            
+            let apiUrl = `/api/inquiry/category/${categorySeq}/search?page=${newPage}&size=7`;  // 기본 API URL
+            
+            // 선택된 검색어에 따라 검색 조건 추가
+            if (selectedValue.label === "문의제목") {
+            apiUrl += `&title=${searchQuery}`;
+            }  
+            const res = await TokenAxios.get(apiUrl);
+            setTotalPages(res.data.result.data.totalPages);
+            console.log(res);
+            
+            const mappedDataList = res.data.result.data.content.map((item,index) => {
+                const orderInquiryNumber = currentPage * pageSize + index + 1;
                 const date = new Date(item.createdAt);
                 const year = date.getFullYear();
                 const month = date.getMonth() + 1; // 월은 0부터 시작하므로 +1
                 const day = date.getDate();
-    
+
                 return {
-                    문의번호: item.inquirySeq,
+                    문의번호: orderInquiryNumber,
                     문의일시: `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`,
                     문의제목: item.title,
-                    답변여부: item.answerState === "Y" ? "completed" : "waiting",
-                    답변달기: (
+                    답변상태: item.answerState === "Y" ? "completed" : "waiting",
+                    답변작성: (
                         <IconButton onClick={() => handleOpenModal(item.inquirySeq)}
                                     disabled={item.answerState === "Y"}>
-                            <InfoOutlinedIcon/>
+                            <CreateIcon/>
                         </IconButton>
                     )
                     
                 };
             });
-              setDataList(mappedDataList);
-              console.log(res.data.result.data.content);
-            } catch (error) {
-              console.error('Error searching admin:', error);
-            }
-          };
+            setDataList(mappedDataList);
+            console.log(res.data.result.data.content);
+        } catch (error) {
+            console.error('Error searching admin:', error);
+        }
+        };
 
     const handlePageChange = (event, newPage) => {
+        console.log("newPage");
+        console.log(newPage);
+        console.log("searchQuery");
+        console.log(searchQuery);
         setCurrentPage(newPage); // 현재 페이지 업데이트
+        if (searchQuery.trim() !== "") {
+            handleSearch(searchQuery,newPage);
+        } else {
+            // 검색어가 없는 경우 전체 데이터에 대한 페이징 수행
+            getInquiryByCategory(newPage);
+        }
+
     };
 
     const handleOpenModal = async (inquirySeq) => {
@@ -208,10 +233,14 @@ const OrderInquiryPage = () => {
     };
 
     useEffect(() => {
-        getInquiryByCategory(currentPage);
-        setSelectedMenu("주문 문의");
+        if (searchQuery.trim() !== "") {
+            handleSearch(searchQuery, currentPage);
+        } else {
+            getInquiryByCategory(currentPage);
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [currentPage]);
+    }, [currentPage, searchQuery]);
+         
 
     return (
         <Paper sx={{display: "flex", height: "100vh"}}>
@@ -298,8 +327,8 @@ const OrderInquiryPage = () => {
                                                         textAlign: "center",
                                                     }}
                                                 >
-                                                    {label === "답변여부" ? (
-                                                        <MuiColorChip status={item["답변여부"]}/>
+                                                    {label === "답변상태" ? (
+                                                        <MuiColorChip status={item["답변상태"]}/>
                                                     ) : (
                                                         <Typography variant="body1">{item[label]}</Typography>
                                                     )}
@@ -373,7 +402,9 @@ const OrderInquiryPage = () => {
                                         overflowY: "auto",
                                     }}
                                 >
-                                    <Typography>{selectedItem?.content || "content"}</Typography>
+                                    
+                                    <Typography>{removeHtmlTags(selectedItem?.content) || ""}</Typography>
+
                                 </Grid>
 
                                 <Grid item xs={12} style={{height: "20"}}></Grid>
