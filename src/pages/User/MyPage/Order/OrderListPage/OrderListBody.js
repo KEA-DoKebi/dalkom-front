@@ -2,6 +2,7 @@ import React, {useCallback, useEffect, useState} from "react";
 import styled from "styled-components";
 import {
     Box,
+    Divider,
     IconButton,
     Pagination,
     Paper,
@@ -132,9 +133,10 @@ export default function OrderListBody() {
 
     return (
         <Paper elevation={0}>
-            <Typography sx={{fontSize: "40px", mb: "20px"}}>
+            <Typography sx={{fontSize: "40px",}}>
                 주문 목록 / 배송 조회
             </Typography>
+            <Divider sx={{ borderBottomWidth: 3 }} color={"black"}></Divider>
 
             <Paper elevation={0}>
                 <Select
