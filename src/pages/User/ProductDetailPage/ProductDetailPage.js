@@ -42,8 +42,8 @@ const ProductDetailPage = () => {
   const getProductDetail = async () => {
     try {
       const res = await TokenAxios.get(`/api/product/${productSeq}`);
+      console.log(res.data.result.data)
       setProductInfo(res.data.result.data);
-      console.log(res.data.result.data);
     } catch (e) {
       console.log(e);
     }

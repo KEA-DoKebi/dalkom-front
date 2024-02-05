@@ -149,7 +149,7 @@ const OrderDetailBody = () => {
                   >   
                     <ProductImg src={orderDetail.imageUrl} />
                     <ProductInfo>
-                      <div>{`${orderDetail.productName} (${orderDetail.optionSeq})`}</div>
+                      <div>{`${orderDetail.productName} (${orderDetail.detail})`}</div>
                     </ProductInfo>
 
                       {/* 
