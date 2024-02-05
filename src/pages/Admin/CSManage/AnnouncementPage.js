@@ -155,7 +155,7 @@ const AnnouncementPage = () => {
    
    // 페이지가 변경될 때마다 API 호출
     if (searchQuery.trim() !== "") {
-      handleSearch(searchQuery, currentPage);
+      handleSearch(searchQuery);
     } else {
       getNotice(currentPage); 
     }

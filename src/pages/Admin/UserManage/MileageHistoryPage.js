@@ -163,7 +163,7 @@ const MileageHistoryPage = () => {
   const handlePageChange = (event, newPage) => {
     setCurrentPage(newPage);
     if (searchQuery.trim() !== "") {
-      handleSearch(searchQuery,newPage);
+      handleSearch(searchQuery);
   } else {
       // 검색어가 없는 경우 전체 데이터에 대한 페이징 수행
       getMileageApplyHistory(newPage);
