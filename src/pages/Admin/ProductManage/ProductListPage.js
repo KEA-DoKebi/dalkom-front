@@ -138,6 +138,7 @@ const ProductListPage = () => {
       productGet(currentPage);
     }
     setSelectedMenu("마일리지 승인");
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[currentPage,searchQuery]);
 
   // 상품 정보를 표시하기 위한 컴포넌트입니다.

@@ -118,6 +118,7 @@ const AdminListPage = () => {
       adminOrderGet(currentPage);
     }
      // 페이지가 변경될 때 API 호출
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage,searchQuery]);
 
   const adminOrderGet = async (page) => {
