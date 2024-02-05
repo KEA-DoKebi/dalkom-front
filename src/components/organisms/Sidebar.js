@@ -17,7 +17,7 @@ const menuData = [
   },
   {
     title: "마일리지",
-    items: [{ label: "마일리지 조회/충전하기", to: "/mypage/mile" }],
+    items: [{ label: "마일리지 조회/충전", to: "/mypage/mile" }],
   },
   {
     title: "MY 활동",
@@ -34,7 +34,7 @@ const menuData = [
 ];
 
 const MenuItem = ({ label, selectedMenu, onClick }) => (
-  <ListItem sx={{ marginLeft: "15px" }}>
+  <ListItem>
     <Typography sx={{ fontSize: "20px" }}>{label}</Typography>
   </ListItem>
 );

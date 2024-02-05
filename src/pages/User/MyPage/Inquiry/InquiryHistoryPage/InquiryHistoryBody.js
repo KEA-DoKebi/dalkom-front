@@ -20,13 +20,21 @@ const InquiryHistoryBody = () => {
   const inquoryHistory = async () => {
     try {
       const res = await TokenAxios.get("/api/inquiry/user");
-
       setData(res.data.result.data.content);
     } catch (e) {
       console.log(e);
     }
   };
 
+  const deleteInquiry = async (inquirySeq) => {
+    try {
+      await TokenAxios.delete(`/api/inquiry/${inquirySeq}`);
+      // 삭제 후 문의 내역을 다시 불러오기
+      inquoryHistory();
+    } catch (e) {
+      console.log(e);
+    }
+  };
   useEffect(() => {
     inquoryHistory();
   }, []);
@@ -120,7 +128,11 @@ const InquiryHistoryBody = () => {
                     )}
                   </TableCell>
                   <TableCell style={{ width: "10%", textAlign: "center" }}>
-                    <IconButton>
+                    <IconButton onClick={() => 
+                      {
+                        console.log(`Try: delete inquirySeq: ${inquiry.inquirySeq}`);
+                        deleteInquiry(inquiry.inquirySeq);
+                      }}>
                       <DeleteIcon />
                     </IconButton>
                   </TableCell>
