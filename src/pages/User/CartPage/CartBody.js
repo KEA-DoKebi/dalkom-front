@@ -76,6 +76,7 @@ export default function CartBody() {
     const fetchData = async () => {
       try {
         const response = await TokenAxios.get("/api/cart/user");
+        console.log("user 의 cart에서 조회한 값들 ");
         console.log(response.data);
 
         const result = response.data;
@@ -86,6 +87,7 @@ export default function CartBody() {
           Array.isArray(result.result.data.content)
         ) {
           const cartData = result.result.data.content;
+          console.log("cartData 값");
           console.log(cartData);
 
           const mappedData = cartData.map((item) => ({
@@ -99,7 +101,7 @@ export default function CartBody() {
             totalPrice: item.amount * item.price, // Adjust calculation based on available data
             imageUrl: item.imageUrl,
           }));
-
+          console.log("mappedData값");
           console.log(mappedData);
           setRows(mappedData);
           setSelectedRows(mappedData.map((item) => item.orderCartSeq));
@@ -117,17 +119,15 @@ export default function CartBody() {
   const handlePaymentClick = () => {
     if (agree) {
       // 동의한 경우에만 페이지 이동
-      console.log(rows);
-
       const selectedRowsData = rows
-
         .filter((row) => selectedRows.includes(row.orderCartSeq))
         .map((row) => ({
           productSeq: row.productSeq,
           productOptionSeq: row.prdtOptionSeq,
           productAmount: row.amount,
+          orderCartSeq : row.orderCartSeq
         }));
-
+      // 결제하기 페이지로 넘어갈때 state 로 값 넘준다 
       navigate("/payment", { state: { orderList: selectedRowsData } });
     }
   };
@@ -211,11 +211,11 @@ export default function CartBody() {
         >
           <TableHead>
             <TableRow>
-              <TableCell>선택</TableCell>
-              <TableCell>상품명(옵션)</TableCell>
-              <TableCell>판매가</TableCell>
-              <TableCell>상품수량</TableCell>
-              <TableCell>주문금액</TableCell>
+              <TitleTableCell>선택</TitleTableCell>
+              <TitleTableCell>상품명(옵션)</TitleTableCell>
+              <TitleTableCell>판매가</TitleTableCell>
+              <TitleTableCell>상품수량</TitleTableCell>
+              <TitleTableCell>주문금액</TitleTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -315,3 +315,7 @@ export default function CartBody() {
     </Paper>
   );
 }
+
+const TitleTableCell = styled(TableCell)`
+  font-weight : bold;
+`

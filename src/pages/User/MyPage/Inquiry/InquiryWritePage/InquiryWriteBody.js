@@ -1,95 +1,87 @@
-import React, {useState} from "react";
-import {Grid, Paper, Typography} from "@mui/material";
-import {Option, Select, selectClasses, Textarea} from "@mui/joy";
-import {KeyboardArrowDown} from "@mui/icons-material";
+import React from "react";
+import { Grid, Typography, Paper } from "@mui/material";
+import { Select, selectClasses, Option, Textarea } from "@mui/joy";
+import { KeyboardArrowDown } from "@mui/icons-material";
 import EditorComponent from "components/atoms/Editor";
-import {UserButton} from "../../MyInfoPage/MyInfoBody";
-import {useForm} from "react-hook-form";
-import {TokenAxios} from "apis/CommonAxios";
+import { UserButton } from "../../MyInfoPage/MyInfoBody";
+import { useForm } from "react-hook-form";
+import { TokenAxios } from "apis/CommonAxios";
 
 const InquiryWriteBody = () => {
-    const {register, handleSubmit, setValue, trigger} = useForm();
+  const { register, handleSubmit, setValue, trigger } = useForm();
 
-    const [editorContent, setEditorContent] = useState("");
+  const handleEditorContentChange = (content) => {
+    setValue('content', content, { shouldValidate: true });
+    trigger('content');
+  };
 
-    const handleEditorContentChange = (content) => {
-        setEditorContent(content);
-    };
+  const inquoryCreate = async (data) => {
+    try {
+      const res = await TokenAxios.post("/api/inquiry/user", data);
+      console.log(res.data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
-    const inquoryCreate = async (data) => {
-        data.content = editorContent;
-        try {
-            const res = await TokenAxios.post("/api/inquiry/user", data);
-            console.log(res.data);
-        } catch (e) {
-            console.log(e);
-        }
-    };
+  return (
+    <Paper elevation={0}>
+      <Typography variant="h4" sx={{ mt: 7, mb: 3 }}>
+        문의하기
+      </Typography>
 
-    return (
-        <Paper elevation={0}>
-            <Typography variant="h4" sx={{mt: 7, mb: 3}}>
-                문의하기
-            </Typography>
-
-            <form
-                onSubmit={handleSubmit((data) => {
-                    inquoryCreate(data);
-                })}
+      <form
+        onSubmit={handleSubmit((data) => {
+          inquoryCreate(data);
+        })}
+      >
+        <Grid container spacing={0.5} alignItems="center" sx={{ mb: 2 }}>
+          <Grid item xs={1}>
+            <Select
+              id="categorySeq"
+              placeholder="카테고리를 선택해 주세요."
+              indicator={<KeyboardArrowDown />}
+              sx={{
+                width: 240,
+                [`& .${selectClasses.indicator}`]: {
+                  transition: "0.2s",
+                  [`&.${selectClasses.expanded}`]: {
+                    transform: "rotate(-180deg)",
+                  },
+                },
+              }}
+              {...register("categorySeq")}
             >
-                <Grid container spacing={0.5} alignItems="center" sx={{mb: 2}}>
-                    <Grid item xs={1}>
-                        <Select
-                            id="categorySeq"
-                            placeholder="카테고리를 선택해 주세요."
-                            indicator={<KeyboardArrowDown/>}
-                            sx={{
-                                width: 240,
-                                [`& .${selectClasses.indicator}`]: {
-                                    transition: "0.2s",
-                                    [`&.${selectClasses.expanded}`]: {
-                                        transform: "rotate(-180deg)",
-                                    },
-                                },
-                            }}
-                            {...register("categorySeq")}
-                        >
-                            <Option value="34">상품</Option>
-                            <Option value="35">주문</Option>
-                            <Option value="36">결제</Option>
-                            <Option value="37">반품/환불</Option>
-                        </Select>
-                    </Grid>
-                    <Grid item xs={1.5}></Grid>
-                    <Grid item xs={9.5}>
-                        <Textarea
-                            id="title"
-                            placeholder="제목"
-                            {...register("title")}
-                            sx={{ ml: -5}}
-                        />
-                    </Grid>
-                </Grid>
+              <Option value="34">상품</Option>
+              <Option value="35">주문</Option>
+              <Option value="36">결제</Option>
+              <Option value="37">반품/환불</Option>
+            </Select>
+          </Grid>
+          <Grid item xs={1.5}></Grid>
+          <Grid item xs={9.5}>
+            <Textarea id="title" placeholder="제목" {...register("title")} />
+          </Grid>
+        </Grid>
 
-                <EditorComponent
-                    onContentChange={handleEditorContentChange}
-                    id="content"
-                    data=""
-                    placeholder="문의 내용을 입력해주세요."
-                    onChange={(event, editor) => {
-                        setValue("content", editor.getData());
-                        trigger("content");
-                        console.log("content");
-                    }}
-                />
-                <Grid container justifyContent="center" sx={{mt: 15}}>
-                    <UserButton type="submit" variant="solid">
-                        저장
-                    </UserButton>
-                </Grid>
-            </form>
-        </Paper>
-    );
+        <EditorComponent
+          onContentChange={handleEditorContentChange}
+          id="content"
+          placeholder="문의 내용을 입력해주세요."
+          onChange={(event, editor) => {
+            setValue("content", editor.getData());
+            trigger("content");
+            console.log("content");
+          }}
+        />
+        <Grid container justifyContent="center" sx={{ mt: 15 }}>
+          <UserButton type="submit" variant="solid">
+            저장
+          </UserButton>
+        </Grid>
+      </form>
+    </Paper>
+  );
 };
 
 export default InquiryWriteBody;

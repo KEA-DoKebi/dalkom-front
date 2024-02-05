@@ -22,12 +22,12 @@ const Payment = () => {
   const [receiverMemo, setReceiverMemo] = useState("");
   const [openDaumAddress, setOpenDaumAddress] = useState(false);
 
-  const [orderLists, setOrderLists] = useState([]);
+  const  [orderPageLists,setOrderPageLists] = useState([]); 
 
   const calculateTotalPrice = () => {
     let totalPrice = 0;
 
-    for (const orderItem of orderLists) {
+    for (const orderItem of orderPageLists) {
       totalPrice += orderItem.totalPrice;
     }
 
@@ -63,11 +63,11 @@ const Payment = () => {
                       receiverMobileNum: receiverMobileNum,
                       receiverMemo: receiverMemo,
                     },
-                    orderProductRequestList: orderLists,
-                  });
-                  if (res.data.success) {
+                    orderProductRequestList: orderList
+                })
+                  if(res.data.success){
                     localStorage.setItem("mileage", res.data.result.data);
-                    setOrderLists([]);
+                    setOrderPageLists([]);
                     setReceiverName("");
                     setReceiverMobileNum("");
                     setReceiverAddress("");
@@ -108,8 +108,11 @@ const Payment = () => {
           orderList: orderList,
         });
         console.log(response.data.result.data);
-
-        setOrderLists(response.data.result.data);
+        console.log("uselocation 으로 넘겨온값 출력");
+        console.log(orderList);
+        
+        
+        setOrderPageLists(response.data.result.data);
         // Handle the response as needed
       } catch (error) {
         console.error("주문 데이터 전송 실패:", error);
@@ -303,12 +306,12 @@ const Payment = () => {
                 </Grid>
               </Grid>
             </tr>
-            {orderLists.map((orderItem, index) => (
+            {orderPageLists.map((orderItem, index) => (
               <tr key={index}>
                 <Grid container spacing={2} justifyContent="space-between">
                   <Grid item xs={2} style={{ textAlign: "center" }}>
                     <Typography>{orderItem.productName}</Typography>
-                    <Typography>(옵션: {orderItem.productOption})</Typography>
+                    <Typography>(옵션: {orderItem.productOptionDetail})</Typography>
                   </Grid>
                   <Grid
                     item
