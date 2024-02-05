@@ -118,14 +118,12 @@ const MileageHistoryPage = () => {
     { label: "닉네임" },
     { label: "사용자" },
   ]
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleSearch = async (searchQuery) => {
     try {
-      console.log(selectedValue.label);
-      console.log(searchQuery);
-
       let apiUrl = `/api/mileage/apply/search?page=${currentPage}&size=${pageSize}`;  // 기본 API URL
-
+      
       // 선택된 검색어에 따라 검색 조건 추가
       if (selectedValue.label === "이메일") {
         apiUrl += `&email=${searchQuery}`;
@@ -133,8 +131,8 @@ const MileageHistoryPage = () => {
         apiUrl += `&nickname=${searchQuery}`;
       } else if (selectedValue.label === "사용자") {
         apiUrl += `&name=${searchQuery}`;
-      }
-
+      }  
+      
       const res = await TokenAxios.get(apiUrl);
       setDataList(res.data.result.data.content);
       setTotalPages(res.data.result.data.totalPages);
@@ -154,7 +152,7 @@ const MileageHistoryPage = () => {
     setSelectedMenu("마일리지 승인 내역");
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPage,searchQuery]);
+  }, [currentPage, searchQuery]);
 
   // 마일리지 신청내역 조회(승인/거부 상태만) (get)
   const getMileageApplyHistory = async (page) => {
