@@ -134,7 +134,7 @@ const OrderInquiryPage = () => {
             console.log(selectedValue.label);
             console.log(searchQuery);
             
-            let apiUrl = `/api/inquiry/category/${categorySeq}/search?page=${newPage}&size=7`;  // 기본 API URL
+            let apiUrl = `/api/inquiry/category/${categorySeq}/search?page=${currentPage}&size=7`;  // 기본 API URL
             
             // 선택된 검색어에 따라 검색 조건 추가
             if (selectedValue.label === "문의제목") {

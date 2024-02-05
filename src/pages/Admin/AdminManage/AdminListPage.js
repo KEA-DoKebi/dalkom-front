@@ -65,7 +65,7 @@ const AdminListPage = () => {
 
     useEffect(() => {
         if (searchQuery.trim() !== "") {
-            handleSearch(searchQuery, currentPage);
+            handleSearch(searchQuery);
         } else {
             adminGet(currentPage);
         }
@@ -127,7 +127,7 @@ const AdminListPage = () => {
         setCurrentPage(newPage); // 현재 페이지 업데이트
 
         if (searchQuery.trim() !== "") {
-            handleSearch(searchQuery,newPage);
+            handleSearch(searchQuery);
         } else {
             // 검색어가 없는 경우 전체 데이터에 대한 페이징 수행
             adminGet(newPage);
