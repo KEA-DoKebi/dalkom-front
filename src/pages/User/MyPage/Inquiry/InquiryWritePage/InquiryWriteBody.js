@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Grid, Typography, Paper } from "@mui/material";
 import { Select, selectClasses, Option, Textarea } from "@mui/joy";
 import { KeyboardArrowDown } from "@mui/icons-material";
@@ -10,14 +10,12 @@ import { TokenAxios } from "apis/CommonAxios";
 const InquiryWriteBody = () => {
   const { register, handleSubmit, setValue, trigger } = useForm();
 
-  const [editorContent, setEditorContent] = useState("");
-
   const handleEditorContentChange = (content) => {
-    setEditorContent(content);
+    setValue('content', content, { shouldValidate: true });
+    trigger('content');
   };
 
   const inquoryCreate = async (data) => {
-    data.content = editorContent;
     try {
       const res = await TokenAxios.post("/api/inquiry/user", data);
       console.log(res.data);
@@ -69,7 +67,6 @@ const InquiryWriteBody = () => {
         <EditorComponent
           onContentChange={handleEditorContentChange}
           id="content"
-          data=""
           placeholder="문의 내용을 입력해주세요."
           onChange={(event, editor) => {
             setValue("content", editor.getData());

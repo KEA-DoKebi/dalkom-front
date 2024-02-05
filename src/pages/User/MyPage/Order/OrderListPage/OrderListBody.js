@@ -2,6 +2,7 @@ import React, {useCallback, useEffect, useState} from "react";
 import styled from "styled-components";
 import {
     Box,
+    Divider,
     IconButton,
     Pagination,
     Paper,
@@ -67,8 +68,8 @@ export default function OrderListBody() {
     
     const orderList = useCallback(async (page) => {
         try {
-            const res = await TokenAxios.get(`/api/order/user?page=${page}&size=10`);
-            console.log(res);
+            const res = await TokenAxios.get(`/api/order/user?page=${0}&size=10`);
+            console.log(res.data);
             const allOrders = res.data.result.data.content;
             setTotalPages(res.data.result.data.totalPages);
 
@@ -134,9 +135,10 @@ export default function OrderListBody() {
 
     return (
         <Paper elevation={0}>
-            <Typography sx={{fontSize: "40px", mb: "20px"}}>
+            <Typography sx={{fontSize: "40px",}}>
                 주문 목록 / 배송 조회
             </Typography>
+            <Divider sx={{ borderBottomWidth: 3 }} color={"black"}></Divider>
 
             <Paper elevation={0}>
                 <Select
