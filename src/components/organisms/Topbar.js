@@ -351,11 +351,13 @@ const Topbar = () => {
               alignItems: "center",
             }}
           >
-            <img
-              src="/images/M-user.png"
-              alt="유저 마일리지"
-              style={{ width: "30px", height: "30px", marginRight: "10px" }}
-            />
+            <Link to = "/mypage/mile">
+              <img
+                src="/images/M-user.png"
+                alt="유저 마일리지"
+                style={{ width: "30px", height: "30px", marginRight: "10px" }}
+              />
+            </Link>
           </div>
           <div
             style={{

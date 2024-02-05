@@ -9,6 +9,8 @@ import Rating from "@mui/material/Rating";
 import { styled } from "@mui/system";
 import { useForm } from "react-hook-form";
 import EditorComponent from "components/atoms/Editor";
+import Swal from 'sweetalert2'
+import { useNavigate } from "react-router-dom";
 
 const Img = styled("img")({
   width: "70px",
@@ -16,6 +18,7 @@ const Img = styled("img")({
 });
 
 const ReviewWriteBody = () => {
+  const navigate = useNavigate();
   //불러온 데이터 
   const location = useLocation();
   const orderDetailSeq = location.state?.orderDetailSeq;
@@ -24,11 +27,11 @@ const ReviewWriteBody = () => {
   const [rating, setRating] = useState(0);
   const { register, handleSubmit, setValue, trigger } = useForm();
 
-  const [editorContent, setEditorContent] = useState("");
-
   const handleEditorContentChange = (content) => {
-    setEditorContent(content);
+    setValue('content', content, { shouldValidate: true });
+    trigger('content');
   };
+
 
   //데이터 불러오기
   const loadOrderDetail = useCallback(async () => {
@@ -42,6 +45,7 @@ const ReviewWriteBody = () => {
       const res = await TokenAxios.get(`/api/order/detail/${orderDetailSeq}`);
       console.log(res.data.result.data);
       setProductInfo(res.data.result.data)
+      
     } catch (e) {
       console.error(e);
       // 에러 처리 (예: 에러 페이지로 리다이렉트)
@@ -56,10 +60,21 @@ const ReviewWriteBody = () => {
 
   //데이터 저장하기
   const reviewCreate = async (data) => {
-    data.content = editorContent;
     try {
       const res = await TokenAxios.post(`/api/review/${orderDetailSeq}`, data);
       console.log(res.data);
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "리뷰작성이 완료되었습니다!",
+        showConfirmButton: false,
+        timer: 1500,
+        didClose: () => {
+          // 얼럿이 닫힌 후에 페이지 이동
+
+          navigate("/mypage/review"); // history 객체를 통해 페이지 이동
+        }
+      });
     } catch (e) {
       console.log(e);
     }
@@ -95,14 +110,14 @@ const ReviewWriteBody = () => {
         <EditorComponent
           onContentChange={handleEditorContentChange}
           id="content"
-          data=""
-          placeholder="문의 내용을 입력해주세요."
+          placeholder="리뷰 내용을 입력해주세요."
           onChange={(event, editor) => {
             setValue("content", editor.getData());
             trigger("content");
             console.log("content");
           }}
         />
+
 
         <Box
           sx={{ width: "100%", display: "flex", justifyContent: "center", mt: 2 }}
