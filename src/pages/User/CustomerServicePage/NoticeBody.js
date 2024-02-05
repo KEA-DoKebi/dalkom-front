@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  Divider,
-  Grid,
-  IconButton,
-  List,
-  ListItem,
-  Pagination,
-  Typography,
+    Dialog, DialogActions,
+    DialogContent,
+    DialogTitle,
+    Divider,
+    IconButton,
+    List,
+    ListItem,
+    Pagination,
+    Typography,
 } from "@mui/material";
 import { TokenAxios } from "apis/CommonAxios";
 import CloseIcon from "@mui/icons-material/Close";
+import {AdminButton} from "../../../components/atoms/AdminCommonButton";
 
 const StyledList = styled(List)`
   /* Add styling for the List component */
@@ -85,8 +85,8 @@ const formatDate = (dateString) => {
 
 const NoticeItem = ({ notice, isFixed, index, onClick }) => {
   // 상단에 고정시킬 공지 스타일
-  const fixedStyle = {
-    backgroundColor: isFixed ? "lightgrey" : "",
+  const fixedStyle = {//"#d1e0fc" "#d2e2f7" "#d4e4f2"
+    backgroundColor: isFixed ? "#d2e2f7" : "",
     fontWeight: isFixed ? "bold" : "normal",
   };
 
@@ -199,38 +199,60 @@ export const NoticeBody = () => {
         />
       </PaginationContainer>
 
-      <Dialog onClose={handleCloseModal} open={modalOpen} maxWidth={false}>
-        <DialogTitle>
-          <IconButton
-            aria-label="close"
-            onClick={handleCloseModal}
-            sx={{
-              position: "absolute",
-              right: 8,
-              top: 8,
-              color: (theme) => theme.palette.grey[500],
-            }}
-          >
-            <CloseIcon />
-          </IconButton>
-        </DialogTitle>
-        <DialogContent style={{ width: 900, height: 600 }}>
-          {selectedNotice && (
-            <div>
-              <Grid marginTop="2%" style={{ textAlign: "center" }}>
-                {selectedNotice.title}
-              </Grid>
-              <Grid>
-                작성일시 : {formatDate(selectedNotice.createdAt)} 작성자{" "}
-                {selectedNotice.nickname}
-              </Grid>
-              <Typography style={{ marginTop: "5%" }}>
-                {selectedNotice.content}
-              </Typography>
-            </div>
-          )}
-        </DialogContent>
-      </Dialog>
+        <Dialog onClose={handleCloseModal} open={modalOpen} maxWidth={false}>
+            <DialogTitle>
+                <Typography variant="h6" fontWeight="bold" sx={{ textAlign: "center", mt: 2, mb: 2 }}>
+                    공지사항
+                </Typography>
+                <IconButton
+                    aria-label="close"
+                    onClick={handleCloseModal}
+                    sx={{
+                        position: "absolute",
+                        right: 8,
+                        top: 8,
+                        color: (theme) => theme.palette.grey[500],
+                    }}
+                >
+                    <CloseIcon />
+                </IconButton>
+            </DialogTitle>
+            <DialogContent
+                style={{
+                    width: 900,
+                    height: "450px",
+                    overflowY: "auto",
+                    overflowX: "hidden",
+                }}
+            >
+                {selectedNotice && (
+                    <div>
+                        <Typography variant="subtitle1" gutterBottom sx={{ textAlign: "center", fontWeight: "bold" }}>
+                            {selectedNotice.title}
+                        </Typography>
+                        <Typography variant="body2" align={"right"} sx={{ mb: 2 }}>
+                            작성일시: {formatDate(selectedNotice.createdAt)} 작성자: {selectedNotice.nickname}
+                        </Typography>
+                        <Typography sx={{whiteSpace: "pre-line"}}>
+                            {/*<ContentStyle dangerouslySetInnerHTML={{ __html: selectedNotice.content }} />*/}
+                            {/*{selectedNotice.content}*/}
+                            <div dangerouslySetInnerHTML={{__html: selectedNotice.content}}/>
+                        </Typography>
+                    </div>
+                )}
+            </DialogContent>
+            <DialogActions
+                style={{
+                    justifyContent: "center",
+                    marginTop: "20px",
+                    marginBottom: "20px",
+                }}
+            >
+                <AdminButton onClick={handleCloseModal} >
+                    확인
+                </AdminButton>
+            </DialogActions>
+        </Dialog>
     </Main>
   );
 };

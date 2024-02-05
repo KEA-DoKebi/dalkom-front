@@ -42,7 +42,7 @@ const InquiryHistoryBody = () => {
   return (
     <Paper elevation={0}>
       <Typography sx={{ fontSize: "40px", mt: "30px", mb: "10px" }}>
-        문의 내역
+        문의내역
       </Typography>
       <Paper variant="outlined">
         <TableContainer style={{ maxHeight: 500 }}>
@@ -89,7 +89,7 @@ const InquiryHistoryBody = () => {
                     fontSize: "15px",
                   }}
                 >
-                  상태(상세)
+                  상태
                 </TableCell>
                 <TableCell
                   style={{
@@ -118,11 +118,11 @@ const InquiryHistoryBody = () => {
                   </TableCell>
                   <TableCell style={{ width: "10%", textAlign: "center" }}>
                     {inquiry.answerState === "Y" ? (
-                      <Button variant="contained" color="success">
+                      <Button variant="contained" color="info">
                         답변 완료
                       </Button>
                     ) : (
-                      <Button variant="contained" color="warning">
+                      <Button variant="contained" color="inherit">
                         대기중
                       </Button>
                     )}
