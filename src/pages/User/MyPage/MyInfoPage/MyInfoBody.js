@@ -1,8 +1,16 @@
-import React, {useEffect, useState} from "react";
-import {Button, Divider, Grid, Paper, styled, Typography,} from "@mui/material";
-import {FormControl, FormHelperText, Input, Textarea} from "@mui/joy";
-import {TokenAxios} from "apis/CommonAxios";
-import {useForm} from "react-hook-form";
+import React, { useState, useEffect } from "react";
+import {
+  Typography,
+  Divider,
+  Grid,
+  styled,
+  Button,
+  Paper,
+} from "@mui/material";
+import { Textarea, FormControl, FormHelperText, Input } from "@mui/joy";
+import { TokenAxios } from "apis/CommonAxios";
+import { useForm } from "react-hook-form";
+import Swal from 'sweetalert2'
 
 export const UserButton = styled(Button)`
   background-color: #000000;
@@ -42,16 +50,24 @@ const MyInfoBody = () => {
         loadData();
     }, []);
 
-    //유저 정보 수정
-    const {register, handleSubmit} = useForm();
-    const editInfo = async (data) => {
-        try {
-            const res = await TokenAxios.put("/api/user", data);
-            console.log(res.data);
-        } catch (e) {
-            console.log(e);
-        }
-    };
+  //유저 정보 수정
+  const { register, handleSubmit } = useForm();
+  const editInfo = async (data) => {
+    try {
+      const res = await TokenAxios.put("/api/user", data);
+      console.log(res.data);
+      // Swal.fire 성공 메시지
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "수정완료 되었습니다!",
+        showConfirmButton: false,
+        timer: 1500
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
     return (
         <Paper elevation={0}>
