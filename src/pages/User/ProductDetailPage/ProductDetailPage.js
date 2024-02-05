@@ -82,8 +82,8 @@ const ProductDetailPage = () => {
     Swal.fire({
       icon: "success", // 성공 아이콘 (success, error, warning, info 중 선택)
       title: "장바구니에 추가되었습니다!",
-      showConfirmButton: false, // 확인 버튼 감추기
-      timer: 1500, // 1.5초 후에 모달이 자동으로 사라짐
+      showConfirmButton: true, // 확인 버튼 감추기
+      confirmButtonText : "확인",
     });
   };
 
@@ -107,7 +107,6 @@ const ProductDetailPage = () => {
             <ProductTitleContainer>
               <h3>{productInfo.company}</h3>
               <h1 style={{ marginBottom: "5%" }}>{productInfo.name}</h1>
-              <p style={{ margin: "5% 0" }}>{productInfo.info}</p>
             </ProductTitleContainer>
             <ProductContentContainer>
               <FormControl fullWidth>
