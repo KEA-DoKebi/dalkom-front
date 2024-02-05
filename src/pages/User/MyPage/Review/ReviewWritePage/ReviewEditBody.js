@@ -49,7 +49,7 @@ const Img = styled("img")({
         setReviewInfo(res.data.result.data)
         setDefaultContent(res.data.result.data.content);
         setRating(res.data.result.data.rating);
-        setEditorContent(res.data.result.data.content);
+        //setEditorContent(res.data.result.data.content);
 
       } catch (e) {
         console.error(e);
