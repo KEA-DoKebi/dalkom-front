@@ -94,7 +94,7 @@ const Login = () => {
         const tokenData = res.data.result.data;
         localStorage.setItem("accessToken", tokenData.accessToken);
         localStorage.setItem("role", tokenData.role);
-        navigate("/admin/list");
+        navigate("/admin");
       }
     } catch (e) {
       Swal.fire({

@@ -5,7 +5,6 @@ import { AdminButton } from "components/atoms/AdminCommonButton";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import mileageIcon from "./배경제거M-admin.png"; // 컴포넌트와 같은 디렉토리에 있는 경우
 import Search from 'components/molecules/Search';
-
 import {
   Box,
   Divider,
