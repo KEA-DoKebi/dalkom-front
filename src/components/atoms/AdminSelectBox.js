@@ -4,6 +4,8 @@ import { Select, MenuItem } from "@mui/material";
 export const CustomSelect = ({ options, onChange, value, size, sx }) => {
   const getSizeStyles = (size) => {
     switch (size) {
+      case "xs":
+        return { height: "30px", width: "120px" };
       case "s":
         return { height: "50px", width: "210px" };
       case "m":
