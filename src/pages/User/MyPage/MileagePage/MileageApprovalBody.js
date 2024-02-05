@@ -170,7 +170,7 @@ export default function MileageApprovalBody() {
                                         {chargeRequest.createdAt.substring(0, 10)}
                                     </TableCell>
                                     <TableCell style={{width: "25%", textAlign: "center"}}>
-                                        {chargeRequest.amount}
+                                    {Number(chargeRequest.amount).toLocaleString()}
                                     </TableCell>
                                 </TableRow>
                             ))}

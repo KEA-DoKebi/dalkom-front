@@ -201,6 +201,35 @@ const ProductDetailPage = () => {
                 </Select>
               </FormControl>
 
+              <PriceContainer>
+                <SpaceBetweenContainer>
+                  <h3> 상품가격</h3>
+                  <Typography
+                    variant="body1"
+                    sx={{
+                      textAlign: "center",
+                      display: "flex",
+                      alignItems: "center",
+                      marginTop: "0",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    <img
+                      src="/images/M-1.png"
+                      alt="마일리지"
+                      style={{
+                        width: "20px",
+                        height: "20px",
+                        marginRight: "5px",
+                      }}
+                    />
+                    <BoldText style={{ fontSize: "20px" }}>
+                    {Number(productInfo.price).toLocaleString()}
+                    </BoldText>
+                  </Typography>
+                </SpaceBetweenContainer>
+              </PriceContainer>
+
               <FormControl sx={{ marginTop: "1vh" }}>
                 <FormLabel sx={{ fontSize : "20px", marginTop : "5vh", color : "black", fontWeight : "bold"}}>수량</FormLabel>
                 <Input

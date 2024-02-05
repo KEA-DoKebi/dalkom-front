@@ -10,11 +10,13 @@ import {AdminButton} from "components/atoms/AdminCommonButton";
 import {TokenAxios} from "../../../apis/CommonAxios";
 import Search from 'components/molecules/Search';
 import CreateIcon from '@mui/icons-material/Create';
+import Swal from "sweetalert2";
 
 
 let currentInquirySeq = null;
 const dataListLabels = ['문의번호', '문의일시', '문의제목', '답변상태', '답변작성'];
 const pageSize = 7;
+
 const StyledList = styled(List)`
   padding: 0;
   width: 100%;
@@ -93,13 +95,9 @@ const OrderInquiryPage = () => {
         { label: "문의제목" }
       ]
 
-    const getInquiryByCategory = async (page ) => {
+    const getInquiryByCategory = async (page) => {
         try {
-            // const apiUrl = isSearch
-            //     ? `/api/inquiry/category/${categorySeq}/search?page=${page}&size=7`
-            //     : `/api/inquiry/category/${categorySeq}/?page=${page}&size=7`;
-            // const res = await TokenAxios.get(apiUrl);
-            // setTotalPages(res.data.result.data.totalPages);
+             
             const res = await TokenAxios.get(`/api/inquiry/category/${categorySeq}/?page=${page}&size=7`);
             console.log(res.data.result.data.content);
             setTotalPages(res.data.result.data.totalPages);
@@ -131,12 +129,12 @@ const OrderInquiryPage = () => {
     const handleSearchInputChange = (event) => {
         setSearchQuery(event.target.value);
     };
-    const handleSearch = async (searchQuery,newPage) => {
+    const handleSearch = async (searchQuery) => {
         try {
             console.log(selectedValue.label);
             console.log(searchQuery);
             
-            let apiUrl = `/api/inquiry/category/${categorySeq}/search?page=${newPage}&size=7`;  // 기본 API URL
+            let apiUrl = `/api/inquiry/category/${categorySeq}/search?page=${currentPage}&size=7`;  // 기본 API URL
             
             // 선택된 검색어에 따라 검색 조건 추가
             if (selectedValue.label === "문의제목") {
@@ -172,16 +170,13 @@ const OrderInquiryPage = () => {
         } catch (error) {
             console.error('Error searching admin:', error);
         }
-        };
+    };
 
     const handlePageChange = (event, newPage) => {
-        console.log("newPage");
-        console.log(newPage);
-        console.log("searchQuery");
-        console.log(searchQuery);
         setCurrentPage(newPage); // 현재 페이지 업데이트
+
         if (searchQuery.trim() !== "") {
-            handleSearch(searchQuery,newPage);
+            handleSearch(searchQuery);
         } else {
             // 검색어가 없는 경우 전체 데이터에 대한 페이징 수행
             getInquiryByCategory(newPage);
@@ -217,15 +212,24 @@ const OrderInquiryPage = () => {
             // TextField의 내용 가져오기
             const answerContent = textareaRef.current.value;
             // 저장 요청 보내기
-            const res = await TokenAxios.put(`/api/inquiry/${currentInquirySeq}`, {
+             await TokenAxios.put(`/api/inquiry/${currentInquirySeq}`, {
                 answerContent: answerContent,
             });
 
-            console.log(res.data);
-
             // 모달 닫기
             handleCloseModal();
-            getInquiryByCategory(currentPage);
+            Swal.fire({
+                title: '저장 완료',
+                text: '주문 문의에 대한 답변이 저장되었습니다.',
+                icon: 'success',
+                confirmButtonText: '확인',
+                onClose: () => {
+                    // Close the modal when the "확인" button is clicked
+                    setOpenModal(false);
+                    getInquiryByCategory(currentPage);
+                },
+            });
+            
         } catch (error) {
             // 오류 처리
             console.error("저장 중 오류 발생:", error);
@@ -234,7 +238,7 @@ const OrderInquiryPage = () => {
 
     useEffect(() => {
         if (searchQuery.trim() !== "") {
-            handleSearch(searchQuery, currentPage);
+            handleSearch(searchQuery);
         } else {
             getInquiryByCategory(currentPage);
         }

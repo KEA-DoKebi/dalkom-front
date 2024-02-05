@@ -258,7 +258,7 @@ export default function CartBody() {
                     </TextContainer>
                   </ProductInfo>
                 </TableCell>
-                <TableCell>{row.price.toLocaleString()}</TableCell>
+                <TableCell>{Number(row.price).toLocaleString()}</TableCell>
                 <TableCell>
                   <QuantityControl>
                     <QuantityButton
@@ -275,7 +275,7 @@ export default function CartBody() {
                     </QuantityButton>
                   </QuantityControl>
                 </TableCell>
-                <TableCell>{row.totalPrice.toLocaleString()}</TableCell>
+                <TableCell>{Number(row.totalPrice).toLocaleString()}</TableCell>
               </StyledTableRow>
             ))}
             {rows.length < 4 &&
