@@ -75,11 +75,30 @@ const AdminListPage = () => {
   const [setOrderStatus] = useState(""); 
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedValue, setSelectedValue] = useState("");
-
+  const pageSize =7;
   const optionList = [
     { label: "주문자" },
     { label: "수령인" },
   ]
+
+  useEffect(() => {
+    // 각 페이지가 마운트될 때 selectedMenu를 업데이트
+    // setSelectedMenu 함수를 호출하여 상태를 업데이트
+    setSelectedMenu("주문 목록");
+    if (searchQuery.trim() !== "") {
+      handleSearch(searchQuery, currentPage);
+    } else {
+      adminOrderGet(currentPage);
+    }
+     // 페이지가 변경될 때 API 호출
+  }, [currentPage,searchQuery]);
+
+  const adminOrderGet = async (page) => {
+    const res = await TokenAxios.get(`/api/order?page=${page}&size=${pageSize}`);
+    setDataList(res.data.result.data.content);
+    setTotalPages(res.data.result.data.totalPages);
+  };
+  
   const handleSearchInputChange = (event) => {
     setSearchQuery(event.target.value);
   };
@@ -135,31 +154,20 @@ const AdminListPage = () => {
     "주문상세",
   ];
 
-  const adminGet = async (page) => {
-    const res = await TokenAxios.get(`/api/order?page=${page}&size=7`);
-    console.log(res.data.result.data.content);
-    setDataList(res.data.result.data.content);
-    console.log(res.data.result.data.totalPages);
-    setTotalPages(res.data.result.data.totalPages);
-  };
-
-  useEffect(() => {
-    // 각 페이지가 마운트될 때 selectedMenu를 업데이트
-    // setSelectedMenu 함수를 호출하여 상태를 업데이트
-    adminGet(currentPage); // 페이지가 변경될 때 API 호출
-    setSelectedMenu("주문 목록");
-  }, [currentPage]);
-
   // Pagination에서 페이지가 변경될 때 호출되는 함수
   const handlePageChange = (event, newPage) => {
     setCurrentPage(newPage); // 현재 페이지 업데이트
+
+    if (searchQuery.trim() !== "") {
+      handleSearch(searchQuery,newPage);
+  } else {
+      // 검색어가 없는 경우 전체 데이터에 대한 페이징 수행
+      adminOrderGet(newPage);
+  }
   };
   const handleSearch = async (searchQuery) => {
     try {
-      console.log(selectedValue.label);
-      console.log(searchQuery);
-      
-      let apiUrl = "/api/order/admin/search?page=0&size=10";  // 기본 API URL
+      let apiUrl = `/api/order/admin/search?page=${currentPage}&size=${pageSize}`;  // 기본 API URL
       
       // 선택된 검색어에 따라 검색 조건 추가
       if (selectedValue.label === "주문자") {
@@ -171,7 +179,6 @@ const AdminListPage = () => {
       const res = await TokenAxios.get(apiUrl);
       setDataList(res.data.result.data.content);
       setTotalPages(res.data.result.data.totalPages);
-      console.log(res.data.result.data.content);
     } catch (error) {
       console.error('Error searching admin:', error);
     }
@@ -182,15 +189,11 @@ const AdminListPage = () => {
     
     // Get the date as a string in the format YYYY-MM-DD
     const orderDate = new Date(order.ordrDate);
-    
     // Get the date as a string in the format YYYY. MM. DD.
     const formatDate = (dateString) => {
       const options = {year: 'numeric', month: '2-digit', day: '2-digit'};
       return new Date(dateString).toLocaleDateString('ko-KR', options);
   };
-  
-
-
     return (
       <ListItemStyled>
         <Typography variant="body1" sx={{ textAlign: "center" }}>

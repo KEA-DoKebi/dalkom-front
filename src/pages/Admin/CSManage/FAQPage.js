@@ -93,6 +93,7 @@ const FAQPage = () => {
     const [setOpenEditModal] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedValue, setSelectedValue] = useState("");
+    const pageSize = 7;
     
     const optionList = [
         { label: "FAQ제목" }
@@ -102,57 +103,38 @@ const FAQPage = () => {
     };
     const handleSearch = async (searchQuery) => {
         try {
-          console.log(selectedValue.label);
-          console.log(searchQuery);
-          
-          let apiUrl = `/api/faq/search?page=0&size=7`;  // 기본 API URL
-          
+          let apiUrl = `/api/faq/search?${currentPage}&size=${pageSize}`;  // 기본 API URL
+    
           // 선택된 검색어에 따라 검색 조건 추가
           if (selectedValue.label === "FAQ제목") {
             apiUrl += `&title=${searchQuery}`;
           }  
           const res = await TokenAxios.get(apiUrl);
+          setDataList(res.data.result.data.content);
           setTotalPages(res.data.result.data.totalPages);
-          const mappedDataList = res.data.result.data.content.map((item) => {
-            const date = new Date(item.createdAt);
-            const year = date.getFullYear();
-            const month = date.getMonth() + 1; // 월은 0부터 시작하므로 +1
-            const day = date.getDate();
-
-            return {
-                FAQ번호: item.inquirySeq,
-                작성일시: `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`,
-                FAQ: item.title,
-                상세보기: (
-                    <IconButton onClick={() => {
-                        currentInquirySeq = item.inquirySeq; // inquirySeq를 저장
-                        setOpenEditModal(true); // 모달을 열기
-                        }}>
-                        <InfoOutlinedIcon/>
-                    </IconButton>
-                    )
-                };
-             });
-          setDataList(mappedDataList);
           console.log(res.data.result.data.content);
         } catch (error) {
           console.error('Error searching admin:', error);
         }
-      };
+    };
+    
 
-    const pageSize = 7;
 
     const handleEditorChange = (event, editor) => {
         setEditorData(editor.getData());
     }
 
     useEffect(() => {
+        if (searchQuery.trim() !== "") {
+            handleSearch(searchQuery, currentPage);
+          } else {
+              getFaq(currentPage);
+          }
         // 각 페이지가 마운트될 때 selectedMenu를 업데이트
         // setSelectedMenu 함수를 호출하여 상태를 업데이트
         setSelectedMenu("FAQ");
-        getFaq(currentPage);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [currentPage, selectedFaq]);
+    }, [currentPage, selectedFaq,searchQuery]);
 
     const [createModalOpen, setCreateModalOpen] = useState(false);
     const [updateModalOpen, setUpdateModalOpen] = useState(false);
@@ -204,14 +186,18 @@ const FAQPage = () => {
     // FAQ 목록 조회
     const getFaq = async (page) => {
         const res = await TokenAxios.get(`/api/faq?page=${page}&size=${pageSize}`);
-        console.log(res.data.result.data.content);
         setDataList(res.data.result.data.content);
-        console.log(res.data.result.data.totalPages);
         setTotalPages(res.data.result.data.totalPages);
     };
 
     const handlePageChange = (event, newPage) => {
         setCurrentPage(newPage); // 현재 페이지 업데이트
+        if (searchQuery.trim() !== "") {
+            handleSearch(searchQuery,newPage);
+        } else {
+            // 검색어가 없는 경우 전체 데이터에 대한 페이징 수행
+            getFaq(newPage);
+        }
     };
 
     // FAQ 수정

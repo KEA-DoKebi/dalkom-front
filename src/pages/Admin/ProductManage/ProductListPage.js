@@ -94,29 +94,38 @@ const ProductListPage = () => {
 
   const productGet = async (page) => {
     const res = await TokenAxios.get(`/api/product?page=${page}&size=${pageSize}`);
-    console.log(res.data.result.data.content);
     setDataList(res.data.result.data.content);
-    console.log(res.data.result.data.totalPages);
     setTotalPages(res.data.result.data.totalPages);
   };
 
   useEffect(() => {
-    // 각 페이지가 마운트될 때 selectedMenu를 업데이트
-    // setSelectedMenu 함수를 호출하여 상태를 업데이트
-    productGet(currentPage); // 페이지가 변경될 때 API 호출
-    setSelectedMenu("상품 목록");
-  }, [currentPage]);
+    if (searchQuery.trim() !== "") {
+      handleSearch(searchQuery, currentPage);
+    } else {
+      productGet(currentPage);
+    }
+    setSelectedMenu("마일리지 승인");
+  },[currentPage,searchQuery]);
+
+  
 
   // Pagination에서 페이지가 변경될 때 호출되는 함수
   const handlePageChange = (event, newPage) => {
     setCurrentPage(newPage); // 현재 페이지 업데이트
+    if (searchQuery.trim() !== "") {
+      handleSearch(searchQuery,newPage);
+  } else {
+      // 검색어가 없는 경우 전체 데이터에 대한 페이징 수행
+      productGet(newPage);
+  }
   };
+  
   const handleSearch = async (searchQuery) => {
     try {
       console.log(selectedValue.label);
       console.log(searchQuery);
       
-      let apiUrl = "/api/product/search?page=0&size=10";  // 기본 API URL
+      let apiUrl = `/api/product/search?${currentPage}&size=${pageSize}`;  // 기본 API URL
       
       // 선택된 검색어에 따라 검색 조건 추가
       if (selectedValue.label === "이름") {
@@ -127,7 +136,6 @@ const ProductListPage = () => {
       const res = await TokenAxios.get(apiUrl);
       setDataList(res.data.result.data.content);
       setTotalPages(res.data.result.data.totalPages);
-      console.log(res.data.result.data.content);
     } catch (error) {
       console.error('Error searching admin:', error);
     }

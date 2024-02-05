@@ -5,9 +5,6 @@ import { AdminButton } from "components/atoms/AdminCommonButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Search from 'components/molecules/Search';
 import mileageIcon from "../ProductManage/배경제거M-admin.png"; // 컴포넌트와 같은 디렉토리에 있는 경우
-
-
-
 import {
   Box,
   Divider,
@@ -82,11 +79,18 @@ const AdminListPage = () => {
   ]
   const pageSize = 10;
 
+  useEffect(() => {
+    if (searchQuery.trim() !== "") {
+        handleSearch(searchQuery, currentPage);
+    } else {
+        userGet(currentPage);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+}, [currentPage, searchQuery]);
+
   const userGet = async (page) => {
     const res = await TokenAxios.get(`/api/user?page=${page}&size=10`);
-    console.log(res.data.result.data.content);
     setDataList(res.data.result.data.content);
-    console.log(res.data.result.data.totalPages);
     setTotalPages(res.data.result.data.totalPages);
   };
   const handleSearchInputChange = (event) => {
@@ -109,7 +113,7 @@ const AdminListPage = () => {
       console.log(selectedValue.label);
       console.log(searchQuery);
       
-      let apiUrl = "/api/user/search?page=0&size=10";  // 기본 API URL
+      let apiUrl = `/api/user/search?page=${currentPage}&size=10`;  // 기본 API URL
       
       // 선택된 검색어에 따라 검색 조건 추가
       if (selectedValue.label === "ID") {
@@ -127,24 +131,19 @@ const AdminListPage = () => {
     }
   };
 
-  useEffect(() => {
-    // 각 페이지가 마운트될 때 selectedMenu를 업데이트
-    // setSelectedMenu 함수를 호출하여 상태를 업데이트
-    userGet(currentPage); // 페이지가 변경될 때 API 호출
-    setSelectedMenu("사용자 목록");
-  }, [currentPage]);
-
   // Pagination에서 페이지가 변경될 때 호출되는 함수
   const handlePageChange = (event, newPage) => {
     setCurrentPage(newPage); // 현재 페이지 업데이트
+    if (searchQuery.trim() !== "") {
+      handleSearch(searchQuery,newPage);
+  } else {
+      // 검색어가 없는 경우 전체 데이터에 대한 페이징 수행
+      userGet(newPage);
+  }
   };
 
   // 상품 정보를 표시하기 위한 컴포넌트입니다.
   const UserList = ({ user, currentPage, pageSize}) => {
-    console.log("currentPage",currentPage);
-    console.log("pageSize",pageSize);
-    
-        
     const userNumber = currentPage * pageSize + dataList.indexOf(user) + 1;
 
     return (

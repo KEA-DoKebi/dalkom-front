@@ -126,11 +126,14 @@ const MileageApprovalPage = () => {
   };
 
   useEffect(() => {
-    // 각 페이지가 마운트될 때 selectedMenu를 업데이트
-    // setSelectedMenu 함수를 호출하여 상태를 업데이트
+    if (searchQuery.trim() !== "") {
+      handleSearch(searchQuery, currentPage);
+    } else {
+        getMileageApply(currentPage);
+    }
     setSelectedMenu("마일리지 승인");
-    getMileageApply(currentPage);
-  }, [currentPage]);
+    
+  }, [currentPage,searchQuery]);
 
   
   // 마일리지 신청내역 조회(대기중 상태만) (get)
@@ -138,9 +141,7 @@ const MileageApprovalPage = () => {
     const res = await TokenAxios.get(
       `/api/mileage/apply/wait?page=${page}&size=${pageSize}`,
     );
-    console.log(res.data.result.data.content);
     setDataList(res.data.result.data.content);
-    console.log(res.data.result.data.totalPages);
     setTotalPages(res.data.result.data.totalPages);
   };
 
@@ -163,15 +164,21 @@ const MileageApprovalPage = () => {
   };
 
   const handlePageChange = (event, newPage) => {
-    setCurrentPage(newPage);
+    setCurrentPage(newPage); // 현재 페이지 업데이트
+
+    if (searchQuery.trim() !== "") {
+        handleSearch(searchQuery,newPage);
+    } else {
+        // 검색어가 없는 경우 전체 데이터에 대한 페이징 수행
+        getMileageApply(newPage);
+    }
+
   };
 
   const handleSearch = async (searchQuery) => {
     try {
-      console.log(selectedValue.label);
-      console.log(searchQuery);
       
-      let apiUrl = "/api/mileage/apply/search?page=0&size=10";  // 기본 API URL
+      let apiUrl = `/api/mileage/apply/search?${currentPage}&size=${pageSize}`;  // 기본 API URL
       
       // 선택된 검색어에 따라 검색 조건 추가
       if (selectedValue.label === "ID") {
