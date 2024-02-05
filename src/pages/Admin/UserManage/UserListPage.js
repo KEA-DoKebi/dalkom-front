@@ -167,7 +167,7 @@ const AdminListPage = () => {
                 alt="마일리지"
                 style={{ width: "15px", height: "15px", marginRight: "10px" }}
               />
-              {user.mileage}
+              {Number(user.mileage).toLocaleString()}
            </div>
            
         </Typography>

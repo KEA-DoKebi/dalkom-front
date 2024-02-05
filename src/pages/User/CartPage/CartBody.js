@@ -239,7 +239,7 @@ export default function CartBody() {
                     </TextContainer>
                   </ProductInfo>
                 </TableCell>
-                <TableCell>{row.price}</TableCell>
+                <TableCell>{Number(row.price).toLocaleString()}</TableCell>
                 <TableCell>
                   <QuantityControl>
                     <QuantityButton
@@ -256,7 +256,7 @@ export default function CartBody() {
                     </QuantityButton>
                   </QuantityControl>
                 </TableCell>
-                <TableCell>{row.totalPrice}</TableCell>
+                <TableCell>{Number(row.totalPrice).toLocaleString()}</TableCell>
               </StyledTableRow>
             ))}
             {rows.length < 4 &&
@@ -280,10 +280,10 @@ export default function CartBody() {
       <FinalPaymentContainer>
         <Divider />
         <div style={{ fontSize: "30px", marginTop: "20px" }}>
-          최종 결제 금액: {totalAmount}원
+          최종 결제 금액: {Number(totalAmount).toLocaleString()}원
         </div>
         <div style={{ fontSize: "25px", marginTop: "20px" }}>
-          상품금액: {totalAmount}원
+          상품금액: {Number(totalAmount).toLocaleString()}원
         </div>
         <div style={{ fontSize: "25px", marginTop: "20px" }}>배송비: 0원</div>
         <FormControlLabel
