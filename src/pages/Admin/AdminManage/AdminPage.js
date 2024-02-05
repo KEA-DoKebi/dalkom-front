@@ -59,11 +59,18 @@ const AdminPage = () => {
     };
 
     useEffect(() => {
-        // 각 페이지가 마운트될 때 selectedMenu를 업데이트
-        // setSelectedMenu 함수를 호출하여 상태를 업데이트
-        adminGet(); // 페이지가 변경될 때 API 호출
-        setSelectedMenu("관리자 대시보드");
-    },[]);
+        const adminGet = async () => {
+            const res = await TokenAxios.get(`/api/admin/dashboard`);
+            setTotalPrice(res.data.result.data.totalMileage);
+            setTotalMonthlyPrice(res.data.result.data.totalMonthlyMileage);
+            setTotalDailyPrice(res.data.result.data.totalDailyMileage);
+            prepareChartData(res.data.result.data.monthlyPriceList);
+            setProductData(res.data.result.data.monthlyProductList.content);
+            setCategoryData(res.data.result.data.monthlyCategoryList);
+        };
+
+        adminGet();
+    }, []);
 
     return (
         <Paper sx={{ display: "flex", height: "100vh" }}>
