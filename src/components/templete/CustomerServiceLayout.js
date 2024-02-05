@@ -1,10 +1,7 @@
 import React, {useEffect, useState} from "react";
 import DefaultLayout from "./DefaultLayout";
 import styled from "styled-components";
-import Button from "@mui/material/Button";
-import { Link } from "react-router-dom/dist";
 import { Tabs, Tab } from "@mui/material";
-import {Grid} from "@mui/material";
 import {useLocation, useNavigate} from "react-router-dom";
 
 const Top = styled.div`
@@ -25,26 +22,6 @@ const Choice = styled.div`
   justify-content: center;
   width: 100%;
   gap: 5px;
-`;
-
-const StyledButton = styled(Button)`
-  color: #000000;
-  font-size: 20px;
-  margin-left: 5px;
-`;
-
-// Link 컴포넌트를 위한 별도의 스타일드 컴포넌트
-const StyledLink = styled(Link)`
-  color: #000000; // 링크 색상을 검은색으로 설정
-  text-decoration: none; // 링크 밑줄 제거
-
-  &:visited {
-    color: #000000; // 방문한 링크 색상을 검은색으로 유지
-  }
-
-  &:hover, &:active {
-    color: #000000; // 링크 마우스 오버나 클릭 시 색상을 검은색으로 유지
-  }
 `;
 
 const Body = styled.div`
