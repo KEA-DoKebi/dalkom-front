@@ -129,16 +129,16 @@ const AdminListPage = () => {
                 <Typography variant="body1" sx={{ textAlign: "center" }}>
                     {index + 1 + (currentPage * pageSize)}
                 </Typography>
-                <Typography variant="body1" sx={{ textAlign: "center" }}>
+                <Typography variant="body1" sx={{ textAlign: "center", marginLeft: "10px" }}>
                     {admin.adminId}
                 </Typography>
-                <Typography variant="body1" sx={{ textAlign: "center" }}>
+                <Typography variant="body1" sx={{ textAlign: "center", marginLeft: "10px" }}>
                     {admin.name}
                 </Typography>
-                <Typography variant="body1" sx={{ textAlign: "center" }}>
+                <Typography variant="body1" sx={{ textAlign: "center", marginLeft: "10px" }}>
                     {admin.depart}
                 </Typography>
-                <Typography variant="body1" sx={{ textAlign: "center" }}>
+                <Typography variant="body1" sx={{ textAlign: "center", marginLeft: "10px" }}>
                     {admin.nickname}
                 </Typography>
                 <IconButton
