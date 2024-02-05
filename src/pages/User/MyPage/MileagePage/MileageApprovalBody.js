@@ -68,50 +68,42 @@ export default function MileageApprovalBody() {
 
     return (
         <Paper elevation={0}>
-            <div
-                style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    padding: "10px",
-                }}
-            >
-                <Typography sx={{fontSize: "40px", mb: "10px"}}>신청 내역</Typography>
+            <Typography sx={{fontSize: "40px", mb: "10px"}}>신청 내역</Typography>
 
-                <form
-                    onSubmit={handleSubmit((chargeAmount) => {
-                        // console.log(chargeAmount);
-                        mileCharge(chargeAmount);
-                    })}
+            <form
+                onSubmit={handleSubmit((chargeAmount) => {
+                    // console.log(chargeAmount);
+                    mileCharge(chargeAmount);
+                })}
+            >
+                <Box
+                    sx={{
+                        display: "flex",
+                        justifyContent: "flex-end",
+                        alignItems: "flex-end",
+                    }}
                 >
                     <Box
                         sx={{
-                            display: "flex",
-                            justifyContent: "flex-end",
-                            alignItems: "flex-end",
+                            marginRight: "10px" /* TextField를 내리기 위한 추가 스타일 */,
                         }}
                     >
-                        <Box
-                            sx={{
-                                marginRight: "10px" /* TextField를 내리기 위한 추가 스타일 */,
-                            }}
-                        >
-                            <TextField
-                                id="amount"
-                                placeholder="충전하기"
-                                variant="standard"
-                                {...register("amount")}
-                            />
-                        </Box>
-                        <Button
-                            type="submit"
-                            sx={{color: "black", mb: "10px"}}
-                            onClick={mileCharge}
-                        >
-                            <AddCardIcon/>
-                        </Button>
+                        <TextField
+                            id="amount"
+                            placeholder="충전하기"
+                            variant="standard"
+                            {...register("amount")}
+                        />
                     </Box>
-                </form>
-            </div>
+                    <Button
+                        type="submit"
+                        sx={{color: "black", mb: "10px"}}
+                        onClick={mileCharge}
+                    >
+                        <AddCardIcon/>
+                    </Button>
+                </Box>
+            </form>
             <Paper variant="outlined">
                 <TableContainer>
                     <Table sx={{width: "100%", margin: "auto"}}>
