@@ -26,7 +26,7 @@ const Img = styled("img")({
     //저장할 데이터
     const [rating, setRating] = useState(0);
     const {handleSubmit, setValue, trigger } = useForm();
-    const [ setEditorContent] = useState("");
+    
     
     const handleEditorContentChange = (content) => {
       setValue('content', content, { shouldValidate: true });
