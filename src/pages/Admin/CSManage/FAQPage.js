@@ -123,17 +123,7 @@ const FAQPage = () => {
         setEditorData(editor.getData());
     }
 
-    useEffect(() => {
-        if (searchQuery.trim() !== "") {
-            handleSearch(searchQuery, currentPage);
-          } else {
-              getFaq(currentPage);
-          }
-        // 각 페이지가 마운트될 때 selectedMenu를 업데이트
-        // setSelectedMenu 함수를 호출하여 상태를 업데이트
-        setSelectedMenu("FAQ");
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [currentPage, selectedFaq,searchQuery]);
+    
 
     const [createModalOpen, setCreateModalOpen] = useState(false);
     const [updateModalOpen, setUpdateModalOpen] = useState(false);
@@ -192,7 +182,7 @@ const FAQPage = () => {
     const handlePageChange = (event, newPage) => {
         setCurrentPage(newPage); // 현재 페이지 업데이트
         if (searchQuery.trim() !== "") {
-            handleSearch(searchQuery,newPage);
+            handleSearch(searchQuery);
         } else {
             // 검색어가 없는 경우 전체 데이터에 대한 페이징 수행
             getFaq(newPage);
@@ -251,6 +241,18 @@ const FAQPage = () => {
             });
         }
     };
+
+    useEffect(() => {
+        if (searchQuery.trim() !== "") {
+            handleSearch(searchQuery);
+          } else {
+              getFaq(currentPage);
+          }
+        // 각 페이지가 마운트될 때 selectedMenu를 업데이트
+        // setSelectedMenu 함수를 호출하여 상태를 업데이트
+        setSelectedMenu("FAQ");
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [currentPage, selectedFaq]);
 
     return (
         <Paper sx={{display: "flex", height: "100vh"}}>

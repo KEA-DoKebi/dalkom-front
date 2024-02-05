@@ -117,18 +117,39 @@ const MileageHistoryPage = () => {
     { label: "닉네임" },
     { label: "사용자" },
   ]
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const handleSearch = async (searchQuery) => {
+    try {
+      let apiUrl = `/api/mileage/apply/search?page=${currentPage}&size=${pageSize}`;  // 기본 API URL
+      
+      // 선택된 검색어에 따라 검색 조건 추가
+      if (selectedValue.label === "이메일") {
+        apiUrl += `&email=${searchQuery}`;
+      } else if (selectedValue.label === "닉네임") {
+        apiUrl += `&nickname=${searchQuery}`;
+      } else if (selectedValue.label === "사용자") {
+        apiUrl += `&name=${searchQuery}`;
+      }  
+      
+      const res = await TokenAxios.get(apiUrl);
+      setDataList(res.data.result.data.content);
+      setTotalPages(res.data.result.data.totalPages);
+    } catch (error) {
+      console.error('Error searching admin:', error);
+    }
+  };
 
   useEffect(() => {
     // 각 페이지가 마운트될 때 selectedMenu를 업데이트
     // setSelectedMenu 함수를 호출하여 상태를 업데이트
     if (searchQuery.trim() !== "") {
-      handleSearch(searchQuery, currentPage);
+      handleSearch(searchQuery);
     } else {
       getMileageApplyHistory(currentPage);
     }
     setSelectedMenu("마일리지 승인 내역");
 
-  }, [currentPage,searchQuery,handleSearch]);
+  }, [currentPage,searchQuery]);
 
   // 마일리지 신청내역 조회(승인/거부 상태만) (get)
   const getMileageApplyHistory = async (page) => {
@@ -152,26 +173,7 @@ const MileageHistoryPage = () => {
     setSearchQuery(event.target.value);
   };
 
-  const handleSearch = async (searchQuery) => {
-    try {
-      let apiUrl = `/api/mileage/apply/search?page=${currentPage}&size=${pageSize}`;  // 기본 API URL
-      
-      // 선택된 검색어에 따라 검색 조건 추가
-      if (selectedValue.label === "이메일") {
-        apiUrl += `&email=${searchQuery}`;
-      } else if (selectedValue.label === "닉네임") {
-        apiUrl += `&nickname=${searchQuery}`;
-      } else if (selectedValue.label === "사용자") {
-        apiUrl += `&name=${searchQuery}`;
-      }  
-      
-      const res = await TokenAxios.get(apiUrl);
-      setDataList(res.data.result.data.content);
-      setTotalPages(res.data.result.data.totalPages);
-    } catch (error) {
-      console.error('Error searching admin:', error);
-    }
-  };
+  
 
   const ApplyHistoryList = ({ apply, index }) => {
     return (

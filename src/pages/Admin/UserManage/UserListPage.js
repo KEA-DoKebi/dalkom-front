@@ -79,9 +79,33 @@ const AdminListPage = () => {
   ]
   const pageSize = 10;
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const handleSearch = async (searchQuery) => {
+    try {
+      console.log(selectedValue.label);
+      console.log(searchQuery);
+      
+      let apiUrl = `/api/user/search?page=${currentPage}&size=10`;  // 기본 API URL
+      
+      // 선택된 검색어에 따라 검색 조건 추가
+      if (selectedValue.label === "ID") {
+        apiUrl += `&email=${searchQuery}`;
+      } else if (selectedValue.label === "닉네임") {
+        apiUrl += `&nickname=${searchQuery}`;
+      }
+      
+      const res = await TokenAxios.get(apiUrl);
+      setDataList(res.data.result.data.content);
+      setTotalPages(res.data.result.data.totalPages);
+      console.log(res.data.result.data.content);
+    } catch (error) {
+      console.error('Error searching admin:', error);
+    }
+  };
+
   useEffect(() => {
     if (searchQuery.trim() !== "") {
-        handleSearch(searchQuery, currentPage);
+        handleSearch(searchQuery);
     } else {
         userGet(currentPage);
     }
@@ -108,28 +132,7 @@ const AdminListPage = () => {
       console.error("Error deleting user:", error);
     }
   };
-  const handleSearch = async (searchQuery) => {
-    try {
-      console.log(selectedValue.label);
-      console.log(searchQuery);
-      
-      let apiUrl = `/api/user/search?page=${currentPage}&size=10`;  // 기본 API URL
-      
-      // 선택된 검색어에 따라 검색 조건 추가
-      if (selectedValue.label === "ID") {
-        apiUrl += `&email=${searchQuery}`;
-      } else if (selectedValue.label === "닉네임") {
-        apiUrl += `&nickname=${searchQuery}`;
-      }
-      
-      const res = await TokenAxios.get(apiUrl);
-      setDataList(res.data.result.data.content);
-      setTotalPages(res.data.result.data.totalPages);
-      console.log(res.data.result.data.content);
-    } catch (error) {
-      console.error('Error searching admin:', error);
-    }
-  };
+  
 
   // Pagination에서 페이지가 변경될 때 호출되는 함수
   const handlePageChange = (event, newPage) => {

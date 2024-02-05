@@ -124,12 +124,12 @@ const PaymentInquiryPage = () => {
     const handleSearchInputChange = (event) => {
         setSearchQuery(event.target.value);
     };
-    const handleSearch = async (searchQuery,newPage) => {
+    const handleSearch = async (searchQuery) => {
         try {
             console.log(selectedValue.label);
             console.log(searchQuery);
             
-            let apiUrl = `/api/inquiry/category/${categorySeq}/search?page=${newPage}&size=7`;  // 기본 API URL
+            let apiUrl = `/api/inquiry/category/${categorySeq}/search?page=${currentPage}&size=7`;  // 기본 API URL
             
             // 선택된 검색어에 따라 검색 조건 추가
             if (selectedValue.label === "문의제목") {
@@ -138,7 +138,7 @@ const PaymentInquiryPage = () => {
             const res = await TokenAxios.get(apiUrl);
             setTotalPages(res.data.result.data.totalPages);
             const mappedDataList = res.data.result.data.content.map((item,index) => {
-                const paymentInquiryNumber = newPage * pageSize + index + 1;
+                const paymentInquiryNumber = currentPage * pageSize + index + 1;
 
                 const date = new Date(item.createdAt);
                 const year = date.getFullYear();
@@ -237,7 +237,7 @@ const PaymentInquiryPage = () => {
 
     useEffect(() => {
         if (searchQuery.trim() !== "") {
-            handleSearch(searchQuery, currentPage);
+            handleSearch(searchQuery);
         } else {
             getInquiryByCategory(currentPage);
         }

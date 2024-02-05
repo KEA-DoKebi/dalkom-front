@@ -125,15 +125,7 @@ const MileageApprovalPage = () => {
     setSearchQuery(event.target.value);
   };
 
-  useEffect(() => {
-    if (searchQuery.trim() !== "") {
-      handleSearch(searchQuery, currentPage);
-    } else {
-        getMileageApply(currentPage);
-    }
-    setSelectedMenu("마일리지 승인");
-    
-  }, [currentPage,searchQuery,handleSearch]);
+  
 
   
   // 마일리지 신청내역 조회(대기중 상태만) (get)
@@ -167,7 +159,7 @@ const MileageApprovalPage = () => {
     setCurrentPage(newPage); // 현재 페이지 업데이트
 
     if (searchQuery.trim() !== "") {
-        handleSearch(searchQuery,newPage);
+        handleSearch(searchQuery);
     } else {
         // 검색어가 없는 경우 전체 데이터에 대한 페이징 수행
         getMileageApply(newPage);
@@ -175,6 +167,7 @@ const MileageApprovalPage = () => {
 
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleSearch = async (searchQuery) => {
     try {
       
@@ -197,6 +190,16 @@ const MileageApprovalPage = () => {
       console.error('Error searching admin:', error);
     }
   };
+
+  useEffect(() => {
+    if (searchQuery.trim() !== "") {
+      handleSearch(searchQuery);
+    } else {
+        getMileageApply(currentPage);
+    }
+    setSelectedMenu("마일리지 승인");
+    
+  }, [currentPage,searchQuery]);
 
   const ApplyList = ({ apply, index }) => {
     const handleSelect = async (state) => {

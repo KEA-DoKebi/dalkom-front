@@ -98,28 +98,18 @@ const ProductListPage = () => {
     setTotalPages(res.data.result.data.totalPages);
   };
 
-  useEffect(() => {
-    if (searchQuery.trim() !== "") {
-      handleSearch(searchQuery, currentPage);
-    } else {
-      productGet(currentPage);
-    }
-    setSelectedMenu("마일리지 승인");
-  },[currentPage,searchQuery,handleSearch]);
-
-  
-
   // Pagination에서 페이지가 변경될 때 호출되는 함수
   const handlePageChange = (event, newPage) => {
     setCurrentPage(newPage); // 현재 페이지 업데이트
     if (searchQuery.trim() !== "") {
-      handleSearch(searchQuery,newPage);
+      handleSearch(searchQuery);
   } else {
       // 검색어가 없는 경우 전체 데이터에 대한 페이징 수행
       productGet(newPage);
   }
   };
   
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleSearch = async (searchQuery) => {
     try {
       console.log(selectedValue.label);
@@ -140,6 +130,15 @@ const ProductListPage = () => {
       console.error('Error searching admin:', error);
     }
   };
+
+  useEffect(() => {
+    if (searchQuery.trim() !== "") {
+      handleSearch(searchQuery);
+    } else {
+      productGet(currentPage);
+    }
+    setSelectedMenu("마일리지 승인");
+  },[currentPage,searchQuery]);
 
   // 상품 정보를 표시하기 위한 컴포넌트입니다.
   const ProductItem = ({ product, index }) => {

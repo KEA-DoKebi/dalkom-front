@@ -93,7 +93,7 @@ const AdminListPage = () => {
         }
     };
 
-    const handleSearch = async (searchQuery,newPage) => {
+    const handleSearch = async (searchQuery) => {
         try {
             console.log(selectedValue.label);
             console.log(searchQuery);
