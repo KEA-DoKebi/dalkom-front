@@ -211,11 +211,11 @@ export default function CartBody() {
         >
           <TableHead>
             <TableRow>
-              <TableCell>선택</TableCell>
-              <TableCell>상품명(옵션)</TableCell>
-              <TableCell>판매가</TableCell>
-              <TableCell>상품수량</TableCell>
-              <TableCell>주문금액</TableCell>
+              <TitleTableCell>선택</TitleTableCell>
+              <TitleTableCell>상품명(옵션)</TitleTableCell>
+              <TitleTableCell>판매가</TitleTableCell>
+              <TitleTableCell>상품수량</TitleTableCell>
+              <TitleTableCell>주문금액</TitleTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -315,3 +315,7 @@ export default function CartBody() {
     </Paper>
   );
 }
+
+const TitleTableCell = styled(TableCell)`
+  font-weight : bold;
+`
