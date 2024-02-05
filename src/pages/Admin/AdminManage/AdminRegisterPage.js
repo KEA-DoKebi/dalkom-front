@@ -1,17 +1,16 @@
 import React, {useEffect, useState} from "react";
-import {Alert, AlertTitle, Box, Paper, Snackbar, Toolbar, Typography,} from "@mui/material";
+import {Box, Paper, Toolbar, Typography,} from "@mui/material";
 import AdminBar from "components/organisms/AdminBar";
 import {InputBoxS} from "components/atoms/Input";
 import {AdminButton} from "components/atoms/AdminCommonButton";
 import {TokenAxios} from "apis/CommonAxios";
 import {useForm} from "react-hook-form";
 import {useNavigate} from "react-router-dom";
+import Swal from "sweetalert2";
 
 const AdminRegisterPage = () => {
     // Declare selectedMenu and setSelectedMenu using useState
     const [selectedMenu, setSelectedMenu] = useState("관리자 등록");
-    const [alertMessage, setAlertMessage] = useState("");
-    const [alertSeverity, setAlertSeverity] = useState("success"); // 'success' 또는 'error'
     const navigate = useNavigate();
 
     const adminRegister = async (data) => {
@@ -19,30 +18,16 @@ const AdminRegisterPage = () => {
             const res = await TokenAxios.post("/api/admin", data);
             if (res.data.code === 200) {
                 // 성공 메시지 설정
-                setAlertMessage("관리자 등록을 완료했습니다!");
-                setAlertSeverity("success");
-                setAlertOpen(true); // alert 열기
+                Swal.fire("성공", "관리자를 등록했습니다.", "success");
                 navigate("/admin/list");
             } else {
                 // 실패 메시지 설정 (API 응답에 따라 다를 수 있음)
-                setAlertMessage("관리자 등록에 실패했습니다.");
-                setAlertSeverity("error");
-                setAlertOpen(true); // alert 열기
+                Swal.fire("오류", "관리자 등록에 실패했습니다.", "error");
             }
         } catch (e) {
             // 오류 발생 시 처리
-            setAlertMessage("관리자 등록 중 오류가 발생했습니다.");
-            setAlertSeverity("error");
-            setAlertOpen(true); // alert 열기
+            Swal.fire("오류", "관리자 등록 중 오류가 발생했습니다.", "error");
         }
-    };
-
-    const [isAlertOpen, setAlertOpen] = useState(false);
-    // Alert의 열림 여부 상태
-
-    const handleAdminButtonClick = () => {
-        // AdminButton이 클릭되면 Alert를 열도록 상태를 업데이트
-        setAlertOpen(true);
     };
 
     useEffect(() => {
@@ -161,34 +146,13 @@ const AdminRegisterPage = () => {
                             <AdminButton
                                 variant="contained"
                                 type="submit"
-                                onClick={handleAdminButtonClick}
+                                // onClick={handleAdminButtonClick}
                             >
                                 등록하기
                             </AdminButton>
                         </div>
                     </form>
                 </Box>
-
-                {/* Alert 컴포넌트 */}
-                <Snackbar
-                    open={isAlertOpen}
-                    autoHideDuration={2000}
-                    onClose={() => setAlertOpen(false)}
-                    anchorOrigin={{vertical: "top", horizontal: "right"}}
-                >
-                    <Alert
-                        onClose={() => setAlertOpen(false)}
-                        severity={alertSeverity}
-                        sx={{width: "100%"}}
-                    >
-                        <AlertTitle>
-                            <Typography fontWeight="bold">
-                                {alertSeverity === "success" ? "Success" : "Error"}
-                            </Typography>
-                        </AlertTitle>
-                        {alertMessage}
-                    </Alert>
-                </Snackbar>
             </Box>
         </Paper>
     );

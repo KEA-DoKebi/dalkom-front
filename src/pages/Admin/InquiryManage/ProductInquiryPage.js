@@ -1,20 +1,22 @@
 import React, {useEffect, useRef, useState} from "react";
 import styled from "styled-components";
 import AdminBar from "components/organisms/AdminBar";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import CreateIcon from '@mui/icons-material/Create';
 import {Box, Divider, IconButton, List, ListItem, Pagination, Paper, Toolbar, Typography,} from "@mui/material";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
-import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import Modal from "@mui/material/Modal";
 import {MuiColorChip} from "components/atoms/AdminChip";
 import {AdminButton} from "components/atoms/AdminCommonButton";
 import {TokenAxios} from "../../../apis/CommonAxios";
 import Search from 'components/molecules/Search';
+import Swal from "sweetalert2";
+
 
 
 let currentInquirySeq = null;
-const dataListLabels = ['문의번호', '문의일시', '문의제목', '답변여부', '상세보기'];
+const dataListLabels = ['문의번호', '문의일시', '문의제목', '답변상태', '답변작성'];
+const pageSize = 7;
 
 
 const StyledList = styled(List)`
@@ -62,8 +64,8 @@ const getColumnWidth = (label) => {
         문의번호: [0, 10],
         문의일시: [0, 20],
         문의제목: [0, 30],
-        답변여부: [0, 10],
-        상세보기: [0, 20],
+        답변상태: [0, 10],
+        답변작성: [0, 20],
     };
     const [minWidth, maxWidth] = widthRanges[label] || [0, 100];
     const width = Math.min(100, maxWidth) - minWidth;
@@ -73,6 +75,12 @@ const getColumnWidth = (label) => {
 const formatDate = (dateString) => {
     const options = {year: 'numeric', month: '2-digit', day: '2-digit'};
     return new Date(dateString).toLocaleDateString('ko-KR', options);
+};
+
+//html tag 지우기 
+const removeHtmlTags = (htmlString) => {
+    const doc = new DOMParser().parseFromString(htmlString, 'text/html');
+    return doc.body.textContent || "";
 };
 
 const ProductInquiryPage = () => {
@@ -90,7 +98,8 @@ const ProductInquiryPage = () => {
     const optionList = [
         { label: "문의제목" }
       ]
-    
+      
+      
     const handleSearchInputChange = (event) => {
     setSearchQuery(event.target.value);
     };
@@ -99,7 +108,7 @@ const ProductInquiryPage = () => {
           console.log(selectedValue.label);
           console.log(searchQuery);
           
-          let apiUrl = `/api/inquiry/category/${categorySeq}/search?page=0&size=7`;  // 기본 API URL
+          let apiUrl = `/api/inquiry/category/${categorySeq}/search?page=${currentPage}&size=7`;  // 기본 API URL
           
           // 선택된 검색어에 따라 검색 조건 추가
           if (selectedValue.label === "문의제목") {
@@ -107,21 +116,22 @@ const ProductInquiryPage = () => {
           }  
           const res = await TokenAxios.get(apiUrl);
           setTotalPages(res.data.result.data.totalPages);
-          const mappedDataList = res.data.result.data.content.map((item) => {
+          const mappedDataList = res.data.result.data.content.map((item,index) => {
+            const productInquiryNumber = currentPage * pageSize + index + 1;
             const date = new Date(item.createdAt);
             const year = date.getFullYear();
             const month = date.getMonth() + 1; // 월은 0부터 시작하므로 +1
             const day = date.getDate();
 
             return {
-                문의번호: item.inquirySeq,
+                문의번호: productInquiryNumber,
                 문의일시: `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`,
                 문의제목: item.title,
-                답변여부: item.answerState === "Y" ? "completed" : "waiting",
-                답변달기: (
+                답변상태: item.answerState === "Y" ? "completed" : "waiting",
+                답변작성: (
                     <IconButton onClick={() => handleOpenModal(item.inquirySeq)}
                                 disabled={item.answerState === "Y"}>
-                        <InfoOutlinedIcon/>
+                        <CreateIcon/>
                     </IconButton>
                 )
                 
@@ -140,16 +150,23 @@ const ProductInquiryPage = () => {
             console.log(res.data.result.data.content);
             setTotalPages(res.data.result.data.totalPages);
 
-            const mappedDataList = res.data.result.data.content.map((item) => {
+            const mappedDataList = res.data.result.data.content.map((item,index) => {
+                const productInquiryNumber = page * pageSize + index + 1;
+                console.log(currentPage);
+                    console.log(pageSize);
+                    console.log(dataList.indexOf(item.index));
+                    
+                    
+                    
                     return {
-                        문의번호: item.inquirySeq,
+                        문의번호: productInquiryNumber,
                         문의일시: formatDate(item.createdAt),
                         문의제목: item.title,
-                        답변여부: item.answerState === "Y" ? "completed" : "waiting",
-                        상세보기: (
+                        답변상태: item.answerState === "Y" ? "completed" : "waiting",
+                        답변작성: (
                             <IconButton onClick={() => handleOpenModal(item.inquirySeq)}
                                         disabled={item.answerState === "Y"}>
-                                <InfoOutlinedIcon/>
+                                <CreateIcon/>
                             </IconButton>
                         )
                     };
@@ -197,12 +214,27 @@ const ProductInquiryPage = () => {
                     answerContent: answerContent,
                 }
             );
-
+    
             console.log(res.data);
-
+    
             // 모달 닫기
             handleCloseModal();
-            getInquiryByCategory(currentPage);
+    
+            // Show SweetAlert confirmation
+            Swal.fire({
+                title: '저장 완료',
+                text: '상품 문의에 대한 답변이 저장되었습니다.',
+                icon: 'success',
+                confirmButtonText: '확인',
+                onClose: () => {
+                    // Close the modal when the "확인" button is clicked
+                    setOpenModal(false);
+                },
+            });
+    
+            // You can also perform additional actions after showing the SweetAlert if needed.
+            // For example, you may want to refresh the data or perform other operations.
+            // getInquiryByCategory(currentPage);
         } catch (error) {
             // 오류 처리
             console.error("저장 중 오류 발생:", error);
@@ -300,8 +332,8 @@ const ProductInquiryPage = () => {
                                                         textAlign: "center",
                                                     }}
                                                 >
-                                                    {label === "답변여부" ? (
-                                                        <MuiColorChip status={item["답변여부"]}/>
+                                                    {label === "답변상태" ? (
+                                                        <MuiColorChip status={item["답변상태"]}/>
                                                     ) : (
                                                         <Typography variant="body1">
                                                             {item[label]}
@@ -348,16 +380,21 @@ const ProductInquiryPage = () => {
                         aria-describedby="simple-modal-description"
                     >
                         <ModalBoxStyled>
-                            <IconButton
+                            {/* <IconButton
                                 onClick={handleCloseModal}
                                 sx={{mt: 4, mr: 4}}
                                 style={{position: "absolute", right: 0, top: 0}}
                             >
                                 <HighlightOffIcon></HighlightOffIcon>
-                            </IconButton>
+                            </IconButton> */}
 
                             <Grid container spacing={2}>
-                                <Grid item xs={2}>
+                                <Grid item xs={12}>
+                                    <Typography variant="h4" fontWeight="bold" sx={{mt: 4, textAlign:"center"}}>
+                                        문의 내용
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={2} >
                                     <Typography variant="h6" fontWeight="bold" sx={{mb: 2}}>
                                         제목
                                     </Typography>
@@ -379,7 +416,7 @@ const ProductInquiryPage = () => {
                                         overflowY: "auto",
                                     }}
                                 >
-                                    <Typography>{selectedItem?.content || "content"}</Typography>
+                                    <Typography>{removeHtmlTags(selectedItem?.content) || "content"}</Typography>
                                 </Grid>
 
                                 <Grid item xs={12} style={{height: "20"}}></Grid>
