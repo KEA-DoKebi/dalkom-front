@@ -1,5 +1,4 @@
 import React, {useCallback, useEffect, useState} from "react";
-import styled from "styled-components";
 import {
     Box,
     Divider,
@@ -8,6 +7,7 @@ import {
     Paper,
     Table,
     TableBody,
+    TableContainer,
     TableCell,
     TableHead,
     TableRow,
@@ -48,27 +48,17 @@ const mapOrderState = (stateCode) => {
     }
 };
 
-const TableContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 1400px;
-  //max-height: auto;
-  overflow-y: auto; // 항목이 4개를 초과하면 스크롤 생성
-`;
-
-const StyledTableRow = styled(TableRow)`
-  height: 110px; // 원하는 행의 높이로 설정
-`;
-
 export default function OrderListBody() {
     const [order, setOrder] = useState([]);
     const [filterPeriod, setFilterPeriod] = useState("all");
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState();
-    
+
+    const pageSize = 6;
+
     const orderList = useCallback(async (page) => {
         try {
-            const res = await TokenAxios.get(`/api/order/user?page=${page}&size=6`);
+            const res = await TokenAxios.get(`/api/order/user?page=${page}&size=${pageSize}`);
             console.log(res);
             const allOrders = res.data.result.data.content;
             setTotalPages(res.data.result.data.totalPages);
@@ -133,10 +123,9 @@ export default function OrderListBody() {
 
     return (
         <Paper elevation={0}>
-            <Typography sx={{fontSize: "40px",}}>
-                주문 목록 / 배송 조회
-            </Typography>
-            <Divider sx={{ borderBottomWidth: 3 }} color={"black"}></Divider>
+            <Typography sx={{fontSize: "40px",}}>주문 목록 / 배송 조회</Typography>
+
+            <Divider sx={{borderBottomWidth: 3}} color={"black"}></Divider>
 
             <Paper elevation={0}>
                 <Select
@@ -170,26 +159,15 @@ export default function OrderListBody() {
                 </Select>
             </Paper>
 
-            <Paper
-                elevation={0}
-                style={{display: "flex", width: "100%"}}
-            >
-                <TableContainer>
-                    <Table
-                        sx={{
-                            border: "1px solid",
-                            borderColor: "#e0e0e0",
-                            borderRadius: "4px",
-                            width: "auto",
-                            height: "100%",
-                            margin: "10px",
-                        }}
-                    >
+            <Paper variant="outlined">
+                <TableContainer style={{maxHeight: "none"}}>
+                    {" "}
+                    <Table sx={{width: "100%", margin: "auto"}}>
                         <TableHead>
                             <TableRow>
                                 <TableCell
                                     style={{
-                                        width: "15%",
+                                        width: "20%",
                                         textAlign: "center",
                                         fontWeight: "bold",
                                         fontSize: "15px",
@@ -197,9 +175,10 @@ export default function OrderListBody() {
                                 >
                                     주문정보
                                 </TableCell>
+
                                 <TableCell
                                     style={{
-                                        width: "15%",
+                                        width: "16%",
                                         textAlign: "center",
                                         fontWeight: "bold",
                                         fontSize: "15px",
@@ -207,9 +186,10 @@ export default function OrderListBody() {
                                 >
                                     주문일자
                                 </TableCell>
+
                                 <TableCell
                                     style={{
-                                        width: "15%",
+                                        width: "16%",
                                         textAlign: "center",
                                         fontWeight: "bold",
                                         fontSize: "15px",
@@ -217,9 +197,10 @@ export default function OrderListBody() {
                                 >
                                     주문번호
                                 </TableCell>
+
                                 <TableCell
                                     style={{
-                                        width: "15%",
+                                        width: "16%",
                                         textAlign: "center",
                                         fontWeight: "bold",
                                         fontSize: "15px",
@@ -227,9 +208,10 @@ export default function OrderListBody() {
                                 >
                                     금액
                                 </TableCell>
+
                                 <TableCell
                                     style={{
-                                        width: "15%",
+                                        width: "16%",
                                         textAlign: "center",
                                         fontWeight: "bold",
                                         fontSize: "15px",
@@ -237,9 +219,10 @@ export default function OrderListBody() {
                                 >
                                     상태
                                 </TableCell>
+
                                 <TableCell
                                     style={{
-                                        width: "15%",
+                                        width: "16%",
                                         textAlign: "center",
                                         fontWeight: "bold",
                                         fontSize: "15px",
@@ -253,7 +236,7 @@ export default function OrderListBody() {
 
                         <TableBody>
                             {order.map((order) => (
-                                <StyledTableRow key={order.orderSeq}>
+                                <TableRow key={order.orderSeq}>
                                     {/*주문 정보*/}
                                     <TableCell style={{textAlign: "center"}}>
                                         {order.orderTitle}
@@ -266,7 +249,7 @@ export default function OrderListBody() {
 
                                     {/*주문 번호*/}
                                     <TableCell style={{textAlign: "center"}}>
-                                            {order.ordrSeq}
+                                        {order.ordrSeq}
                                     </TableCell>
 
                                     {/*금액*/}
@@ -280,13 +263,13 @@ export default function OrderListBody() {
                                     </TableCell>
 
                                     {/*주문 상세*/}
-                                    <TableCell style={{ textAlign: "center" }}>
+                                    <TableCell style={{textAlign: "center"}}>
                                         <IconButton onClick={() => handleOrderDetailOpen(order.ordrSeq)}>
-                                                <InfoOutlinedIcon />
+                                            <InfoOutlinedIcon/>
                                         </IconButton>
                                     </TableCell>
-                                </StyledTableRow>
-                                ))}
+                                </TableRow>
+                            ))}
                         </TableBody>
                     </Table>
                 </TableContainer>
