@@ -43,7 +43,7 @@ export default Search;
 const FlexContainer = styled.div`
   display: flex;
   align-items: center;
-  justify-content :left;
-  margin-left : 500px
+  justify-content :center;
+  margin-left : 440px
 
 `;
