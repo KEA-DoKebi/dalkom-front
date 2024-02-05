@@ -160,6 +160,7 @@ const AnnouncementPage = () => {
       getNotice(currentPage); 
     }
     setSelectedMenu("공지사항");
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage,searchQuery, selectedNotice]);
 
   // Modal의 상태를 관리하는 state

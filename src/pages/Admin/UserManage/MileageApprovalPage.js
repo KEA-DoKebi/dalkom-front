@@ -199,6 +199,7 @@ const MileageApprovalPage = () => {
     }
     setSelectedMenu("마일리지 승인");
     
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage,searchQuery]);
 
   const ApplyList = ({ apply, index }) => {
