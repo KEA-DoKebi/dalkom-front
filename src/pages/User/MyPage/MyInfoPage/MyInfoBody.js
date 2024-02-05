@@ -10,6 +10,7 @@ import {
 import { Textarea, FormControl, FormHelperText, Input } from "@mui/joy";
 import { TokenAxios } from "apis/CommonAxios";
 import { useForm } from "react-hook-form";
+import Swal from 'sweetalert2'
 
 export const UserButton = styled(Button)`
   background-color: #000000;
@@ -55,6 +56,14 @@ const MyInfoBody = () => {
     try {
       const res = await TokenAxios.put("/api/user", data);
       console.log(res.data);
+      // Swal.fire 성공 메시지
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "수정완료 되었습니다!",
+        showConfirmButton: false,
+        timer: 1500
+      });
     } catch (e) {
       console.log(e);
     }

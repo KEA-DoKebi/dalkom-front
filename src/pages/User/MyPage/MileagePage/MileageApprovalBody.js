@@ -16,17 +16,25 @@ import {
 import AddCardIcon from "@mui/icons-material/AddCard";
 import { TokenAxios } from "apis/CommonAxios";
 import { useForm } from "react-hook-form";
+import Swal from 'sweetalert2'
 
 export default function MileageApprovalBody() {
-  const { register, handleSubmit } = useForm();
-  const [data, setData] = useState([]);
+  const { register, handleSubmit, setValue } = useForm();
+  const [ data, setData] = useState([]);
+  const [existingRequest, setExistingRequest] = useState(false);
 
   //마일리지 충전
-  const mileCharge = async (chargeAmount) => {
+   const mileCharge = async (chargeAmount) => {
     try {
+      // 이미 신청 내역이 하나 이상 있는지 확인
+      if (data.length > 0) {
+        setExistingRequest(true);
+        return;
+      }
+
       const res = await TokenAxios.post(
         "/api/mileage/apply/user",
-        chargeAmount,
+        chargeAmount
       );
       console.log(res.chargeAmount);
     } catch (e) {
@@ -34,6 +42,29 @@ export default function MileageApprovalBody() {
     }
   };
 
+  const onSubmit = async (chargeAmount) => {
+    try {
+      await mileCharge(chargeAmount);
+
+      // 이미 신청 내역이 하나 이상 있다면 Swal 알림 띄우기
+      if (existingRequest) {
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "신청 내역이 존재합니다!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        setExistingRequest(false); // 상태 초기화
+      }
+
+      await chargeRequestHistory();
+      setValue("amount", "");
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  
   //마일리지 신청 내역
   const chargeRequestHistory = async () => {
     try {
@@ -60,12 +91,7 @@ export default function MileageApprovalBody() {
       >
         <Typography sx={{ fontSize: "40px", mb: "10px" }}>신청 내역</Typography>
 
-        <form
-          onSubmit={handleSubmit((chargeAmount) => {
-            // console.log(chargeAmount);
-            mileCharge(chargeAmount);
-          })}
-        >
+        <form onSubmit={handleSubmit(onSubmit)}>
           <Box
             sx={{
               display: "flex",

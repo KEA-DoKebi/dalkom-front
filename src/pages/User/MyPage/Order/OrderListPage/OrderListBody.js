@@ -67,7 +67,7 @@ export default function OrderListBody() {
     
     const orderList = useCallback(async (page) => {
         try {
-            const res = await TokenAxios.get(`/api/order/user?page=${page}&size=10`);
+            const res = await TokenAxios.get(`/api/order/user?page=${page}&size=6`);
             console.log(res);
             const allOrders = res.data.result.data.content;
             setTotalPages(res.data.result.data.totalPages);
@@ -101,8 +101,6 @@ export default function OrderListBody() {
         const today = new Date();
 
         switch (period) {
-            case "1day":
-                return today.getDate() === orderDateObject.getDate();
             case "1month":
                 return (
                     today.getMonth() === orderDateObject.getMonth() &&
@@ -157,9 +155,6 @@ export default function OrderListBody() {
                 >
                     <Option value="all" onClick={() => setFilterPeriod("all")}>
                         전체
-                    </Option>
-                    <Option value="1day" onClick={() => setFilterPeriod("1day")}>
-                        1일
                     </Option>
                     <Option value="1month" onClick={() => setFilterPeriod("1month")}>
                         1달
