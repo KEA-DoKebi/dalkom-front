@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import AdminBar from "components/organisms/AdminBar";
 import { AdminButton } from "components/atoms/AdminCommonButton";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import mileageIcon from "./배경제거M-admin.png"; // 컴포넌트와 같은 디렉토리에 있는 경우
 import Search from 'components/molecules/Search';
 import {
@@ -183,7 +183,7 @@ const ProductListPage = () => {
           style={{ textDecoration: "none", textAlign: "center" }}
         >
           <IconButton>
-            <InfoOutlinedIcon />
+            <KeyboardDoubleArrowRightIcon />
           </IconButton>
         </Link>
       </ListItemStyled>

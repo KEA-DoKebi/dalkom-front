@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import Search from "components/molecules/Search";
@@ -261,7 +261,7 @@ const FAQPage = () => {
         <Typography variant="body1" sx={{ textAlign: "center" }}>
         {faq.title}
         </Typography>
-        <InfoOutlinedIcon onClick={() => handleUpdateModalOpen(faq.inquirySeq)}
+        <KeyboardDoubleArrowRightIcon onClick={() => handleUpdateModalOpen(faq.inquirySeq)}
           sx={{ textAlign: "center" }} />
       </ListItemStyled>
     );

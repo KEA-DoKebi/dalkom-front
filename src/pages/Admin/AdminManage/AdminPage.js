@@ -54,7 +54,7 @@ const AdminPage = () => {
   }, []);
 
   return (
-    <Paper sx={{ display: "flex" }}>
+    <Paper sx={{ display: "flex" }} elevation={0}>
       <AdminBar selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
       <Box
         sx={{

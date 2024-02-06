@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import AdminBar from "components/organisms/AdminBar";
 import CloseIcon from "@mui/icons-material/Close";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import { TokenAxios } from "apis/CommonAxios";
 import { OnOffSwitch } from "components/atoms/OnOffSwitch";
 import Search from 'components/molecules/Search';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import {
   Box,
   Dialog,
@@ -315,9 +316,9 @@ const AnnouncementPage = () => {
         {notice.title}
         </Typography>
         <Typography variant="body1" sx={{ textAlign: "center" }}>
-        {notice.state}
+        {notice.state === "Y" ? <CheckCircleIcon sx={{ color: "#F4B5C2", fontSize: 25 }}/> : ""}
         </Typography>
-        <InfoOutlinedIcon onClick={() => handleLookOpenModal(notice.noticeSeq)}
+        <KeyboardDoubleArrowRightIcon onClick={() => handleLookOpenModal(notice.noticeSeq)}
           sx={{ textAlign: "center" }} />
       </ListItemStyled>
     );

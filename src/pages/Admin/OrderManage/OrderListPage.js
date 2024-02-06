@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import AdminBar from "components/organisms/AdminBar";
 import { AdminButton } from "components/atoms/AdminCommonButton";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { CustomSelect } from "components/atoms/AdminSelectBox";
 import CloseIcon from '@mui/icons-material/Close';
 import Search from 'components/molecules/Search';
@@ -255,7 +255,7 @@ const AdminListPage = () => {
           {order.ordrStateName}
         </Typography>
         <IconButton onClick={() => handleOpenModal(order)} sx={{ textAlign: "center" }}>
-          <InfoOutlinedIcon />
+          <KeyboardDoubleArrowRightIcon />
         </IconButton>
       </ListItemStyled>
     );

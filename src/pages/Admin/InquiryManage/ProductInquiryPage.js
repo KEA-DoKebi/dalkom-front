@@ -20,7 +20,7 @@ import { MuiColorChip } from "components/atoms/AdminChip";
 import { AdminButton } from "components/atoms/AdminCommonButton";
 import { TokenAxios } from "../../../apis/CommonAxios";
 import Search from "components/molecules/Search";
-import ReplyIcon from '@mui/icons-material/Reply';
+import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import Swal from "sweetalert2";
 
 let currentInquirySeq = null;
@@ -250,7 +250,7 @@ const ProductInquiryPage = () => {
           onClick={() => handleOpenModal(inquiry.inquirySeq)}
           sx={{ "&:hover": { backgroundColor: "#FFFFFF" } }} // 호버 효과 제거
         >
-          <ReplyIcon />
+          <KeyboardDoubleArrowRightIcon />
         </IconButton>
       </ListItemStyled>
     );
