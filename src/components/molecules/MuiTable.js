@@ -56,7 +56,12 @@ export default function MuiTable({ reviewList }) {
                 </div>
                 <hr style={{ marginTop: "15px" }} />
                 <div>
-                  <p style={{ fontSize: "20px" }}>{review.content}</p>
+                  {/* <p style={{ fontSize: "20px" }}>{review.content}</p> */}
+
+
+                  <p style={{ fontSize: "20px" }} dangerouslySetInnerHTML={{ __html: review.content }}></p>
+
+                  {/* <div dangerouslySetInnerHTML={{ __html: selectedNotice?.content }} /> */}
                 </div>
               </TableCell>
             </TableRow>

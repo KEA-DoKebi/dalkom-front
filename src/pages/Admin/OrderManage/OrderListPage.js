@@ -248,8 +248,8 @@ const AdminListPage = () => {
         <Typography variant="body1" sx={{ textAlign: "center" }}>
           {order.receiveName}
         </Typography>
-        <Typography variant="body1" sx={{ textAlign: "center" }}>
-          {order.totalPrice}
+        <Typography variant="body1" sx={{ textAlign: "center", ml: "10px" }}>
+          {Number(order.totalPrice).toLocaleString()}
         </Typography>
         <Typography variant="body1" sx={{ textAlign: "center" }}>
           {order.ordrStateName}
@@ -545,7 +545,7 @@ const AdminListPage = () => {
                               </Grid>
                               <Grid item xs={3} style={{ textAlign: "center" }}>
                                 <Typography style={{ fontSize: "14px", marginTop: "2%" }}>
-                                  {detail.totalPrice}
+                                  {Number(detail.totalPrice).toLocaleString()}
                                 </Typography>
                               </Grid>
                             </Grid>
@@ -565,7 +565,9 @@ const AdminListPage = () => {
                       </Typography>
                     </Grid>
                     <Grid item xs={2}>
-                      <Typography>{selectedOrder.totalPrice}</Typography>
+                      <Typography>
+                        {Number(selectedOrder.totalPrice).toLocaleString()}
+                        </Typography>
                     </Grid>
                   </Grid>
 

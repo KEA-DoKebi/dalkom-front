@@ -172,8 +172,9 @@ const AdminListPage = () => {
                 alt="마일리지"
                 style={{ width: "15px", height: "15px", marginRight: "10px" }}
               />
-              {user.mileage}
-          </div>
+              {Number(user.mileage).toLocaleString()}
+           </div>
+           
         </Typography>
         <Typography variant="body1" sx={{ textAlign: "center" }}>
           {user.address}

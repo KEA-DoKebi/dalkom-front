@@ -150,7 +150,7 @@ const ProductDetailPage = () => {
                       }}
                     />
                     <BoldText style={{ fontSize: "20px" }}>
-                      {productInfo.price}
+                    {Number(productInfo.price).toLocaleString()}
                     </BoldText>
                   </Typography>
                 </SpaceBetweenContainer>

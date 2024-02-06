@@ -11,6 +11,9 @@ import { Textarea, FormControl, FormHelperText, Input } from "@mui/joy";
 import { TokenAxios } from "apis/CommonAxios";
 import { useForm } from "react-hook-form";
 import Swal from 'sweetalert2'
+import DaumPostcode from "react-daum-postcode";
+import { CustomButton } from "common";
+
 
 export const UserButton = styled(Button)`
   background-color: #000000;
@@ -37,6 +40,11 @@ export const UserButton = styled(Button)`
 const MyInfoBody = () => {
     //기존 유저 정보 불러오기
     const [userInfo, setUserInfo] = useState([]);
+    const [openDaumAddress, setOpenDaumAddress] = useState(false);
+    const [userAddress, setUserAddress] = useState(userInfo.address || "");
+
+
+
     const loadData = async () => {
         try {
             const res = await TokenAxios.get("/api/user/self");
@@ -51,10 +59,18 @@ const MyInfoBody = () => {
     }, []);
 
   //유저 정보 수정
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit,watch ,formState: { errors }} = useForm();
+  const password = watch("password");
+  // password rule 추가 가능 
+  // const passwordRules = {
+  //   required: "Password is required",
+  //   minLength: { value: 8, message: "Password must be at least 8 characters long" },
+  // };
+
   const editInfo = async (data) => {
     try {
       const res = await TokenAxios.put("/api/user", data);
+      res.address = userAddress
       console.log(res.data);
       // Swal.fire 성공 메시지
       Swal.fire({
@@ -69,10 +85,53 @@ const MyInfoBody = () => {
     }
   };
 
+  
+  const DaumAddressComponent = () => {
+    const handle = {
+      clickButton: () => {
+        setOpenDaumAddress((current) => !current);
+      },
+      selectAddress: (data) => {
+        console.log(`
+          주소: ${data.address},
+          우편번호: ${data.zonecode}
+        `);
+        setOpenDaumAddress(false);
+        setUserAddress(`${data.address} ${data.zonecode}`);
+      },
+    };
+
+    return (
+      <div>
+        <SearchAddressButton onClick={handle.clickButton}>
+          주소찾기
+        </SearchAddressButton>
+        {openDaumAddress && (
+          <DaumPostcode
+            onComplete={handle.selectAddress}
+            autoClose={false}
+            defaultQuery="가천대역"
+            style={{
+              position: "fixed",
+              right: 0,
+              top: 0,
+              width: "100%",
+              height: "100%",
+              zIndex: 3333,
+            }}
+          />
+        )}
+      </div>
+    );
+  };
+
+
+
     return (
         <Paper elevation={0}>
             <form
                 onSubmit={handleSubmit((data) => {
+                  data.address = userAddress;
                     console.log(data);
                     editInfo(data);
                 })}
@@ -84,56 +143,60 @@ const MyInfoBody = () => {
 
                     <Divider sx={{borderBottomWidth: 3}} color={"black"}></Divider>
 
-                    <Grid container spacing={2} justifyContent="auto" sx={{ mt: 2.5, alignItems: "center" }}>
+                    <Grid container spacing={2} justifyContent="auto" sx={{ mt: 8, alignItems: "center" }}>
                         {/* 왼쪽의 빈 공간 */}
                         <Grid item xs={2}></Grid>
-
                         {/* 아이디 */}
-                        <Grid item xs={2}>
+                        <Grid item xs={2} >
                             <Typography>아이디</Typography>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={4} >
                             <Typography>{userInfo.email}</Typography>
                             {/* <Textarea disabled placeholder={userInfo.email} /> */}
                         </Grid>
                         <Grid item xs={4}></Grid>
 
                         {/* 비밀번호 */}
-                        <Grid item xs={2}></Grid>
-                        <Grid item xs={2}>
+                        <Grid item xs={2} sx={{mt:2}}></Grid>
+                        <Grid item xs={2} sx={{mt:2}} >
                             <Typography>비밀번호</Typography>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={4} sx={{mt:2}}>
                             <Input placeholder="비밀번호" type="password" {...register("password")} />
                         </Grid>
-                        <Grid item xs={4}></Grid>
+                        <Grid item xs={4} sx={{mt:2}}></Grid>
+                        
 
                         {/* 비밀번호 확인 */}
-                        <Grid item xs={2}></Grid>
-                        <Grid item xs={2}>
+                        <Grid item xs={2} sx={{mt:2}}></Grid>
+                        <Grid item xs={2} sx={{mt:2}}>
                             <Typography>비밀번호 확인</Typography>
                         </Grid>
-                        <Grid item xs={4}>
-                            <Input placeholder="비밀번호 확인" type="password" />
+                        <Grid item xs={4} sx={{mt:2}}>
+                            <Input placeholder="비밀번호 확인"  type="password"
+                            {...register("passwordConfirmation", {
+                              validate: (value) => value === password || "Passwords do not match",
+                            })} />
+                             {errors.passwordConfirmation && <FormHelperText>{errors.passwordConfirmation.message}</FormHelperText>}
                         </Grid>
-                        <Grid item xs={4}></Grid>
+                        <Grid item xs={4} sx={{mt:2}}></Grid>
 
                         {/* 이름(실명) */}
-                        <Grid item xs={2}></Grid>
-                        <Grid item xs={2}>
+                        <Grid item xs={2} sx={{mt:2}}></Grid>
+                        <Grid item xs={2} sx={{mt:2}}>
                             <Typography>이름(실명)</Typography>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={4} sx={{mt:2}}>
                             <Textarea disabled placeholder={userInfo.name} />
                         </Grid>
-                        <Grid item xs={4}></Grid>
+                        <Grid item xs={4} sx={{mt:2}}></Grid>
 
                         {/* 닉네임 */}
-                        <Grid item xs={2}></Grid>
-                        <Grid item xs={2}>
+                        <Grid item xs={2} sx={{mt:2}}></Grid>
+                        <Grid item xs={2} sx={{mt:2}}>
                             <Typography sx={{ marginBottom: 3.5 }}>닉네임</Typography>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={4} sx={{mt:2}}>
                             <FormControl sx={{ display: "flex", flexDirection: "column", alignItems: "stretch" }}>
                                 <Textarea
                                     placeholder="닉네임"
@@ -147,22 +210,27 @@ const MyInfoBody = () => {
                         <Grid item xs={4}></Grid>
 
                         {/* 주소 */}
-                        <Grid item xs={2}></Grid>
-                        <Grid item xs={2}>
+                        <Grid item xs={2} sx={{mt:2}}></Grid>
+                        <Grid item xs={2} sx={{mt:2}}>
                             <Typography>주소</Typography>
                         </Grid>
-                        <Grid item xs={4}>
-                            <Textarea
-                                placeholder="주소"
-                                defaultValue={userInfo.address}
-                                {...register("address")}
+                        <Grid item xs={4} sx={{mt:2}}>
+                        <Input
+                              placeholder="주소"
+                              value={userAddress}
+                              // You don't need to register the address field if it's not editable
+                              // {...register("address")}
                             />
                         </Grid>
-                        <Grid item xs={4}></Grid>
+                        <Grid item xs={4} sx={{mt:2}}>
+                        <DaumAddressComponent />
+                        </Grid>
+
+                        
                     </Grid>
 
                 </div>
-                <Grid container justifyContent="center" sx={{mt: 15}}>
+                <Grid container justifyContent="center" sx={{mt: 10}}>
                     <UserButton variant="solid" type="submit">
                         수정하기
                     </UserButton>
@@ -173,3 +241,7 @@ const MyInfoBody = () => {
 };
 
 export default MyInfoBody;
+
+const SearchAddressButton = styled(CustomButton)`
+  font-size: 11px;
+`;

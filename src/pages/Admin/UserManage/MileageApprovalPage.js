@@ -200,13 +200,13 @@ const MileageApprovalPage = () => {
           variant="body1"
           sx={{ textAlign: "center" }}
         >
-          {apply.balance}
+          {Number(apply.balance).toLocaleString()}
         </Typography>
         <Typography
           variant="body1"
           sx={{ textAlign: "center" }}
         >
-          {apply.amount}
+          {Number(apply.amount).toLocaleString()}
         </Typography>
         <Typography
           variant="body1"
