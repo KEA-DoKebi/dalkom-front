@@ -64,7 +64,6 @@ export default function MileageApprovalBody() {
                         confirmButtonText: '확인',
                     });
                 }else{
-                    Swal.fire("실패", "충전 신청에 실패했습니다.", "error");
                     Swal.fire({//
                         position: "center",
                         icon: "error",

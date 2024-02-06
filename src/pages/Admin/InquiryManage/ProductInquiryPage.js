@@ -206,11 +206,14 @@ const ProductInquiryPage = () => {
                 showConfirmButton: true,
                 confirmButtonColor: 'black',
                 confirmButtonText: '확인',
-                onClose: () => {
-                    // Close the modal when the "확인" button is clicked
-                    setOpenModal(false);
-                    getInquiryByCategory(currentPage);
-                },
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // 답변 저장 후 성공적으로 처리되면 데이터를 새로고침
+                    getInquiryByCategory(currentPage).then(() => {
+                        // 필요한 경우 페이지를 새로 고침하지 않고도 UI를 업데이트하기 위해 상태를 업데이트할 수 있습니다.
+                        console.log("Data refreshed after saving the answer.");
+                    });
+                }
             });
     
             // getInquiryByCategory(currentPage);
