@@ -127,10 +127,10 @@ export default function MileageHistoryBody() {
                                         {mileHistory.createdAt.substring(0, 10)}
                                     </TableCell>
                                     <TableCell style={{width: "25%", textAlign: "center"}}>
-                                        {mileHistory.amount}
+                                        {Number(mileHistory.amount).toLocaleString()}
                                     </TableCell>
                                     <TableCell style={{width: "25%", textAlign: "center"}}>
-                                        {mileHistory.balance}
+                                        {Number(mileHistory.balance).toLocaleString()}
                                     </TableCell>
                                 </TableRow>
                             ))}

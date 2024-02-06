@@ -43,8 +43,12 @@ import { BrowserRouter, Route } from "react-router-dom";
 import { init as initApm } from "@elastic/apm-rum";
 import ProductDetailPage from "pages/User/ProductDetailPage/ProductDetailPage";
 import { AuthProvider } from "./AuthContext";
+
 import { FAQDetailPage } from "pages/User/CustomerServicePage/FAQDetailPage";
 import { NoticeDetailPage } from "pages/User/CustomerServicePage/NoticeDetailPage";
+
+import MileageInquiryPage from "pages/Admin/InquiryManage/MileageInquiryPage";
+
 
 // eslint-disable-next-line no-unused-vars, no-undef
 const apm = initApm({
@@ -152,12 +156,16 @@ const Router = () => {
                 element={<OrderInquiryPage />}
               />
               <Route
-                path="/admin/inquiry/payment"
+                path="/admin/inquiry/refund"
                 element={<PaymentInquiryPage />}
               />
               <Route
                 path="/admin/inquiry/product"
                 element={<ProductInquiryPage />}
+              />
+              <Route
+                path="/admin/inquiry/mileage"
+                element={<MileageInquiryPage />}
               />
             </Route>
 

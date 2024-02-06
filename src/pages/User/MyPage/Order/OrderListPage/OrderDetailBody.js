@@ -483,10 +483,3 @@ const CustomButton = styled(Button)`
   color : white;
   height : 32px;
 `
-
-const StyledH3 = styled.h3`
-  border-top : 1px solid black;
-  border-bottom : 1px solid black;
-  padding : 2vh 0;
-  text-align : center;
-`

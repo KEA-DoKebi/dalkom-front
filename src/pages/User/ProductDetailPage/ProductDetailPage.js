@@ -11,39 +11,51 @@ import { TokenAxios } from "apis/CommonAxios";
 import MuiTable from "components/molecules/MuiTable";
 import DefaultLayout from "components/templete/DefaultLayout";
 import React, { useEffect, useState } from "react";
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { styled } from "styled-components";
 import Swal from "sweetalert2";
 import FormControl from "@mui/joy/FormControl";
 import FormLabel from "@mui/joy/FormLabel";
 import Input from "@mui/joy/Input";
+import { ManualBody } from "../CustomerServicePage/ManualBody";
 
 const ProductDetailPage = () => {
   const [productInfo, setProductInfo] = useState({});
   const [productReviewList, setProductReviewList] = useState([]);
   const [option, setOption] = useState({});
   const [menuItems] = useState(["상품상세", "상품평", "상품안내"]);
-  // const [prdtOptionSeq, setPrdtOptionSeq] = useState(); // 초기값은 15로 설정
-  const [amount, setAmount] = useState(0); // 초기값은 3으로 설정
+  const [amount, setAmount] = useState(); 
   const { productSeq, menuName } = useParams();
+  const navigate = useNavigate();
 
   const handleChange = (event) => {
     setOption(event.target.value);
     console.log(event.target.value);
-    // const selectedOption = event.target.value;
-    // setPrdtOptionSeq(selectedOption);
   };
 
   const handleCountChange = (event) => {
     const number = Number(event.target.value);
-    setAmount(number);
+    if(number > 0 && option.amount >= number){
+      setAmount(number);
+    } 
+    if(option.amount < number) {
+      Swal.fire({
+        icon: "error", // 성공 아이콘 (success, error, warning, info 중 선택)
+        title: "수량은 재고보다 많이 설정할 수 없습니다",
+        showConfirmButton: true, 
+        confirmButtonText : "확인",
+        buttonsStyling: true, 
+        confirmButtonColor: 'black',
+      });
+      setAmount(0);
+    }
   };
 
   const getProductDetail = async () => {
     try {
       const res = await TokenAxios.get(`/api/product/${productSeq}`);
+      console.log(res.data.result.data)
       setProductInfo(res.data.result.data);
-      console.log(res.data.result.data);
     } catch (e) {
       console.log(e);
     }
@@ -52,7 +64,7 @@ const ProductDetailPage = () => {
   const getProductReview = async () => {
     try {
       const res = await TokenAxios.get(
-        `/api/review/product/${productSeq}?page=0&size=3`,
+        `/api/review/product/${productSeq}?page=0&size=10`,
       );
       setProductReviewList(res.data.result.data.content);
     } catch (e) {
@@ -73,18 +85,44 @@ const ProductDetailPage = () => {
   };
 
   const handleAddToCart = () => {
-    // You can modify cartData here before passing it to cartCreate
-    postCartData({
-      productSeq: parseInt(productSeq),
-      prdtOptionSeq: option.productOptionSeq,
-      amount: amount,
-    });
-    Swal.fire({
-      icon: "success", // 성공 아이콘 (success, error, warning, info 중 선택)
-      title: "장바구니에 추가되었습니다!",
-      showConfirmButton: true, // 확인 버튼 감추기
-      confirmButtonText : "확인",
-    });
+    if(productInfo.price * Math.floor(amount) > Number(localStorage.getItem("mileage"))){
+      Swal.fire({
+        icon: "error", // 성공 아이콘 (success, error, warning, info 중 선택)
+        title: "마일리지가 부족합니다",
+        showConfirmButton: true, 
+        confirmButtonText : "충전",
+        buttonsStyling: true, 
+        confirmButtonColor: 'black',
+        showCancelButton: true, 
+        cancelButtonText: "확인", 
+        cancelButtonColor: 'black', 
+      }).then((result) => {
+        if(result.isConfirmed){
+          navigate("/mypage/mile")
+        }
+      });
+    }else{
+      postCartData({
+        productSeq: parseInt(productSeq),
+        prdtOptionSeq: option.productOptionSeq,
+        amount: amount,
+      });
+      Swal.fire({
+        icon: "success", // 성공 아이콘 (success, error, warning, info 중 선택)
+        title: "장바구니에 추가되었습니다.",
+        showConfirmButton: true, 
+        confirmButtonText : "장바구니로 이동",
+        buttonsStyling: true, 
+        confirmButtonColor: 'black',
+        showCancelButton: true, 
+        cancelButtonText: "계속 쇼핑하기", 
+        cancelButtonColor: 'black', 
+      }).then((result) => {
+        if(result.isConfirmed){
+          navigate("/cart")
+        }
+      });
+    }
   };
 
   useEffect(() => {
@@ -108,16 +146,52 @@ const ProductDetailPage = () => {
               <h3>{productInfo.company}</h3>
               <h1 style={{ marginBottom: "5%" }}>{productInfo.name}</h1>
             </ProductTitleContainer>
+            <Typography
+              variant="body1"
+              sx={{
+                textAlign: "center",
+                display: "flex",
+                alignItems: "center",
+                marginTop: "10px",
+              }}
+            >
+              <img
+                src="/images/M-1.png"
+                alt="마일리지"
+                style={{
+                  width: "30px",
+                  height: "30px",
+                  marginRight: "5px",
+                }}
+              />
+              <StyledText style={{fontSize : "30px", color : "black", fontWeight : "bold"}}>
+                {productInfo.price?.toLocaleString()}
+              </StyledText>
+            </Typography>
             <ProductContentContainer>
+            
               <FormControl fullWidth>
-                <InputLabel id="product-option">옵션</InputLabel>
+                <InputLabel id="product-option" style={{fontSize : "20px", color : "black", fontWeight : "bold"}}>옵션</InputLabel>
                 <Select
                   labelId="product-option"
                   id="option"
                   label="옵션"
                   value={productInfo?.stockList}
                   onChange={handleChange}
-                  sx={{ width: "100%" }}
+                  sx={{ 
+                    width: "100%",
+                    height : "48px",
+                    border : "1.5px solid rgba(0,0,0,0.5)",
+                    '& .MuiOutlinedInput-notchedOutline': {
+                      border: 'none',
+                    },
+                    '&:hover .MuiOutlinedInput-notchedOutline': {
+                      border: 'none',
+                    },
+                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                      border: 'none'
+                    }
+                  }}
                 >
                   {productInfo.stockList?.map((optionList) => (
                     <MenuItem value={optionList}>
@@ -127,37 +201,8 @@ const ProductDetailPage = () => {
                 </Select>
               </FormControl>
 
-              <PriceContainer>
-                <SpaceBetweenContainer>
-                  <h3> 상품가격</h3>
-                  <Typography
-                    variant="body1"
-                    sx={{
-                      textAlign: "center",
-                      display: "flex",
-                      alignItems: "center",
-                      marginTop: "0",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    <img
-                      src="/images/M-1.png"
-                      alt="마일리지"
-                      style={{
-                        width: "20px",
-                        height: "20px",
-                        marginRight: "5px",
-                      }}
-                    />
-                    <BoldText style={{ fontSize: "20px" }}>
-                      {productInfo.price}
-                    </BoldText>
-                  </Typography>
-                </SpaceBetweenContainer>
-              </PriceContainer>
-
               <FormControl sx={{ marginTop: "1vh" }}>
-                <FormLabel sx={{ fontSize: "20px" }}>수량</FormLabel>
+                <FormLabel sx={{ fontSize : "20px", marginTop : "5vh", color : "black", fontWeight : "bold"}}>수량</FormLabel>
                 <Input
                   type="number"
                   placeholder="수량을 입력해주세요"
@@ -166,14 +211,12 @@ const ProductDetailPage = () => {
                   sx={{
                     minHeight: "50px",
                     backgroundColor: "white",
+                    border : "1.5px solid rgba(0,0,0,0.5)",
                   }}
                 />
               </FormControl>
+              <StyledText style={{fontSize : "20px", marginTop : "7vh", color : "black", fontWeight : "bold"}}>주문정보</StyledText>
               <PriceContainer>
-                <h3 style={{ marginBottom: "1vh", marginTop: "0.5vh" }}>
-                  {" "}
-                  주문정보
-                </h3>
                 <SpaceBetweenContainer>
                   <StyledText>상품이름</StyledText>
                   <BoldText>{productInfo.name}</BoldText>
@@ -200,7 +243,7 @@ const ProductDetailPage = () => {
                       }}
                     />
                     <BoldText>
-                      {productInfo.price * Math.floor(amount)}
+                      {(productInfo.price * Math.floor(amount))?.toLocaleString()}
                     </BoldText>
                   </Typography>
                 </SpaceBetweenContainer>
@@ -241,24 +284,15 @@ const ProductDetailPage = () => {
               ))}
             </MenuList>
           </Grid>
-          {menuName === "상품상세" &&
-            productInfo?.productImageUrlList?.map((productImage) => (
-              <ProductImageContainer key={productImage}>
-                <ProductImage src={productImage} />
-              </ProductImageContainer>
-            ))}
-          {menuName === "상품평" && <MuiTable reviewList={productReviewList} />}
-          {menuName === "상품안내" && (
-            <ShippingImageContainer>
-              <ShippingInfoImage src="/images/ProductDetailPage/info.png" />
-            </ShippingImageContainer>
-          )}
-
-          {/* {productInfo.productImageUrlList.map((productImage) => (
-                    <ProductImageContainer>
-                        <ProductImage src={productImage}/>
-                    </ProductImageContainer>
-                ))} */}
+          <Grid item xs={12} sx={{textAlign : "center"}}>
+            {menuName === "상품상세" && 
+              <div dangerouslySetInnerHTML={{ __html: productInfo?.info }} />
+            }
+            {menuName === "상품평" && <MuiTable reviewList={productReviewList} />}
+            {menuName === "상품안내" && (
+                <ManualBody />
+            )}
+          </Grid>
         </Grid>
       </ProductDescriptionBox>
     </DefaultLayout>
@@ -280,13 +314,6 @@ const ProductImageContainer = styled(Box)`
   text-align: center;
 `;
 
-const ShippingImageContainer = styled(Box)`
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  text-align: center;
-`;
-
 const ProductImage = styled.img`
   width: 100%;
   height: 100%;
@@ -299,7 +326,7 @@ const ProductTitleContainer = styled(Box)`
 `;
 
 const ProductContentContainer = styled(Box)`
-  height: 55vh;
+  height: 49.8vh;
   margin-top: 5vh;
 `;
 
@@ -312,16 +339,17 @@ const ProductButtonContainer = styled(Box)`
 `;
 
 const PriceContainer = styled.div`
-  border: 1px solid rgba(0, 0, 0, 0.3);
+  border: 1.5px solid rgba(0,0,0,0.5);
   border-radius: 5px;
-  margin-top: 5vh;
+  margin-top : 5px;
   padding: 10px;
 `;
 
 const StyledText = styled.p`
   margin: 1px;
   padding: 1px;
-  font-size: 20px;
+  font-size: 16px;
+  color : #00000099;
 `;
 
 const BoldText = styled(StyledText)`
@@ -341,6 +369,8 @@ const StyledButton = styled(Button)`
   border-radius: 10px;
   width: 100%;
   margin-bottom: 5px;
+  height : 50px;
+  font-size : 20px;
 
   &:hover {
     background-color: rgba(0, 0, 0, 0.9);
@@ -376,10 +406,4 @@ const StyledNavLink = styled(NavLink)`
   &:not(.active) {
     background-color: #eeeeee; // 비활성화됐을 때의 스타일
   }
-`;
-
-const ShippingInfoImage = styled.img`
-  width: 80%;
-  height: 100%;
-  object-fit: cover;
 `;

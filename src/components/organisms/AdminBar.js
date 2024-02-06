@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   Box,
@@ -16,15 +16,11 @@ import {
 
 const drawerWidth = 260;
 
-const menuData = [
+const initialMenuData = [
   {
     title: "관리자 관리",
     items: [
       { label: "관리자 목록", path: "/admin/list" },
-      {
-        label: "관리자 등록",
-        path: "/admin/register",
-      },
     ],
   },
   {
@@ -33,10 +29,6 @@ const menuData = [
       {
         label: "사용자 목록",
         path: "/admin/user/list",
-      },
-      {
-        label: "사용자 등록",
-        path: "/admin/user/register",
       },
       {
         label: "마일리지 승인",
@@ -54,14 +46,6 @@ const menuData = [
       {
         label: "상품 목록",
         path: "/admin/product/list",
-      },
-      {
-        label: "상품 등록",
-        path: "/admin/product/register",
-      },
-      {
-        label: "상품 수정/삭제",
-        path: "/admin/product/edit",
       },
     ],
   },
@@ -86,8 +70,12 @@ const menuData = [
         path: "/admin/inquiry/order",
       },
       {
-        label: "결제 문의",
-        path: "/admin/inquiry/payment",
+        label: "반품/환불 문의",
+        path: "/admin/inquiry/refund",
+      },
+      {
+        label: "마일리지 문의",
+        path: "/admin/inquiry/mileage",
       },
     ],
   },
@@ -144,6 +132,18 @@ const MenuItem = ({ label, path }) => {
 function AdminBar() {
   const location = useLocation();
   const navigate = useNavigate();
+  const role = localStorage.getItem("role"); // 역할(role) 정보 가져오기
+
+    // role에 따라 필터링된 menuData 생성
+    const menuData = useMemo(() => {
+      if (role === "2") {
+        // "관리자 관리" 메뉴를 제외한 나머지 메뉴 데이터를 반환
+        return initialMenuData.filter(group => group.title !== "관리자 관리");
+      }
+      // 수정이 필요 없는 경우 전체 메뉴 데이터 반환
+      return initialMenuData;
+    }, [role]);
+
   const selectedMenu = menuData
     .flatMap((group) => group.items)
     .find((item) => item.path === location.pathname)?.label;
@@ -168,7 +168,7 @@ function AdminBar() {
       >
         <Toolbar sx={{ justifyContent: "space-between" }}>
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+            <Link to="/admin" style={{ textDecoration: "none", color: "inherit" }}>
               <Typography
                 variant="h6"
                 noWrap
@@ -218,7 +218,8 @@ function AdminBar() {
       >
         <Toolbar />
         <Box sx={{ overflow: "auto" }}>
-          <List>
+
+        <List>
             {menuData.map((menuGroup) => (
               <React.Fragment key={menuGroup.title}>
                 <ListItem>

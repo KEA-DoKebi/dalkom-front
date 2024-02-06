@@ -2,10 +2,9 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import AdminBar from "components/organisms/AdminBar";
 import { AdminButton } from "components/atoms/AdminCommonButton";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import mileageIcon from "./배경제거M-admin.png"; // 컴포넌트와 같은 디렉토리에 있는 경우
 import Search from 'components/molecules/Search';
-
 import {
   Box,
   Divider,
@@ -24,29 +23,27 @@ const StyledList = styled(List)`
   padding: 0;
   width: 100%;
   border: none;
-  background-color: background.paper;
+  background-color: background .paper;
   height: 70%; // 전체 높이의 70%로 설정
 `;
 
 // 각 항목에 대한 공통 스타일을 설정합니다.
 const itemFlexStyles = {
-  "& > *:nth-child(1)": { flex: 0.5 }, // 상품번호
-  "& > *:nth-child(2)": { flex: 1.5 }, // 이미지
-  "& > *:nth-child(3)": { flex: 3 }, // 이름
-  "& > *:nth-child(4)": { flex: 1.5 }, // 제조사
-  "& > *:nth-child(5)": { flex: 1 }, // 옵션
-  "& > *:nth-child(6)": { flex: 1.5 }, // 가격
-  "& > *:nth-child(7)": { flex: 0.5 }, // 상품상세
+  "& > *:nth-child(1)": { width : "5%" }, // 번호
+  "& > *:nth-child(2)": { width : "10%" }, // 이미지
+  "& > *:nth-child(3)": { width : "31%" }, // 이름
+  "& > *:nth-child(4)": { width : "15%" }, // 제조사
+  "& > *:nth-child(5)": { width : "15%" }, // 옵션
+  "& > *:nth-child(6)": { width : "15%" }, // 가격
+  "& > *:nth-child(7)": { width : "5%" }, // 상품상세
+  "&:before, &:after": { content: '""', width : "2%" },
 };
-
 const ListItemLabelStyled = styled(ListItem)`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
   width: 100%;
-  height: calc(
-    70vh / 10
-  ); // 전체 높이의 70%를 10로 나눈 값으로 레이블 행의 높이를 설정
+  height: calc(70vh / 11);
   padding: 12px;
   ${itemFlexStyles}// 공통 스타일 적용
 `;
@@ -56,7 +53,7 @@ const ListItemStyled = styled(ListItem)`
   justify-content: space-evenly;
   align-items: center;
   width: 100%;
-  height: calc(70vh / 8); // 전체 높이의 70%를 8로 나눈 값
+  height: calc(70vh / 11); // 전체 높이의 70%를 11로 나눈 값
   padding: 12px;
   ${itemFlexStyles}// 공통 스타일 적용
 `;
@@ -76,13 +73,13 @@ const ProductListPage = () => {
 
   const [dataList, setDataList] = useState([]);
   const dataListLabels = [
-    "상품 번호",
+    "번호",
     "이미지",
     "이름",
     "제조사",
     "옵션",
     "가격",
-    "상품 상세",
+    "상세",
   ];
   const optionList = [
     { label: "이름" },
@@ -158,7 +155,7 @@ const ProductListPage = () => {
           <img
             src={product.imageUrl}
             alt={product.name}
-            style={{ width: "62px", height: "62px" }} // 이미지 크기를 62x62으로 조정
+            style={{ width: "50px", height: "50px" }} // 이미지 크기를 62x62으로 조정
           />
         </div>
         <Typography variant="body1" sx={{ textAlign: "center" }}>
@@ -171,7 +168,7 @@ const ProductListPage = () => {
           {product.optionDetail}
         </Typography>
         <Typography
-          variant="body1" sx={{ textAlign: "left", marginLeft: "10px" }}>
+          variant="body1" sx={{ textAlign: "left" }}>
             <div style={{ marginLeft: "70px" }}>
               <img
                 src={mileageIcon}
@@ -186,7 +183,7 @@ const ProductListPage = () => {
           style={{ textDecoration: "none", textAlign: "center" }}
         >
           <IconButton>
-            <InfoOutlinedIcon />
+            <KeyboardDoubleArrowRightIcon />
           </IconButton>
         </Link>
       </ListItemStyled>
@@ -194,7 +191,7 @@ const ProductListPage = () => {
   };
 
   return (
-    <Paper sx={{ display: "flex", height: "100vh" }}>
+    <Paper sx={{ display: "flex"}} elevation={0}>
       {/* AdminBar 컴포넌트에 selectedMenu와 setSelectedMenu props 전달 */}
       <AdminBar selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
       <Box
@@ -221,7 +218,13 @@ const ProductListPage = () => {
             margin: "16px",
           }}
         >
-          <Toolbar sx={{ justifyContent: "space-between", width: "100%" }}>
+          <Toolbar
+            sx={{
+              justifyContent: "space-between",
+              height: "10vh",
+              width: "100%",
+            }}
+          >
             {/* 중앙 정렬을 위해 앞뒤로 <div/> 추가*/}
             <Search
               onSearch={handleSearch}
@@ -237,7 +240,7 @@ const ProductListPage = () => {
               등록하기
             </AdminButton>
           </Toolbar>
-          <Box sx={{ width: "100%", height: "80%", overflowY: "auto" }}>
+          <Box sx={{ width: "100%", height: "73.6vh", overflowY: "auto" }}>
             <StyledList aria-label="mailbox folders">
               <ListItemLabelStyled>
                 {dataListLabels.map((label, index) => (
