@@ -194,11 +194,12 @@ const OrderInquiryPage = () => {
 
       // 모달 닫기
       handleCloseModal();
-      Swal.fire({
-        title: "저장 완료",
-        text: "주문 문의에 대한 답변이 저장되었습니다.",
+      Swal.fire({//
         icon: "success",
-        confirmButtonText: "확인",
+        title: "주문 문의에 대한 답변이<br> 완료되었습니다.",
+        showConfirmButton: true,
+        confirmButtonColor: 'black',
+        confirmButtonText: '확인',
       }).then((result) => {
         if (result.isConfirmed) {
           // 답변 저장 후 성공적으로 처리되면 데이터를 새로고침
@@ -211,11 +212,12 @@ const OrderInquiryPage = () => {
     } catch (error) {
       // 오류 처리
       console.error("저장 중 오류 발생:", error);
-      Swal.fire({
-        title: "오류 발생",
-        text: "답변을 저장하는 도중 오류가 발생했습니다.",
+      Swal.fire({//
         icon: "error",
-        confirmButtonText: "확인",
+        title: "답변 등록에 실패했습니다.",
+        showConfirmButton: true,
+        confirmButtonColor: 'gray',
+        confirmButtonText: '확인',
       });
     }
   };

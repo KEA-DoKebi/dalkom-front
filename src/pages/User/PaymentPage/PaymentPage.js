@@ -43,11 +43,11 @@ const Payment = () => {
         title: "마일리지가 부족합니다",
         showConfirmButton: true, 
         confirmButtonText : "충전",
-        buttonsStyling: true, 
         confirmButtonColor: 'black',
         showCancelButton: true, 
         cancelButtonText: "확인", 
-        cancelButtonColor: 'black', 
+        cancelButtonColor: 'black',
+        reverseButtons: true,
       }).then((result) => {
         if(result.isConfirmed){
           navigate("/mypage/mile")
@@ -63,6 +63,7 @@ const Payment = () => {
           confirmButtonColor: 'black',
           denyButtonText: `취소`,
           denyButtonColor : "gray",
+          reverseButtons: true,
         }).then((result) => {
           /* Read more about isConfirmed, isDenied below */
           if (result.isConfirmed) {
@@ -71,10 +72,11 @@ const Payment = () => {
               input: "password",
               showDenyButton: true,
               buttonsStyling: true, 
-              confirmButtonText: "결제하기",
+              confirmButtonText: "결제",
               confirmButtonColor: 'black',
-              denyButtonText: `뒤로가기`,
+              denyButtonText: `취소`,
               denyButtonColor : 'gray',
+              reverseButtons: true,
               preConfirm: async (password) => {
                 try {
                   const res = await TokenAxios.post("/api/order/authorize", {
@@ -105,10 +107,9 @@ const Payment = () => {
                           Swal.fire({//
                             icon: "success",
                             title: "결제가 완료되었습니다.",
-                            showConfirmButton: true, 
-                            confirmButtonText : "확인",
-                            buttonsStyling: true, 
+                            showConfirmButton: true,
                             confirmButtonColor: 'black',
+                            confirmButtonText : "확인",
                           }).then((result) =>{
                             if(result.isConfirmed){
                               navigate("/mypage/order/list");
@@ -117,7 +118,7 @@ const Payment = () => {
                         }
                       }catch(e){
                         Swal.showValidationMessage(`
-                          결제에 실패했습니다.
+                          결제가 취소되었습니다.
                         `)
                       }
                     }
@@ -138,20 +139,12 @@ const Payment = () => {
                 })
               }
             });
-          } else if (result.isDenied) {
-            Swal.fire({
-              icon : "error",
-              title : "결제에 실패했습니다.",
-              showConfirmButton: true, 
-              confirmButtonText : "확인",
-              confirmButtonColor: 'black',
-            })
           }
         });
       } else {
         Swal.fire({
           icon: "warning",
-          title: "배송지를 입력하세요.",
+          title: "정보가 입력되지 않았습니다.",
           showConfirmButton: true,
           confirmButtonColor: 'black',
           confirmButtonText: '확인',

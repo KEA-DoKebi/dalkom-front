@@ -318,12 +318,10 @@ const AnnouncementPage = () => {
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: 'black',
-        confirmButtonText: '네',
-        cancelButtonColor: "gray",
-        cancelButtonText: "아니요",
-        customClass: {
-          container: 'custom-swal-container'
-        }
+        confirmButtonText: '확인',
+        cancelButtonColor: 'gray',
+        cancelButtonText: '취소',
+        reverseButtons: true,
       }).then((result) => {
         if (result.isConfirmed) {
           deleteNotice(currentNoticeSeq);
