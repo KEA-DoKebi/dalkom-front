@@ -114,7 +114,8 @@ const ReviewWriteBody = () => {
             }}
           />
         </Box>
-
+        
+        
         <EditorComponent
           onContentChange={handleEditorContentChange}
           id="content"
@@ -134,7 +135,7 @@ const ReviewWriteBody = () => {
             type="submit"
             variant="contained"
             color="primary"
-            sx={{ backgroundColor: "#000", color: "#fff" }}
+            sx={{ backgroundColor: "#000", color: "#fff", my:5 }}
           >
             리뷰 제출
           </Button>
