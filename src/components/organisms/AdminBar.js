@@ -70,8 +70,12 @@ const initialMenuData = [
         path: "/admin/inquiry/order",
       },
       {
-        label: "결제 문의",
-        path: "/admin/inquiry/payment",
+        label: "반품/환불 문의",
+        path: "/admin/inquiry/refund",
+      },
+      {
+        label: "마일리지 문의",
+        path: "/admin/inquiry/mileage",
       },
     ],
   },

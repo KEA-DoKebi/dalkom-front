@@ -409,7 +409,10 @@ const ProductRegisterPage = () => {
                         </MenuItem>
                       ))}
                     </Select>
-                    <InputBoxXS
+                    
+                  </>
+                )}
+                <InputBoxXS
                       type="number"
                       color="neutral"
                       disabled={false}
@@ -417,8 +420,6 @@ const ProductRegisterPage = () => {
                       variant="soft"
                       {...register("amount")}
                     />
-                  </>
-                )}
               </div>
               <div
                 style={{

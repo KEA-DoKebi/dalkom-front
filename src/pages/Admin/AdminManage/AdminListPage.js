@@ -18,6 +18,8 @@ import { TokenAxios } from "apis/CommonAxios";
 import { useNavigate } from "react-router-dom";
 import { AdminButton } from "components/atoms/AdminCommonButton";
 
+const pageSize = 10;
+
 // 각 항목에 대한 공통 스타일을 설정합니다.
 const itemFlexStyles = {
   "& > *:nth-child(1)": { width : "5%" }, // 번호
@@ -76,7 +78,7 @@ const AdminListPage = () => {
   ];
 
   const adminGet = async (page) => {
-    const res = await TokenAxios.get(`/api/admin?page=${page}&size=10`);
+    const res = await TokenAxios.get(`/api/admin?page=${page}&size=${pageSize}`);
     setDataList(res.data.result.data.content);
     setTotalPages(res.data.result.data.totalPages);
   };
@@ -134,11 +136,11 @@ const AdminListPage = () => {
     setCurrentPage(newPage); // 현재 페이지 업데이트
   };
 
-  const AdminList = ({ admin }) => {
+  const AdminList = ({ admin, index }) => {
     return (
       <ListItemStyled>
         <Typography variant="body1" sx={{ textAlign: "center" }}>
-          {admin.adminSeq}
+        {index + 1 + currentPage * pageSize}
         </Typography>
         <Typography variant="body1" sx={{ textAlign: "center" }}>
           {admin.adminId}
@@ -232,7 +234,7 @@ const AdminListPage = () => {
               <Divider component="li" />
               {dataList.map((admin, index) => (
                 <React.Fragment key={index}>
-                  <AdminList admin={admin} />
+                  <AdminList admin={admin} index={index}/>
                   {index !== dataList.length && (
                     <Divider component="li" light />
                   )}

@@ -19,23 +19,23 @@ export function OXButton({ onSelect }) {
     <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
       {selectedButton === 1 ? (
         <CheckCircleRoundedIcon
-          sx={{ color: "#14BB38", fontSize: 40, cursor: "pointer" }}
+          sx={{ color: "#B6DEDE", fontSize: 30, cursor: "pointer" }}
           onClick={() => handleButtonClick(1)}
         />
       ) : (
         <CheckCircleOutlineRoundedIcon
-          sx={{ color: "#14BB38", fontSize: 40, cursor: "pointer" }}
+          sx={{ color: "#B6DEDE", fontSize: 30, cursor: "pointer" }}
           onClick={() => handleButtonClick(1)}
         />
       )}
       {selectedButton === 2 ? (
         <CancelRoundedIcon
-          sx={{ color: "#D54C48", fontSize: 40, cursor: "pointer", marginLeft: 1 }}
+          sx={{ color: "#F4B5C2", fontSize: 30, cursor: "pointer", marginLeft: 1 }}
           onClick={() => handleButtonClick(2)}
         />
       ) : (
         <HighlightOffRoundedIcon
-          sx={{ color: "#D54C48", fontSize: 40, cursor: "pointer", marginLeft: 1 }}
+          sx={{ color: "#F4B5C2", fontSize: 30, cursor: "pointer", marginLeft: 1 }}
           onClick={() => handleButtonClick(2)}
         />
       )}

@@ -173,11 +173,11 @@ const MileageHistoryPage = () => {
 
             {apply.approvedState === "Y" ? (
               <CheckCircleRoundedIcon
-              sx={{ color: "#14BB38", fontSize: 40, marginLeft: 1 }} 
+              sx={{ color: "#B6DEDE", fontSize: 30, marginLeft: 1 }} 
             />
           ) : (
             <CancelRoundedIcon
-              sx={{ color: "#D54C48", fontSize: 40, marginLeft: 1 }}
+              sx={{ color: "#F4B5C2", fontSize: 30, marginLeft: 1 }}
             />
           )}
         </Typography>
