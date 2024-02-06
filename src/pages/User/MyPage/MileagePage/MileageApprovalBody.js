@@ -45,8 +45,13 @@ export default function MileageApprovalBody() {
                 }
                 chargeRequestHistory();
             } catch (error) {
-                console.error("Error charging mileage:", error);
-                Swal.fire("실패", "충전 신청에 실패했습니다.", "error");
+                console.log(error.response.status)
+                if(error.response.status === 409){
+                    Swal.fire("실패", "충전 잔행중인 마일리지 요청이 있습니다. .", "error");
+                }else{
+                    Swal.fire("실패", "충전 신청에 실패했습니다.", "error");
+                }
+                // console.error("Error charging mileage:", error);
             }
         }
     };

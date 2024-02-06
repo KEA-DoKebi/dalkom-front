@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 export const MainProductCard = ({ imageUrl, title, price, star, review, seq }) => {
 
   return (
-    <Link to={`/product/${seq}`}>
+    <Link to={`/product/${seq}/상품상세`}>
       <SungjunCard>
         <CardImage src={imageUrl} alt="카드 이미지" />
         <CardContent>

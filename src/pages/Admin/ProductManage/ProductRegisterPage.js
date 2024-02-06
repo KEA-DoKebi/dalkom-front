@@ -144,9 +144,9 @@ const ProductRegisterPage = () => {
   };
 
   // 에디터 값 react-hook-form으로 전달하기 위한 함수
-  const handleEditorContentChange = (productDetail) => {
-    setValue('productDetail', productDetail, { shouldValidate: true });
-    trigger('productDetail');
+  const handleEditorContentChange = (info) => {
+    setValue('info', info, { shouldValidate: true });
+    trigger('info');
   };
 
 
@@ -155,7 +155,6 @@ const ProductRegisterPage = () => {
     data.prdtOptionList = [{amount : data.amount, prdtOptionSeq : data.prdtOptionSeq}];
     delete data.amount;
     delete data.prdtOptionSeq;
-    data.info = "이 가격에 나올 수 없는 아주 좋은 상품이니 품절되기 전에 가져가세요~~"
     data.imageUrl = productImage;
     
     try{
@@ -469,11 +468,11 @@ const ProductRegisterPage = () => {
                 <EditorComponent
                     onContentChange={handleEditorContentChange}
                     placeholder="상품 정보를 입력하세요"
-                    id="productDetail"
+                    id="info"
                     onChange={(event, editor) => {
-                        setValue("productDetail", editor.getData());
-                        trigger("productDetail");
-                        console.log("productDetail");
+                        setValue("info", editor.getData());
+                        trigger("info");
+                        console.log("info");
                     }}
                 />
               </div>

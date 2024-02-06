@@ -45,8 +45,9 @@ const FinalPaymentContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin: 50px 100px;
   width: 520px;
+  margin-top : 50px;
+  margin-left : 30px;
   font-size: 16px;
 `;
 
@@ -119,16 +120,34 @@ export default function CartBody() {
   const handlePaymentClick = () => {
     if (agree) {
       // 동의한 경우에만 페이지 이동
-      const selectedRowsData = rows
-        .filter((row) => selectedRows.includes(row.orderCartSeq))
-        .map((row) => ({
-          productSeq: row.productSeq,
-          productOptionSeq: row.prdtOptionSeq,
-          productAmount: row.amount,
-          orderCartSeq : row.orderCartSeq
-        }));
-      // 결제하기 페이지로 넘어갈때 state 로 값 넘준다 
-      navigate("/payment", { state: { orderList: selectedRowsData } });
+      if(Number(localStorage.getItem("mileage")) < Number(totalAmount)){
+        Swal.fire({
+          icon: "error",
+          title: "마일리지가 부족합니다",
+          showConfirmButton: true, 
+          confirmButtonText : "충전",
+          buttonsStyling: true,  
+          confirmButtonColor: 'black',
+          showCancelButton: true, 
+          cancelButtonText: "확인", 
+          cancelButtonColor: 'black', 
+        }).then((result) => {
+          if(result.isConfirmed){
+            navigate("/mypage/mile")
+          }
+        });
+      }else{
+        const selectedRowsData = rows
+          .filter((row) => selectedRows.includes(row.orderCartSeq))
+          .map((row) => ({
+            productSeq: row.productSeq,
+            productOptionSeq: row.prdtOptionSeq,
+            productAmount: row.amount,
+            orderCartSeq : row.orderCartSeq
+          }));
+        // 결제하기 페이지로 넘어갈때 state 로 값 넘준다 
+        navigate("/payment", { state: { orderList: selectedRowsData } });
+      }
     }
   };
 
@@ -279,13 +298,14 @@ export default function CartBody() {
 
       <FinalPaymentContainer>
         <Divider />
-        <div style={{ fontSize: "30px", marginTop: "20px" }}>
-          최종 결제 금액: {Number(totalAmount).toLocaleString()}원
+        <div style={{ fontSize: "30px", marginTop: "20px", width : "500px" }}>
+          
+          최종 결제 금액: {totalAmount.toLocaleString()}
         </div>
         <div style={{ fontSize: "25px", marginTop: "20px" }}>
-          상품금액: {Number(totalAmount).toLocaleString()}원
+          상품금액: {totalAmount.toLocaleString()}
         </div>
-        <div style={{ fontSize: "25px", marginTop: "20px" }}>배송비: 0원</div>
+        <div style={{ fontSize: "25px", marginTop: "20px" }}>배송비: 0</div>
         <FormControlLabel
           style={{ marginTop: "20px" }}
           control={
