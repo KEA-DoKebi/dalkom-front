@@ -24,11 +24,25 @@ export const ProductCard = ({ imageUrl, title, price, star, review, seq, categor
           setSubCategorySeq(categorySeq);
         }
         else{
-          Swal.fire("이미지를 3개까지만 넣을 수 있습니다!", "", "info");
+          Swal.fire({//
+            position: "center",
+            icon: "warning",
+            title: "비교 상품은 3개까지만<br> 담을 수 있습니다.",
+            showConfirmButton: true,
+            confirmButtonColor: 'black',
+            confirmButtonText: '확인',
+          });
         }
       }
       else{
-        Swal.fire("같은 카테고리의 상품만 넣을 수 있습니다!", "", "info");
+        Swal.fire({//
+          position: "center",
+          icon: "warning",
+          title: "같은 카테고리의 상품만<br> 담을 수 있습니다.",
+          showConfirmButton: true,
+          confirmButtonColor: 'black',
+          confirmButtonText: '확인',
+        });
       }
     }
     
@@ -41,7 +55,7 @@ export const ProductCard = ({ imageUrl, title, price, star, review, seq, categor
       <SungjunCard>
         <CardImage src={imageUrl} alt="카드 이미지" />
         <HoverCardContent>
-          <HoverCardTitle>★ {star}</HoverCardTitle>
+          <HoverCardTitle>★ {(star ?? 0).toFixed(1)}</HoverCardTitle>
           <HoverCardButton variant="contained" onClick={handleAddButtonClick}>
             <Typography
               sx={{

@@ -64,7 +64,7 @@ const ProductDetailPage = () => {
   const getProductReview = async () => {
     try {
       const res = await TokenAxios.get(
-        `/api/review/product/${productSeq}?page=0&size=3`,
+        `/api/review/product/${productSeq}?page=0&size=10`,
       );
       setProductReviewList(res.data.result.data.content);
     } catch (e) {
@@ -109,7 +109,7 @@ const ProductDetailPage = () => {
       });
       Swal.fire({
         icon: "success", // 성공 아이콘 (success, error, warning, info 중 선택)
-        title: "장바구니에 추가되었습니다!",
+        title: "장바구니에 추가되었습니다.",
         showConfirmButton: true, 
         confirmButtonText : "장바구니로 이동",
         buttonsStyling: true, 
@@ -349,7 +349,7 @@ const PriceContainer = styled.div`
 const StyledText = styled.p`
   margin: 1px;
   padding: 1px;
-  font-size: 18px;
+  font-size: 16px;
   color : #00000099;
 `;
 

@@ -17,22 +17,25 @@ import {
   IconButton,
 } from "@mui/material";
 import { TokenAxios } from "apis/CommonAxios";
+import { useNavigate } from "react-router-dom";
+
 
 // 각 항목에 대한 공통 스타일을 설정합니다.
 const itemFlexStyles = {
-  "& > *:nth-child(1)": { flex: 1 }, // 번호
-  "& > *:nth-child(2)": { flex: 1.5 }, // ID
-  "& > *:nth-child(3)": { flex: 1.5 }, // 닉네임
-  "& > *:nth-child(4)": { flex: 1.5 }, // 마일리지
-  "& > *:nth-child(5)": { flex: 2 }, // 기본배송지
-  "& > *:nth-child(6)": { flex: 1 }, // 삭제
+  "& > *:nth-child(1)": { width : "5%" }, // 번호
+  "& > *:nth-child(2)": { width : "22%" }, // ID
+  "& > *:nth-child(3)": { width : "21%" }, // 닉네임
+  "& > *:nth-child(4)": { width : "21%" }, // 마일리지
+  "& > *:nth-child(5)": { width : "22%" }, // 기본배송지
+  "& > *:nth-child(6)": { width : "5%" }, // 삭제
+  "&:before, &:after": { content: '""', width : "2%" },
 };
 
 const StyledList = styled(List)`
   padding: 0;
   width: 100%;
   border: none;
-  background-color: background.paper;
+  background-color: background .paper;
   height: 70%; // 전체 높이의 70%로 설정
 `;
 
@@ -41,7 +44,7 @@ const ListItemLabelStyled = styled(ListItem)`
   justify-content: space-evenly;
   align-items: center;
   width: 100%;
-  height: calc(70vh / 14);
+  height: calc(70vh / 11);
   padding: 12px;
   ${itemFlexStyles}// 공통 스타일 적용
 `;
@@ -56,7 +59,9 @@ const ListItemStyled = styled(ListItem)`
   ${itemFlexStyles}// 공통 스타일 적용
 `;
 
+
 const AdminListPage = () => {
+  const navigate = useNavigate();
   // Declare selectedMenu and setSelectedMenu using useState
   const [selectedMenu, setSelectedMenu] = useState("사용자 목록");
   const [currentPage, setCurrentPage] = useState(0); // 현재 페이지를 상태로 관리
@@ -145,7 +150,7 @@ const AdminListPage = () => {
   }
   };
 
-  // 상품 정보를 표시하기 위한 컴포넌트입니다.
+  // 사용자 정보를 표시하기 위한 컴포넌트입니다.
   const UserList = ({ user, currentPage, pageSize}) => {
     const userNumber = currentPage * pageSize + dataList.indexOf(user) + 1;
 
@@ -154,14 +159,14 @@ const AdminListPage = () => {
         <Typography variant="body1" sx={{ textAlign: "center" }}>
           {userNumber}
         </Typography>
-        <Typography variant="body1" sx={{ marginLeft:"10px", textAlign: "center" }}>
+        <Typography variant="body1" sx={{ textAlign: "center" }}>
           {user.email}
         </Typography>
-        <Typography variant="body1" sx={{ marginLeft:"20px",  textAlign: "center" }}>
+        <Typography variant="body1" sx={{ textAlign: "center" }}>
           {user.nickname}
         </Typography>
         <Typography variant="body1" sx={{  marginLeft:"10px",textAlign: "left" }}>
-           <div style={{marginLeft:"100px"}}>
+          <div style={{marginLeft:"100px"}}>
               <img
                 src={mileageIcon}
                 alt="마일리지"
@@ -171,7 +176,7 @@ const AdminListPage = () => {
            </div>
            
         </Typography>
-        <Typography variant="body1" sx={{ marginLeft:"20px", textAlign: "center" }}>
+        <Typography variant="body1" sx={{ textAlign: "center" }}>
           {user.address}
         </Typography>
         <IconButton
@@ -186,7 +191,7 @@ const AdminListPage = () => {
   };
 
   return (
-    <Paper sx={{ display: "flex", height: "100vh" }}>
+    <Paper sx={{ display: "flex" }} elevation={0}>
       {/* AdminBar 컴포넌트에 selectedMenu와 setSelectedMenu props 전달 */}
       <AdminBar selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
       <Box
@@ -213,7 +218,13 @@ const AdminListPage = () => {
             margin: "16px",
           }}
         >
-          <Toolbar sx={{ justifyContent: "space-between", width: "100%" }}>
+          <Toolbar
+            sx={{
+              justifyContent: "space-between",
+              height: "10vh",
+              width: "100%",
+            }}
+          >
             {/* 중앙 정렬을 위해 앞뒤로 <div/> 추가*/}
             <Search
               onSearch={handleSearch}
@@ -222,9 +233,16 @@ const AdminListPage = () => {
                setSelectedValue={setSelectedValue}
               optionList={optionList}
             />
-            <AdminButton variant="contained">등록하기</AdminButton>
+            <AdminButton
+              variant="contained"
+              onClick={() => {
+                navigate("/admin/user/register");
+              }}
+            >
+              등록하기
+            </AdminButton>
           </Toolbar>
-          <Box sx={{ width: "100%", height: "80%", overflowY: "auto" }}>
+          <Box sx={{ width: "100%", height: "73.6vh", overflowY: "auto" }}>
             <StyledList aria-label="mailbox folders">
               <ListItemLabelStyled>
                 {dataListLabels.map((label, index) => (

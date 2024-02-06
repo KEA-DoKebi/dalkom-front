@@ -105,7 +105,6 @@ export const ComparisonBody = () => {
                     </MenuItem>
                 ))}
               </Select>
-              <ProductReview info={firstProductReview} />
             </SelectBox>
           </Grid>
           <Grid item xs={1}></Grid>
@@ -127,7 +126,6 @@ export const ComparisonBody = () => {
                     </MenuItem>
                 ))}
               </Select>
-              <ProductReview info={secondProductReview} />
             </SelectBox>
           </Grid>
           <Grid item xs={1}></Grid>
@@ -149,11 +147,25 @@ export const ComparisonBody = () => {
                     </MenuItem>
                 ))}
               </Select>
-              <ProductReview info={thridProductReview} />
             </SelectBox>
           </Grid>
           <Grid item xs={2}></Grid>
         </Grid>
+      <Grid container>
+        <Grid item xs={2}></Grid>
+        <Grid item xs={2}>
+          <ProductReview info={firstProductReview} />
+        </Grid>
+        <Grid item xs={1}></Grid>
+        <Grid item xs={2}>
+          <ProductReview info={secondProductReview} />
+        </Grid>
+        <Grid item xs={1}></Grid>
+        <Grid item xs={2}>
+          <ProductReview info={thridProductReview} />
+        </Grid>
+        <Grid item xs={2}></Grid>
+      </Grid>
       </Paper>
   );
 };
@@ -165,5 +177,5 @@ const SelectBox = styled(Box)`
   margin-bottom: 20px;
   margin-right: 2vw;
   margin-left: 2vw;
-  min-height: 100vh;
+  //min-height: 100vh;
 `;
