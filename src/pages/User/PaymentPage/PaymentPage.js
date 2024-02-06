@@ -54,7 +54,12 @@ const Payment = () => {
         }
       });
     }else{
-      if (receiverName && receiverAddress && receiverMemo && receiverMobileNum) {
+      if (
+          receiverName.replace(/ /gi,"") && 
+          receiverAddress.replace(/ /gi,"") && 
+          receiverMemo.replace(/ /gi,"") && 
+          receiverMobileNum.replace(/ /gi,"")
+        ) {
         Swal.fire({
           title: "결제 하시겠습니까?",
           showDenyButton: true,
@@ -154,6 +159,21 @@ const Payment = () => {
     
   };
 
+  const handleNameChange = (e) => {
+      const value = e.target.value;
+      if(value.length < 5){
+        setReceiverName(value);
+      }
+  }
+
+  // 정규식 적용
+  const handleTelChange = (e) => {
+    const regex = /^[0-9\b -]{0,13}$/;
+    if (regex.test(e.target.value)) {
+      setReceiverMobileNum(e.target.value);
+    }
+  }
+
   useEffect(() => {
     const sendOrderRequest = async () => {
       try {
@@ -183,6 +203,16 @@ const Payment = () => {
     }
     
   }, [orderList]);
+
+  // 전화번호 자동으로 - 넣어주는 코드
+  useEffect(() => {
+    if (receiverMobileNum.length === 10) {
+      setReceiverMobileNum(receiverMobileNum.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3'));
+    }
+    if (receiverMobileNum.length === 13) {
+      setReceiverMobileNum(receiverMobileNum.replace(/-/g, '').replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3'));
+    }
+  }, [receiverMobileNum]);
 
   // component 로 분리해서 값을 넣고 싶음
   const DaumAddressComponent = () => {
@@ -262,31 +292,34 @@ const Payment = () => {
                 </Grid>
                 <Grid sx={{ mt: "12px" }} item xs={1}></Grid>
                 <Grid sx={{ mt: "10px" }} item xs={1.5}>
-                  <Typography>수신인</Typography>
+                  <Typography>수신인 <StyledStar>*</StyledStar></Typography>
                 </Grid>
                 <Grid sx={{ mt: "10px" }} item xs={2}>
                   <Input
+                    type="text"
+                    required="true"
                     value={receiverName}
-                    onChange={(e) => setReceiverName(e.target.value)}
-                  ></Input>
+                    onChange={handleNameChange}
+                  />
                 </Grid>
                 <Grid sx={{ mt: "10px" }} item xs={7.5}></Grid>
 
                 <Grid sx={{ mt: "10px" }} item xs={1}></Grid>
                 <Grid sx={{ mt: "12px" }} item xs={1.5}>
-                  <Typography>연락처</Typography>
+                  <Typography>연락처 <StyledStar>*</StyledStar></Typography>
                 </Grid>
                 <Grid sx={{ mt: "10px" }} item xs={2}>
                   <Input
+                    type="text"
                     value={receiverMobileNum}
-                    onChange={(e) => setReceiverMobileNum(e.target.value)}
-                  ></Input>
+                    onChange={handleTelChange}
+                  />
                 </Grid>
                 <Grid sx={{ mt: "10px" }} item xs={7.5}></Grid>
 
                 <Grid sx={{ mt: "10px" }} item xs={1}></Grid>
                 <Grid sx={{ mt: "8px" }} item xs={1.5}>
-                  <Typography>배송지 주소</Typography>
+                  <Typography>배송지 주소 <StyledStar>*</StyledStar></Typography>
                 </Grid>
                 <Grid
                   item
@@ -321,7 +354,7 @@ const Payment = () => {
 
                 <Grid sx={{ mt: "10px" }} item xs={1}></Grid>
                 <Grid sx={{ mt: "14px" }} item xs={1.5}>
-                  <Typography>배송 요청사항</Typography>
+                  <Typography>배송 요청사항 <StyledStar>*</StyledStar></Typography>
                 </Grid>
                 <Grid sx={{ mt: "10px" }} item xs={3}>
                   <Input
@@ -466,3 +499,7 @@ const SearchAddressButton = styled(CustomButton)`
 const CustomInput = styled(Input)`
   width: 500px;
 `;
+
+const StyledStar = styled.span`
+  color : red;
+`

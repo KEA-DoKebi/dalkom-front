@@ -16,6 +16,7 @@ import styled, { css } from "styled-components";
 import { Link } from "react-router-dom";
 import { TokenAxios } from "apis/CommonAxios";
 import { MainProductCard } from "components/molecules/MainProductCard";
+import { searchStore } from "store/store";
 
 // MainBody코드
 const MainBody = () => {
@@ -28,12 +29,14 @@ const MainBody = () => {
     kakaofriends: [],
   });
 
+  const {setPage} = searchStore(state => state);
+
 
   const getMainProductList = async () => {
     const res = await TokenAxios.get("/api/product/category/main?page=0&size=8");
     setProductLists(res.data);
-    // setProductLists(res.data);
   };
+
 
 
   const [categoryLists] = useState([
@@ -47,6 +50,8 @@ const MainBody = () => {
 
   useEffect(() => {
     getMainProductList();
+    setPage("메인 검색결과")
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -89,17 +94,6 @@ const MainBody = () => {
 
         <TableContainer>
           <Table>
-            {/*<TableHead>*/}
-            {/*  <TableRow sx={{ display: "flex", justifyContent: "center" }}>*/}
-            {/*    <TableCell sx={{ fontWeight: "bold", fontSize: "30px", height: "50px", borderBottom: "none" }}>*/}
-            {/*      <Grid container>*/}
-            {/*        <Grid item xs={12}>*/}
-            {/*          상품목록*/}
-            {/*        </Grid>*/}
-            {/*      </Grid>*/}
-            {/*    </TableCell>*/}
-            {/*  </TableRow>*/}
-            {/*</TableHead>*/}
             <TableBody>
               {Object.entries(productLists).map(
                   ([categoryKey, productList], index) => {
