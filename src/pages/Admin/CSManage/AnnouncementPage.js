@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import AdminBar from "components/organisms/AdminBar";
 import CloseIcon from "@mui/icons-material/Close";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import { TokenAxios } from "apis/CommonAxios";
 import { OnOffSwitch } from "components/atoms/OnOffSwitch";
 import Search from 'components/molecules/Search';
-
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import {
   Box,
   Dialog,
@@ -31,33 +31,25 @@ import { InputBoxM } from "components/atoms/Input";
 import { DefaultAxios } from "apis/CommonAxios";
 import EditorComponent from "components/atoms/Editor";
 
-const dataListLabels = [
-  "번호",
-  "작성일시",
-  "작성자",
-  "제목",
-  "상단고정",
-  "상세보기",
-];
 let currentNoticeSeq = 1;
 
 const itemFlexStyles = {
-  "& > *:nth-child(1)": { flex: 0.5 }, // 번호
-  "& > *:nth-child(2)": { flex: 1.5 }, // 작성일시
-  "& > *:nth-child(3)": { flex: 1.5 }, // 작성자
-  "& > *:nth-child(4)": { flex: 3 }, // 제목
-  "& > *:nth-child(5)": { flex: 1 }, // 상단고정
-  "& > *:nth-child(6)": { flex: 0.5 }, // 상세보기
-  "&:before, &:after": { content: '""', flex: 0.5 },
+  "& > *:nth-child(1)": { width: "5%" }, // 번호
+  "& > *:nth-child(2)": { width: "18%" }, // 작성일시
+  "& > *:nth-child(3)": { width: "12%" }, // 작성자
+  "& > *:nth-child(4)": { width: "43%" }, // 제목
+  "& > *:nth-child(5)": { width: "13%" }, // 상단고정
+  "& > *:nth-child(6)": { width: "5%" }, // 상세보기
+  "&:before, &:after": { content: '""', width: "2%" },
 };
 
+
 const StyledList = styled(List)`
-  /* Add styling for the List component */
   padding: 0;
   width: 100%;
-  border: none; /* Remove border */
-  background-color: background.paper;
-  ${itemFlexStyles}// 공통 스타일 적용
+  border: none;
+  background-color: background .paper;
+  height: 70%; // 전체 높이의 70%로 설정
 `;
 
 const ListItemLabelStyled = styled(ListItem)`
@@ -65,9 +57,7 @@ const ListItemLabelStyled = styled(ListItem)`
   justify-content: space-evenly;
   align-items: center;
   width: 100%;
-  height: calc(
-      70vh / 14
-  );
+  height: calc(70vh / 11);
   padding: 12px;
   ${itemFlexStyles}// 공통 스타일 적용
 `;
@@ -81,7 +71,6 @@ const ListItemStyled = styled(ListItem)`
   padding: 12px;
   ${itemFlexStyles}// 공통 스타일 적용
 `;
-
 const StyledDialog = styled(Dialog)`
     z-index: 900;
 `;
@@ -104,6 +93,14 @@ const AnnouncementPage = () => {
   const [editorContent, setEditorContent] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedValue, setSelectedValue] = useState("");
+  const dataListLabels = [
+    "번호",
+    "작성일시",
+    "작성자",
+    "제목",
+    "상단고정",
+    "상세보기",
+  ];
 
   const pageSize = 10;
 
@@ -224,7 +221,6 @@ const AnnouncementPage = () => {
       console.log(e);
       Swal.fire({//
         position: "center",
-        icon: "error",
         title: "공지사항 등록에 실패했습니다.",
         showConfirmButton: true,
         confirmButtonColor: 'gray',
@@ -264,7 +260,6 @@ const AnnouncementPage = () => {
         adminSeq: localStorage.getItem("adminSeq"), // 현재 관리자의 Seq
         state: editNotice.state
       });
-
       Swal.fire({//
         icon: "success",
         title: "공지사항 수정이 완료되었습니다.",
@@ -317,9 +312,10 @@ const AnnouncementPage = () => {
   // 삭제 버튼 클릭 핸들러
   const handleDeleteClick = () => {
     if (selectedNotice && currentNoticeSeq) {
-      Swal.fire({//
-        icon: "warning",
+      Swal.fire({
         title: "삭제하시겠습니까?",
+        text: "이 작업은 되돌릴 수 없습니다.",
+        icon: "warning",
         showCancelButton: true,
         confirmButtonColor: 'black',
         confirmButtonText: '네',
@@ -336,8 +332,32 @@ const AnnouncementPage = () => {
     }
   };
 
+  const AnnouncementList = ({ notice, index }) => {
+    return (
+      <ListItemStyled>
+        <Typography variant="body1" sx={{ textAlign: "center" }}>
+          {index + 1 + currentPage * pageSize}
+        </Typography>
+        <Typography variant="body1" sx={{ textAlign: "center" }}>
+        {formatDate(notice.createdAt)}
+        </Typography>
+        <Typography variant="body1" sx={{ textAlign: "center" }}>
+        {notice.nickname}
+        </Typography>
+        <Typography variant="body1" sx={{ textAlign: "center" }}>
+        {notice.title}
+        </Typography>
+        <Typography variant="body1" sx={{ textAlign: "center" }}>
+        {notice.state === "Y" ? <CheckCircleIcon sx={{ color: "#F4B5C2", fontSize: 25 }}/> : ""}
+        </Typography>
+        <KeyboardDoubleArrowRightIcon onClick={() => handleLookOpenModal(notice.noticeSeq)}
+          sx={{ textAlign: "center" }} />
+      </ListItemStyled>
+    );
+  };
+
   return (
-    <Paper sx={{ display: "flex", height: "100vh" }}>
+    <Paper sx={{ display: "flex" }} elevation={0}>
       {/* AdminBar 컴포넌트에 selectedMenu와 setSelectedMenu props 전달 */}
       <AdminBar selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
       <Box
@@ -364,7 +384,13 @@ const AnnouncementPage = () => {
             margin: "16px",
           }}
         >
-          <Toolbar sx={{ justifyContent: "space-between", width: "100%" }}>
+          <Toolbar
+            sx={{
+              justifyContent: "space-between",
+              height: "10vh",
+              width: "100%",
+            }}
+          >
             {/* 중앙 정렬을 위해 앞뒤로 <div/> 추가*/}
             {/* <div /> */}
             <Search
@@ -380,7 +406,7 @@ const AnnouncementPage = () => {
             </AdminButton>
           </Toolbar>
 
-          <Box sx={{ width: "100%", height: "80%", overflowY: "auto" }}>
+          <Box sx={{ width: "100%", height: "73.6vh", overflowY: "auto" }}>
             <StyledList aria-label="mailbox folders">
               <ListItemLabelStyled>
                 {dataListLabels.map((label, index) => (
@@ -395,53 +421,10 @@ const AnnouncementPage = () => {
                   </React.Fragment>
                 ))}
               </ListItemLabelStyled>
-              <Divider component="li" light />
+              <Divider component="li" />
               {dataList.map((notice, index) => (
                 <React.Fragment key={index}>
-                  <ListItemStyled>
-                    <Typography
-                      variant="body1"
-                      sx={{
-                        textAlign: "center",
-                      }}
-                    >
-                      {index + 1 + currentPage * pageSize}
-                    </Typography>
-                    <Typography
-                      variant="body1"
-                      sx={{
-                        textAlign: "center", ml: "10px"
-                      }}
-                    >
-                      {formatDate(notice.createdAt)}
-                    </Typography>
-                    <Typography
-                      variant="body1"
-                      sx={{
-                        textAlign: "center", ml: "5px"
-                      }}
-                    >
-                      {notice.nickname}
-                    </Typography>
-                    <Typography
-                      variant="body1"
-                      sx={{
-                        textAlign: "center", ml: "10px"
-                      }}
-                    >
-                      {notice.title}
-                    </Typography>
-                    <Typography
-                      variant="body1"
-                      sx={{
-                        textAlign: "center", ml: "10px"
-                      }}
-                    >
-                      {notice.state}
-                    </Typography>
-                    <InfoOutlinedIcon onClick={() => handleLookOpenModal(notice.noticeSeq)}
-                      sx={{ textAlign: "center" }} />
-                  </ListItemStyled>
+                  <AnnouncementList notice={notice} index={index} />
                   {index !== dataList.length && (
                     <Divider component="li" light />
                   )}
@@ -467,7 +450,6 @@ const AnnouncementPage = () => {
               }
             />
           </Box>
-
           {/* 공지사항 작성 모달  */}
           <Dialog
             onClose={handleWriteOpenModal}

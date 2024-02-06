@@ -97,7 +97,7 @@ const removeHtmlTags = (htmlString) => {
   return doc.body.textContent || "";
 };
 
-const PaymentInquiryPage = () => {
+const MileageInquiryPage = () => {
   const dataListLabels = ["번호", "일시", "제목", "상태", "답변"];
   const [dataList, setDataList] = useState([]);
   const [selectedMenu, setSelectedMenu] = useState("");
@@ -109,7 +109,7 @@ const PaymentInquiryPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedValue, setSelectedValue] = useState("");
 
-  const categorySeq = 37;
+  const categorySeq = 36;
   const optionList = [{ label: "문의제목" }];
 
   //get
@@ -421,4 +421,4 @@ const PaymentInquiryPage = () => {
   );
 };
 
-export default PaymentInquiryPage;
+export default MileageInquiryPage;

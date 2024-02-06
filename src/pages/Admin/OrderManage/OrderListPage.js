@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import AdminBar from "components/organisms/AdminBar";
 import { AdminButton } from "components/atoms/AdminCommonButton";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { CustomSelect } from "components/atoms/AdminSelectBox";
 import CloseIcon from '@mui/icons-material/Close';
 import Search from 'components/molecules/Search';
@@ -27,21 +27,22 @@ import Swal from "sweetalert2";
 
 // 각 항목에 대한 공통 스타일을 설정합니다.
 const itemFlexStyles = {
-  "& > *:nth-child(1)": { flex: 1 }, // 주문번호
-  "& > *:nth-child(2)": { flex: 1 }, // 주문일시
-  "& > *:nth-child(3)": { flex: 0.5 }, // 수량
-  "& > *:nth-child(4)": { flex: 1 }, // 주문자
-  "& > *:nth-child(5)": { flex: 1 }, // 수령인
-  "& > *:nth-child(6)": { flex: 1 }, // 결제금액
-  "& > *:nth-child(7)": { flex: 1.5 }, // 주문상태
-  "& > *:nth-child(8)": { flex: 1 }, // 주문상세
+  "& > *:nth-child(1)": { width : "5%" }, // 주문번호
+  "& > *:nth-child(2)": { width : "16%" }, // 주문일시
+  "& > *:nth-child(3)": { width : "5%" }, // 수량
+  "& > *:nth-child(4)": { width : "16%" }, // 주문자
+  "& > *:nth-child(5)": { width : "16%" }, // 수령인
+  "& > *:nth-child(6)": { width : "16%" }, // 결제금액
+  "& > *:nth-child(7)": { width : "17%" }, // 주문상태
+  "& > *:nth-child(8)": { width : "5%" }, // 주문상세
+  "&:before, &:after": { content: '""', width : "2%" },
 };
 
 const StyledList = styled(List)`
   padding: 0;
   width: 100%;
   border: none;
-  background-color: background.paper;
+  background-color: background .paper;
   height: 70%; // 전체 높이의 70%로 설정
 `;
 
@@ -50,9 +51,7 @@ const ListItemLabelStyled = styled(ListItem)`
   justify-content: space-evenly;
   align-items: center;
   width: 100%;
-  height: calc(
-    70vh / 10
-  ); // 전체 높이의 70%를 10로 나눈 값으로 레이블 행의 높이를 설정
+  height: calc(70vh / 11);
   padding: 12px;
   ${itemFlexStyles}// 공통 스타일 적용
 `;
@@ -62,10 +61,11 @@ const ListItemStyled = styled(ListItem)`
   justify-content: space-evenly;
   align-items: center;
   width: 100%;
-  height: calc(70vh / 8); // 전체 높이의 70%를 8로 나눈 값
+  height: calc(70vh / 11); // 전체 높이의 70%를 11로 나눈 값
   padding: 12px;
   ${itemFlexStyles}// 공통 스타일 적용
 `;
+
 
 const formatDate = (dateString) => {
   const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
@@ -83,7 +83,7 @@ const AdminListPage = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedValue, setSelectedValue] = useState("");
-  const pageSize =7;
+  const pageSize =10;
   const optionList = [
     { label: "주문자" },
     { label: "수령인" },
@@ -170,14 +170,14 @@ const AdminListPage = () => {
   ];
 
   const dataListLabels = [
-    "주문번호",
-    "주문일시",
+    "번호",
+    "일시",
     "수량",
     "주문자",
     "수령인",
     "결제금액",
     "주문상태",
-    "주문상세",
+    "상세",
   ];
   const handleSaveClick = () => {
     if (selectedOrder && orderState) {
@@ -250,26 +250,26 @@ const AdminListPage = () => {
         <Typography variant="body1" sx={{ textAlign: "center" }}>
           {index + 1 + (currentPage * pageSize)}
         </Typography>
-        <Typography variant="body1" sx={{ textAlign: "center", ml: "10px" }}>
+        <Typography variant="body1" sx={{ textAlign: "center" }}>
           {formatDate(order.ordrDate)}
         </Typography>
-        <Typography variant="body1" sx={{ textAlign: "center", ml: "10px" }}>
+        <Typography variant="body1" sx={{ textAlign: "center" }}>
           {order.ordrCnt}
         </Typography>
-        <Typography variant="body1" sx={{ textAlign: "center", ml: "10px" }}>
+        <Typography variant="body1" sx={{ textAlign: "center" }}>
           {order.name}
         </Typography>
-        <Typography variant="body1" sx={{ textAlign: "center", ml: "10px" }}>
+        <Typography variant="body1" sx={{ textAlign: "center" }}>
           {order.receiveName}
         </Typography>
         <Typography variant="body1" sx={{ textAlign: "center", ml: "10px" }}>
           {Number(order.totalPrice).toLocaleString()}
         </Typography>
-        <Typography variant="body1" sx={{ textAlign: "center", ml: "10px" }}>
+        <Typography variant="body1" sx={{ textAlign: "center" }}>
           {order.ordrStateName}
         </Typography>
         <IconButton onClick={() => handleOpenModal(order)} sx={{ textAlign: "center" }}>
-          <InfoOutlinedIcon />
+          <KeyboardDoubleArrowRightIcon />
         </IconButton>
       </ListItemStyled>
     );
@@ -287,7 +287,7 @@ const AdminListPage = () => {
   },[currentPage,searchQuery,handleSearch]);
 
   return (
-    <Paper sx={{ display: "flex", height: "100vh" }}>
+    <Paper sx={{ display: "flex" }} elevation={0}>
       {/* AdminBar 컴포넌트에 selectedMenu와 setSelectedMenu props 전달 */}
       <AdminBar selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
       <Box
@@ -314,7 +314,13 @@ const AdminListPage = () => {
             margin: "16px",
           }}
         >
-          <Toolbar sx={{ justifyContent: "left", width: "100%" }}>
+          <Toolbar
+            sx={{
+              justifyContent: "space-between",
+              height: "10vh",
+              width: "100%",
+            }}
+          >
             <Search
               onSearch={handleSearch}
               searchQuery={searchQuery}
@@ -324,7 +330,7 @@ const AdminListPage = () => {
               style={{ paddingRight: 60 }}
             />
           </Toolbar>
-          <Box sx={{ width: "100%", height: "80%", overflowY: "auto" }}>
+          <Box sx={{ width: "100%", height: "73.6vh", overflowY: "auto" }}>
             <StyledList aria-label="mailbox folders">
               <ListItemLabelStyled>
                 {dataListLabels.map((label, index) => (
@@ -336,7 +342,6 @@ const AdminListPage = () => {
                     >
                       {label}
                     </Typography>
-
                   </React.Fragment>
                 ))}
               </ListItemLabelStyled>
