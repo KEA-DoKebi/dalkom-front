@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
+import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import Search from "components/molecules/Search";
@@ -30,14 +30,12 @@ import Swal from "sweetalert2";
 let currentInquirySeq = null;
 
 const itemFlexStyles = {
-    "& > *:nth-child(1)": { width: "5%" }, // 번호
-    "& > *:nth-child(2)": { width: "30%" }, // 작성일시
-    "& > *:nth-child(3)": { width: "56%" }, // FAQ
-    "& > *:nth-child(4)": { width: "5%" }, // 상세보기
-    "&:before, &:after": { content: '""', width: "2%" },
-  };
-  
-
+  "& > *:nth-child(1)": { width: "5%" }, // 번호
+  "& > *:nth-child(2)": { width: "30%" }, // 작성일시
+  "& > *:nth-child(3)": { width: "56%" }, // FAQ
+  "& > *:nth-child(4)": { width: "5%" }, // 상세보기
+  "&:before, &:after": { content: '""', width: "2%" },
+};
 
 const StyledList = styled(List)`
   padding: 0;
@@ -67,7 +65,7 @@ const ListItemStyled = styled(ListItem)`
   ${itemFlexStyles}// 공통 스타일 적용
 `;
 const StyledDialog = styled(Dialog)`
-    z-index: 900;
+  z-index: 900;
 `;
 
 const CKEditorContainer = styled.div`
@@ -82,7 +80,7 @@ const formatDate = (dateString) => {
 };
 
 const FAQPage = () => {
-    const dataListLabels = ["번호", "일시", "FAQ", "보기"];
+  const dataListLabels = ["번호", "일시", "FAQ", "보기"];
   // Declare selectedMenu and setSelectedMenu using useState
   const [selectedMenu, setSelectedMenu] = useState("FAQ");
   const { register, handleSubmit } = useForm();
@@ -157,10 +155,10 @@ const FAQPage = () => {
       await TokenAxios.post(`/api/faq`, data);
     } catch (e) {
       Swal.fire({
-        icon: "error",
-        title: "헉!!!",
-        text: "FAQ 등록에 실패하였어요!",
-        footer: "다시 한 번 시도해주세요",
+        title: "FAQ 등록에 실패했습니다.",
+        showConfirmButton: true,
+        confirmButtonColor: "gray",
+        confirmButtonText: "확인",
       });
     }
     handleCreateModalClose();
@@ -191,12 +189,29 @@ const FAQPage = () => {
         title: editFaq.title,
         content: editFaq.content,
       });
-      Swal.fire("성공", "FAQ가 수정되었습니다.", "success");
-      handleUpdateModalClose();
-      getFaq();
+      Swal.fire({//
+        icon: "success",
+        title: "FAQ 수정이 완료되었습니다.",
+        showConfirmButton: true,
+        confirmButtonColor: 'black',
+        confirmButtonText: '확인',
+        customClass: {
+            confirmButton: 'my-confirm-button',
+            cancelButton: 'my-cancel-button'
+        }
+    }).then(() => {
+        handleUpdateModalClose();
+        getFaq();
+    });
     } catch (e) {
       console.error("FAQ 수정 실패: ", e);
-      Swal.fire("오류", "FAQ 수정에 실패했습니다.", "error");
+      Swal.fire({//
+        icon: "error",
+        title: "FAQ 수정에 실패했습니다.",
+        showConfirmButton: true,
+        confirmButtonColor: 'gray',
+        confirmButtonText: '확인',
+    });
     }
   };
 
@@ -204,27 +219,38 @@ const FAQPage = () => {
   const deleteFaq = async (inquirySeq) => {
     try {
       await TokenAxios.delete(`/api/faq/${inquirySeq}`);
-      Swal.fire("성공", "공지사항이 삭제되었습니다.", "success");
-
-      getFaq();
-      handleUpdateModalClose();
-      // setUpdateModalOpen(false);
+      Swal.fire({//
+        icon: "success",
+        title: "FAQ가 삭제되었습니다.",
+        showConfirmButton: true,
+        confirmButtonColor: 'black',
+        confirmButtonText: '확인',
+    }).then(() => {
+        getFaq();
+        handleUpdateModalClose();
+        // setUpdateModalOpen(false);
+    });
     } catch (e) {
       console.error("FAQ 삭제 실패:", e);
-      Swal.fire("오류", "FAQ 삭제에 실패했습니다.", "error");
+      Swal.fire({//
+        icon: "error",
+        title: "FAQ 삭제에 실패했습니다.",
+        showConfirmButton: true,
+        confirmButtonColor: 'gray',
+        confirmButtonText: '확인',
+    });
     }
   };
 
   const handleDeleteClick = () => {
     if (selectedFaq && currentInquirySeq) {
       Swal.fire({
-        title: "정말 삭제하시겠습니까?",
-        text: "이 작업은 되돌릴 수 없습니다.",
+        title: "삭제하시겠습니까?",
         icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "예, 삭제하겠습니다",
+        confirmButtonColor: 'black',
+        confirmButtonText: '네',
+        cancelButtonColor: "gray",
         cancelButtonText: "아니요",
         customClass: {
           container: "custom-swal-container",
@@ -256,13 +282,15 @@ const FAQPage = () => {
           {index + 1 + currentPage * pageSize}
         </Typography>
         <Typography variant="body1" sx={{ textAlign: "center" }}>
-        {formatDate(faq.createdAt)}
+          {formatDate(faq.createdAt)}
         </Typography>
         <Typography variant="body1" sx={{ textAlign: "center" }}>
-        {faq.title}
+          {faq.title}
         </Typography>
-        <KeyboardDoubleArrowRightIcon onClick={() => handleUpdateModalOpen(faq.inquirySeq)}
-          sx={{ textAlign: "center" }} />
+        <KeyboardDoubleArrowRightIcon
+          onClick={() => handleUpdateModalOpen(faq.inquirySeq)}
+          sx={{ textAlign: "center" }}
+        />
       </ListItemStyled>
     );
   };
@@ -336,7 +364,7 @@ const FAQPage = () => {
               <Divider component="li" />
               {dataList.map((faq, index) => (
                 <React.Fragment key={index}>
-                  <FAQList faq={faq} index={index}/>
+                  <FAQList faq={faq} index={index} />
                   {index !== dataList.length && (
                     <Divider component="li" light />
                   )}
