@@ -7,7 +7,6 @@ import {
     Divider,
     Typography,
     Table,
-    TableHead,
     TableRow,
     TableCell,
     TableBody,
