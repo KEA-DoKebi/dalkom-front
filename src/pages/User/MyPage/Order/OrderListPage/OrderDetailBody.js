@@ -1,32 +1,9 @@
 import React, {useCallback, useEffect, useState} from "react";
 import {TokenAxios} from "apis/CommonAxios";
 import {Box, Button, Grid, Divider, Typography} from "@mui/material";
-import {
-    Paper,
-    Table,
-    TableBody,
-    TableContainer,
-    TableCell,
-    TableHead,
-    TableRow,
-} from "@mui/material";
 import styled from "styled-components";
 import {useNavigate, useParams} from "react-router-dom";
-import { Link } from "react-router-dom";
-import { display } from "@mui/system";
 
-const CustomButton = styled(Button)`
-  background-color : black;
-  color : white;
-  height : 32px;
-`
-
-const StyledH3 = styled.h3`
-  border-top : 1px solid black;
-  border-bottom : 1px solid black;
-  padding : 2vh 0;
-  text-align : center;
-`
 const ProductImg = styled.img`
   width: 50px;
   height: 50px;
@@ -40,7 +17,6 @@ const ProductInfo = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
 `;
 
 const OrderDetailBody = () => {
@@ -90,118 +66,126 @@ const OrderDetailBody = () => {
                 주문 상세 내역
             </Typography>
             <Divider sx={{ borderBottomWidth: 3 }} color={"black"}></Divider>
-            <Paper elevation={0}
+            
+            <table
                 style={{
-                    display: "flex",
-                    justifyContent: "center",
+                    paddingRight: "10%",
+                    border: "1px solid black",
+                    borderCollapse: "collapse",
                     width: "100%",
-                }}>
-                <TableContainer style={{ maxHeight: "none", display: "flex", flexDirection: "column" }}>
-                    {" "}
-                    <Table sx={{ width: "100%", margin: "auto" }}>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell
-                                    style={{
-                                        width: "20%",
-                                        textAlign: "center",
-                                        fontWeight: "bold",
-                                        fontSize: "15px",
-                                    }}
-                                >
+                    height: "auto",
+                }}
+            >
+                <thead>
+                <tr>
+                    <td style={{border: "1px solid black", padding: "5px"}}>
+                        <Grid container spacing={0}>
+                            <Grid item xs={4} style={{textAlign: "center"}}>
+                                <Typography style={{fontWeight: "bold"}}>
                                     상품 정보
-                                </TableCell>
-
-                                <TableCell
-                                    style={{
-                                        width: "16%",
-                                        textAlign: "center",
-                                        fontWeight: "bold",
-                                        fontSize: "15px",
-                                    }}
-                                >
-                                    주문일자
-                                </TableCell>
-
-                                <TableCell
-                                    style={{
-                                        width: "16%",
-                                        textAlign: "center",
-                                        fontWeight: "bold",
-                                        fontSize: "15px",
-                                    }}
-                                >
-                                    주문번호
-                                </TableCell>
-
-                                <TableCell
-                                    style={{
-                                        width: "16%",
-                                        textAlign: "center",
-                                        fontWeight: "bold",
-                                        fontSize: "15px",
-                                    }}
-                                >
-                                    주문금액
-                                </TableCell>
-
-                                <TableCell
-                                    style={{
-                                        width: "16%",
-                                        textAlign: "center",
-                                        fontWeight: "bold",
-                                        fontSize: "15px",
-                                    }}
-                                >
-                                    배송상태
-                                </TableCell>
-
-                                <TableCell
-                                    style={{
-                                        width: "16%",
-                                        textAlign: "center",
-                                        fontWeight: "bold",
-                                        fontSize: "15px",
-                                    }}
-                                >
-                                    후기작성
-                                </TableCell>
-                                </TableRow>
-                        </TableHead>
-                        <TableBody>
-                        {orderList.map((orderDetail) => (
-                            <TableRow key={orderDetail.orderSeq}>
-                                {/*상품 정보*/}
-                                <TableCell style={{ textAlign: "center", display: "flex" }}>
-                                    <ProductImg src={orderDetail.imageUrl} />
-                                    <ProductInfo>
-                                        <div>{`${orderDetail.productName}`}</div>
-                                        <div>{`(${orderDetail.detail})`}</div>
-                                    </ProductInfo>
-                                </TableCell>
-                                {/*주문 일자*/}
-                                <TableCell style={{ textAlign: "center" }}>
-                                    {orderDetail.orderDate.substring(0, 10)}
-                                </TableCell>
-
-                                {/*주문 번호*/}
-                                <TableCell style={{ textAlign: "center" }}>
-                                    <Typography>{`DOK${orderDetail.ordrDetailSeq.toString().padStart(5, '0')}`}
                                 </Typography>
-                                </TableCell>
+                            </Grid>
 
-                                {/*주문금액*/}
-                                <TableCell style={{ textAlign: "center" }}>
-                                    {orderDetail.totalPrice.toLocaleString()} 마일리지
-                                </TableCell>
+                            <Grid item xs={1.5} style={{textAlign: "center"}}>
+                                <Typography style={{fontWeight: "bold"}}>
+                                    주문일자
+                                </Typography>
+                            </Grid>
 
-                                {/*배송상태*/}
-                                <TableCell style={{ textAlign: "center" }}>
-                                    {orderDetail.ordrStateName}
-                                </TableCell>
 
-                                {/*후기작성*/}
-                                <TableCell style={{ textAlign: "center" }}>
+                            <Grid item xs={1.5} style={{textAlign: "center"}}>
+                                <Typography style={{fontWeight: "bold"}}>수량</Typography>
+                            </Grid>
+
+                            <Grid item xs={1.5} style={{textAlign: "center"}}>
+                                <Typography style={{fontWeight: "bold"}}>
+                                    주문금액
+                                </Typography>
+                            </Grid>
+
+                            <Grid
+                                item
+                                xs={1.5}
+                                style={{textAlign: "center", paddingLeft: "10px"}}
+                            >
+                                <Typography style={{fontWeight: "bold"}}>
+                                    배송상태
+                                </Typography>
+                            </Grid>
+
+                            <Grid
+                                item
+                                xs={1.5}
+                                style={{textAlign: "center", paddingLeft: "10px"}}
+                            >
+                                <Typography style={{fontWeight: "bold"}}>
+                                    후기작성
+                                </Typography>
+                            </Grid>
+                        </Grid>
+                    </td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <Grid
+                        container
+                        spacing={0}
+                        style={{display: "flex", alignItems: "center", marginTop: "2vh"}}
+                    >
+                        {orderList.map((orderDetail) => (
+                            <>
+                                <Grid
+                                    item
+                                    xs={4}
+                                    sx={{display: "flex", alignItems: "center", margin: "0.3vh 0"}}
+                                >
+                                    <ProductImg src={orderDetail.imageUrl}/>
+                                    <ProductInfo>
+                                        <div>{`${orderDetail.productName} (${orderDetail.detail})`}</div>
+                                    </ProductInfo>
+
+                                    {/*
+                    {orderDetail.productName}
+                    {orderDetail.optionSeq} */}
+
+                                </Grid>
+                                <Grid item xs={1.5}
+                                      style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
+                                    <Typography>
+                                        {orderDetail.orderDate.substring(0, 10)}
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={1.5}
+                                      style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
+                                    <Typography>{orderDetail.amount}</Typography>
+                                </Grid>
+                                <Grid item xs={1.5} style={{display: "flex", justifyContent: "center"}}>
+                                    <div>
+                                        <Typography
+                                            variant="body1"
+                                            sx={{
+                                                display: "flex",
+                                                alignItems: "center",
+                                            }}
+                                        >
+                                            <img
+                                                src="/images/M-1.png"
+                                                alt="마일리지"
+                                                style={{width: "20px", height: "20px", marginRight: "5px"}}
+                                            />
+                                            {orderDetail.totalPrice.toLocaleString()}
+                                        </Typography>
+                                    </div>
+                                </Grid>
+                                <Grid
+                                    item
+                                    xs={1.5}
+                                    style={{display: "flex", alignItems: "center", justifyContent: "center"}}
+                                >
+                                    <Typography>{orderDetail.ordrStateName}</Typography>
+                                </Grid>
+                                <Grid item xs={1.5} style={{ textAlign: "center", paddingLeft: "10px" }}>
                                     {orderDetail.ordrState === "주문완료" && (
                                         <CustomButton onClick={() => handleReviewButtonClick(orderDetail.ordrDetailSeq)}>
                                             리뷰 작성
@@ -210,83 +194,299 @@ const OrderDetailBody = () => {
                                     {orderDetail.ordrState !== "주문완료" && (
                                         <Typography>리뷰 작성 불가</Typography>
                                     )}
-                                </TableCell>
-                            </TableRow>
+                                </Grid>
+
+                                
+                            </>
                         ))}
-                        </TableBody>
-                    </Table>
+                    </Grid>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                    
+                        <Grid container spacing={0}>
+                            <Grid item xs={6} style={{textAlign: "center"}}>
+                                <Typography style={{fontWeight: "bold"}}>
+                                    배송지 정보
+                                </Typography>
+                            </Grid>
 
-
-                    <Table sx={{ width: "100%", margin: "auto", marginTop: "3vh", display: "flex", flexDirection: "row" }}>
-                        <Table>
-                        <Typography sx={{ fontSize: "30px", mb: 3, marginTop: "3vh", marginLeft: "1vw" }}>
-                            배송지 정보
-                        </Typography>
-                        <Divider sx={{ borderBottomWidth: 3, width: '70%' }} color={"black"}/>
+                            <Grid item xs={6} style={{textAlign: "center"}}>
+                                <Typography style={{fontWeight: "bold"}}>
+                                    주문정보
+                                </Typography>
+                            </Grid>
+                            <Divider sx={{ mt: 1, mb: 2, borderBottom: "2px solid black" }} />
+                    {/* <Grid container spacing={0}>
+                        <Grid item xs={6}>
+                            <StyledH3 style={{borderRight: "1px solid black"}}>배송지정보</StyledH3>
+                        </Grid>
+                        <Grid item xs={6} style={{margin: 0}}>
+                            <StyledH3>주문 정보</StyledH3>
+                        </Grid> */}
                         <Grid item xs={6} style={{
                             fontSize: "20px",
                             padding: "3vh 0",
                             lineHeight: "60px",
+                            borderRight: "1px solid black"
                         }}>
                             <Grid container spacing={0}>
-                                <Grid item xs={1.5}/>
-                                <Grid item xs={4}>
+                                <Grid item xs={3}>
+
+                                </Grid>
+                                <Grid item xs={2}>
                                     <b>이름</b>
                                 </Grid>
-                                <Grid item xs={1}/>
-                                <Grid item xs={5}>
+                                <Grid item xs={1}>
+
+                                </Grid>
+                                <Grid item xs={3}>
                                     {shipInfo.receiverName}
                                 </Grid>
-                                
+                                <Grid item xs={3}>
 
-                                <Grid item xs={1.5}/>
-                                <Grid item xs={4}>
+                                </Grid>
+                                <Grid item xs={3}>
+
+                                </Grid>
+                                <Grid item xs={2}>
                                     <b>연락처</b>
                                 </Grid>
-                                <Grid item xs={1}/>
-                                <Grid item xs={5}>
+                                <Grid item xs={1}>
+
+                                </Grid>
+                                <Grid item xs={3}>
                                     {shipInfo.receiverMobileNum}
                                 </Grid>
+                                <Grid item xs={3}>
 
-                                
-                                <Grid item xs={1.5}/>
-                                <Grid item xs={4}>
+                                </Grid>
+                                <Grid item xs={3}>
+
+                                </Grid>
+                                <Grid item xs={2}>
                                     <b>배송지 주소</b>
                                 </Grid>
-                                <Grid item xs={1}/>
-                                <Grid item xs={5}>
+                                <Grid item xs={1}>
+
+                                </Grid>
+                                <Grid item xs={3}>
                                     {shipInfo.receiverAddress}
                                 </Grid>
+                                <Grid item xs={3}>
 
-                                <Grid item xs={1.5}/>
-                                <Grid item xs={4.5}>
+                                </Grid>
+                                <Grid item xs={3}>
+
+                                </Grid>
+                                <Grid item xs={2}>
                                     <b>배송 요청사항</b>
                                 </Grid>
                                 <Grid item xs={1}>
-                                <Grid item xs={5}>
+
+                                </Grid>
+                                <Grid item xs={3}>
                                     {shipInfo.receiverMemo}
                                 </Grid>
-
+                                <Grid item xs={3}>
 
                                 </Grid>
                             </Grid>
                         </Grid>
-                        </Table>
+                        <Grid item xs={6} style={{fontSize: "20px", padding: "3vh 0", lineHeight: "60px"}}>
+                            <Grid container spacing={0}>
+                                <Grid item xs={3}>
 
-                        <Table>
-                        <Typography sx={{ fontSize: "30px", mb: 3, marginTop: "3vh", marginLeft: "1vw" }}>
-                            결제 정보
-                        </Typography>
-                        <Divider sx={{ borderBottomWidth: 3, width: '70%' }} color={"black"}/>
+                                </Grid>
+                                <Grid item xs={2}>
+                                    <b>주문번호</b>
+                                </Grid>
+                                <Grid item xs={1}>
 
-                        </Table>
+                                </Grid>
+                                <Grid item xs={3}>
+                                    {orderSeq}
+                                </Grid>
+                                <Grid item xs={3}>
 
-                    </Table>
-                </TableContainer>
-            </Paper>
+                                </Grid>
+                                <Grid item xs={3}>
 
+                                </Grid>
+                                <Grid item xs={2}>
+                                    <b>상품합계</b>
+                                </Grid>
+                                <Grid item xs={1}>
+
+                                </Grid>
+                                <Grid item xs={3}>
+
+                                    <Typography
+                                        variant="body1"
+                                        sx={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            marginTop: "1.15vh",
+                                            fontSize: "20px"
+                                        }}
+                                    >
+                                        <img
+                                            src="/images/M-1.png"
+                                            alt="마일리지"
+                                            style={{width: "20px", height: "20px", marginRight: "5px"}}
+                                        />
+                                        {totalPrice.toLocaleString()}
+                                    </Typography>
+
+                                </Grid>
+                                <Grid item xs={3}>
+
+                                </Grid>
+                                <Grid item xs={3}>
+
+                                </Grid>
+                                <Grid item xs={2}>
+                                    <b>배송비합계</b>
+                                </Grid>
+                                <Grid item xs={1}>
+
+                                </Grid>
+                                <Grid item xs={3}>
+                                    배송비 무료
+                                </Grid>
+                                <Grid item xs={3}>
+
+                                </Grid>
+                                <Grid item xs={3}>
+
+                                </Grid>
+                                <Grid item xs={2}>
+                                    <b>최종결제금액</b>
+                                </Grid>
+                                <Grid item xs={1}>
+
+                                </Grid>
+                                <Grid item xs={3}>
+                                    <div>
+                                        <Typography
+                                            variant="body1"
+                                            sx={{
+                                                display: "flex",
+                                                alignItems: "center",
+                                                marginTop: "1.15vh",
+                                                fontSize: "20px"
+                                            }}
+                                        >
+                                            <img
+                                                src="/images/M-1.png"
+                                                alt="마일리지"
+                                                style={{width: "20px", height: "20px", marginRight: "5px"}}
+                                            />
+                                            {totalPrice.toLocaleString()}
+                                        </Typography>
+                                    </div>
+                                </Grid>
+                                <Grid item xs={3}>
+
+                                </Grid>
+                            </Grid>
+
+                        </Grid>
+                    </Grid>
+                </tr>
+                {/* <tr>
+            <Grid container spacing={2} justifyContent="space-between">
+              <Grid
+                item
+                xs={12}
+              >
+                <StyledH3>주문 정보</StyledH3>
+              </Grid>
+
+              <Grid item xs={1}></Grid>
+              <Grid item xs={1.5}>
+                <Typography>상품 합계</Typography>
+              </Grid>
+              <Grid item xs={3}>
+              <div>
+                    <Typography
+                        variant="body1"
+                        sx={{
+                          display : "flex",
+                          alignItems : "center",
+                        }}
+                      >
+                        <img
+                          src="/images/M-1.png"
+                          alt="마일리지"
+                          style={{ width: "20px", height: "20px", marginRight: "5px" }}
+                        />
+                        {totalPrice.toLocaleString()}
+                      </Typography>
+                    </div>
+              </Grid>
+
+              <Grid item xs={6.5}></Grid>
+
+              <Grid item xs={1}></Grid>
+              <Grid item xs={1.5}>
+                <Typography>배송비 합계</Typography>
+              </Grid>
+              <Grid item xs={3}>
+                <Typography>배송비 무료</Typography>
+              </Grid>
+
+              <Grid item xs={6.5}></Grid>
+
+              <Grid item xs={1}></Grid>
+              <Grid item xs={1.5}>
+                <Typography>최종 결제 금액</Typography>
+              </Grid>
+              <Grid item xs={3}>
+              <div>
+                    <Typography
+                        variant="body1"
+                        sx={{
+                          display : "flex",
+                          alignItems : "center",
+                        }}
+                      >
+                        <img
+                          src="/images/M-1.png"
+                          alt="마일리지"
+                          style={{ width: "20px", height: "20px", marginRight: "5px" }}
+                        />
+                        {totalPrice.toLocaleString()}
+                      </Typography>
+                    </div>
+                <Typography>{totalPrice} 마일리지</Typography>
+              </Grid>
+
+              <Grid item xs={6.5}></Grid>
+
+              <Grid item xs={8}></Grid>
+            </Grid>
+          </tr> */}
+                </tfoot>
+            </table>
+           
         </Box>
     );
 };
 
 export default OrderDetailBody;
+
+
+const CustomButton = styled(Button)`
+  background-color : black;
+  color : white;
+  height : 32px;
+`
+
+const StyledH3 = styled.h3`
+  border-top : 1px solid black;
+  border-bottom : 1px solid black;
+  padding : 2vh 0;
+  text-align : center;
+`
