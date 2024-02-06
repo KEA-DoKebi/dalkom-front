@@ -236,6 +236,7 @@ const AdminListPage = () => {
       adminOrderGet(currentPage);
     }
     setSelectedMenu("주문 목록");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, searchQuery]);
     
   const OrderList = ({ order, index }) => {
