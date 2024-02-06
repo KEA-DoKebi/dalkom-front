@@ -23,8 +23,11 @@ import { TokenAxios } from "apis/CommonAxios";
 import AWS from "aws-sdk";
 import EditorComponent from "components/atoms/Editor";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
+
 
 const ProductRegisterPage = () => {
+  const navigate = useNavigate();
 
   // env 파일 변수로 설정
   const REACT_APP_AWS_S3_BUCKET_REGION = process.env.REACT_APP_AWS_S3_BUCKET_REGION;
@@ -144,9 +147,9 @@ const ProductRegisterPage = () => {
   };
 
   // 에디터 값 react-hook-form으로 전달하기 위한 함수
-  const handleEditorContentChange = (productDetail) => {
-    setValue('productDetail', productDetail, { shouldValidate: true });
-    trigger('productDetail');
+  const handleEditorContentChange = (info) => {
+    setValue('info', info, { shouldValidate: true });
+    trigger('info');
   };
 
 
@@ -155,24 +158,38 @@ const ProductRegisterPage = () => {
     data.prdtOptionList = [{amount : data.amount, prdtOptionSeq : data.prdtOptionSeq}];
     delete data.amount;
     delete data.prdtOptionSeq;
-    data.info = "이 가격에 나올 수 없는 아주 좋은 상품이니 품절되기 전에 가져가세요~~"
     data.imageUrl = productImage;
     
     try{
       const res = await TokenAxios.post(`/api/product`, data);
       if(res.data.success){
-        Swal.fire({
+        Swal.fire({//
           icon: "success",
-          title: "🎉🎉상품이 등록되었습니다!",
-          showConfirmButton: false,
-          timer: 1000,
+          title: "상품이 등록되었습니다.",
+          showConfirmButton: true,
+          confirmButtonColor: 'black',
+          confirmButtonText: '확인',
+        }).then(() => {
+          navigate("/admin/product/list");
         });
       }else{
-        Swal.fire("상품 등록하는데에 문제가 발생하였습니다", "", "info");
+        Swal.fire({//
+          icon: "error",
+          title: "상품 등록에 실패했습니다.",
+          showConfirmButton: true,
+          confirmButtonColor: 'gray',
+          confirmButtonText: '확인',
+        });
       }
     }catch(e){
       console.log(e);
-      Swal.fire("상품 등록하는데에 문제가 발생하였습니다", "", "info");
+      Swal.fire({//
+        icon: "error",
+        title: "상품 등록에 실패했습니다.",
+        showConfirmButton: true,
+        confirmButtonColor: 'gray',
+        confirmButtonText: '확인',
+      });
     }
     
   }
@@ -471,11 +488,11 @@ const ProductRegisterPage = () => {
                 <EditorComponent
                     onContentChange={handleEditorContentChange}
                     placeholder="상품 정보를 입력하세요"
-                    id="productDetail"
+                    id="info"
                     onChange={(event, editor) => {
-                        setValue("productDetail", editor.getData());
-                        trigger("productDetail");
-                        console.log("productDetail");
+                        setValue("info", editor.getData());
+                        trigger("info");
+                        console.log("info");
                     }}
                 />
               </div>

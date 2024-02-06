@@ -183,42 +183,49 @@ const ProductInquiryPage = () => {
 
   const handleCloseModal = () => setOpenModal(false);
 
-  const handleModalSaveButton = async () => {
-    try {
-      // TextField의 내용 가져오기
-      const answerContent = textareaRef.current.value;
-      // 저장 요청 보내기
-      await TokenAxios.put(`/api/inquiry/${currentInquirySeq}`, {
-        answerContent: answerContent,
-      });
-
-      // 모달 닫기
-      handleCloseModal();
-      Swal.fire({
-        title: "저장 완료",
-        text: "주문 문의에 대한 답변이 저장되었습니다.",
-        icon: "success",
-        confirmButtonText: "확인",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          // 답변 저장 후 성공적으로 처리되면 데이터를 새로고침
-          getInquiryByCategory(currentPage).then(() => {
-            // 필요한 경우 페이지를 새로 고침하지 않고도 UI를 업데이트하기 위해 상태를 업데이트할 수 있습니다.
-            console.log("Data refreshed after saving the answer.");
-          });
+    const handleModalSaveButton = async () => {
+        try {
+            // TextField의 내용 가져오기
+            const answerContent = textareaRef.current.value;
+            // 저장 요청 보내기
+            const res = await TokenAxios.put(
+                `/api/inquiry/${currentInquirySeq}`,{
+                    answerContent: answerContent,
+                }
+            );
+    
+            console.log(res.data);
+    
+            // 모달 닫기
+            handleCloseModal();
+    
+            // Show SweetAlert confirmation
+            Swal.fire({//
+                icon: "success",
+                title: "상품 문의에 대한 답변이<br> 완료되었습니다.",
+                showConfirmButton: true,
+                confirmButtonColor: 'black',
+                confirmButtonText: '확인',
+                onClose: () => {
+                    // Close the modal when the "확인" button is clicked
+                    setOpenModal(false);
+                    getInquiryByCategory(currentPage);
+                },
+            });
+    
+            // getInquiryByCategory(currentPage);
+        } catch (error) {
+            // 오류 처리
+            console.error("저장 중 오류 발생:", error);
+            Swal.fire({//
+                icon: "error",
+                title: "답변 등록에 실패했습니다.",
+                showConfirmButton: true,
+                confirmButtonColor: 'gray',
+                confirmButtonText: '확인',
+            });
         }
-      });
-    } catch (error) {
-      // 오류 처리
-      console.error("저장 중 오류 발생:", error);
-      Swal.fire({
-        title: "오류 발생",
-        text: "답변을 저장하는 도중 오류가 발생했습니다.",
-        icon: "error",
-        confirmButtonText: "확인",
-      });
-    }
-  };
+    };
 
   useEffect(() => {
     if (searchQuery.trim() !== "") {

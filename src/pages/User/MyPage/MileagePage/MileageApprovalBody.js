@@ -24,13 +24,13 @@ export default function MileageApprovalBody() {
 
     //마일리지 충전
     const mileCharge = async (chargeAmount) => {
-        const result = await Swal.fire({
-            title: "충전하시겠습니까?",
-            icon: "info",
+        const result = await Swal.fire({//
+            icon: "question",
+            title: "마일리지를 충전하시겠습니까?",
             showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "예, 충전하겠습니다",
+            confirmButtonColor: "black",
+            cancelButtonColor: "gray",
+            confirmButtonText: "네",
             cancelButtonText: "아니요",
             customClass: {
                 container: 'custom-swal-container'
@@ -41,12 +41,40 @@ export default function MileageApprovalBody() {
             try {
                 const res = await TokenAxios.post("/api/mileage/apply/user", chargeAmount);
                 if (res.status === 200) {
-                    Swal.fire("성공", "상태를 변경했습니다.", "success");
+                    Swal.fire({//
+                        position: "center",
+                        icon: "success",
+                        title: "충전 신청이 완료되었습니다.",
+                        showConfirmButton: true,
+                        confirmButtonColor: 'black',
+                        confirmButtonText: '확인',
+                    });
                 }
                 chargeRequestHistory();
             } catch (error) {
-                console.error("Error charging mileage:", error);
-                Swal.fire("실패", "충전 신청에 실패했습니다.", "error");
+                console.log(error.response.status)
+                if(error.response.status === 409){
+                    Swal.fire({//
+                        position: "center",
+                        icon: "error",
+                        title: "충전 신청에 실패했습니다.",
+                        html: "이미 진행중인 신청 내역이 존재합니다.",
+                        showConfirmButton: true,
+                        confirmButtonColor: 'gray',
+                        confirmButtonText: '확인',
+                    });
+                }else{
+                    Swal.fire("실패", "충전 신청에 실패했습니다.", "error");
+                    Swal.fire({//
+                        position: "center",
+                        icon: "error",
+                        title: "충전 신청에 실패했습니다.",
+                        showConfirmButton: true,
+                        confirmButtonColor: 'gray',
+                        confirmButtonText: '확인',
+                    });
+                }
+                // console.error("Error charging mileage:", error);
             }
         }
     };

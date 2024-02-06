@@ -2,7 +2,7 @@ import { React, useEffect, useState } from "react";
 import SidebarLayout from "components/templete/SidebarLayout";
 import { Box, Button } from "@mui/material";
 import { Grid, Typography } from "@mui/material";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { DefaultAxios } from "apis/CommonAxios";
 import DaumPostcode from "react-daum-postcode";
 import { CustomButton } from "common";
@@ -24,6 +24,8 @@ const Payment = () => {
 
   const  [orderPageLists,setOrderPageLists] = useState([]); 
 
+  const navigate = useNavigate();
+
   const calculateTotalPrice = () => {
     let totalPrice = 0;
 
@@ -35,70 +37,128 @@ const Payment = () => {
   };
 
   const handlePaymentBtnClick = () => {
-    if (receiverName && receiverAddress && receiverMemo && receiverMobileNum) {
+    if(calculateTotalPrice() > Number(localStorage.getItem("mileage"))){
       Swal.fire({
-        title: "정말 결제하시겠습니까?",
-        showDenyButton: true,
-        confirmButtonText: "예",
-        denyButtonText: `아니요`,
+        icon: "error", // 성공 아이콘 (success, error, warning, info 중 선택)
+        title: "마일리지가 부족합니다",
+        showConfirmButton: true, 
+        confirmButtonText : "충전",
+        buttonsStyling: true, 
+        confirmButtonColor: 'black',
+        showCancelButton: true, 
+        cancelButtonText: "확인", 
+        cancelButtonColor: 'black', 
       }).then((result) => {
-        /* Read more about isConfirmed, isDenied below */
-        if (result.isConfirmed) {
-          Swal.fire({
-            title: "계정 비밀번호를 다시 입력하세요",
-            input: "text",
-            showDenyButton: true,
-            confirmButtonText: "결제하기",
-            denyButtonText: `뒤로가기`,
-            preConfirm: async (password) => {
-              try {
-                const res = await TokenAxios.post("/api/order/authorize", {
-                  password: password,
-                });
-                if (res.data.success) {
-                  const res = await TokenAxios.post("/api/order", {
-                    receiverInfoRequest: {
-                      receiverName: receiverName,
-                      receiverAddress: receiverAddress + receiverDetailAddress,
-                      receiverMobileNum: receiverMobileNum,
-                      receiverMemo: receiverMemo,
-                    },
-                    orderProductRequestList: orderList
-                })
-                  if(res.data.success){
-                    localStorage.setItem("mileage", res.data.result.data);
-                    setOrderPageLists([]);
-                    setReceiverName("");
-                    setReceiverMobileNum("");
-                    setReceiverAddress("");
-                    setReceiverDetailAddress("");
-                    setReceiverMemo("");
-                    Swal.fire({
-                      icon: "success",
-                      title: "🎉🎉결제가 완료되었습니다!",
-                      showConfirmButton: false,
-                      timer: 1000,
-                    });
-                  }
-                }
-              } catch (e) {
-                Swal.showValidationMessage(`
-                    결제에 문제가 생겼습니다!
-                `);
-              }
-            },
-          }).then((result) => {
-            if (result.isDenied) {
-              Swal.fire("결제가 실패하였습니다", "", "info");
-            }
-          });
-        } else if (result.isDenied) {
-          Swal.fire("결제가 실패하였습니다", "", "info");
+        if(result.isConfirmed){
+          navigate("/mypage/mile")
         }
       });
-    } else {
-      Swal.fire("배송지 정보를 입력해주세요!", "", "info");
+    }else{
+      if (receiverName && receiverAddress && receiverMemo && receiverMobileNum) {
+        Swal.fire({
+          title: "결제 하시겠습니까?",
+          showDenyButton: true,
+          buttonsStyling: true, 
+          confirmButtonText: "확인",
+          confirmButtonColor: 'black',
+          denyButtonText: `취소`,
+          denyButtonColor : "gray",
+        }).then((result) => {
+          /* Read more about isConfirmed, isDenied below */
+          if (result.isConfirmed) {
+            Swal.fire({
+              title: "계정 비밀번호를 입력하세요",
+              input: "password",
+              showDenyButton: true,
+              buttonsStyling: true, 
+              confirmButtonText: "결제하기",
+              confirmButtonColor: 'black',
+              denyButtonText: `뒤로가기`,
+              denyButtonColor : 'gray',
+              preConfirm: async (password) => {
+                try {
+                  const res = await TokenAxios.post("/api/order/authorize", {
+                    password: password,
+                  });
+                  if (res.data.success) {
+                      try{
+                        const res = await TokenAxios.post("/api/order", {
+                          receiverInfoRequest: {
+                            receiverName: receiverName,
+                            receiverAddress: receiverAddress + receiverDetailAddress,
+                            receiverMobileNum: receiverMobileNum,
+                            receiverMemo: receiverMemo,
+                          },
+                          
+    
+                          orderProductRequestList: orderList
+                        })
+  
+                        if(res.data.success){
+                          localStorage.setItem("mileage", res.data.result.data);
+                          setOrderPageLists([]);
+                          setReceiverName("");
+                          setReceiverMobileNum("");
+                          setReceiverAddress("");
+                          setReceiverDetailAddress("");
+                          setReceiverMemo("");
+                          Swal.fire({//
+                            icon: "success",
+                            title: "결제가 완료되었습니다.",
+                            showConfirmButton: true, 
+                            confirmButtonText : "확인",
+                            buttonsStyling: true, 
+                            confirmButtonColor: 'black',
+                          }).then((result) =>{
+                            if(result.isConfirmed){
+                              navigate("/mypage/order/list");
+                            }
+                          });
+                        }
+                      }catch(e){
+                        Swal.showValidationMessage(`
+                          결제에 실패했습니다.
+                        `)
+                      }
+                    }
+                } catch (e) {
+                  Swal.showValidationMessage(`
+                      정보가 일치하지 않습니다.
+                  `);
+                }
+              },
+            }).then((result) => {
+              if (result.isDenied) {
+                Swal.fire({
+                  icon : "error",
+                  title : "결제에 실패했습니다.",
+                  showConfirmButton: true, 
+                  confirmButtonText : "확인",
+                  confirmButtonColor: 'black',
+                })
+              }
+            });
+          } else if (result.isDenied) {
+            Swal.fire({
+              icon : "error",
+              title : "결제에 실패했습니다.",
+              showConfirmButton: true, 
+              confirmButtonText : "확인",
+              confirmButtonColor: 'black',
+            })
+          }
+        });
+      } else {
+        Swal.fire({
+          icon: "warning",
+          title: "배송지를 입력하세요.",
+          showConfirmButton: true,
+          confirmButtonColor: 'black',
+          confirmButtonText: '확인',
+        })
+      }
     }
+    
   };
 
   useEffect(() => {
@@ -114,6 +174,10 @@ const Payment = () => {
         
         setOrderPageLists(response.data.result.data);
         // Handle the response as needed
+
+        const resMileage = await TokenAxios.get(`/api/mileage/user`)
+        localStorage.setItem("mileage" ,resMileage.data.result.data);
+
       } catch (error) {
         console.error("주문 데이터 전송 실패:", error);
         console.log("자세한 오류 응답:", error.response); // 자세한 오류 응답 기록
@@ -124,6 +188,7 @@ const Payment = () => {
       // Only send the request if orderList is not empty
       sendOrderRequest();
     }
+    
   }, [orderList]);
 
   // component 로 분리해서 값을 넣고 싶음
@@ -318,7 +383,7 @@ const Payment = () => {
                     xs={2}
                     style={{ textAlign: "center", marginTop: "1%" }}
                   >
-                    <Typography>{orderItem.productPrice}</Typography>
+                    <Typography>{orderItem.productPrice?.toLocaleString()}</Typography>
                   </Grid>
                   <Grid
                     item
@@ -343,7 +408,7 @@ const Payment = () => {
                       marginTop: "1%",
                     }}
                   >
-                    <Typography>{orderItem.totalPrice}</Typography>
+                    <Typography>{orderItem.totalPrice?.toLocaleString()}</Typography>
                   </Grid>
                 </Grid>
               </tr>
@@ -360,8 +425,8 @@ const Payment = () => {
               <Grid container spacing={2} justifyContent="space-between">
                 <Grid item xs={12}>
                   <h3>
-                    총 상품 가격 {calculateTotalPrice()} + 총 배송비 0 = 총
-                    주문금액 {calculateTotalPrice()}
+                    총 상품 가격 {calculateTotalPrice()?.toLocaleString()} + 총 배송비 0 = 총
+                    주문금액 {calculateTotalPrice()?.toLocaleString()}
                   </h3>
                 </Grid>
               </Grid>

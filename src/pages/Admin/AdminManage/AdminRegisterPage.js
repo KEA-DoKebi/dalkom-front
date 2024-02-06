@@ -18,15 +18,35 @@ const AdminRegisterPage = () => {
             const res = await TokenAxios.post("/api/admin", data);
             if (res.data.code === 200) {
                 // 성공 메시지 설정
-                Swal.fire("성공", "관리자를 등록했습니다.", "success");
-                navigate("/admin/list");
+                Swal.fire({//
+                    position: "center",
+                    icon: "success",
+                    title: "관리자 등록이 완료되었습니다.",
+                    showConfirmButton: true,
+                    confirmButtonColor: 'black',
+                    confirmButtonText: '확인',
+                }).then(() => {
+                    navigate("/admin/list");
+                });
             } else {
                 // 실패 메시지 설정 (API 응답에 따라 다를 수 있음)
-                Swal.fire("오류", "관리자 등록에 실패했습니다.", "error");
+                Swal.fire({//
+                    icon: "error",
+                    title: "관리자 등록에 실패했습니다.",
+                    showConfirmButton: true,
+                    confirmButtonColor: 'gray',
+                    confirmButtonText: '확인',
+                });
             }
         } catch (e) {
             // 오류 발생 시 처리
-            Swal.fire("오류", "관리자 등록 중 오류가 발생했습니다.", "error");
+            Swal.fire({//
+                icon: "error",
+                title: "관리자 등록에 실패했습니다.",
+                showConfirmButton: true,
+                confirmButtonColor: 'gray',
+                confirmButtonText: '확인',
+            });
         }
     };
 
