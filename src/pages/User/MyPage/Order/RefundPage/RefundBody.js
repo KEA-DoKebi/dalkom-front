@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import styled from "styled-components";
-import {Box, Pagination, Paper, Table, TableBody, TableCell, TableHead, TableRow, Typography,} from "@mui/material";
+import {Box, Pagination, Divider, Paper, Table, TableBody, TableCell, TableHead, TableRow, Typography,} from "@mui/material";
 import {TokenAxios} from "apis/CommonAxios";
 
 const Img = styled.img`
@@ -57,17 +57,20 @@ export default function RefundBody() {
 
     return (
         <Paper elevation={0}>
-            <Typography sx={{fontSize: "40px", mb: "3vh"}}>
-                취소/반품/교환/환불
+            <Typography sx={{ fontSize: "40px", mb: 3}}>
+                취소/반품/환불
             </Typography>
+            <Divider sx={{ borderBottomWidth: 3 }} color={"black"}></Divider>
 
             <Paper elevation={0}
-                style={{display: "flex", justifyContent: "center", width: "100%"}}
-            >
-                <TableContainer>
-                    <Table
-                        sx={{border: "1px solid", borderColor: "#e0e0e0", margin: "auto"}}
-                    >
+                style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    width: "100%",
+                }}>
+                <TableContainer style={{ maxHeight: "none" }}>
+                    {" "}
+                    <Table sx={{ width: "100%", margin: "auto" }}>
                         <TableHead>
                             <TableRow>
                                 <TableCell
@@ -130,7 +133,7 @@ export default function RefundBody() {
                                             </ProductInfo>
                                         </TableCell>
                                         <TableCell style={{width: "25%", textAlign: "center"}}>
-                                            {row.modifiedAt.substring(1, 10)}
+                                            {row.modifiedAt.substring(0, 10)}
                                         </TableCell>
                                         <TableCell style={{width: "25%", textAlign: "center"}}>
                                             {row.requestType}

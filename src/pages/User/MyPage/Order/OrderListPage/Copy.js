@@ -3,6 +3,7 @@ import {TokenAxios} from "apis/CommonAxios";
 import {Box, Button, Grid, Divider, Typography} from "@mui/material";
 import styled from "styled-components";
 import {useNavigate, useParams} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const ProductImg = styled.img`
   width: 50px;
@@ -482,4 +483,11 @@ const CustomButton = styled(Button)`
   background-color : black;
   color : white;
   height : 32px;
+`
+
+const StyledH3 = styled.h3`
+  border-top : 1px solid black;
+  border-bottom : 1px solid black;
+  padding : 2vh 0;
+  text-align : center;
 `

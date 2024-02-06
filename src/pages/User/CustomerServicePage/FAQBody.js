@@ -10,9 +10,11 @@ import {
     Pagination,
     Typography
 } from "@mui/material";
-import {TokenAxios} from "../../../apis/CommonAxios";
-import {AdminButton} from "../../../components/atoms/AdminCommonButton";
+import {TokenAxios} from "apis/CommonAxios";
+import {AdminButton} from "components/atoms/AdminCommonButton";
 import CloseIcon from "@mui/icons-material/Close";
+import { useNavigate } from "react-router-dom";
+
 
 const StyledList = styled(List)`
   padding: 0;
@@ -40,16 +42,12 @@ const PaginationContainer = styled.div`
   flex-direction: column;
 `;
 
-const TopField = styled.h1`
-  font-size: 30px;
-  margin-left: 4%;
-`;
-
 const Main = styled.div`
   display: flex;
   flex-direction: column;
   text-align: left;
   width: 70%;
+
 `;
 
 const Body = styled.div`
@@ -57,7 +55,8 @@ const Body = styled.div`
   align-items: center;
   flex-direction: column;
   border: 1px solid;
-  border-color: gray;
+  border-radius: 20px;
+  border-color: #EEEEEE;
   min-height: 50vh;
 `;
 
@@ -111,14 +110,16 @@ export const FAQBody = () => {
     const [selectedFaq, setSelectedFaq] = useState(null);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState();
-    const [modalOpen, setModalOpen] = useState(false);
     const pageSize = 10;
+    const navigate = useNavigate();
+    const [modalOpen, setModalOpen] = useState(false);
+   
 
     const handleFaqClick = async (inquirySeq) => {
         try {
             const res = await TokenAxios.get(`/api/inquiry/${inquirySeq}`);
             setSelectedFaq(res.data.result.data);
-            setModalOpen(true);
+            navigate(`/cs/user-faq/${inquirySeq}`, { state: { selectedFaq: res.data.result.data } });
         } catch (e) {
             console.error(e);
         }
@@ -149,7 +150,7 @@ export const FAQBody = () => {
 
     return (
         <Main>
-            <TopField>FAQ</TopField>
+           
             <Body>
                 <StyledList aria-label="mailbox folders">
                     <ListItemStyled>
@@ -229,11 +230,14 @@ export const FAQBody = () => {
                 <DialogActions
                     style={{
                         justifyContent: "center",
+                        alignItems: "center",
                         marginTop: "20px",
                         marginBottom: "20px",
+                        display: "flex",
+                        margin: "auto",
                     }}
                 >
-                    <AdminButton onClick={handleCloseModal} sx={{ margin: "auto", marginBottom: 2 }}>
+                    <AdminButton onClick={handleCloseModal} sx={{ marginLeft: "55px", marginBottom: 2 }}>
                         확인
                     </AdminButton>
                 </DialogActions>
