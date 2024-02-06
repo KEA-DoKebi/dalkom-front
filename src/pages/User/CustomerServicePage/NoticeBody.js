@@ -14,6 +14,7 @@ import {
 import { TokenAxios } from "apis/CommonAxios";
 import CloseIcon from "@mui/icons-material/Close";
 import {AdminButton} from "../../../components/atoms/AdminCommonButton";
+import { useNavigate } from "react-router-dom";
 
 const StyledList = styled(List)`
   /* Add styling for the List component */
@@ -56,11 +57,6 @@ const PaginationContainer = styled.div`
   flex-direction: column;
 `;
 
-const TopField = styled.h1`
-  font-size: 30px;
-  margin-left: 4%;
-`;
-
 const Main = styled.div`
   display: flex;
   flex-direction: column;
@@ -74,7 +70,8 @@ const Body = styled.div`
   align-items: center;
   flex-direction: column;
   border: 1px solid;
-  border-color: gray;
+  border-radius: 20px;
+  border-color: #EEEEEE;
   min-height: 50vh;
 `;
 
@@ -120,13 +117,20 @@ export const NoticeBody = () => {
   const [currentPage, setCurrentPage] = useState(0); // 현재 페이지 상태
   const [totalPages, setTotalPages] = useState(0); // 총 페이지 수
   const [modalOpen, setModalOpen] = useState(false);
-
+  const navigate = useNavigate();
   const fixedNotices = dataList.filter((notice) => notice.state === "Y");
   const regularNotices = dataList.filter((notice) => notice.state !== "Y");
 
-  const handleNoticeClick = (notice) => {
-    setSelectedNotice(notice); // 선택된 공지의 상세 정보 설정
-    setModalOpen(true); // 모달 창 열기
+  const handleNoticeClick = async (noticeSeq) => {
+    try{
+      const res = await TokenAxios.get(`/api/notice/${noticeSeq}`);
+      setSelectedNotice(res.data.result.data); // 선택된 공지의 상세 정보 설정
+      navigate(`/cs/notice/${noticeSeq}`, { state: { selectedNotice: res.data.result.data } });
+     // navigate("/cart");
+      setModalOpen(true); // 모달 창 열기
+    } catch (e) {
+      console.error(e);
+    }    
   };
 
   // const handleOpenModal = () => {
@@ -159,7 +163,7 @@ export const NoticeBody = () => {
 
   return (
     <Main>
-      <TopField>공지사항</TopField>
+
       <Body>
         <StyledList aria-label="mailbox folders">
           <ListItemStyled>
@@ -182,7 +186,8 @@ export const NoticeBody = () => {
                 notice={notice}
                 isFixed={notice.state === "Y"}
                 index={index + currentPage * pageSize}
-                onClick={handleNoticeClick} // 공지사항 클릭 이벤트 연결
+                //onClick={handleNoticeClick} // 공지사항 클릭 이벤트 연결
+                onClick={() => handleNoticeClick(notice.noticeSeq)}
               />
               {index !== dataList.length - 1 && (
                 <Divider component="li" light />

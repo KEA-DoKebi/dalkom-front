@@ -12,7 +12,7 @@ const menuData = [
     title: "MY 쇼핑",
     items: [
       { label: "주문목록/배송조회", to: "/mypage/order/list" },
-      { label: "취소/교환/반품/환불", to: "/mypage/order/refund" },
+      { label: "취소/반품/환불", to: "/mypage/order/refund" },
     ],
   },
   {
