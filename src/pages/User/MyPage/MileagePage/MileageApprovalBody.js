@@ -29,13 +29,11 @@ export default function MileageApprovalBody() {
             icon: "question",
             title: "마일리지를 충전하시겠습니까?",
             showCancelButton: true,
-            confirmButtonColor: "black",
-            cancelButtonColor: "gray",
-            confirmButtonText: "네",
-            cancelButtonText: "아니요",
-            customClass: {
-                container: 'custom-swal-container'
-            }
+            confirmButtonColor: 'black',
+            cancelButtonColor: 'gray',
+            confirmButtonText: '확인',
+            cancelButtonText: '취소',
+            reverseButtons: true,
         });
 
         if (result.isConfirmed) {

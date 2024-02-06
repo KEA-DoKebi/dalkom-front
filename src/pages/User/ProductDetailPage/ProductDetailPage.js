@@ -112,11 +112,11 @@ const ProductDetailPage = () => {
         title: "장바구니에 추가되었습니다.",
         showConfirmButton: true, 
         confirmButtonText : "장바구니로 이동",
-        buttonsStyling: true, 
         confirmButtonColor: 'black',
         showCancelButton: true, 
         cancelButtonText: "계속 쇼핑하기", 
-        cancelButtonColor: 'black', 
+        cancelButtonColor: 'gray',
+        reverseButtons: true,
       }).then((result) => {
         if(result.isConfirmed){
           navigate("/cart")
