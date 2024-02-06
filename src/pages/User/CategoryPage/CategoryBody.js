@@ -143,7 +143,7 @@ const CategoryBody = () => {
                   label={subCategory.name}
                   value={subCategory.categorySeq}
                   component={Link}
-                  to={`/category/${categorySeq}/sub/${subCategory.categorySeq}`}
+                  to={`/category/${categorySeq}/sub/${subCategory.categorySeq}?page=1`}
                 />
               ))}
             </Tabs>

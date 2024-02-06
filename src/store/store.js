@@ -30,8 +30,8 @@ export const productImageStore = create(devtools((set) => ({
     seqList: state.seqList.filter(seq => seq !== seqToRemove)
   })),
 
-  setSubCategorySeq: (categorySeq) => set ({
-    subCategorySeq: categorySeq
+  setSubCategorySeq: (subCategorySeq) => set ({
+    subCategorySeq: subCategorySeq
   }),
 
   addReviewList: (newReview) => set((state) => ({
