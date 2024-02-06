@@ -1,8 +1,9 @@
 import * as React from "react";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import {
     Box,
     Button,
+    Divider,
     Paper,
     Table,
     TableBody,
@@ -14,12 +15,12 @@ import {
     Typography,
 } from "@mui/material";
 import AddCardIcon from "@mui/icons-material/AddCard";
-import {TokenAxios} from "apis/CommonAxios";
-import {useForm} from "react-hook-form";
+import { TokenAxios } from "apis/CommonAxios";
+import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 
 export default function MileageApprovalBody() {
-    const {register, handleSubmit} = useForm();
+    const { register, handleSubmit } = useForm();
     const [data, setData] = useState([]);
 
     //마일리지 충전
@@ -96,9 +97,11 @@ export default function MileageApprovalBody() {
 
     return (
         <Paper elevation={0}>
-            <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px"}}>
 
-                <Typography sx={{fontSize: "40px", mb: "10px"}}>신청 내역</Typography>
+            <Box sx={{ display: "flex", alignItems: "baseline", mb: 3, justifyContent: "space-between" }}>
+                <Typography sx={{ fontSize: "40px" }}>
+                    신청 내역
+                </Typography>
 
                 <form
                     onSubmit={handleSubmit((chargeAmount) => {
@@ -109,9 +112,8 @@ export default function MileageApprovalBody() {
                     <Box
                         sx={{
                             display: "flex",
-                            justifyContent: "flex-end",
                             alignItems: "flex-end",
-                            marginRight: "10px" /* TextField를 내리기 위한 추가 스타일 */,
+                            marginRight: "10px", /* TextField를 내리기 위한 추가 스타일 */
                             mb: "10px"
                         }}
                     >
@@ -123,17 +125,26 @@ export default function MileageApprovalBody() {
                         />
                         <Button
                             type="submit"
-                            sx={{color: "black"}}
+                            sx={{ color: "black" }}
                             onClick={mileCharge}
                         >
-                            <AddCardIcon/>
+                            <AddCardIcon />
                         </Button>
                     </Box>
                 </form>
-            </div>
-            <Paper variant="outlined">
-                <TableContainer>
-                    <Table sx={{width: "100%", margin: "auto"}}>
+            </Box>
+            <Divider sx={{ borderBottomWidth: 3 }} color={"black"}></Divider>
+
+
+            <Paper elevation={0}
+                style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    width: "100%",
+                }}>
+                <TableContainer style={{ maxHeight: "none" }}>
+                    {" "}
+                    <Table sx={{ width: "100%", margin: "auto" }}>
                         <TableHead>
                             <TableRow>
                                 <TableCell
@@ -174,12 +185,12 @@ export default function MileageApprovalBody() {
                             {data.map((chargeRequest) => (
                                 <TableRow
                                     key={chargeRequest.requestSeq}
-                                    sx={{"&:last-child td, &:last-child th": {border: 0}}}
+                                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                                 >
                                     <TableCell
                                         component="th"
                                         scope="row"
-                                        style={{width: "25%", textAlign: "center"}}
+                                        style={{ width: "25%", textAlign: "center" }}
                                     >
                                         {chargeRequest.approvedState === "W"
                                             ? "대기중"
@@ -189,7 +200,7 @@ export default function MileageApprovalBody() {
                                                     ? "거부"
                                                     : ""}
                                     </TableCell>
-                                    <TableCell style={{width: "50%", textAlign: "center"}}>
+                                    <TableCell style={{ width: "50%", textAlign: "center" }}>
                                         {chargeRequest.createdAt.substring(0, 10)}
                                     </TableCell>
                                     <TableCell style={{width: "25%", textAlign: "center"}}>
