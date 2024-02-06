@@ -108,30 +108,10 @@ const AdminListPage = () => {
       console.error('Error searching admin:', error);
     }
   }
-  useEffect(() => {
-    // 각 페이지가 마운트될 때 selectedMenu를 업데이트
-    // setSelectedMenu 함수를 호출하여 상태를 업데이트
-    setSelectedMenu("주문 목록");
-    if (searchQuery.trim() !== "") {
-      handleSearch(searchQuery);
-    } else {
-      adminOrderGet(currentPage);
-    }
-     // 페이지가 변경될 때 API 호출
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPage,searchQuery]);
-
-  const adminOrderGet = async (page) => {
-    const res = await TokenAxios.get(`/api/order?page=${page}&size=${pageSize}`);
-    setDataList(res.data.result.data.content);
-    setTotalPages(res.data.result.data.totalPages);
-  };
   
   const handleSearchInputChange = (event) => {
     setSearchQuery(event.target.value);
   };
-
-   
 
   // 주문 상세 조회 (get)
   const handleOpenModal = async (order) => {
@@ -162,12 +142,18 @@ const AdminListPage = () => {
     // updateState(selectedOrder.orderSeq, event.target.value);
   };
 
-   
   const options = [
-    { label: "Option 1", value: "option1" },
-    { label: "Option 2", value: "option2" },
-    // Add more options as needed
-  ];
+  { label: "주문확인", value: "11" },
+  { label: "배송준비", value: "12" },
+  { label: "배송시작", value: "13" },
+  { label: "배송완료", value: "14" },
+  { label: "구매확정", value: "15" },
+  { label: "주문취소", value: "21" },
+  { label: "반품/환불접수", value: "31" },
+  { label: "반송완료", value: "32" },
+  { label: "반품/환불완료", value: "33" }
+]
+
 
   const dataListLabels = [
     "번호",
@@ -179,6 +165,7 @@ const AdminListPage = () => {
     "주문상태",
     "상세",
   ];
+
   const handleSaveClick = () => {
     if (selectedOrder && orderState) {
       updateState(selectedOrder.orderSeq, orderState);
@@ -187,9 +174,6 @@ const AdminListPage = () => {
       console.log("주문 정보 또는 상태가 없습니다.")
     }
   }
-
-  
-  
 
   // Pagination에서 페이지가 변경될 때 호출되는 함수
   const handlePageChange = (event, newPage) => {
@@ -205,7 +189,7 @@ const AdminListPage = () => {
   
 
   // 전체 주문 조회 (get)
-  const adminGet = async (page) => {
+  const adminOrderGet = async (page) => {
     const res = await TokenAxios.get(`/api/order?page=${page}&size=${pageSize}`);
     console.log(res.data.result.data.content);
     setDataList(res.data.result.data.content);
@@ -225,7 +209,7 @@ const AdminListPage = () => {
           confirmButtonColor: 'black',
           confirmButtonText: '확인',
         }).then(() => {
-          adminGet(currentPage);
+          adminOrderGet(currentPage);
         });
 
       } else {
@@ -243,6 +227,16 @@ const AdminListPage = () => {
     }
   }
 
+  useEffect(() => {
+    // 각 페이지가 마운트될 때 selectedMenu를 업데이트
+    // setSelectedMenu 함수를 호출하여 상태를 업데이트
+    if (searchQuery.trim() !== "") {
+      handleSearch(searchQuery);
+    } else {
+      adminOrderGet(currentPage);
+    }
+    setSelectedMenu("주문 목록");
+  }, [currentPage, searchQuery]);
     
   const OrderList = ({ order, index }) => {
     return (
@@ -274,17 +268,6 @@ const AdminListPage = () => {
       </ListItemStyled>
     );
   };
-
-  useEffect(() => {
-    // 각 페이지가 마운트될 때 selectedMenu를 업데이트
-    // setSelectedMenu 함수를 호출하여 상태를 업데이트
-    if (searchQuery.trim() !== "") {
-      handleSearch(searchQuery);
-    } else {
-      adminGet(currentPage);
-    }
-    setSelectedMenu("주문 목록");
-  },[currentPage,searchQuery,handleSearch]);
 
   return (
     <Paper sx={{ display: "flex" }} elevation={0}>
