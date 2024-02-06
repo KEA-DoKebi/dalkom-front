@@ -10,6 +10,7 @@ import {
     TableContainer,
     TableHead,
     TableRow,
+    Divider,
     Typography,
 } from "@mui/material";
 import {TokenAxios} from "apis/CommonAxios";
@@ -58,13 +59,20 @@ export default function MileageHistoryBody() {
 
     return (
         <Paper elevation={0}>
-            <Typography sx={{fontSize: "40px", mt: "30px", mb: "10px"}}>히스토리</Typography>
+            <Typography sx={{ fontSize: "40px", my:3, mb: 3}}>
+                히스토리
+            </Typography>
+            <Divider sx={{ borderBottomWidth: 3 }} color={"black"}></Divider>
 
-            <Paper variant="outlined">
-                <TableContainer style={{maxHeight: "none"}}>
+            <Paper elevation={0}
+                style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    width: "100%",
+                }}>
+                <TableContainer style={{ maxHeight: "none" }}>
                     {" "}
-                    {/* maxHeight 스타일 추가 */}
-                    <Table sx={{width: "100%", margin: "auto"}}>
+                    <Table sx={{ width: "100%", margin: "auto" }}>
                         <TableHead>
                             <TableRow>
                                 <TableCell

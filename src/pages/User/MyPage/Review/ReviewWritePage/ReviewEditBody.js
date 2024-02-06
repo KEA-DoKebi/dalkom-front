@@ -11,6 +11,8 @@ import EditorComponent from "components/atoms/Editor";
 import { Paper } from "@mui/material";
 import Rating from "@mui/material/Rating";
 import Button from "@mui/joy/Button";
+import Swal from 'sweetalert2'
+import { useNavigate } from "react-router-dom";
 
 const Img = styled("img")({
     width: "70px",
@@ -18,6 +20,7 @@ const Img = styled("img")({
   });
   
   const ReviewEditBody = () => {
+    const navigate = useNavigate();
     //불러온 데이터 
     const location = useLocation();
     const review_Seq = location.state?.review_Seq;
@@ -70,6 +73,19 @@ const Img = styled("img")({
       try {
         const res = await TokenAxios.put(`/api/review/${review_Seq}`, data);
         console.log(res.data);
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "문의가 수정되었습니다!",
+          showConfirmButton: false,
+          timer: 1500,
+          didClose: () => {
+            // 얼럿이 닫힌 후에 페이지 이동
+  
+            navigate("/mypage/review"); // history 객체를 통해 페이지 이동
+          }
+        });
+
       } catch (e) {
         console.log(e);
       }
@@ -124,7 +140,7 @@ const Img = styled("img")({
               type="submit"
               variant="contained"
               color="primary"
-              sx={{ backgroundColor: "#000", color: "#fff" }}
+              sx={{ backgroundColor: "#000", color: "#fff", my: 5}}
             >
               저장하기
             </Button>
