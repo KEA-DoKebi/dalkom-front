@@ -109,7 +109,7 @@ const ProductDetailPage = () => {
       });
       Swal.fire({
         icon: "success", // 성공 아이콘 (success, error, warning, info 중 선택)
-        title: "장바구니에 추가되었습니다!",
+        title: "장바구니에 추가되었습니다.",
         showConfirmButton: true, 
         confirmButtonText : "장바구니로 이동",
         buttonsStyling: true, 

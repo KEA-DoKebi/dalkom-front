@@ -120,23 +120,26 @@ const SignUp = () => {
     try {
       const res = await DefaultAxios.post("/api/user/sign-up", data);
       if (res.data.message === "회원가입 성공") {
-        Swal.fire({
+        Swal.fire({//
           icon: "success",
           title: "회원가입이 완료되었습니다.",
-          showConfirmButton: false,
-          timer: 1500,
+          showConfirmButton: true,
+          confirmButtonColor: 'black',
+          confirmButtonText: '확인',
         }).then(() => {
           navigate("/login");
         });
       }
     } catch (e) {
       // console.log(e);
-      Swal.fire({
+      Swal.fire({//
         icon: "error",
-        title: "회원 가입에 실패했습니다.",
-        // footer: `${e.response.data.result.msg}`,
+        title: "회원가입에 실패했습니다.",
+        showConfirmButton: true,
+        confirmButtonColor: 'gray',
+        confirmButtonText: '확인',
         footer:
-          "자세한 이유는 백엔드의 에러 코드가 전부 구현됐을 때에 알 수 있습니다!",
+          "등록된 임직원이 아닙니다.",
       });
     }
   };

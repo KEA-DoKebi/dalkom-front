@@ -56,25 +56,25 @@ const Payment = () => {
     }else{
       if (receiverName && receiverAddress && receiverMemo && receiverMobileNum) {
         Swal.fire({
-          title: "정말 결제하시겠습니까?",
+          title: "결제 하시겠습니까?",
           showDenyButton: true,
           buttonsStyling: true, 
           confirmButtonText: "확인",
-          denyButtonText: `취소`,
           confirmButtonColor: 'black',
-          denyButtonColor : "black",
+          denyButtonText: `취소`,
+          denyButtonColor : "gray",
         }).then((result) => {
           /* Read more about isConfirmed, isDenied below */
           if (result.isConfirmed) {
             Swal.fire({
-              title: "계정 비밀번호를 다시 입력하세요",
+              title: "계정 비밀번호를 입력하세요",
               input: "password",
               showDenyButton: true,
               buttonsStyling: true, 
               confirmButtonText: "결제하기",
-              denyButtonText: `뒤로가기`,
               confirmButtonColor: 'black',
-              denyButtonColor : "black",
+              denyButtonText: `뒤로가기`,
+              denyButtonColor : 'gray',
               preConfirm: async (password) => {
                 try {
                   const res = await TokenAxios.post("/api/order/authorize", {
@@ -102,9 +102,9 @@ const Payment = () => {
                           setReceiverAddress("");
                           setReceiverDetailAddress("");
                           setReceiverMemo("");
-                          Swal.fire({
+                          Swal.fire({//
                             icon: "success",
-                            title: "🎉결제가 완료되었습니다!🎉",
+                            title: "결제가 완료되었습니다.",
                             showConfirmButton: true, 
                             confirmButtonText : "확인",
                             buttonsStyling: true, 
@@ -117,23 +117,22 @@ const Payment = () => {
                         }
                       }catch(e){
                         Swal.showValidationMessage(`
-                          결제에 문제가 생겼습니다!
+                          결제에 실패했습니다.
                         `)
                       }
                     }
                 } catch (e) {
                   Swal.showValidationMessage(`
-                      비밀번호가 틀렸습니다!
+                      정보가 일치하지 않습니다.
                   `);
                 }
               },
             }).then((result) => {
               if (result.isDenied) {
                 Swal.fire({
-                  icon : "info",
-                  title : "결제가 실패하였습니다ㅠㅠ",
+                  icon : "error",
+                  title : "결제에 실패했습니다.",
                   showConfirmButton: true, 
-                  buttonsStyling: true, 
                   confirmButtonText : "확인",
                   confirmButtonColor: 'black',
                 })
@@ -141,10 +140,9 @@ const Payment = () => {
             });
           } else if (result.isDenied) {
             Swal.fire({
-              icon : "info",
-              title : "결제가 실패하였습니다ㅠㅠ",
+              icon : "error",
+              title : "결제에 실패했습니다.",
               showConfirmButton: true, 
-              buttonsStyling: true, 
               confirmButtonText : "확인",
               confirmButtonColor: 'black',
             })
@@ -152,12 +150,11 @@ const Payment = () => {
         });
       } else {
         Swal.fire({
-          icon : "info",
-          title : "배송지 정보를 입력해주세요!",
-          showConfirmButton: true, 
-          buttonsStyling: true, 
-          confirmButtonText : "확인",
+          icon: "warning",
+          title: "배송지를 입력하세요.",
+          showConfirmButton: true,
           confirmButtonColor: 'black',
+          confirmButtonText: '확인',
         })
       }
     }
