@@ -76,7 +76,7 @@ export const ProductReview = ({ info }) => {
           <Typography
             sx={{ fontSize: "15px", fontWeight: "bold", color: "#555555" }}
           >
-            긍정적인 리뷰
+            평점이 높은 리뷰
           </Typography>
           <Typography
             sx={{
@@ -86,18 +86,19 @@ export const ProductReview = ({ info }) => {
               mb: "3vh",
             }}
           >
-            {info.goodReviewSummery.split(",").map((review, index) => (
-              <span key={index}>
-                <div dangerouslySetInnerHTML={{ __html: review.trim() }} />
-                {/* {review.trim()} */}
-                <br />
-              </span>
-            ))}
+            {/*{info.goodReviewSummery.split(",").map((review, index) => (*/}
+            {/*  <span key={index}>*/}
+            {/*    <div dangerouslySetInnerHTML={{ __html: review.trim() }} />*/}
+            {/*    /!* {review.trim()} *!/*/}
+            {/*    <br />*/}
+            {/*  </span>*/}
+            {/*))}*/}
+            {info.goodReviewSummery}
           </Typography>
           <Typography
             sx={{ fontSize: "15px", fontWeight: "bold", color: "#555555" }}
           >
-            부정적인 리뷰
+            평점이 낮은 리뷰
           </Typography>
           <Typography
             sx={{
@@ -107,12 +108,13 @@ export const ProductReview = ({ info }) => {
               mb: "3vh",
             }}
           >
-            {info.badReviewSummery.split(",").map((review, index) => (
-              <span key={index}>
-                <div dangerouslySetInnerHTML={{ __html: review.trim() }} />
-                <br />
-              </span>
-            ))}
+            {/*{info.badReviewSummery.split(",").map((review, index) => (*/}
+            {/*  <span key={index}>*/}
+            {/*    <div dangerouslySetInnerHTML={{ __html: review.trim() }} />*/}
+            {/*    <br />*/}
+            {/*  </span>*/}
+            {/*))}*/}
+            {info.badReviewSummery}
           </Typography>
         </Box>
       )}
