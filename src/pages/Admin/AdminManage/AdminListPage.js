@@ -20,13 +20,13 @@ import { AdminButton } from "components/atoms/AdminCommonButton";
 
 // 각 항목에 대한 공통 스타일을 설정합니다.
 const itemFlexStyles = {
-  "& > *:nth-child(1)": { flex: 0.5 }, // 번호
-  "& > *:nth-child(2)": { flex: 2 }, // ID
-  "& > *:nth-child(3)": { flex: 2 }, // 닉네임
-  "& > *:nth-child(4)": { flex: 2 }, // 마일리지
-  "& > *:nth-child(5)": { flex: 2 }, // 기본배송지
-  "& > *:nth-child(6)": { flex: 0.5 }, // 삭제
-  "&:before, &:after": { content: '""', flex: 0.5 },
+  "& > *:nth-child(1)": { width : "5%" }, // 번호
+  "& > *:nth-child(2)": { width : "22%" }, // ID
+  "& > *:nth-child(3)": { width : "21%" }, // 이름
+  "& > *:nth-child(4)": { width : "21%" }, // 부서
+  "& > *:nth-child(5)": { width : "22%" }, // 닉네임
+  "& > *:nth-child(6)": { width : "5%" }, // 삭제
+  "&:before, &:after": { content: '""', width : "2%" },
 };
 
 const StyledList = styled(List)`

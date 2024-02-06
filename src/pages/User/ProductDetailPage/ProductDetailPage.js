@@ -52,7 +52,7 @@ const ProductDetailPage = () => {
   const getProductReview = async () => {
     try {
       const res = await TokenAxios.get(
-        `/api/review/product/${productSeq}?page=0&size=3`,
+        `/api/review/product/${productSeq}?page=0&size=10`,
       );
       setProductReviewList(res.data.result.data.content);
     } catch (e) {
