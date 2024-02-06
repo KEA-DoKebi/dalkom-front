@@ -55,7 +55,7 @@ export const ProductCard = ({ imageUrl, title, price, star, review, seq, categor
       <SungjunCard>
         <CardImage src={imageUrl} alt="카드 이미지" />
         <HoverCardContent>
-          <HoverCardTitle>★ {star}</HoverCardTitle>
+          <HoverCardTitle>★ {(star ?? 0).toFixed(1)}</HoverCardTitle>
           <HoverCardButton variant="contained" onClick={handleAddButtonClick}>
             <Typography
               sx={{
