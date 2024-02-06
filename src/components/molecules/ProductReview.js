@@ -86,14 +86,17 @@ export const ProductReview = ({ info }) => {
               mb: "3vh",
             }}
           >
-            {/*{info.goodReviewSummery.split(",").map((review, index) => (*/}
-            {/*  <span key={index}>*/}
-            {/*    <div dangerouslySetInnerHTML={{ __html: review.trim() }} />*/}
-            {/*    /!* {review.trim()} *!/*/}
-            {/*    <br />*/}
-            {/*  </span>*/}
-            {/*))}*/}
-            {info.goodReviewSummery}
+            <Typography>
+              {info.goodReviewSummery}
+            </Typography>
+            {/* <div dangerouslySetInnerHTML={{ __html: review.trim() }} /> */}
+            {/* {info.goodReviewSummery.split(",").map((review, index) => (
+              <span key={index}>
+                <div dangerouslySetInnerHTML={{ __html: review.trim() }} />
+                
+                <br />
+              </span>
+            ))} */}
           </Typography>
           <Typography
             sx={{ fontSize: "15px", fontWeight: "bold", color: "#555555" }}
@@ -108,13 +111,16 @@ export const ProductReview = ({ info }) => {
               mb: "3vh",
             }}
           >
-            {/*{info.badReviewSummery.split(",").map((review, index) => (*/}
-            {/*  <span key={index}>*/}
-            {/*    <div dangerouslySetInnerHTML={{ __html: review.trim() }} />*/}
-            {/*    <br />*/}
-            {/*  </span>*/}
-            {/*))}*/}
-            {info.badReviewSummery}
+            {/* <div dangerouslySetInnerHTML={{ __html: review.trim() }} /> */}
+            <Typography>
+              {info.badReviewSummery}
+            </Typography>
+            {/* {info.badReviewSummery.split(",").map((review, index) => (
+              <span key={index}>
+                <div dangerouslySetInnerHTML={{ __html: review.trim() }} />
+                <br />
+              </span>
+            ))} */}
           </Typography>
         </Box>
       )}
