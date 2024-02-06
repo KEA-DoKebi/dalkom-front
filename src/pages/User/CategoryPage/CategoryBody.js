@@ -6,6 +6,7 @@ import { DefaultAxios } from "apis/CommonAxios";
 import { TokenAxios } from "apis/CommonAxios";
 import { ProductCard } from "components/molecules/ProductCard";
 import { BottomMenu } from "components/molecules/BottomMenu";
+import { searchStore } from "store/store";
 
 const CategoryBody = () => {
   // URL에 있는 값 가져오는 함수 (Router에 저장된 변수명으로 가져옴)
@@ -24,6 +25,7 @@ const CategoryBody = () => {
     "스포츠/레저",
     "카카오굿즈",
   ]); // 정적 상위 카테고리 배열
+  const {setPage} = searchStore(state => state);
 
   // 페이지 변환하게 하는 함수
   const handlePageChange = (event, value) => {
@@ -98,6 +100,7 @@ const CategoryBody = () => {
     setCurrentPage(1);
     getSubProductLists();
     setTabValue(Number(subCategorySeq));
+    setPage("카테고리 검색결과")
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [subCategorySeq]);
 

@@ -14,6 +14,7 @@ import Input from "@mui/joy/Input";
 import "assets/font/font.css";
 import { Link, useNavigate } from "react-router-dom";
 import { TokenAxios } from "apis/CommonAxios";
+import { searchStore } from "store/store";
 
 const SubMenu = ({ subMenu, categorySeq }) => {
   return (
@@ -43,6 +44,8 @@ const SubMenu = ({ subMenu, categorySeq }) => {
 const Topbar = () => {
   const [subMenuPosition ] = useState({ top: 0, left: 0 });
   const navigate = useNavigate();
+  const { page } = searchStore((state) => state);
+  
 
   const menuItems = [
     {
@@ -129,6 +132,17 @@ const Topbar = () => {
     }
 
   }
+
+  const handleSearchBar = (e) => {
+    if (e.key === 'Enter') {
+      const searchKeyword = e.target.value
+      console.log(e.target.value);
+      navigate(`/search?searchKeyword=${searchKeyword}`)
+      console.log('검색 실행:', searchKeyword);
+    }
+   
+  }
+
 
   // const handleSubMenuIteClick = (categorySeq ,subMenu) => {
   //   navigate(`/category/${categorySeq}/sub/${subMenu.seq}`)
@@ -270,6 +284,7 @@ const Topbar = () => {
           startDecorator={<SearchIcon />}
           variant="outlined"
           sx={{ width: "30vw", height: "50px", borderRadius: "50px" }}
+          onKeyDown={(e) =>handleSearchBar(e)}
         />
 
         <div

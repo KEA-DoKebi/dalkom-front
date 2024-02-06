@@ -43,6 +43,7 @@ import { BrowserRouter, Route } from "react-router-dom";
 import { init as initApm } from "@elastic/apm-rum";
 import ProductDetailPage from "pages/User/ProductDetailPage/ProductDetailPage";
 import { AuthProvider } from "./AuthContext";
+import { SearchPage } from "pages/User/SearchPage/SearchPage";
 
 // eslint-disable-next-line no-unused-vars, no-undef
 const apm = initApm({
@@ -76,6 +77,7 @@ const Router = () => {
           <Route path="/product/:productSeq/:menuName" element={<ProductDetailPage />} />
 
           <Route path="/cart" element={<Cart />} />
+          <Route path="/search" element={<SearchPage />} />
           {/* 관리자 관리 */}
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/admin/list" element={<AdminListPage />} />

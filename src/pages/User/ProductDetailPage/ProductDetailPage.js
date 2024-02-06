@@ -176,6 +176,7 @@ const ProductDetailPage = () => {
                   labelId="product-option"
                   id="option"
                   label="옵션"
+                  placeholder="옵션을 선택해주세요"
                   value={productInfo?.stockList}
                   onChange={handleChange}
                   sx={{ 
@@ -348,7 +349,7 @@ const PriceContainer = styled.div`
 const StyledText = styled.p`
   margin: 1px;
   padding: 1px;
-  font-size: 16px;
+  font-size: 18px;
   color : #00000099;
 `;
 

@@ -123,6 +123,7 @@ const ProductListPage = () => {
         apiUrl += `&company=${searchQuery}`;
       }  
       const res = await TokenAxios.get(apiUrl);
+      console.log(res.data);
       setDataList(res.data.result.data.content);
       setTotalPages(res.data.result.data.totalPages);
     } catch (error) {
