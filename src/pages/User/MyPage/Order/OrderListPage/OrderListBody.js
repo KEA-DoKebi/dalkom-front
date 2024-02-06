@@ -179,7 +179,7 @@ export default function OrderListBody() {
 
                                     {/*주문 번호*/}
                                     <TableCell style={{ textAlign: "center" }}>
-                                    {`DOK${order.ordrSeq.toString().padStart(5, '0')}`}
+                                        {`DKS-${order.ordrSeq.toString().padStart(5, '0')}`}
                                     </TableCell>
 
                                     {/*금액*/}
