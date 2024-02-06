@@ -176,6 +176,7 @@ const ProductDetailPage = () => {
                   labelId="product-option"
                   id="option"
                   label="옵션"
+                  placeholder="옵션을 선택해주세요"
                   value={productInfo?.stockList}
                   onChange={handleChange}
                   sx={{ 

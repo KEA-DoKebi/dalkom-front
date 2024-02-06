@@ -101,6 +101,7 @@ export default function CartBody() {
             amount: item.amount,
             totalPrice: item.amount * item.price, // Adjust calculation based on available data
             imageUrl: item.imageUrl,
+            stock : item.stock,
           }));
           console.log("mappedData값");
           console.log(mappedData);
@@ -120,23 +121,22 @@ export default function CartBody() {
   const handlePaymentClick = () => {
     if (agree) {
       // 동의한 경우에만 페이지 이동
-      if(Number(localStorage.getItem("mileage")) < Number(totalAmount)){
+      const selectedRowsStock = rows
+        ?.filter((row) => selectedRows.includes(row.orderCartSeq))
+        ?.map((row) => (row.amount <= row.stock ? true : false) )
+      
+      const isNotValid = selectedRowsStock.includes(false);
+      if(isNotValid){
         Swal.fire({
           icon: "error",
-          title: "마일리지가 부족합니다",
+          title: "재고가 부족합니다",
           showConfirmButton: true, 
-          confirmButtonText : "충전",
+          confirmButtonText : "확인",
           buttonsStyling: true,  
           confirmButtonColor: 'black',
-          showCancelButton: true, 
-          cancelButtonText: "확인", 
-          cancelButtonColor: 'black', 
-        }).then((result) => {
-          if(result.isConfirmed){
-            navigate("/mypage/mile")
-          }
         });
-      }else{
+      }
+      else{
         const selectedRowsData = rows
           .filter((row) => selectedRows.includes(row.orderCartSeq))
           .map((row) => ({

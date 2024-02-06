@@ -30,8 +30,8 @@ export const productImageStore = create(devtools((set) => ({
     seqList: state.seqList.filter(seq => seq !== seqToRemove)
   })),
 
-  setSubCategorySeq: (categorySeq) => set ({
-    subCategorySeq: categorySeq
+  setSubCategorySeq: (subCategorySeq) => set ({
+    subCategorySeq: subCategorySeq
   }),
 
   addReviewList: (newReview) => set((state) => ({
@@ -43,6 +43,21 @@ export const productImageStore = create(devtools((set) => ({
   })),
   
 }), "productImageStore")); // 여기에서 "productImageStore"는 DevTools에서 표시될 스토어의 이름입니다.
+
+
+export const searchStore = create(devtools((set) => ({
+  searchKeyword : "",
+  page : "",
+  
+  setSearchKeyword: (searchKeyword) => set ({
+    searchKeyword: searchKeyword
+  }),
+
+  setPage : (page) => set({
+    page : page
+  })
+
+}), "searchStore"));
 
 const useStore = create(
   process.env.REACT_APP_NODE_ENV !== "production" ? devtools(store) : store,

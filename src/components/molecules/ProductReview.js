@@ -1,5 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
+import { styled } from "styled-components";
 
 export const ProductReview = ({ info }) => {
   console.log(info);
@@ -33,97 +34,62 @@ export const ProductReview = ({ info }) => {
           >
             가격
           </Typography>
-          <Typography
-            sx={{
-              fontSize: "25px",
-              fontWeight: "bold",
-              color: "#000000",
-              mb: "3vh",
-            }}
-          >
+          <StyledTypoGraphy style={{fontWeight : "bold", color : "#203461"}}>
             {Number(info.productCompareDetailDto.price).toLocaleString()}
-          </Typography>
+          </StyledTypoGraphy>
           <Typography
             sx={{ fontSize: "15px", fontWeight: "bold", color: "#555555" }}
           >
             평점
           </Typography>
-          <Typography
-            sx={{
-              fontSize: "25px",
-              fontWeight: "bold",
-              color: "#000000",
-              mb: "3vh",
-            }}
-          >
+          <StyledTypoGraphy style={{color : "gold"}}>
             {info.rating}
-          </Typography>
+          </StyledTypoGraphy>
           <Typography
             sx={{ fontSize: "15px", fontWeight: "bold", color: "#555555" }}
           >
             리뷰 수
           </Typography>
-          <Typography
-            sx={{
-              fontSize: "25px",
-              fontWeight: "bold",
-              color: "#000000",
-              mb: "3vh",
-            }}
-          >
+          <StyledTypoGraphy style={{color : "#F6A0BD"}}>
             {info.reviewNum}
-          </Typography>
+          </StyledTypoGraphy>
           <Typography
             sx={{ fontSize: "15px", fontWeight: "bold", color: "#555555" }}
           >
             평점이 높은 리뷰
           </Typography>
-          <Typography
-            sx={{
-              fontSize: "25px",
-              fontWeight: "bold",
-              color: "#000000",
-              mb: "3vh",
-            }}
-          >
-            <Typography>
-              {info.goodReviewSummery}
-            </Typography>
-            {/* <div dangerouslySetInnerHTML={{ __html: review.trim() }} /> */}
-            {/* {info.goodReviewSummery.split(",").map((review, index) => (
-              <span key={index}>
-                <div dangerouslySetInnerHTML={{ __html: review.trim() }} />
-                
-                <br />
-              </span>
-            ))} */}
-          </Typography>
+          <StyledTypoGraphy style={{color : "#00E676"}}>
+            {/*{info.goodReviewSummery.split(",").map((review, index) => (*/}
+            {/*  <span key={index}>*/}
+            {/*    <div dangerouslySetInnerHTML={{ __html: review.trim() }} />*/}
+            {/*    /!* {review.trim()} *!/*/}
+            {/*    <br />*/}
+            {/*  </span>*/}
+            {/*))}*/}
+            {info.goodReviewSummery}
+          </StyledTypoGraphy>
           <Typography
             sx={{ fontSize: "15px", fontWeight: "bold", color: "#555555" }}
           >
             평점이 낮은 리뷰
           </Typography>
-          <Typography
-            sx={{
-              fontSize: "25px",
-              fontWeight: "bold",
-              color: "#000000",
-              mb: "3vh",
-            }}
-          >
-            {/* <div dangerouslySetInnerHTML={{ __html: review.trim() }} /> */}
-            <Typography>
-              {info.badReviewSummery}
-            </Typography>
-            {/* {info.badReviewSummery.split(",").map((review, index) => (
-              <span key={index}>
-                <div dangerouslySetInnerHTML={{ __html: review.trim() }} />
-                <br />
-              </span>
-            ))} */}
-          </Typography>
+          <StyledTypoGraphy style={{color : "#F44336"}}>
+            {/*{info.badReviewSummery.split(",").map((review, index) => (*/}
+            {/*  <span key={index}>*/}
+            {/*    <div dangerouslySetInnerHTML={{ __html: review.trim() }} />*/}
+            {/*    <br />*/}
+            {/*  </span>*/}
+            {/*))}*/}
+            {info.badReviewSummery}
+          </StyledTypoGraphy>
         </Box>
       )}
     </div>
   );
 };
+
+const StyledTypoGraphy = styled(Typography)`
+  font-size: 25px;
+  color: "#00000099";
+  margin-bottom: 3vh;
+`
