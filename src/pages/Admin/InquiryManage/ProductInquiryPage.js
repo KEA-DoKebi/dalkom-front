@@ -224,10 +224,11 @@ const ProductInquiryPage = () => {
             handleCloseModal();
     
             // Show SweetAlert confirmation
-            Swal.fire({
-                title: '저장 완료',
-                text: '상품 문의에 대한 답변이 저장되었습니다.',
-                icon: 'success',
+            Swal.fire({//
+                icon: "success",
+                title: "상품 문의에 대한 답변이<br> 완료되었습니다.",
+                showConfirmButton: true,
+                confirmButtonColor: 'black',
                 confirmButtonText: '확인',
                 onClose: () => {
                     // Close the modal when the "확인" button is clicked
@@ -236,12 +237,17 @@ const ProductInquiryPage = () => {
                 },
             });
     
-            // You can also perform additional actions after showing the SweetAlert if needed.
-            // For example, you may want to refresh the data or perform other operations.
             // getInquiryByCategory(currentPage);
         } catch (error) {
             // 오류 처리
             console.error("저장 중 오류 발생:", error);
+            Swal.fire({//
+                icon: "error",
+                title: "답변 등록에 실패했습니다.",
+                showConfirmButton: true,
+                confirmButtonColor: 'gray',
+                confirmButtonText: '확인',
+            });
         }
     };
 

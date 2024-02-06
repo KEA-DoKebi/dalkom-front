@@ -211,18 +211,25 @@ const AnnouncementPage = () => {
 
     try {
       await TokenAxios.post("/api/notice", data);
-      Swal.fire("성공", "공지사항을 등록했습니다.", "success");
+      Swal.fire({//
+        position: "center",
+        icon: "success",
+        title: "공지사항 등록이 완료되었습니다.",
+        showConfirmButton: true,
+        confirmButtonColor: 'black',
+        confirmButtonText: '확인',
+      });
       getNotice(currentPage);
     } catch (e) {
-      Swal.fire({
-        icon: "error",
-        title: "헉!!!",
-        text: "공지 등록에 실패하였어요!",
-        // footer: `${e.response.data.result.msg}`,
-
-        footer: "다시 한 번 시도해주세요",
-      });
       console.log(e);
+      Swal.fire({//
+        position: "center",
+        icon: "error",
+        title: "공지사항 등록에 실패했습니다.",
+        showConfirmButton: true,
+        confirmButtonColor: 'gray',
+        confirmButtonText: '확인',
+      });
     }
     setWriteModalOpen(false);
   };
@@ -257,12 +264,26 @@ const AnnouncementPage = () => {
         adminSeq: localStorage.getItem("adminSeq"), // 현재 관리자의 Seq
         state: editNotice.state
       });
-      Swal.fire("성공", "공지사항이 수정되었습니다.", "success");
-      handleUpdateCloseModal();
-      getNotice(currentPage); // 목록 갱신
+
+      Swal.fire({//
+        icon: "success",
+        title: "공지사항 수정이 완료되었습니다.",
+        showConfirmButton: true,
+        confirmButtonColor: 'black',
+        confirmButtonText: '확인',
+      }).then(() => {
+        handleUpdateCloseModal();
+        getNotice(currentPage); // 목록 갱신
+      });
     } catch (e) {
       console.error("공지사항 수정 실패:", e);
-      Swal.fire("오류", "공지사항 수정에 실패했습니다.", "error");
+      Swal.fire({//
+        icon: "error",
+        title: "공지사항 수정에 실패했습니다.",
+        showConfirmButton: true,
+        confirmButtonColor: 'gray',
+        confirmButtonText: '확인',
+      });
     }
   };
 
@@ -270,27 +291,39 @@ const AnnouncementPage = () => {
   const deleteNotice = async (noticeSeq) => {
     try {
       await DefaultAxios.delete(`/api/notice/${noticeSeq}`);
-      Swal.fire("성공", "공지사항이 삭제되었습니다.", "success");
-      // 삭제 후 목록 갱신
-      getNotice();
-      handleLookCloseModal();
+      Swal.fire({//
+        icon: "success",
+        title: "공지사항이 삭제되었습니다.",
+        showConfirmButton: true,
+        confirmButtonColor: 'black',
+        confirmButtonText: '확인',
+      }).then(() => {
+        // 삭제 후 목록 갱신
+        getNotice();
+        handleLookCloseModal();
+      });
     } catch (e) {
       console.error("공지사항 삭제 실패:", e);
-      Swal.fire("오류", "공지사항 삭제에 실패했습니다.", "error");
+      Swal.fire({//
+        icon: "error",
+        title: "공지사항 삭제에 실패했습니다.",
+        showConfirmButton: true,
+        confirmButtonColor: 'gray',
+        confirmButtonText: '확인',
+      });
     }
   };
 
   // 삭제 버튼 클릭 핸들러
   const handleDeleteClick = () => {
     if (selectedNotice && currentNoticeSeq) {
-      Swal.fire({
-        title: "정말 삭제하시겠습니까?",
-        text: "이 작업은 되돌릴 수 없습니다.",
+      Swal.fire({//
         icon: "warning",
+        title: "삭제하시겠습니까?",
         showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "예, 삭제하겠습니다",
+        confirmButtonColor: 'black',
+        confirmButtonText: '네',
+        cancelButtonColor: "gray",
         cancelButtonText: "아니요",
         customClass: {
           container: 'custom-swal-container'

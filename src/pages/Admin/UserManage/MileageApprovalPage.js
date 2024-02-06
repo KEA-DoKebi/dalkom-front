@@ -144,14 +144,27 @@ const MileageApprovalPage = () => {
         approvedState,
       });
       if (res.status === 200) {
-        Swal.fire("성공", "상태를 변경했습니다.", "success");
-        getMileageApply(currentPage);
+          Swal.fire({//
+              icon: "success",
+              title: "상태가 변경되었습니다.",
+              showConfirmButton: true,
+              confirmButtonColor: 'black',
+              confirmButtonText: '확인',
+          }).then(() => {
+              getMileageApply(currentPage);
+          });
       } else {
         throw new Error("API response error");
       }
     } catch (e) {
-      console.error("상태 변경 실패", e);
-      Swal.fire("실패", "상태를 변경할 수 없습니다.", "error");
+        console.error("상태 변경 실패", e);
+        Swal.fire({//
+            icon: "error",
+            title: "상태 변경에 실패했습니다.",
+            showConfirmButton: true,
+            confirmButtonColor: 'gray',
+            confirmButtonText: '확인',
+        });
     }
   };
 
