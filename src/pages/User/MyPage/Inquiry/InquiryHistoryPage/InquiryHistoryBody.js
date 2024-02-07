@@ -22,7 +22,7 @@ import React, { useEffect, useState } from "react";
 import { TokenAxios } from "apis/CommonAxios";
 import CloseIcon from "@mui/icons-material/Close";
 
-  const currentNoticeSeq = 1;
+  let currentNoticeSeq = 1;
   const InquiryHistoryBody = () => {
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);

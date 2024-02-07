@@ -85,6 +85,9 @@ const MyInfoBody = () => {
       });
       return; // 비밀번호가 입력되지 않았으면 함수 종료
     }
+
+    data.nickname = data.nickname || nickname;
+    
     try {
       const res = await TokenAxios.put("/api/user", data);
       res.address = userAddress;
