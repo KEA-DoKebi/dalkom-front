@@ -32,9 +32,8 @@ const MainBody = () => {
   const { setPage } = searchStore((state) => state);
 
   const getMainProductList = async () => {
-    const res = await TokenAxios.get(
-      "/api/product/category/main?page=0&size=8",
-    );
+    const res = await TokenAxios.get("/api/product/category/main?page=0&size=8");
+    console.log(res.data);
     setProductLists(res.data);
   };
 
