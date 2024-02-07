@@ -2,7 +2,7 @@ import React, {useEffect, useState } from "react";
 import {
     Box,
     Divider,
-    IconButton,
+    Button,
     Pagination,
     Paper,
     Table,
@@ -14,7 +14,6 @@ import {
     Typography,
 } from "@mui/material";
 import { TokenAxios } from "apis/CommonAxios";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
 const mapOrderState = (stateCode) => {
     switch (stateCode) {
@@ -193,10 +192,21 @@ export default function OrderListBody() {
                                     </TableCell>
 
                                     {/*주문 상세*/}
+                                    
                                     <TableCell style={{ textAlign: "center" }}>
-                                        <IconButton onClick={() => handleOrderDetailOpen(order.ordrSeq)}>
-                                            <InfoOutlinedIcon />
-                                        </IconButton>
+                                        <Button
+                                            variant="contained"
+                                            size="small"
+                                            sx={{
+                                                backgroundColor: 'gray',
+                                                '&:hover': {
+                                                    backgroundColor: 'black',
+                                                },
+                                            }}
+                                            onClick={() => handleOrderDetailOpen(order.ordrSeq)}
+                                        >
+                                            보기
+                                        </Button>
                                     </TableCell>
                                 </TableRow>
                             ))}

@@ -121,7 +121,10 @@ const OrderDetailBody = () => {
                                         <ProductImg src={orderDetail.imageUrl}/>
                                         <ProductInfo>
                                             <div>
-                                                {orderDetail.productName} {orderDetail.detail !== 'default' && `(${orderDetail.detail})`}
+                                                {orderDetail.productName} 
+                                            </div>
+                                            <div>
+                                                {orderDetail.detail !== 'default' && `(${orderDetail.detail})`}
                                             </div>
                                         </ProductInfo>
                                     </td>
