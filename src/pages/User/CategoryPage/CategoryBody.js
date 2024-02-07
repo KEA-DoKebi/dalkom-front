@@ -1,8 +1,7 @@
 import { Grid, Typography, Box, Pagination, Tabs, Tab } from "@mui/material";
-import { Link, useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { DefaultAxios } from "apis/CommonAxios";
 import { TokenAxios } from "apis/CommonAxios";
 import { ProductCard } from "components/molecules/ProductCard";
 import { BottomMenu } from "components/molecules/BottomMenu";
