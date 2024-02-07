@@ -22,8 +22,8 @@ import React, { useEffect, useState } from "react";
 import { TokenAxios } from "apis/CommonAxios";
 import CloseIcon from "@mui/icons-material/Close";
 
-let currentNoticeSeq = 1;
-const InquiryHistoryBody = () => {
+  const currentNoticeSeq = 1;
+  const InquiryHistoryBody = () => {
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState();
@@ -104,10 +104,6 @@ const InquiryHistoryBody = () => {
     });
   };
 
-  const handleAnsweredButtonClick = () => {
-    // 답변이 완료된 상태에서 버튼을 클릭했을 때 모달 열기
-    setLookModalOpen(true);
-  };
 
   return (
     <Paper elevation={0}>
