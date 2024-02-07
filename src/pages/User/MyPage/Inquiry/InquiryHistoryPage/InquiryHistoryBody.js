@@ -22,7 +22,6 @@ import React, { useEffect, useState } from "react";
 import { TokenAxios } from "apis/CommonAxios";
 import CloseIcon from "@mui/icons-material/Close";
 
-  let currentNoticeSeq = 1;
   const InquiryHistoryBody = () => {
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
@@ -37,7 +36,7 @@ import CloseIcon from "@mui/icons-material/Close";
     try {
       const response = await TokenAxios.get(`/api/inquiry/${inquirySeq}`);
       setSelectedInquiry(response.data.result.data);
-      currentNoticeSeq = inquirySeq;
+     
       console.log("Selected Inquiry:", response.data);
       setLookModalOpen(true);
     } catch (e) {
@@ -54,7 +53,7 @@ import CloseIcon from "@mui/icons-material/Close";
     try {
       const response = await TokenAxios.get(`/api/inquiry/${inquirySeq}`);
       setSelectedInquiry(response.data.result.data);
-      currentNoticeSeq = inquirySeq;
+    
       console.log("Selected Inquiry:", response.data);
       setAnswerModalOpen(true);
     } catch (e) {
