@@ -17,6 +17,7 @@ import {
   Typography,
   Grid,
 } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 import Swal from "sweetalert2";
 import React, { useEffect, useState } from "react";
 import { TokenAxios } from "apis/CommonAxios";
@@ -134,7 +135,7 @@ import CloseIcon from "@mui/icons-material/Close";
                 </TableCell>
                 <TableCell
                   style={{
-                    width: "20%",
+                    width: "15%",
                     textAlign: "center",
                     fontWeight: "bold",
                     fontSize: "15px",
@@ -144,7 +145,7 @@ import CloseIcon from "@mui/icons-material/Close";
                 </TableCell>
                 <TableCell
                   style={{
-                    width: "50%",
+                    width: "35%",
                     textAlign: "center",
                     fontWeight: "bold",
                     fontSize: "15px",
@@ -170,6 +171,16 @@ import CloseIcon from "@mui/icons-material/Close";
                     fontSize: "15px",
                   }}
                 >
+                  상세보기
+                </TableCell>
+                <TableCell
+                  style={{
+                    width: "10%",
+                    textAlign: "center",
+                    fontWeight: "bold",
+                    fontSize: "15px",
+                  }}
+                >
                   삭제
                 </TableCell>
               </TableRow>
@@ -181,10 +192,10 @@ import CloseIcon from "@mui/icons-material/Close";
                   <TableCell style={{ width: "10%", textAlign: "center" }}>
                     {inquiry.category}
                   </TableCell>
-                  <TableCell style={{ width: "20%", textAlign: "center" }}>
+                  <TableCell style={{ width: "15%", textAlign: "center" }}>
                     {inquiry.createdAt.substring(0, 10)}
                   </TableCell>
-                  <TableCell style={{ width: "50%", textAlign: "center" }}>
+                  <TableCell style={{ width: "35  %", textAlign: "center" }}>
                     <Typography
                       onClick={() => handleLookOpenModal(inquiry.inquirySeq)}
                       style={{ cursor: "pointer" }}
@@ -192,56 +203,57 @@ import CloseIcon from "@mui/icons-material/Close";
                       {inquiry.title}
                     </Typography>
                   </TableCell>
+
+                  <TableCell style={{ width: "10%", textAlign: "center" }}>
+                  {inquiry.answerState === "Y" ? (
+                        <Typography>답변완료</Typography>
+                    ) : (
+                      <Typography>대기중</Typography>
+                    )}
+                  </TableCell>
+                  
                   <TableCell style={{ width: "10%", textAlign: "center" }}>
                     {inquiry.answerState === "Y" ? (
                       <Button
                         variant="contained"
-                        color="success"
                         size="small"
                         sx={{
-                          backgroundColor: "success",
-                          width: "74px",
+                          backgroundColor: "gray",
+                          "&:hover": {
+                            backgroundColor: "black",
+                          },
                         }}
                         onClick={() =>
                           handleAnswerOpenModal(inquiry.inquirySeq)
                         }
                       >
-                        답변완료
+                        보기
                       </Button>
                     ) : (
                       <Button
                         variant="contained"
-                        color="warning"
                         size="small"
                         sx={{
-                          backgroundColor: "warning",
-                          width: "74px",
+                          backgroundColor: "gray",
+                          "&:hover": {
+                            backgroundColor: "black",
+                          },
                         }}
                         onClick={handleWaitingButtonClick}
                       >
-                        대기중
+                        보기
                       </Button>
                     )}
                   </TableCell>
                   <TableCell style={{ width: "10%", textAlign: "center" }}>
-                    <Button
-                      variant="contained"
-                      size="small"
-                      sx={{
-                        backgroundColor: "gray",
-                        "&:hover": {
-                          backgroundColor: "black",
-                        },
-                      }}
-                      onClick={() => {
-                        console.log(
-                          `Try: delete inquirySeq: ${inquiry.inquirySeq}`,
-                        );
-                        deleteInquiry(inquiry.inquirySeq);
-                      }}
-                    >
-                      삭제하기
-                    </Button>
+                  <DeleteIcon  onClick={() => {
+                    console.log(
+                      `Try: delete inquirySeq: ${inquiry.inquirySeq}`,
+                      );
+                      deleteInquiry(inquiry.inquirySeq);
+                      }}/>
+
+
                   </TableCell>
                 </TableRow>
               ))}
@@ -304,7 +316,7 @@ import CloseIcon from "@mui/icons-material/Close";
           style={{
             width: 900,
             height: "450px",
-            overflowY: "initial",
+            overflowY: "auto",
             overflowX: "initial",
             marginLeft: 40,
             marginRight: 40,
