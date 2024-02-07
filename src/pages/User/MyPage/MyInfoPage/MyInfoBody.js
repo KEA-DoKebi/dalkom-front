@@ -304,13 +304,6 @@ const MyInfoBody = () => {
                   }}
                   onChange={(e) => setNickname(e.target.value)}
                 />
-                {/*                                 
-                                <Textarea
-                                    
-                                    defaultValue={userInfo.nickname}
-                                    {...register("nickname")}
-                                    sx={{ flexGrow: 1 }} // Textarea가 여유 공간을 모두 차지하도록 설정
-                                /> */}
                 <FormHelperText>닉네임은 최대 15자입니다.</FormHelperText>
               </FormControl>
             </Grid>
