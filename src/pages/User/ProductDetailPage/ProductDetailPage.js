@@ -24,7 +24,7 @@ const ProductDetailPage = () => {
   const [productReviewList, setProductReviewList] = useState([]);
   const [option, setOption] = useState({});
   const [menuItems] = useState(["상품상세", "상품평", "상품안내"]);
-  const [amount, setAmount] = useState(); 
+  const [amount, setAmount] = useState();
   const { productSeq, menuName } = useParams();
   const navigate = useNavigate();
 
@@ -35,17 +35,17 @@ const ProductDetailPage = () => {
 
   const handleCountChange = (event) => {
     const number = Number(event.target.value);
-    if(number > 0 && option.amount >= number){
+    if (number > 0 && option.amount >= number) {
       setAmount(number);
-    } 
-    if(option.amount < number) {
+    }
+    if (option.amount < number) {
       Swal.fire({
         icon: "error", // 성공 아이콘 (success, error, warning, info 중 선택)
         title: "수량은 재고보다 많이 설정할 수 없습니다",
-        showConfirmButton: true, 
-        confirmButtonText : "확인",
-        buttonsStyling: true, 
-        confirmButtonColor: 'black',
+        showConfirmButton: true,
+        confirmButtonText: "확인",
+        buttonsStyling: true,
+        confirmButtonColor: "black",
       });
       setAmount(0);
     }
@@ -64,7 +64,7 @@ const ProductDetailPage = () => {
   const getProductDetail = async () => {
     try {
       const res = await TokenAxios.get(`/api/product/${productSeq}`);
-      console.log(res.data.result.data)
+      console.log(res.data.result.data);
       setProductInfo(res.data.result.data);
     } catch (e) {
       console.log(e);
@@ -85,7 +85,6 @@ const ProductDetailPage = () => {
   const postCartData = async (data) => {
     try {
       await TokenAxios.post("/api/cart/user", data);
-      
     } catch (error) {
       console.log("Error response data:", error.response.data);
       console.log("Error stack trace:", error.stack);
@@ -93,23 +92,26 @@ const ProductDetailPage = () => {
   };
 
   const handleAddToCart = () => {
-    if(productInfo.price * Math.floor(amount) > Number(localStorage.getItem("mileage"))){
+    if (
+      productInfo.price * Math.floor(amount) >
+      Number(localStorage.getItem("mileage"))
+    ) {
       Swal.fire({
         icon: "error", // 성공 아이콘 (success, error, warning, info 중 선택)
         title: "마일리지가 부족합니다",
-        showConfirmButton: true, 
-        confirmButtonText : "충전",
-        buttonsStyling: true, 
-        confirmButtonColor: 'black',
-        showCancelButton: true, 
-        cancelButtonText: "확인", 
-        cancelButtonColor: 'black', 
+        showConfirmButton: true,
+        confirmButtonText: "충전",
+        buttonsStyling: true,
+        confirmButtonColor: "black",
+        showCancelButton: true,
+        cancelButtonText: "확인",
+        cancelButtonColor: "black",
       }).then((result) => {
-        if(result.isConfirmed){
-          navigate("/mypage/mile")
+        if (result.isConfirmed) {
+          navigate("/mypage/mile");
         }
       });
-    }else{
+    } else {
       postCartData({
         productSeq: parseInt(productSeq),
         prdtOptionSeq: option.productOptionSeq,
@@ -118,16 +120,16 @@ const ProductDetailPage = () => {
       Swal.fire({
         icon: "success", // 성공 아이콘 (success, error, warning, info 중 선택)
         title: "장바구니에 추가되었습니다.",
-        showConfirmButton: true, 
-        confirmButtonText : "장바구니로 이동",
-        confirmButtonColor: 'black',
-        showCancelButton: true, 
-        cancelButtonText: "계속 쇼핑하기", 
-        cancelButtonColor: 'gray',
+        showConfirmButton: true,
+        confirmButtonText: "장바구니로 이동",
+        confirmButtonColor: "black",
+        showCancelButton: true,
+        cancelButtonText: "계속 쇼핑하기",
+        cancelButtonColor: "gray",
         reverseButtons: true,
       }).then((result) => {
-        if(result.isConfirmed){
-          navigate("/cart")
+        if (result.isConfirmed) {
+          navigate("/cart");
         }
       });
     }
@@ -172,14 +174,24 @@ const ProductDetailPage = () => {
                   marginRight: "5px",
                 }}
               />
-              <StyledText style={{fontSize : "30px", color : "black", fontWeight : "bold"}}>
+              <StyledText
+                style={{ fontSize: "30px", color: "black", fontWeight: "bold" }}
+              >
                 {productInfo.price?.toLocaleString()}
               </StyledText>
             </Typography>
             <ProductContentContainer>
-            
               <FormControl fullWidth>
-                <InputLabel id="product-option" style={{fontSize : "20px", color : "black", fontWeight : "bold"}}>옵션</InputLabel>
+                <InputLabel
+                  id="product-option"
+                  style={{
+                    fontSize: "20px",
+                    color: "black",
+                    fontWeight: "bold",
+                  }}
+                >
+                  옵션
+                </InputLabel>
                 <Select
                   labelId="product-option"
                   id="option"
@@ -187,19 +199,19 @@ const ProductDetailPage = () => {
                   placeholder="옵션을 선택해주세요"
                   value={productInfo?.stockList}
                   onChange={handleChange}
-                  sx={{ 
+                  sx={{
                     width: "100%",
-                    height : "48px",
-                    border : "1.5px solid rgba(0,0,0,0.5)",
-                    '& .MuiOutlinedInput-notchedOutline': {
-                      border: 'none',
+                    height: "48px",
+                    border: "1.5px solid rgba(0,0,0,0.5)",
+                    "& .MuiOutlinedInput-notchedOutline": {
+                      border: "none",
                     },
-                    '&:hover .MuiOutlinedInput-notchedOutline': {
-                      border: 'none',
+                    "&:hover .MuiOutlinedInput-notchedOutline": {
+                      border: "none",
                     },
-                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                      border: 'none'
-                    }
+                    "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                      border: "none",
+                    },
                   }}
                 >
                   {productInfo.stockList?.map((optionList) => (
@@ -211,7 +223,16 @@ const ProductDetailPage = () => {
               </FormControl>
 
               <FormControl sx={{ marginTop: "1vh" }}>
-                <FormLabel sx={{ fontSize : "20px", marginTop : "5vh", color : "black", fontWeight : "bold"}}>수량</FormLabel>
+                <FormLabel
+                  sx={{
+                    fontSize: "20px",
+                    marginTop: "5vh",
+                    color: "black",
+                    fontWeight: "bold",
+                  }}
+                >
+                  수량
+                </FormLabel>
                 <Input
                   type="number"
                   placeholder="수량을 입력해주세요"
@@ -220,11 +241,20 @@ const ProductDetailPage = () => {
                   sx={{
                     minHeight: "50px",
                     backgroundColor: "white",
-                    border : "1.5px solid rgba(0,0,0,0.5)",
+                    border: "1.5px solid rgba(0,0,0,0.5)",
                   }}
                 />
               </FormControl>
-              <StyledText style={{fontSize : "20px", marginTop : "7vh", color : "black", fontWeight : "bold"}}>주문정보</StyledText>
+              <StyledText
+                style={{
+                  fontSize: "20px",
+                  marginTop: "7vh",
+                  color: "black",
+                  fontWeight: "bold",
+                }}
+              >
+                주문정보
+              </StyledText>
               <PriceContainer>
                 <SpaceBetweenContainer>
                   <StyledText>상품이름</StyledText>
@@ -252,7 +282,9 @@ const ProductDetailPage = () => {
                       }}
                     />
                     <BoldText>
-                      {(productInfo.price * Math.floor(amount))?.toLocaleString()}
+                      {(
+                        productInfo.price * Math.floor(amount)
+                      )?.toLocaleString()}
                     </BoldText>
                   </Typography>
                 </SpaceBetweenContainer>
@@ -264,7 +296,9 @@ const ProductDetailPage = () => {
             </ProductContentContainer>
             <ProductButtonContainer>
               <div style={{ marginTop: "10vh" }}>
-                <StyledButton variant="contained" onClick={handleGoToPayment}>즉시 구매하기</StyledButton>
+                <StyledButton variant="contained" onClick={handleGoToPayment}>
+                  즉시 구매하기
+                </StyledButton>
                 <StyledButton variant="contained" onClick={handleAddToCart}>
                   장바구니 담기
                 </StyledButton>
@@ -293,14 +327,14 @@ const ProductDetailPage = () => {
               ))}
             </MenuList>
           </Grid>
-          <Grid item xs={12} sx={{textAlign : "center"}}>
-            {menuName === "상품상세" && 
+          <Grid item xs={12} sx={{ textAlign: "center" }}>
+            {menuName === "상품상세" && (
               <div dangerouslySetInnerHTML={{ __html: productInfo?.info }} />
-            }
-            {menuName === "상품평" && <MuiTable reviewList={productReviewList} />}
-            {menuName === "상품안내" && (
-                <ManualBody />
             )}
+            {menuName === "상품평" && (
+              <MuiTable reviewList={productReviewList} />
+            )}
+            {menuName === "상품안내" && <ManualBody />}
           </Grid>
         </Grid>
       </ProductDescriptionBox>
@@ -348,9 +382,9 @@ const ProductButtonContainer = styled(Box)`
 `;
 
 const PriceContainer = styled.div`
-  border: 1.5px solid rgba(0,0,0,0.5);
+  border: 1.5px solid rgba(0, 0, 0, 0.5);
   border-radius: 5px;
-  margin-top : 5px;
+  margin-top: 5px;
   padding: 10px;
 `;
 
@@ -358,7 +392,7 @@ const StyledText = styled.p`
   margin: 1px;
   padding: 1px;
   font-size: 16px;
-  color : #00000099;
+  color: #00000099;
 `;
 
 const BoldText = styled(StyledText)`
@@ -378,8 +412,8 @@ const StyledButton = styled(Button)`
   border-radius: 10px;
   width: 100%;
   margin-bottom: 5px;
-  height : 50px;
-  font-size : 20px;
+  height: 50px;
+  font-size: 20px;
 
   &:hover {
     background-color: rgba(0, 0, 0, 0.9);

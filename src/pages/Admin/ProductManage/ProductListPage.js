@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import AdminBar from "components/organisms/AdminBar";
-import { AdminButton } from "components/atoms/AdminCommonButton";
-import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
-import mileageIcon from "./배경제거M-admin.png"; // 컴포넌트와 같은 디렉토리에 있는 경우
+import { AdminButton, AdminButton2 } from "components/atoms/AdminCommonButton";
 import Search from 'components/molecules/Search';
 import {
   Box,
@@ -14,7 +12,6 @@ import {
   List,
   ListItem,
   Typography,
-  IconButton,
 } from "@mui/material";
 import { TokenAxios } from "apis/CommonAxios";
 import { Link, useNavigate } from "react-router-dom";
@@ -29,14 +26,14 @@ const StyledList = styled(List)`
 
 // 각 항목에 대한 공통 스타일을 설정합니다.
 const itemFlexStyles = {
-  "& > *:nth-child(1)": { width : "5%" }, // 번호
-  "& > *:nth-child(2)": { width : "10%" }, // 이미지
-  "& > *:nth-child(3)": { width : "31%" }, // 이름
-  "& > *:nth-child(4)": { width : "15%" }, // 제조사
-  "& > *:nth-child(5)": { width : "15%" }, // 옵션
-  "& > *:nth-child(6)": { width : "15%" }, // 가격
-  "& > *:nth-child(7)": { width : "5%" }, // 상품상세
-  "&:before, &:after": { content: '""', width : "2%" },
+  "& > *:nth-child(1)": { width: "5%" }, // 번호
+  "& > *:nth-child(2)": { width: "10%" }, // 이미지
+  "& > *:nth-child(3)": { width: "31%" }, // 이름
+  "& > *:nth-child(4)": { width: "15%" }, // 제조사
+  "& > *:nth-child(5)": { width: "15%" }, // 옵션
+  "& > *:nth-child(6)": { width: "15%" }, // 가격
+  "& > *:nth-child(7)": { width: "5%" }, // 상품상세
+  "&:before, &:after": { content: '""', width: "2%" },
 };
 const ListItemLabelStyled = styled(ListItem)`
   display: flex;
@@ -59,7 +56,6 @@ const ListItemStyled = styled(ListItem)`
 `;
 
 const ProductListPage = () => {
-
   const navigate = useNavigate();
 
   // Declare selectedMenu and setSelectedMenu using useState
@@ -81,16 +77,15 @@ const ProductListPage = () => {
     "가격",
     "상세",
   ];
-  const optionList = [
-    { label: "이름" },
-    { label: "제조사" },
-  ]
+  const optionList = [{ label: "이름" }, { label: "제조사" }];
   const handleSearchInputChange = (event) => {
     setSearchQuery(event.target.value);
   };
 
   const productGet = async (page) => {
-    const res = await TokenAxios.get(`/api/product?page=${page}&size=${pageSize}`);
+    const res = await TokenAxios.get(
+      `/api/product?page=${page}&size=${pageSize}`,
+    );
     setDataList(res.data.result.data.content);
     setTotalPages(res.data.result.data.totalPages);
   };
@@ -100,32 +95,32 @@ const ProductListPage = () => {
     setCurrentPage(newPage); // 현재 페이지 업데이트
     if (searchQuery.trim() !== "") {
       handleSearch(searchQuery);
-  } else {
+    } else {
       // 검색어가 없는 경우 전체 데이터에 대한 페이징 수행
       productGet(newPage);
-  }
+    }
   };
-  
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleSearch = async (searchQuery) => {
     try {
       console.log(selectedValue.label);
       console.log(searchQuery);
-      
-      let apiUrl = `/api/product/search?${currentPage}&size=${pageSize}`;  // 기본 API URL
-      
+
+      let apiUrl = `/api/product/search?${currentPage}&size=${pageSize}`; // 기본 API URL
+
       // 선택된 검색어에 따라 검색 조건 추가
       if (selectedValue.label === "이름") {
         apiUrl += `&name=${searchQuery}`;
       } else if (selectedValue.label === "제조사") {
         apiUrl += `&company=${searchQuery}`;
-      }  
+      }
       const res = await TokenAxios.get(apiUrl);
       console.log(res.data);
       setDataList(res.data.result.data.content);
       setTotalPages(res.data.result.data.totalPages);
     } catch (error) {
-      console.error('Error searching admin:', error);
+      console.error("Error searching admin:", error);
     }
   };
 
@@ -136,15 +131,16 @@ const ProductListPage = () => {
       productGet(currentPage);
     }
     setSelectedMenu("마일리지 승인");
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[currentPage,searchQuery]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPage, searchQuery]);
 
   // 상품 정보를 표시하기 위한 컴포넌트입니다.
   const ProductItem = ({ product, index }) => {
+
     return (
       <ListItemStyled>
         <Typography variant="body1" sx={{ textAlign: "center" }}>
-        {index + 1 + (currentPage * pageSize)}
+          {index + 1 + currentPage * pageSize}
         </Typography>
         <div
           style={{
@@ -171,28 +167,31 @@ const ProductListPage = () => {
         <Typography
           variant="body1" sx={{ textAlign: "left" }}>
             <div style={{ marginLeft: "70px" }}>
-              <img
-                src={mileageIcon}
+            <img
+                src="/images/M-admin.png"
                 alt="마일리지"
                 style={{ width: "15px", height: "15px", marginRight: "10px" }}
               />
               {product.price.toLocaleString()}
             </div>
         </Typography>
+        <div>
         <Link
-          to={`/admin/product/edit`}
-          style={{ textDecoration: "none", textAlign: "center" }}
+          to={`/admin/product/edit/${product.productSeq}`}
+          style={{ textDecoration: "none"}}
         >
-          <IconButton>
-            <KeyboardDoubleArrowRightIcon />
-          </IconButton>
+          
+          <AdminButton2 >
+            보기
+          </AdminButton2>
         </Link>
+        </div>
       </ListItemStyled>
     );
   };
 
   return (
-    <Paper sx={{ display: "flex"}} elevation={0}>
+    <Paper sx={{ display: "flex", minHeight:"100vh"}} elevation={0}>
       {/* AdminBar 컴포넌트에 selectedMenu와 setSelectedMenu props 전달 */}
       <AdminBar selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
       <Box
@@ -231,16 +230,19 @@ const ProductListPage = () => {
               onSearch={handleSearch}
               searchQuery={searchQuery}
               onInputChange={handleSearchInputChange}
-               setSelectedValue={setSelectedValue}
+              setSelectedValue={setSelectedValue}
               optionList={optionList}
             />
-            <AdminButton 
-              variant="contained" 
-              onClick={() => {navigate("/admin/product/register")}}
+            <AdminButton
+              variant="contained"
+              onClick={() => {
+                navigate("/admin/product/register");
+              }}
             >
               등록하기
             </AdminButton>
           </Toolbar>
+          {dataList.length > 0 ? (
           <Box sx={{ width: "100%", height: "73.6vh", overflowY: "auto" }}>
             <StyledList aria-label="mailbox folders">
               <ListItemLabelStyled>
@@ -267,6 +269,11 @@ const ProductListPage = () => {
               ))}
             </StyledList>
           </Box>
+          ) : (
+            <Typography variant="h6" sx={{ textAlign: "center", mt: 5 }}>
+              표시할 목록이 없습니다.
+            </Typography>
+          )}
 
           <Box
             sx={{
@@ -278,13 +285,15 @@ const ProductListPage = () => {
           >
             {" "}
             {/* 페이지네이션 섹션 */}
-            <Pagination
-              count={totalPages}
-              page={currentPage + 1}
-              onChange={(event, newPage) =>
-                handlePageChange(event, newPage - 1)
-              }
-            />
+            {totalPages > 0 && (
+                <Pagination
+                  count={totalPages}
+                  page={currentPage + 1}
+                  onChange={(event, newPage) =>
+                    handlePageChange(event, newPage - 1)
+                  }
+                />
+              )}
           </Box>
         </Box>
       </Box>

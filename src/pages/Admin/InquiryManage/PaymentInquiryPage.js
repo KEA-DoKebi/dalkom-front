@@ -20,10 +20,9 @@ import TextField from "@mui/material/TextField";
 import CloseIcon from "@mui/icons-material/Close";
 import AdminBar from "components/organisms/AdminBar";
 import { MuiColorChip } from "components/atoms/AdminChip";
-import { AdminButton } from "components/atoms/AdminCommonButton";
+import { AdminButton, AdminButton2 } from "components/atoms/AdminCommonButton";
 import { TokenAxios } from "../../../apis/CommonAxios";
 import Search from "components/molecules/Search";
-import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import Swal from "sweetalert2";
 
 let currentInquirySeq = null;
@@ -41,7 +40,7 @@ const itemFlexStyles = {
 };
 
 const StyledDialog = styled(Dialog)`
-    z-index: 900;
+  z-index: 900;
 `;
 
 const StyledList = styled(List)`
@@ -96,7 +95,7 @@ const PaymentInquiryPage = () => {
   const getInquiryByCategory = async (page) => {
     try {
       const res = await TokenAxios.get(
-        `/api/inquiry/category/${categorySeq}/?page=${page}&size=${pageSize}`
+        `/api/inquiry/category/${categorySeq}/?page=${page}&size=${pageSize}`,
       );
       setDataList(res.data.result.data.content);
       setTotalPages(res.data.result.data.totalPages);
@@ -174,13 +173,13 @@ const PaymentInquiryPage = () => {
 
       // 모달 닫기
       handleCloseModal();
-      Swal.fire({//
+      Swal.fire({
+        //
         icon: "success",
         title: "결제 문의에 대한 답변이<br> 완료되었습니다.",
         showConfirmButton: true,
-        confirmButtonColor: 'black',
-        confirmButtonText: '확인',
-
+        confirmButtonColor: "black",
+        confirmButtonText: "확인",
       }).then((result) => {
         if (result.isConfirmed) {
           // 답변 저장 후 성공적으로 처리되면 데이터를 새로고침
@@ -190,16 +189,16 @@ const PaymentInquiryPage = () => {
           });
         }
       });
-
     } catch (error) {
       // 오류 처리
       console.error("저장 중 오류 발생:", error);
-      Swal.fire({//
+      Swal.fire({
+        //
         icon: "error",
         title: "답변 등록에 실패했습니다.",
         showConfirmButton: true,
-        confirmButtonColor: 'gray',
-        confirmButtonText: '확인',
+        confirmButtonColor: "gray",
+        confirmButtonText: "확인",
       });
     }
   };
@@ -217,7 +216,7 @@ const PaymentInquiryPage = () => {
     return (
       <ListItemStyled>
         <Typography variant="body1" sx={{ textAlign: "center" }}>
-        {index + 1 + currentPage * pageSize}
+          {index + 1 + currentPage * pageSize}
         </Typography>
         <Typography variant="body1" sx={{ textAlign: "center" }}>
           {formatDate(inquiry.createdAt)}
@@ -230,18 +229,17 @@ const PaymentInquiryPage = () => {
             status={inquiry.answerState === "Y" ? "completed" : "waiting"}
           />
         </Typography>
-        <IconButton
-          onClick={() => handleOpenModal(inquiry.inquirySeq)}
-          sx={{ "&:hover": { backgroundColor: "#FFFFFF" } }} // 호버 효과 제거
-        >
-          <KeyboardDoubleArrowRightIcon />
-        </IconButton>
+        <div>
+          <AdminButton2 onClick={() => handleOpenModal(inquiry.inquirySeq)} >
+            보기
+          </AdminButton2>
+        </div>
       </ListItemStyled>
     );
   };
 
   return (
-    <Paper sx={{ display: "flex" }} elevation={0}>
+    <Paper sx={{ display: "flex", minHeight:"100vh" }} elevation={0}>
       {/* AdminBar 컴포넌트에 selectedMenu와 setSelectedMenu props 전달 */}
       <AdminBar selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
       <Box
@@ -283,8 +281,9 @@ const PaymentInquiryPage = () => {
               optionList={optionList}
             />
           </Toolbar>
-
+          
           <Box sx={{ width: "100%", height: "73.6vh", overflowY: "auto" }}>
+          {dataList.length > 0 ? (
             <StyledList aria-label="mailbox folders">
               <ListItemLabelStyled>
                 {dataListLabels.map((label, index) => (
@@ -309,7 +308,13 @@ const PaymentInquiryPage = () => {
                 </React.Fragment>
               ))}
             </StyledList>
+            ) : (
+              <Typography variant="h6" sx={{ textAlign: "center", mt: 5 }}>
+                표시할 목록이 없습니다.
+              </Typography>
+            )}
           </Box>
+          
           <Box
             sx={{
               flex: 1,
@@ -318,17 +323,19 @@ const PaymentInquiryPage = () => {
               alignItems: "center",
             }}
           >
-            <Pagination
-              count={totalPages} // 총 페이지 수를 적용
-              page={currentPage + 1} // 현재 페이지 설정 (0부터 시작하므로 그대로 사용)
-              onChange={(event, newPage) =>
-                handlePageChange(event, newPage - 1)
-              } // 페이지 변경 시 호출되는 함수 설정
-            />
+            {totalPages > 0 && (
+                <Pagination
+                  count={totalPages}
+                  page={currentPage + 1}
+                  onChange={(event, newPage) =>
+                    handlePageChange(event, newPage - 1)
+                  }
+                />
+              )}
           </Box>
 
           <StyledDialog
-          onClose={handleCloseModal}
+            onClose={handleCloseModal}
             open={openModal}
             maxWidth={false}
             sx={{
@@ -336,12 +343,26 @@ const PaymentInquiryPage = () => {
               "& .MuiDialog-paper": {
                 borderRadius: "30px",
               },
-            }}>
-              <DialogTitle style={{ fontWeight: "bold", fontSize: "1.5rem", textAlign: "center", marginTop: 20, marginBottom: 20 }}>
+            }}
+          >
+            <DialogTitle
+              style={{
+                fontWeight: "bold",
+                fontSize: "1.5rem",
+                textAlign: "center",
+                marginTop: 20,
+                marginBottom: 20,
+              }}
+            >
               <IconButton
                 aria-label="close"
                 onClick={handleCloseModal}
-                sx={{ position: 'absolute', right: 8, top: 8, color: (theme) => theme.palette.grey[500] }}
+                sx={{
+                  position: "absolute",
+                  right: 8,
+                  top: 8,
+                  color: (theme) => theme.palette.grey[500],
+                }}
               >
                 <CloseIcon />
               </IconButton>
@@ -351,40 +372,60 @@ const PaymentInquiryPage = () => {
             </DialogTitle>
 
             <DialogContent
-            style={{
-              width: 1200,
-              height: "370px",
-              overflowY: "initial",
-              overflowX: "initial",
-              marginLeft: 20, marginRight: 20
-            }}>
+              style={{
+                width: 1200,
+                height: "370px",
+                overflowY: "initial",
+                overflowX: "initial",
+                marginLeft: 20,
+                marginRight: 20,
+              }}
+            >
               <div>
                 <Grid container rowSpacing={1}>
                   <Grid item xs={2}>
-                    <Typography style={{fontSize: "20px", fontWeight: "bold"}} sx={{ textAlign: "center" }}>
+                    <Typography
+                      style={{ fontSize: "20px", fontWeight: "bold" }}
+                      sx={{ textAlign: "center" }}
+                    >
                       제목
                     </Typography>
                   </Grid>
                   <Grid item xs={9.5}>
-                    <Typography variant="h6" fontWeight="bold" sx={{ textAlign: "left" }}>
+                    <Typography
+                      variant="h6"
+                      fontWeight="bold"
+                      sx={{ textAlign: "left" }}
+                    >
                       {selectedItem?.title || "title"}
                     </Typography>
                   </Grid>
                   <Grid item xs={2}>
-                    <Typography style={{fontSize: "20px", fontWeight: "bold"}} sx={{ textAlign: "center", mt: 2 }}>
+                    <Typography
+                      style={{ fontSize: "20px", fontWeight: "bold" }}
+                      sx={{ textAlign: "center", mt: 2 }}
+                    >
                       내용
                     </Typography>
                   </Grid>
                   <Grid item xs={9.5}>
-                    <Box sx={{ maxHeight: "350px", overflowY: "auto", mt: 0.5 }}>
-                      <Typography variant="subtitle1" sx={{ textAlign: "left" }}>
-                        <div dangerouslySetInnerHTML={{ __html: selectedItem?.content }} />
+                    <Box
+                      sx={{ maxHeight: "350px", overflowY: "auto", mt: 0.5 }}
+                    >
+                      <Typography
+                        variant="subtitle1"
+                        sx={{ textAlign: "left" }}
+                      >
+                        <div
+                          dangerouslySetInnerHTML={{
+                            __html: selectedItem?.content,
+                          }}
+                        />
                       </Typography>
                     </Box>
                   </Grid>
                 </Grid>
               </div>
-
             </DialogContent>
             <Box display="flex" justifyContent="center" alignItems="center">
               <TextField

@@ -22,13 +22,13 @@ const pageSize = 10;
 
 // 각 항목에 대한 공통 스타일을 설정합니다.
 const itemFlexStyles = {
-  "& > *:nth-child(1)": { width : "5%" }, // 번호
-  "& > *:nth-child(2)": { width : "22%" }, // ID
-  "& > *:nth-child(3)": { width : "21%" }, // 이름
-  "& > *:nth-child(4)": { width : "21%" }, // 부서
-  "& > *:nth-child(5)": { width : "22%" }, // 닉네임
-  "& > *:nth-child(6)": { width : "5%" }, // 삭제
-  "&:before, &:after": { content: '""', width : "2%" },
+  "& > *:nth-child(1)": { width: "5%" }, // 번호
+  "& > *:nth-child(2)": { width: "22%" }, // ID
+  "& > *:nth-child(3)": { width: "21%" }, // 이름
+  "& > *:nth-child(4)": { width: "21%" }, // 부서
+  "& > *:nth-child(5)": { width: "22%" }, // 닉네임
+  "& > *:nth-child(6)": { width: "5%" }, // 삭제
+  "&:before, &:after": { content: '""', width: "2%" },
 };
 
 const StyledList = styled(List)`
@@ -78,7 +78,9 @@ const AdminListPage = () => {
   ];
 
   const adminGet = async (page) => {
-    const res = await TokenAxios.get(`/api/admin?page=${page}&size=${pageSize}`);
+    const res = await TokenAxios.get(
+      `/api/admin?page=${page}&size=${pageSize}`,
+    );
     setDataList(res.data.result.data.content);
     setTotalPages(res.data.result.data.totalPages);
   };
@@ -140,7 +142,7 @@ const AdminListPage = () => {
     return (
       <ListItemStyled>
         <Typography variant="body1" sx={{ textAlign: "center" }}>
-        {index + 1 + currentPage * pageSize}
+          {index + 1 + currentPage * pageSize}
         </Typography>
         <Typography variant="body1" sx={{ textAlign: "center" }}>
           {admin.adminId}
@@ -165,7 +167,7 @@ const AdminListPage = () => {
   };
 
   return (
-    <Paper sx={{ display: "flex" }} elevation={0}>
+    <Paper sx={{ display: "flex", minHeight:"100vh" }} elevation={0}>
       {/* AdminBar 컴포넌트에 selectedMenu와 setSelectedMenu props 전달 */}
       <AdminBar selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
       <Box
@@ -216,6 +218,7 @@ const AdminListPage = () => {
               등록하기
             </AdminButton>
           </Toolbar>
+          {dataList.length > 0 ? (
           <Box sx={{ width: "100%", height: "73.6vh", overflowY: "auto" }}>
             <StyledList aria-label="mailbox folders">
               <ListItemLabelStyled>
@@ -234,7 +237,7 @@ const AdminListPage = () => {
               <Divider component="li" />
               {dataList.map((admin, index) => (
                 <React.Fragment key={index}>
-                  <AdminList admin={admin} index={index}/>
+                  <AdminList admin={admin} index={index} />
                   {index !== dataList.length && (
                     <Divider component="li" light />
                   )}
@@ -242,6 +245,11 @@ const AdminListPage = () => {
               ))}
             </StyledList>
           </Box>
+          ) : (
+            <Typography variant="h6" sx={{ textAlign: "center", mt: 5 }}>
+              표시할 목록이 없습니다.
+            </Typography>
+          )}
           <Box
             sx={{
               flex: 1,
@@ -252,13 +260,15 @@ const AdminListPage = () => {
           >
             {" "}
             {/* 페이지네이션 섹션 */}
-            <Pagination
-              count={totalPages}
-              page={currentPage + 1}
-              onChange={(event, newPage) =>
-                handlePageChange(event, newPage - 1)
-              }
-            />
+            {totalPages > 0 && (
+                <Pagination
+                  count={totalPages}
+                  page={currentPage + 1}
+                  onChange={(event, newPage) =>
+                    handlePageChange(event, newPage - 1)
+                  }
+                />
+              )}
           </Box>
         </Box>
       </Box>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import AdminBar from "components/organisms/AdminBar";
 import { TokenAxios } from "apis/CommonAxios";
-import Search from 'components/molecules/Search';
+import Search from "components/molecules/Search";
 
 import {
   Paper,
@@ -27,9 +27,8 @@ const itemFlexStyles = {
   "& > *:nth-child(6)": { width: "15%" }, // 사용자
   "& > *:nth-child(7)": { width: "15%" }, // 일시
   "& > *:nth-child(8)": { width: "5%" }, // 승인/거부
-  "&:before, &:after": { content: '""', width : "2%" },
+  "&:before, &:after": { content: '""', width: "2%" },
 };
-
 
 const StyledList = styled(List)`
   padding: 0;
@@ -38,8 +37,6 @@ const StyledList = styled(List)`
   background-color: background .paper;
   height: 70%; // 전체 높이의 70%로 설정
 `;
-
-
 
 const ListItemLabelStyled = styled(ListItem)`
   display: flex;
@@ -66,7 +63,6 @@ const formatDate = (dateString) => {
   return new Date(dateString).toLocaleDateString("ko-KR", options);
 };
 
-
 const MileageApprovalPage = () => {
   const dataListLabels = [
     "번호",
@@ -86,14 +82,13 @@ const MileageApprovalPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedValue, setSelectedValue] = useState("");
 
-
   const pageSize = 7;
 
   const optionList = [
     { label: "이메일" },
     { label: "닉네임" },
     { label: "사용자" },
-  ]
+  ];
   const handleSearchInputChange = (event) => {
     setSearchQuery(event.target.value);
   };
@@ -113,27 +108,29 @@ const MileageApprovalPage = () => {
         approvedState,
       });
       if (res.status === 200) {
-          Swal.fire({//
-              icon: "success",
-              title: "상태가 변경되었습니다.",
-              showConfirmButton: true,
-              confirmButtonColor: 'black',
-              confirmButtonText: '확인',
-          }).then(() => {
-              getMileageApply(currentPage);
-          });
+        Swal.fire({
+          //
+          icon: "success",
+          title: "상태가 변경되었습니다.",
+          showConfirmButton: true,
+          confirmButtonColor: "black",
+          confirmButtonText: "확인",
+        }).then(() => {
+          getMileageApply(currentPage);
+        });
       } else {
         throw new Error("API response error");
       }
     } catch (e) {
-        console.error("상태 변경 실패", e);
-        Swal.fire({//
-            icon: "error",
-            title: "상태 변경에 실패했습니다.",
-            showConfirmButton: true,
-            confirmButtonColor: 'gray',
-            confirmButtonText: '확인',
-        });
+      console.error("상태 변경 실패", e);
+      Swal.fire({
+        //
+        icon: "error",
+        title: "상태 변경에 실패했습니다.",
+        showConfirmButton: true,
+        confirmButtonColor: "gray",
+        confirmButtonText: "확인",
+      });
     }
   };
 
@@ -141,20 +138,18 @@ const MileageApprovalPage = () => {
     setCurrentPage(newPage); // 현재 페이지 업데이트
 
     if (searchQuery.trim() !== "") {
-        handleSearch(searchQuery);
+      handleSearch(searchQuery);
     } else {
-        // 검색어가 없는 경우 전체 데이터에 대한 페이징 수행
-        getMileageApply(newPage);
+      // 검색어가 없는 경우 전체 데이터에 대한 페이징 수행
+      getMileageApply(newPage);
     }
-
   };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleSearch = async (searchQuery) => {
     try {
-      
-      let apiUrl = `/api/mileage/apply/search?${currentPage}&size=${pageSize}`;  // 기본 API URL
-      
+      let apiUrl = `/api/mileage/apply/search?${currentPage}&size=${pageSize}`; // 기본 API URL
+
       // 선택된 검색어에 따라 검색 조건 추가
       if (selectedValue.label === "ID") {
         apiUrl += `&email=${searchQuery}`;
@@ -162,14 +157,14 @@ const MileageApprovalPage = () => {
         apiUrl += `&nickname=${searchQuery}`;
       } else if (selectedValue.label === "사용자") {
         apiUrl += `name&=${searchQuery}`;
-      }  
-      
+      }
+
       const res = await TokenAxios.get(apiUrl);
       setDataList(res.data.result.data.content);
       setTotalPages(res.data.result.data.totalPages);
       console.log(res.data.result.data.content);
     } catch (error) {
-      console.error('Error searching admin:', error);
+      console.error("Error searching admin:", error);
     }
   };
 
@@ -177,12 +172,12 @@ const MileageApprovalPage = () => {
     if (searchQuery.trim() !== "") {
       handleSearch(searchQuery);
     } else {
-        getMileageApply(currentPage);
+      getMileageApply(currentPage);
     }
     setSelectedMenu("마일리지 승인");
-    
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPage,searchQuery]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPage, searchQuery]);
 
   const ApplyList = ({ apply, index }) => {
     const handleSelect = async (state) => {
@@ -191,52 +186,38 @@ const MileageApprovalPage = () => {
     };
     return (
       <ListItemStyled>
-        <Typography
-          variant="body1"
-          sx={{ textAlign: "center" }}
-        >
+        <Typography variant="body1" sx={{ textAlign: "center" }}>
           {index + 1 + currentPage * pageSize}
         </Typography>
-        <Typography
-          variant="body1"
-          sx={{ textAlign: "center" }}
-        >
+        <Typography variant="body1" sx={{ textAlign: "center" }}>
           {apply.email}
         </Typography>
-        <Typography
-          variant="body1"
-          sx={{ textAlign: "center" }}
-        >
+        <Typography variant="body1" sx={{ textAlign: "center" }}>
           {apply.nickname}
         </Typography>
         <Typography
           variant="body1"
-          sx={{ textAlign: "center" }}
+          sx={{ textAlign: "left" }}
         >
-          {Number(apply.balance).toLocaleString()}
+            <div style={{ marginLeft: "50px" }}>
+            <img
+                src="/images/M-admin.png"
+                alt="마일리지"
+                style={{ width: "15px", height: "15px", marginRight: "10px" }}
+              />
+              {Number(apply.balance).toLocaleString()}
+            </div>
         </Typography>
-        <Typography
-          variant="body1"
-          sx={{ textAlign: "center" }}
-        >
+        <Typography variant="body1" sx={{ textAlign: "center" }}>
           {Number(apply.amount).toLocaleString()}
         </Typography>
-        <Typography
-          variant="body1"
-          sx={{ textAlign: "center" }}
-        >
+        <Typography variant="body1" sx={{ textAlign: "center" }}>
           {apply.name}
         </Typography>
-        <Typography
-          variant="body1"
-          sx={{ textAlign: "center" }}
-        >
+        <Typography variant="body1" sx={{ textAlign: "center" }}>
           {formatDate(apply.createdAt)}
         </Typography>
-        <Typography
-          variant="body1"
-          sx={{ textAlign: "center" }}
-        >
+        <Typography variant="body1" sx={{ textAlign: "center" }}>
           <OXButton onSelect={handleSelect}></OXButton>
         </Typography>
       </ListItemStyled>
@@ -244,7 +225,7 @@ const MileageApprovalPage = () => {
   };
 
   return (
-    <Paper sx={{ display: "flex" }} elevation={0}>
+    <Paper sx={{ display: "flex" , minHeight:"100vh"}} elevation={0}>
       {/* AdminBar 컴포넌트에 selectedMenu와 setSelectedMenu props 전달 */}
       <AdminBar selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
       <Box
@@ -282,20 +263,18 @@ const MileageApprovalPage = () => {
               onSearch={handleSearch}
               searchQuery={searchQuery}
               onInputChange={handleSearchInputChange}
-               setSelectedValue={setSelectedValue}
+              setSelectedValue={setSelectedValue}
               optionList={optionList}
             />
           </Toolbar>
+          
           <Box sx={{ width: "100%", height: "73.6vh", overflowY: "auto" }}>
+          {dataList.length > 0 ? (
             <StyledList aria-label="mailbox folders">
               <ListItemLabelStyled>
                 {dataListLabels.map((label, index) => (
                   <React.Fragment key={index}>
-                    <Typography
-                      variant="h6"
-                      fontWeight="bold"
-                      align="center"
-                    >
+                    <Typography variant="h6" fontWeight="bold" align="center">
                       {label}
                     </Typography>
                   </React.Fragment>
@@ -311,7 +290,13 @@ const MileageApprovalPage = () => {
                 </React.Fragment>
               ))}
             </StyledList>
+            ) : (
+            <Typography variant="h6" sx={{ textAlign: "center", mt: 5 }}>
+              표시할 목록이 없습니다.
+            </Typography>
+          )}
           </Box>
+          
           <Box
             sx={{
               flex: 1,
@@ -322,13 +307,15 @@ const MileageApprovalPage = () => {
           >
             {" "}
             {/* 페이지네이션 섹션 */}
-            <Pagination
-              count={totalPages}
-              page={currentPage + 1}
-              onChange={(event, newPage) =>
-                handlePageChange(event, newPage - 1)
-              }
-            />
+            {totalPages > 0 && (
+                <Pagination
+                  count={totalPages}
+                  page={currentPage + 1}
+                  onChange={(event, newPage) =>
+                    handlePageChange(event, newPage - 1)
+                  }
+                />
+              )}
           </Box>
         </Box>
       </Box>

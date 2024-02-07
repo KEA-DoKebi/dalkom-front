@@ -126,7 +126,7 @@ const MileageHistoryPage = () => {
   // 마일리지 신청내역 조회(승인/거부 상태만) (get)
   const getMileageApplyHistory = async (page) => {
     const res = await TokenAxios.get(
-      `/api/mileage/apply?page=${page}&size=${pageSize}`
+      `/api/mileage/apply?page=${page}&size=${pageSize}`,
     );
     setDataList(res.data.result.data.content);
     setTotalPages(res.data.result.data.totalPages);
@@ -157,11 +157,25 @@ const MileageHistoryPage = () => {
         <Typography variant="body1" sx={{ textAlign: "center" }}>
           {apply.nickname}
         </Typography>
-        <Typography variant="body1" sx={{ textAlign: "center" }}>
-          {Number(apply.balance).toLocaleString()}
+        <Typography variant="body1" sx={{ textAlign: "left" }}>
+        <div style={{ marginLeft: "50px" }}>
+        <img
+                src="/images/M-admin.png"
+                alt="마일리지"
+                style={{ width: "15px", height: "15px", marginRight: "10px" }}
+              />
+              {Number(apply.balance).toLocaleString()}
+            </div>
         </Typography>
-        <Typography variant="body1" sx={{ textAlign: "center" }}>
-          {Number(apply.amount).toLocaleString()}
+        <Typography variant="body1" sx={{ textAlign: "left" }}>
+        <div style={{ marginLeft: "50px" }}>
+        <img
+                src="/images/M-admin.png"
+                alt="마일리지"
+                style={{ width: "15px", height: "15px", marginRight: "10px" }}
+              />
+              {Number(apply.amount).toLocaleString()}
+            </div>
         </Typography>
         <Typography variant="body1" sx={{ textAlign: "center" }}>
           {apply.name}
@@ -170,10 +184,9 @@ const MileageHistoryPage = () => {
           {formatDate(apply.createdAt)}
         </Typography>
         <Typography variant="body1" sx={{ textAlign: "center" }}>
-
-            {apply.approvedState === "Y" ? (
-              <CheckCircleRoundedIcon
-              sx={{ color: "#B6DEDE", fontSize: 30, marginLeft: 1 }} 
+          {apply.approvedState === "Y" ? (
+            <CheckCircleRoundedIcon
+              sx={{ color: "#B6DEDE", fontSize: 30, marginLeft: 1 }}
             />
           ) : (
             <CancelRoundedIcon
@@ -186,7 +199,7 @@ const MileageHistoryPage = () => {
   };
 
   return (
-    <Paper sx={{ display: "flex" }} elevation={0}>
+    <Paper sx={{ display: "flex", minHeight:"100vh" }} elevation={0}>
       {/* AdminBar 컴포넌트에 selectedMenu와 setSelectedMenu props 전달 */}
       <AdminBar selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
       <Box
@@ -228,6 +241,7 @@ const MileageHistoryPage = () => {
               optionList={optionList}
             />
           </Toolbar>
+          {dataList.length > 0 ? (
           <Box sx={{ width: "100%", height: "73.6vh", overflowY: "auto" }}>
             <StyledList aria-label="mailbox folders">
               <ListItemLabelStyled>
@@ -249,10 +263,15 @@ const MileageHistoryPage = () => {
                         <Divider component="li" light />
                       )}
                     </React.Fragment>
-                  )
+                  ),
               )}
             </StyledList>
           </Box>
+          ) : (
+            <Typography variant="h6" sx={{ textAlign: "center", mt: 5 }}>
+              표시할 목록이 없습니다.
+            </Typography>
+          )}
 
           <Box
             sx={{
@@ -264,13 +283,15 @@ const MileageHistoryPage = () => {
           >
             {" "}
             {/* 페이지네이션 섹션 */}
-            <Pagination
-              count={totalPages}
-              page={currentPage + 1}
-              onChange={(event, newPage) =>
-                handlePageChange(event, newPage - 1)
-              }
-            />
+            {totalPages > 0 && (
+                <Pagination
+                  count={totalPages}
+                  page={currentPage + 1}
+                  onChange={(event, newPage) =>
+                    handlePageChange(event, newPage - 1)
+                  }
+                />
+              )}
           </Box>
         </Box>
       </Box>
