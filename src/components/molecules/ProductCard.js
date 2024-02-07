@@ -7,23 +7,9 @@ import { Button } from "react-scroll";
 import { productImageStore } from "store/store";
 import Swal from "sweetalert2";
 
-export const ProductCard = ({
-  imageUrl,
-  title,
-  price,
-  star,
-  review,
-  seq,
-  categorySeq,
-}) => {
-  const {
-    addImageList,
-    addSeq,
-    imageList,
-    seqList,
-    subCategorySeq,
-    setSubCategorySeq,
-  } = productImageStore((state) => state);
+export const ProductCard = ({ imageUrl, title, price, star, review, seq, categorySeq, state }) => {
+  
+  const {addImageList, addSeq, imageList, seqList, subCategorySeq, setSubCategorySeq} = productImageStore((state) => state);
 
   const handleAddButtonClick = () => {
     console.log("카드에서 받아오는 카테고리" + categorySeq);
@@ -82,7 +68,9 @@ export const ProductCard = ({
           <CardTitle>{title}</CardTitle>
           <CardDescription>
             {/* <img src="/images/M-user.png" width="15px" height="15px"/>  {price} */}
-            <Typography
+            {state === "Y" ? 
+            (
+              <Typography
               variant="body1"
               sx={{
                 textAlign: "center",
@@ -98,6 +86,28 @@ export const ProductCard = ({
               />
               {Number(price).toLocaleString()}
             </Typography>
+            ) 
+            :
+            <div>
+            <Typography
+            variant="body1"
+            sx={{
+              textAlign: "center",
+              display: "flex",
+              alignItems: "center",
+              marginBottom: "7px",
+            }}
+          >
+            <img
+              src="/images/M-1.png"
+              alt="마일리지"
+              style={{ width: "20px", height: "20px", marginRight: "5px" }}
+            />
+            <Typography sx={{color: "gray", textDecoration:"line-through"}}> {Number(price).toLocaleString()} </Typography>
+            <span style={{fontSize : "15px", marginLeft : "3px"}}>(품절)</span>
+          </Typography>
+          </div>  
+          }
           </CardDescription>
           <CardDescription>
             <StarRating
