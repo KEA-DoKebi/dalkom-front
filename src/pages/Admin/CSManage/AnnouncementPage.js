@@ -34,10 +34,10 @@ let currentNoticeSeq = 1;
 
 const itemFlexStyles = {
   "& > *:nth-child(1)": { width: "5%" }, // 번호
-  "& > *:nth-child(2)": { width: "18%" }, // 작성일시
-  "& > *:nth-child(3)": { width: "12%" }, // 작성자
-  "& > *:nth-child(4)": { width: "43%" }, // 제목
-  "& > *:nth-child(5)": { width: "13%" }, // 상단고정
+  "& > *:nth-child(2)": { width: "13%" }, // 상단고정
+  "& > *:nth-child(3)": { width: "43%" }, // 제목
+  "& > *:nth-child(4)": { width: "12%" }, // 작성자
+  "& > *:nth-child(5)": { width: "18%" }, // 작성일시
   "& > *:nth-child(6)": { width: "5%" }, // 상세보기
   "&:before, &:after": { content: '""', width: "2%" },
 };
@@ -94,10 +94,10 @@ const AnnouncementPage = () => {
   const [selectedValue, setSelectedValue] = useState("");
   const dataListLabels = [
     "번호",
-    "작성일시",
-    "작성자",
-    "제목",
     "상단고정",
+    "제목",
+    "작성자",
+    "작성일시",
     "상세보기",
   ];
 
@@ -340,29 +340,26 @@ const AnnouncementPage = () => {
     }
   };
 
-  const AnnouncementList = ({ notice, index }) => {
+  const     AnnouncementList = ({ notice, index }) => {
     return (
       <ListItemStyled>
         <Typography variant="body1" sx={{ textAlign: "center" }}>
           {index + 1 + currentPage * pageSize}
         </Typography>
         <Typography variant="body1" sx={{ textAlign: "center" }}>
-          {formatDate(notice.createdAt)}
-        </Typography>
-        <Typography variant="body1" sx={{ textAlign: "center" }}>
-          {notice.nickname}
+          {notice.state === "Y" ? <CheckCircleIcon sx={{ color: "#B6DEDE", fontSize: 25 }} /> : ""}
         </Typography>
         <Typography variant="body1" sx={{ textAlign: "center" }}>
           {notice.title}
         </Typography>
         <Typography variant="body1" sx={{ textAlign: "center" }}>
-          {notice.state === "Y" ? (
-            <CheckCircleIcon sx={{ color: "#F4B5C2", fontSize: 25 }} />
-          ) : (
-            ""
-          )}
+          {notice.nickname}
         </Typography>
-<div>
+        <Typography variant="body1" sx={{ textAlign: "center" }}>
+          {formatDate(notice.createdAt)}
+        </Typography>
+
+        <div style={{ display: "flex", justifyContent: "center"}}>
           <AdminButton2 onClick={() => handleLookOpenModal(notice.noticeSeq)} >
             보기
           </AdminButton2>

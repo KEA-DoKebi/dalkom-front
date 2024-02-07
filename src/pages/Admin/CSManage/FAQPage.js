@@ -30,8 +30,8 @@ let currentInquirySeq = null;
 
 const itemFlexStyles = {
   "& > *:nth-child(1)": { width: "5%" }, // 번호
-  "& > *:nth-child(2)": { width: "30%" }, // 작성일시
-  "& > *:nth-child(3)": { width: "56%" }, // FAQ
+  "& > *:nth-child(2)": { width: "56%" }, // FAQ
+  "& > *:nth-child(3)": { width: "30%" }, // 작성일시
   "& > *:nth-child(4)": { width: "5%" }, // 상세보기
   "&:before, &:after": { content: '""', width: "2%" },
 };
@@ -73,7 +73,7 @@ const formatDate = (dateString) => {
 };
 
 const FAQPage = () => {
-  const dataListLabels = ["번호", "작성일시", "FAQ", "상세보기"];
+  const dataListLabels = ["번호", "FAQ", "작성일시", "상세보기"];
   // Declare selectedMenu and setSelectedMenu using useState
   const [selectedMenu, setSelectedMenu] = useState("FAQ");
   const { register, handleSubmit, setValue, trigger } = useForm();
@@ -289,28 +289,28 @@ const FAQPage = () => {
 
   const FAQList = ({ faq, index }) => {
     return (
-      <ListItemStyled>
-        <Typography variant="body1" sx={{ textAlign: "center" }}>
-          {index + 1 + currentPage * pageSize}
-        </Typography>
-        <Typography variant="body1" sx={{ textAlign: "center" }}>
-          {formatDate(faq.createdAt)}
-        </Typography>
-        <Typography variant="body1" sx={{ textAlign: "center" }}>
-          {faq.title}
-        </Typography>
-        <AdminButton2
-          onClick={() => handleLookModalOpen(faq.inquirySeq)}
-        >
-          보기
-        </AdminButton2>
-      </ListItemStyled>
-    );
+        <ListItemStyled>
+          <Typography variant="body1" sx={{textAlign: "center"}}>
+            {index + 1 + currentPage * pageSize}
+          </Typography>
+          <Typography variant="body1" sx={{textAlign: "center"}}>
+            {faq.title}
+          </Typography>
+          <Typography variant="body1" sx={{textAlign: "center"}}>
+            {formatDate(faq.createdAt)}
+          </Typography>
+            <div style={{display: "flex", justifyContent: "center"}}>
+              <AdminButton2 onClick={() => handleLookModalOpen(faq.inquirySeq)}>
+                보기
+              </AdminButton2>
+            </div>
+        </ListItemStyled>
+  );
   };
 
   return (
-    <Paper sx={{ display: "flex" }} elevation={0}>
-      {/* AdminBar 컴포넌트에 selectedMenu와 setSelectedMenu props 전달 */}
+    <Paper sx={{display: "flex"}} elevation={0}>
+        {/* AdminBar 컴포넌트에 selectedMenu와 setSelectedMenu props 전달 */}
       <AdminBar selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
       <Box
         sx={{
