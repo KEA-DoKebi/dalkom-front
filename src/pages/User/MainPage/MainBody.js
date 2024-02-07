@@ -29,18 +29,21 @@ const MainBody = () => {
     kakaofriends: [],
   });
 
-  const {setPage} = searchStore(state => state);
-
+  const { setPage } = searchStore((state) => state);
 
   const getMainProductList = async () => {
-    const res = await TokenAxios.get("/api/product/category/main?page=0&size=8");
+    const res = await TokenAxios.get(
+      "/api/product/category/main?page=0&size=8",
+    );
     setProductLists(res.data);
   };
 
-
-
   const [categoryLists] = useState([
-    { categorySeq: 1, categoryName: "패션/뷰티", categoryNameEng: "Fashion / Beauty" },
+    {
+      categorySeq: 1,
+      categoryName: "패션/뷰티",
+      categoryNameEng: "Fashion / Beauty",
+    },
     { categorySeq: 2, categoryName: "생활", categoryNameEng: "LifeStyle" },
     { categorySeq: 3, categoryName: "디지털/가전", categoryNameEng: "Digital" },
     { categorySeq: 4, categoryName: "출산/유아동", categoryNameEng: "Kids" },
@@ -50,91 +53,97 @@ const MainBody = () => {
 
   useEffect(() => {
     getMainProductList();
-    setPage("메인 검색결과")
+    setPage("메인 검색결과");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-      <StyledBox>
-        <StyledCarousel stopAutoPlayOnHover={true} >
-          <StyledPaper sx={{ backgroundColor: "#FFF8DC" }}>
-            <Link to="/cs/manual">
-              <BannerImage src="/images/MainPage/dokebiBanner4.png" />
-            </Link>
-          </StyledPaper>
+    <StyledBox>
+      <StyledCarousel animation={false}>
+        <StyledPaper sx={{ backgroundColor: "#FFF8DC", animation: "false" }}>
+          <Link to="/cs/manual">
+            <BannerImage src="/images/MainPage/dokebiBanner1.png" />
+          </Link>
+        </StyledPaper>
 
-          <StyledPaper sx={{ backgroundColor: "#ffd1d2" }}>
-            <Link to="/cs/manual">
-              <BannerImage src="/images/MainPage/dokebiBanner5.png" />
-            </Link>
-          </StyledPaper>
+        <StyledPaper sx={{ backgroundColor: "#FEE300" }}>
+          <Link to="/cs/manual">
+            <BannerImage src="/images/MainPage/dokebiBanner2.png" />
+          </Link>
+        </StyledPaper>
 
-          {/*<StyledPaper sx={{ backgroundColor: "#494881" }}>*/}
-          {/*  <Link to="/cs/manual">*/}
-          {/*    <BannerImage src="/images/MainPage/dokebiBanner3.png" />*/}
-          {/*  </Link>*/}
-          {/*</StyledPaper>*/}
-        </StyledCarousel>
+        <StyledPaper sx={{ backgroundColor: "#494881" }}>
+          <Link to="/cs/manual">
+            <BannerImage src="/images/MainPage/dokebiBanner3.png" />
+          </Link>
+        </StyledPaper>
+      </StyledCarousel>
 
-        <CategoryBox>
-          {categoryLists.map((category) => (
-              <StyledLink
-                  key={category.categorySeq}
-                  to={`/category/${category.categorySeq}`}
-              >
-                <ImageBox>
-                  <StyledAvartar
-                      src={`/images/MainPage/category${category.categorySeq}.png`}
-                  />
-                  <Typography>{category.categoryName}</Typography>
-                </ImageBox>
-              </StyledLink>
-          ))}
-        </CategoryBox>
+      <CategoryBox>
+        {categoryLists.map((category) => (
+          <StyledLink
+            key={category.categorySeq}
+            to={`/category/${category.categorySeq}?page=1`}
+          >
+            <ImageBox>
+              <StyledAvartar
+                src={`/images/MainPage/category${category.categorySeq}.png`}
+              />
+              <Typography>{category.categoryName}</Typography>
+            </ImageBox>
+          </StyledLink>
+        ))}
+      </CategoryBox>
 
-        <TableContainer>
-          <Table>
-            <TableBody>
-              {Object.entries(productLists).map(
-                  ([categoryKey, productList], index) => {
-                    const categoryInfo = categoryLists.find(c => c.categoryName === categoryKey);
-                    const categoryNameEng = categoryInfo ? categoryInfo.categoryNameEng : '';
+      <TableContainer>
+        <Table>
+          <TableBody>
+            {Object.entries(productLists).map(
+              ([categoryKey, productList], index) => {
+                const categoryInfo = categoryLists.find(
+                  (c) => c.categoryName === categoryKey,
+                );
+                const categoryNameEng = categoryInfo
+                  ? categoryInfo.categoryNameEng
+                  : "";
 
-                    return (
-                        <TableRow key={index}>
-                          <StyledTableCell>
-                            <Grid container spacing={1}>
-                              <Grid item xs={0.5}></Grid>
-                              <CenterGrid item xs={3}>
-                                <StyleTypoGrapy>{categoryNameEng} <br/> {categoryKey}</StyleTypoGrapy>
-                              </CenterGrid>
-                              <StyledGrid item xs={8}>
-                                <Grid container spacing={3}>
-                                  {productList.map((product) => (
-                                      <Grid item xs={3} key={product.productSeq}>
-                                        <MainProductCard
-                                            key={product.productSeq}
-                                            imageUrl={`${product.imageUrl}?w=292&h=300&f=webp`}
-                                            title={product.name}
-                                            price={Number(product.price).toLocaleString()}
-                                            star={product.rating}
-                                            review={product.reviewAmount}
-                                            seq={product.productSeq}
-                                        />
-                                      </Grid>
-                                  ))}
-                                </Grid>
-                              </StyledGrid>
-                            </Grid>
-                          </StyledTableCell>
-                        </TableRow>
-                    );
-                  },
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </StyledBox>
+                return (
+                  <TableRow key={index}>
+                    <StyledTableCell>
+                      <Grid container spacing={1}>
+                        <Grid item xs={0.5}></Grid>
+                        <CenterGrid item xs={3}>
+                          <StyleTypoGrapy>
+                            {categoryNameEng} <br /> {categoryKey}
+                          </StyleTypoGrapy>
+                        </CenterGrid>
+                        <StyledGrid item xs={8}>
+                          <Grid container spacing={3}>
+                            {productList.map((product) => (
+                              <Grid item xs={3} key={product.productSeq}>
+                                <MainProductCard
+                                  key={product.productSeq}
+                                  imageUrl={product.imageUrl}
+                                  title={product.name}
+                                  price={Number(product.price).toLocaleString()}
+                                  star={product.rating}
+                                  review={product.reviewAmount}
+                                  seq={product.productSeq}
+                                />
+                              </Grid>
+                            ))}
+                          </Grid>
+                        </StyledGrid>
+                      </Grid>
+                    </StyledTableCell>
+                  </TableRow>
+                );
+              },
+            )}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </StyledBox>
   );
 };
 
@@ -215,8 +224,8 @@ const StyleTypoGrapy = styled(Typography)`
 `;
 
 const StyledTableCell = styled(TableCell)({
-  paddingTop: '4vh',
-  paddingBottom: '2vh',
+  paddingTop: "4vh",
+  paddingBottom: "2vh",
 });
 
 export default MainBody;

@@ -15,7 +15,7 @@ import {
   Paper,
   Toolbar,
   Typography,
-  Grid
+  Grid,
 } from "@mui/material";
 import AdminBar from "components/organisms/AdminBar";
 import { InputBoxXL } from "components/atoms/Input";
@@ -128,7 +128,7 @@ const FAQPage = () => {
     setSelectedFaq(selectedFaq);
     setUpdateModalOpen(true);
     setLookModalOpen(false);
-  }
+  };
 
   const handleUpdateModalClose = () => {
     setUpdateModalOpen(false);
@@ -157,13 +157,14 @@ const FAQPage = () => {
 
     try {
       await TokenAxios.post(`/api/faq`, data);
-      Swal.fire({//
+      Swal.fire({
+        //
         position: "center",
         icon: "success",
         title: "FAQ 등록이 완료되었습니다.",
         showConfirmButton: true,
-        confirmButtonColor: 'black',
-        confirmButtonText: '확인',
+        confirmButtonColor: "black",
+        confirmButtonText: "확인",
       });
     } catch (e) {
       Swal.fire({
@@ -202,24 +203,26 @@ const FAQPage = () => {
         title: selectedFaq.title,
         content: selectedFaq.content,
       });
-      Swal.fire({//
+      Swal.fire({
+        //
         icon: "success",
         title: "FAQ 수정이 완료되었습니다.",
         showConfirmButton: true,
-        confirmButtonColor: 'black',
-        confirmButtonText: '확인',
+        confirmButtonColor: "black",
+        confirmButtonText: "확인",
       }).then(() => {
         handleUpdateModalClose();
         getFaq(currentPage);
       });
     } catch (e) {
       console.error("FAQ 수정 실패: ", e);
-      Swal.fire({//
+      Swal.fire({
+        //
         icon: "error",
         title: "FAQ 수정에 실패했습니다.",
         showConfirmButton: true,
-        confirmButtonColor: 'gray',
-        confirmButtonText: '확인',
+        confirmButtonColor: "gray",
+        confirmButtonText: "확인",
       });
     }
   };
@@ -228,12 +231,13 @@ const FAQPage = () => {
   const deleteFaq = async (inquirySeq) => {
     try {
       await TokenAxios.delete(`/api/faq/${inquirySeq}`);
-      Swal.fire({//
+      Swal.fire({
+        //
         icon: "success",
         title: "FAQ가 삭제되었습니다.",
         showConfirmButton: true,
-        confirmButtonColor: 'black',
-        confirmButtonText: '확인',
+        confirmButtonColor: "black",
+        confirmButtonText: "확인",
       }).then(() => {
         getFaq();
         handleLookModalClose();
@@ -241,12 +245,13 @@ const FAQPage = () => {
       });
     } catch (e) {
       console.error("FAQ 삭제 실패:", e);
-      Swal.fire({//
+      Swal.fire({
+        //
         icon: "error",
         title: "FAQ 삭제에 실패했습니다.",
         showConfirmButton: true,
-        confirmButtonColor: 'gray',
-        confirmButtonText: '확인',
+        confirmButtonColor: "gray",
+        confirmButtonText: "확인",
       });
     }
   };
@@ -257,10 +262,10 @@ const FAQPage = () => {
         title: "삭제하시겠습니까?",
         icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: 'black',
-        confirmButtonText: '확인',
-        cancelButtonColor: 'gray',
-        cancelButtonText: '취소',
+        confirmButtonColor: "black",
+        confirmButtonText: "확인",
+        cancelButtonColor: "gray",
+        cancelButtonText: "취소",
         reverseButtons: true,
       }).then((result) => {
         if (result.isConfirmed) {
@@ -413,11 +418,24 @@ const FAQPage = () => {
               })}
             >
               <DialogTitle
-                style={{ fontWeight: "bold", fontSize: "1.5rem", textAlign: "center", marginTop: 20, marginLeft: 20, marginRight: 20 }}>
+                style={{
+                  fontWeight: "bold",
+                  fontSize: "1.5rem",
+                  textAlign: "center",
+                  marginTop: 20,
+                  marginLeft: 20,
+                  marginRight: 20,
+                }}
+              >
                 <IconButton
                   aria-label="close"
                   onClick={handleCreateModalClose}
-                  sx={{ position: 'absolute', right: 8, top: 8, color: (theme) => theme.palette.grey[500], }}
+                  sx={{
+                    position: "absolute",
+                    right: 8,
+                    top: 8,
+                    color: (theme) => theme.palette.grey[500],
+                  }}
                 >
                   <CloseIcon />
                 </IconButton>
@@ -440,7 +458,8 @@ const FAQPage = () => {
                   height: "450px",
                   overflowY: "initial",
                   overflowX: "hidden",
-                  marginLeft: 20, marginRight: 20
+                  marginLeft: 20,
+                  marginRight: 20,
                 }}
               >
                 <EditorComponent
@@ -486,11 +505,25 @@ const FAQPage = () => {
               },
             }}
           >
-            <DialogTitle style={{ fontWeight: "bold", fontSize: "1.5rem", textAlign: "center", marginTop: 20, marginLeft: 20, marginRight: 20 }}>
+            <DialogTitle
+              style={{
+                fontWeight: "bold",
+                fontSize: "1.5rem",
+                textAlign: "center",
+                marginTop: 20,
+                marginLeft: 20,
+                marginRight: 20,
+              }}
+            >
               <IconButton
                 aria-label="close"
                 onClick={handleUpdateModalClose}
-                sx={{ position: 'absolute', right: 8, top: 8, color: (theme) => theme.palette.grey[500], }}
+                sx={{
+                  position: "absolute",
+                  right: 8,
+                  top: 8,
+                  color: (theme) => theme.palette.grey[500],
+                }}
               >
                 <CloseIcon />
               </IconButton>
@@ -510,11 +543,22 @@ const FAQPage = () => {
                 variant="soft"
                 sx={{ mb: 2, mt: 2, width: "100%" }}
               ></InputBoxXL>
-            </DialogTitle >
+            </DialogTitle>
 
-            <DialogContent style={{ width: 1200, height: "450px", overflowY: "initial", overflowX: "hidden", marginLeft: 20, marginRight: 20 }}>
+            <DialogContent
+              style={{
+                width: 1200,
+                height: "450px",
+                overflowY: "initial",
+                overflowX: "hidden",
+                marginLeft: 20,
+                marginRight: 20,
+              }}
+            >
               <EditorComponent
-                onContentChange={(content) => setSelectedFaq({ ...selectedFaq, content: content })}
+                onContentChange={(content) =>
+                  setSelectedFaq({ ...selectedFaq, content: content })
+                }
                 placeholder="FAQ 내용을 입력해주세요."
                 id="content"
                 value={selectedFaq?.content}
@@ -527,7 +571,11 @@ const FAQPage = () => {
             </DialogContent>
 
             <DialogActions
-              style={{ justifyContent: "center", marginTop: "20px", marginBottom: "20px" }}
+              style={{
+                justifyContent: "center",
+                marginTop: "20px",
+                marginBottom: "20px",
+              }}
             >
               <AdminButton autoFocus onClick={updateFaq}>
                 저장
@@ -547,11 +595,24 @@ const FAQPage = () => {
               },
             }}
           >
-            <DialogTitle style={{ fontWeight: "bold", fontSize: "1.5rem", textAlign: "center", marginTop: 20, marginBottom: 20 }}>
+            <DialogTitle
+              style={{
+                fontWeight: "bold",
+                fontSize: "1.5rem",
+                textAlign: "center",
+                marginTop: 20,
+                marginBottom: 20,
+              }}
+            >
               <IconButton
                 aria-label="close"
                 onClick={handleLookModalClose}
-                sx={{ position: 'absolute', right: 8, top: 8, color: (theme) => theme.palette.grey[500] }}
+                sx={{
+                  position: "absolute",
+                  right: 8,
+                  top: 8,
+                  color: (theme) => theme.palette.grey[500],
+                }}
               >
                 <CloseIcon />
               </IconButton>
@@ -565,29 +626,50 @@ const FAQPage = () => {
                 height: "450px",
                 overflowY: "initial",
                 overflowX: "initial",
-                marginLeft: 20, marginRight: 20
-              }}>
+                marginLeft: 20,
+                marginRight: 20,
+              }}
+            >
               <div>
                 <Grid container rowSpacing={1}>
                   <Grid item xs={2}>
-                    <Typography style={{fontSize: "20px", fontWeight: "bold"}} sx={{ textAlign: "center" }}>
+                    <Typography
+                      style={{ fontSize: "20px", fontWeight: "bold" }}
+                      sx={{ textAlign: "center" }}
+                    >
                       제목
                     </Typography>
                   </Grid>
                   <Grid item xs={9.5}>
-                    <Typography variant="h6" fontWeight="bold" sx={{ textAlign: "left" }}>
+                    <Typography
+                      variant="h6"
+                      fontWeight="bold"
+                      sx={{ textAlign: "left" }}
+                    >
                       {selectedFaq?.title}
                     </Typography>
                   </Grid>
                   <Grid item xs={2}>
-                    <Typography style={{fontSize: "20px", fontWeight: "bold"}} sx={{ textAlign: "center", mt: 2 }}>
+                    <Typography
+                      style={{ fontSize: "20px", fontWeight: "bold" }}
+                      sx={{ textAlign: "center", mt: 2 }}
+                    >
                       내용
                     </Typography>
                   </Grid>
                   <Grid item xs={9.5}>
-                    <Box sx={{ maxHeight: "350px", overflowY: "auto", mt: 0.5 }}>
-                      <Typography variant="subtitle1" sx={{ textAlign: "left" }}>
-                        <div dangerouslySetInnerHTML={{ __html: selectedFaq?.content }} />
+                    <Box
+                      sx={{ maxHeight: "350px", overflowY: "auto", mt: 0.5 }}
+                    >
+                      <Typography
+                        variant="subtitle1"
+                        sx={{ textAlign: "left" }}
+                      >
+                        <div
+                          dangerouslySetInnerHTML={{
+                            __html: selectedFaq?.content,
+                          }}
+                        />
                       </Typography>
                     </Box>
                   </Grid>

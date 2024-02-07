@@ -18,13 +18,16 @@ export function useAuth() {
           navigate("/");
         }
       } else if (role) {
-        if (!window.location.pathname.startsWith('/admin')) {
-            navigate("/admin");
-          }
-      } 
+        if (!window.location.pathname.startsWith("/admin")) {
+          navigate("/admin");
+        }
+      }
     } else {
       setIsAuthenticated(false);
-      if (!window.location.pathname.includes("/login") && !window.location.pathname.includes("/signUp")) {
+      if (
+        !window.location.pathname.includes("/login") &&
+        !window.location.pathname.includes("/signUp")
+      ) {
         navigate("/login");
       }
     }

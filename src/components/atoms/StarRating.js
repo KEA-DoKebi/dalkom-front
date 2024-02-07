@@ -10,7 +10,9 @@ export const StarRating = ({ rating, star, size }) => {
           ★
         </span>
       ))}
-      <span style={{ fontSize: { size }, marginLeft: "3px" }}>({displayRating?.toFixed(1)})</span>
+      <span style={{ fontSize: { size }, marginLeft: "3px" }}>
+        ({displayRating?.toFixed(1)})
+      </span>
     </div>
   );
 };

@@ -6,8 +6,8 @@ import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import { TokenAxios } from "apis/CommonAxios";
 import { OnOffSwitch } from "components/atoms/OnOffSwitch";
-import Search from 'components/molecules/Search';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import Search from "components/molecules/Search";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import {
   Box,
   Dialog,
@@ -71,7 +71,7 @@ const ListItemStyled = styled(ListItem)`
 `;
 
 const StyledDialog = styled(Dialog)`
-    z-index: 900;
+  z-index: 900;
 `;
 
 const formatDate = (dateString) => {
@@ -103,10 +103,7 @@ const AnnouncementPage = () => {
 
   const pageSize = 10;
 
-  const optionList = [
-    { label: "작성자" },
-    { label: "제목" },
-  ]
+  const optionList = [{ label: "작성자" }, { label: "제목" }];
   const handleSearchInputChange = (event) => {
     setSearchQuery(event.target.value);
   };
@@ -117,7 +114,7 @@ const AnnouncementPage = () => {
 
   const handleSearch = async (searchQuery) => {
     try {
-      let apiUrl = `/api/notice/search?${currentPage}&size=${pageSize}`;  // 기본 API URL
+      let apiUrl = `/api/notice/search?${currentPage}&size=${pageSize}`; // 기본 API URL
 
       // 선택된 검색어에 따라 검색 조건 추가
       if (selectedValue.label === "작성자") {
@@ -130,7 +127,7 @@ const AnnouncementPage = () => {
       setTotalPages(res.data.result.data.totalPages);
       console.log(res.data.result.data.content);
     } catch (error) {
-      console.error('Error searching admin:', error);
+      console.error("Error searching admin:", error);
     }
   };
 
@@ -142,7 +139,7 @@ const AnnouncementPage = () => {
   // 수정 스위치 변경 처리
   const handleEditSwitchChange = (event) => {
     // 스위치의 체크 여부에 따라 'Y' 또는 'N'으로 editNotice.state 업데이트
-    setEditNotice({ ...editNotice, state: event.target.checked ? 'Y' : 'N' });
+    setEditNotice({ ...editNotice, state: event.target.checked ? "Y" : "N" });
   };
 
   useEffect(() => {
@@ -164,7 +161,6 @@ const AnnouncementPage = () => {
   const [lookModalOpen, setLookModalOpen] = useState(false);
   const [updateModalOpen, setUpdateModalOpen] = useState(false);
 
-
   const handleWriteOpenModal = () => {
     setWriteModalOpen(true);
   };
@@ -177,7 +173,7 @@ const AnnouncementPage = () => {
     setEditNotice(selectedNotice);
     setUpdateModalOpen(true);
     setLookModalOpen(false);
-  }
+  };
   const handleUpdateCloseModal = () => {
     setUpdateModalOpen(false);
     // setLookModalOpen(false);
@@ -207,23 +203,25 @@ const AnnouncementPage = () => {
 
     try {
       await TokenAxios.post("/api/notice", data);
-      Swal.fire({//
+      Swal.fire({
+        //
         position: "center",
         icon: "success",
         title: "공지사항 등록이 완료되었습니다.",
         showConfirmButton: true,
-        confirmButtonColor: 'black',
-        confirmButtonText: '확인',
+        confirmButtonColor: "black",
+        confirmButtonText: "확인",
       });
       getNotice(currentPage);
     } catch (e) {
       console.log(e);
-      Swal.fire({//
+      Swal.fire({
+        //
         position: "center",
         title: "공지사항 등록에 실패했습니다.",
         showConfirmButton: true,
-        confirmButtonColor: 'gray',
-        confirmButtonText: '확인',
+        confirmButtonColor: "gray",
+        confirmButtonText: "확인",
       });
     }
     handleWriteCloseModal();
@@ -232,7 +230,7 @@ const AnnouncementPage = () => {
   // 공지 조회 (get)
   const getNotice = async (page) => {
     const res = await TokenAxios.get(
-      `/api/notice?page=${page}&size=${pageSize}`
+      `/api/notice?page=${page}&size=${pageSize}`,
     );
     setDataList(res.data.result.data.content);
     setTotalPages(res.data.result.data.totalPages);
@@ -250,33 +248,44 @@ const AnnouncementPage = () => {
 
   // 공지 수정 (put)
   const updateNotice = async () => {
-    console.log("시퀀스 " + currentNoticeSeq + "제목 " + editNotice.title + "내용 " + editNotice.content + "상단고정 " + editNotice.state)
+    console.log(
+      "시퀀스 " +
+        currentNoticeSeq +
+        "제목 " +
+        editNotice.title +
+        "내용 " +
+        editNotice.content +
+        "상단고정 " +
+        editNotice.state,
+    );
 
     try {
       await TokenAxios.put(`/api/notice/${currentNoticeSeq}`, {
         title: editNotice.title,
         content: editNotice.content,
         adminSeq: localStorage.getItem("adminSeq"), // 현재 관리자의 Seq
-        state: editNotice.state
+        state: editNotice.state,
       });
-      Swal.fire({//
+      Swal.fire({
+        //
         icon: "success",
         title: "공지사항 수정이 완료되었습니다.",
         showConfirmButton: true,
-        confirmButtonColor: 'black',
-        confirmButtonText: '확인',
+        confirmButtonColor: "black",
+        confirmButtonText: "확인",
       }).then(() => {
         handleUpdateCloseModal();
         getNotice(currentPage); // 목록 갱신
       });
     } catch (e) {
       console.error("공지사항 수정 실패:", e);
-      Swal.fire({//
+      Swal.fire({
+        //
         icon: "error",
         title: "공지사항 수정에 실패했습니다.",
         showConfirmButton: true,
-        confirmButtonColor: 'gray',
-        confirmButtonText: '확인',
+        confirmButtonColor: "gray",
+        confirmButtonText: "확인",
       });
     }
   };
@@ -285,12 +294,13 @@ const AnnouncementPage = () => {
   const deleteNotice = async (noticeSeq) => {
     try {
       await DefaultAxios.delete(`/api/notice/${noticeSeq}`);
-      Swal.fire({//
+      Swal.fire({
+        //
         icon: "success",
         title: "공지사항이 삭제되었습니다.",
         showConfirmButton: true,
-        confirmButtonColor: 'black',
-        confirmButtonText: '확인',
+        confirmButtonColor: "black",
+        confirmButtonText: "확인",
       }).then(() => {
         // 삭제 후 목록 갱신
         getNotice();
@@ -298,12 +308,13 @@ const AnnouncementPage = () => {
       });
     } catch (e) {
       console.error("공지사항 삭제 실패:", e);
-      Swal.fire({//
+      Swal.fire({
+        //
         icon: "error",
         title: "공지사항 삭제에 실패했습니다.",
         showConfirmButton: true,
-        confirmButtonColor: 'gray',
-        confirmButtonText: '확인',
+        confirmButtonColor: "gray",
+        confirmButtonText: "확인",
       });
     }
   };
@@ -316,10 +327,10 @@ const AnnouncementPage = () => {
         text: "이 작업은 되돌릴 수 없습니다.",
         icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: 'black',
-        confirmButtonText: '확인',
-        cancelButtonColor: 'gray',
-        cancelButtonText: '취소',
+        confirmButtonColor: "black",
+        confirmButtonText: "확인",
+        cancelButtonColor: "gray",
+        cancelButtonText: "취소",
         reverseButtons: true,
       }).then((result) => {
         if (result.isConfirmed) {
@@ -345,7 +356,11 @@ const AnnouncementPage = () => {
           {notice.title}
         </Typography>
         <Typography variant="body1" sx={{ textAlign: "center" }}>
-          {notice.state === "Y" ? <CheckCircleIcon sx={{ color: "#F4B5C2", fontSize: 25 }} /> : ""}
+          {notice.state === "Y" ? (
+            <CheckCircleIcon sx={{ color: "#F4B5C2", fontSize: 25 }} />
+          ) : (
+            ""
+          )}
         </Typography>
 <div>
           <AdminButton2 onClick={() => handleLookOpenModal(notice.noticeSeq)} >
@@ -456,7 +471,7 @@ const AnnouncementPage = () => {
                 />
               )}
           </Box>
-          
+
           {/* 공지사항 작성 모달  */}
           <StyledDialog
             onClose={handleWriteCloseModal}
@@ -473,11 +488,25 @@ const AnnouncementPage = () => {
                 postNotice(data);
               })}
             >
-              <DialogTitle style={{ fontWeight: "bold", fontSize: "1.5rem", textAlign: "center", marginTop: 20, marginLeft: 20, marginRight: 20 }}>
+              <DialogTitle
+                style={{
+                  fontWeight: "bold",
+                  fontSize: "1.5rem",
+                  textAlign: "center",
+                  marginTop: 20,
+                  marginLeft: 20,
+                  marginRight: 20,
+                }}
+              >
                 <IconButton
                   aria-label="close"
                   onClick={handleWriteCloseModal}
-                  sx={{ position: 'absolute', right: 8, top: 8, color: (theme) => theme.palette.grey[500], }}
+                  sx={{
+                    position: "absolute",
+                    right: 8,
+                    top: 8,
+                    color: (theme) => theme.palette.grey[500],
+                  }}
                 >
                   <CloseIcon />
                 </IconButton>
@@ -496,10 +525,16 @@ const AnnouncementPage = () => {
                     {...register("title")}
                   />
                   <FormControlLabel
-                    control={<OnOffSwitch checked={switchState} onChange={handleSwitchChange} sx={{ mr: 2 }} />}
+                    control={
+                      <OnOffSwitch
+                        checked={switchState}
+                        onChange={handleSwitchChange}
+                        sx={{ mr: 2 }}
+                      />
+                    }
                     label="상단 고정"
                     labelPlacement="start"
-                    sx={{ mt: 1, marginLeft: 'auto' }}
+                    sx={{ mt: 1, marginLeft: "auto" }}
                   />
                 </Box>
               </DialogTitle>
@@ -509,7 +544,8 @@ const AnnouncementPage = () => {
                   height: "450px",
                   overflowY: "initial",
                   overflowX: "hidden",
-                  marginLeft: 20, marginRight: 20
+                  marginLeft: 20,
+                  marginRight: 20,
                 }}
               >
                 <EditorComponent
@@ -555,11 +591,25 @@ const AnnouncementPage = () => {
               },
             }}
           >
-            <DialogTitle style={{ fontWeight: "bold", fontSize: "1.5rem", textAlign: "center", marginTop: 20, marginLeft: 20, marginRight: 20 }}>
+            <DialogTitle
+              style={{
+                fontWeight: "bold",
+                fontSize: "1.5rem",
+                textAlign: "center",
+                marginTop: 20,
+                marginLeft: 20,
+                marginRight: 20,
+              }}
+            >
               <IconButton
                 aria-label="close"
                 onClick={handleUpdateCloseModal}
-                sx={{ position: 'absolute', right: 8, top: 8, color: (theme) => theme.palette.grey[500], }}
+                sx={{
+                  position: "absolute",
+                  right: 8,
+                  top: 8,
+                  color: (theme) => theme.palette.grey[500],
+                }}
               >
                 <CloseIcon />
               </IconButton>
@@ -581,16 +631,33 @@ const AnnouncementPage = () => {
                   sx={{ mb: 2, mt: 2, width: "100%" }}
                 ></InputBoxTitle>
                 <FormControlLabel
-                  control={<OnOffSwitch checked={editNotice.state === "Y"} onChange={handleEditSwitchChange} sx={{ mr: 2 }} />}
+                  control={
+                    <OnOffSwitch
+                      checked={editNotice.state === "Y"}
+                      onChange={handleEditSwitchChange}
+                      sx={{ mr: 2 }}
+                    />
+                  }
                   label="상단 고정"
                   labelPlacement="start"
-                  sx={{ mt: 1, marginLeft: 'auto' }}
+                  sx={{ mt: 1, marginLeft: "auto" }}
                 />
               </Box>
             </DialogTitle>
-            <DialogContent style={{ width: 1200, height: "450px", overflowY: "initial", overflowX: "hidden", marginLeft: 20, marginRight: 20 }}>
+            <DialogContent
+              style={{
+                width: 1200,
+                height: "450px",
+                overflowY: "initial",
+                overflowX: "hidden",
+                marginLeft: 20,
+                marginRight: 20,
+              }}
+            >
               <EditorComponent
-                onContentChange={(content) => setEditNotice({ ...editNotice, content: content })}
+                onContentChange={(content) =>
+                  setEditNotice({ ...editNotice, content: content })
+                }
                 placeholder="공지 내용을 입력해주세요."
                 id="content"
                 value={editNotice?.content}
@@ -603,7 +670,11 @@ const AnnouncementPage = () => {
             </DialogContent>
 
             <DialogActions
-              style={{ justifyContent: "center", marginTop: "20px", marginBottom: "20px" }}
+              style={{
+                justifyContent: "center",
+                marginTop: "20px",
+                marginBottom: "20px",
+              }}
             >
               <AdminButton autoFocus onClick={updateNotice}>
                 저장
@@ -623,11 +694,24 @@ const AnnouncementPage = () => {
               },
             }}
           >
-            <DialogTitle style={{ fontWeight: "bold", fontSize: "1.5rem", textAlign: "center", marginTop: 20, marginBottom: 20 }}>
+            <DialogTitle
+              style={{
+                fontWeight: "bold",
+                fontSize: "1.5rem",
+                textAlign: "center",
+                marginTop: 20,
+                marginBottom: 20,
+              }}
+            >
               <IconButton
                 aria-label="close"
                 onClick={handleLookCloseModal}
-                sx={{ position: 'absolute', right: 8, top: 8, color: (theme) => theme.palette.grey[500] }}
+                sx={{
+                  position: "absolute",
+                  right: 8,
+                  top: 8,
+                  color: (theme) => theme.palette.grey[500],
+                }}
               >
                 <CloseIcon />
               </IconButton>
@@ -641,30 +725,50 @@ const AnnouncementPage = () => {
                 height: "450px",
                 overflowY: "initial",
                 overflowX: "initial",
-                marginLeft: 20, marginRight: 20
+                marginLeft: 20,
+                marginRight: 20,
               }}
             >
               <div>
                 <Grid container rowSpacing={1}>
                   <Grid item xs={2}>
-                    <Typography style={{fontSize: "20px", fontWeight: "bold"}} sx={{ textAlign: "center" }}>
+                    <Typography
+                      style={{ fontSize: "20px", fontWeight: "bold" }}
+                      sx={{ textAlign: "center" }}
+                    >
                       제목
                     </Typography>
                   </Grid>
                   <Grid item xs={9.5}>
-                    <Typography variant="h6" fontWeight="bold" sx={{ textAlign: "left" }}>
+                    <Typography
+                      variant="h6"
+                      fontWeight="bold"
+                      sx={{ textAlign: "left" }}
+                    >
                       {selectedNotice?.title}
                     </Typography>
                   </Grid>
                   <Grid item xs={2}>
-                    <Typography style={{fontSize: "20px", fontWeight: "bold"}} sx={{ textAlign: "center", mt: 2 }}>
+                    <Typography
+                      style={{ fontSize: "20px", fontWeight: "bold" }}
+                      sx={{ textAlign: "center", mt: 2 }}
+                    >
                       내용
                     </Typography>
                   </Grid>
                   <Grid item xs={9.5}>
-                    <Box sx={{ maxHeight: "350px", overflowY: "auto", mt: 0.5 }}>
-                      <Typography variant="subtitle1" sx={{ textAlign: "left" }}>
-                        <div dangerouslySetInnerHTML={{ __html: selectedNotice?.content }} />
+                    <Box
+                      sx={{ maxHeight: "350px", overflowY: "auto", mt: 0.5 }}
+                    >
+                      <Typography
+                        variant="subtitle1"
+                        sx={{ textAlign: "left" }}
+                      >
+                        <div
+                          dangerouslySetInnerHTML={{
+                            __html: selectedNotice?.content,
+                          }}
+                        />
                       </Typography>
                     </Box>
                   </Grid>
@@ -674,17 +778,26 @@ const AnnouncementPage = () => {
             <Grid container spacing={1} sx={{ mt: 5 }}>
               <Grid item xs={2} justifyContent="center" sx={{ ml: 8 }}>
                 <FormControlLabel
-                  control={<OnOffSwitch checked={selectedNotice?.state === "Y"} onChange={handleSwitchChange} disabled={true} sx={{ mr: 2 }} />}
+                  control={
+                    <OnOffSwitch
+                      checked={selectedNotice?.state === "Y"}
+                      onChange={handleSwitchChange}
+                      disabled={true}
+                      sx={{ mr: 2 }}
+                    />
+                  }
                   label="상단 고정"
                   labelPlacement="start"
                 />
               </Grid>
               <Grid item xs={8} sx={{ ml: 4 }}>
-                <Typography variant="body2" sx={{ textAlign: "right", marginLeft: "auto" }}>
-                  작성일시 : {formatDate(selectedNotice?.createdAt)}  |  작성자 : {" "}
+                <Typography
+                  variant="body2"
+                  sx={{ textAlign: "right", marginLeft: "auto" }}
+                >
+                  작성일시 : {formatDate(selectedNotice?.createdAt)} | 작성자 :{" "}
                   {selectedNotice?.nickname}
                 </Typography>
-
               </Grid>
             </Grid>
 

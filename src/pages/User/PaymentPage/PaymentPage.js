@@ -44,28 +44,28 @@ const Payment = () => {
         showConfirmButton: true,
         confirmButtonText: "충전",
         buttonsStyling: true,
-        confirmButtonColor: 'black',
+        confirmButtonColor: "black",
         showCancelButton: true,
         cancelButtonText: "확인",
-        cancelButtonColor: 'black',
+        cancelButtonColor: "black",
       }).then((result) => {
         if (result.isConfirmed) {
-          navigate("/mypage/mile")
+          navigate("/mypage/mile");
         }
       });
-    }else{
+    } else {
       if (
-          receiverName.replace(/ /gi,"") && 
-          receiverAddress.replace(/ /gi,"") && 
-          receiverMemo.replace(/ /gi,"") && 
-          receiverMobileNum.replace(/ /gi,"")
-        ) {
+        receiverName.replace(/ /gi, "") &&
+        receiverAddress.replace(/ /gi, "") &&
+        receiverMemo.replace(/ /gi, "") &&
+        receiverMobileNum.replace(/ /gi, "")
+      ) {
         Swal.fire({
           title: "결제 하시겠습니까?",
           showDenyButton: true,
           buttonsStyling: true,
           confirmButtonText: "확인",
-          confirmButtonColor: 'black',
+          confirmButtonColor: "black",
           denyButtonText: `취소`,
           denyButtonColor: "gray",
         }).then((result) => {
@@ -77,9 +77,9 @@ const Payment = () => {
               showDenyButton: true,
               buttonsStyling: true,
               confirmButtonText: "결제하기",
-              confirmButtonColor: 'black',
+              confirmButtonColor: "black",
               denyButtonText: `뒤로가기`,
-              denyButtonColor: 'gray',
+              denyButtonColor: "gray",
               preConfirm: async (password) => {
                 try {
                   const res = await TokenAxios.post("/api/order/authorize", {
@@ -90,14 +90,14 @@ const Payment = () => {
                       const res = await TokenAxios.post("/api/order", {
                         receiverInfoRequest: {
                           receiverName: receiverName,
-                          receiverAddress: receiverAddress + receiverDetailAddress,
+                          receiverAddress:
+                            receiverAddress + receiverDetailAddress,
                           receiverMobileNum: receiverMobileNum,
                           receiverMemo: receiverMemo,
                         },
 
-
-                        orderProductRequestList: orderList
-                      })
+                        orderProductRequestList: orderList,
+                      });
 
                       if (res.data.success) {
                         localStorage.setItem("mileage", res.data.result.data);
@@ -107,13 +107,14 @@ const Payment = () => {
                         setReceiverAddress("");
                         setReceiverDetailAddress("");
                         setReceiverMemo("");
-                        Swal.fire({//
+                        Swal.fire({
+                          //
                           icon: "success",
                           title: "결제가 완료되었습니다.",
                           showConfirmButton: true,
                           confirmButtonText: "확인",
                           buttonsStyling: true,
-                          confirmButtonColor: 'black',
+                          confirmButtonColor: "black",
                         }).then((result) => {
                           if (result.isConfirmed) {
                             navigate("/mypage/order/list");
@@ -123,7 +124,7 @@ const Payment = () => {
                     } catch (e) {
                       Swal.showValidationMessage(`
                           결제에 실패했습니다.
-                        `)
+                        `);
                     }
                   }
                 } catch (e) {
@@ -139,8 +140,8 @@ const Payment = () => {
                   title: "결제에 실패했습니다.",
                   showConfirmButton: true,
                   confirmButtonText: "확인",
-                  confirmButtonColor: 'black',
-                })
+                  confirmButtonColor: "black",
+                });
               }
             });
           } else if (result.isDenied) {
@@ -149,8 +150,8 @@ const Payment = () => {
               title: "결제에 실패했습니다.",
               showConfirmButton: true,
               confirmButtonText: "확인",
-              confirmButtonColor: 'black',
-            })
+              confirmButtonColor: "black",
+            });
           }
         });
       } else {
@@ -158,20 +159,19 @@ const Payment = () => {
           icon: "warning",
           title: "정보가 입력되지 않았습니다.",
           showConfirmButton: true,
-          confirmButtonColor: 'black',
-          confirmButtonText: '확인',
-        })
+          confirmButtonColor: "black",
+          confirmButtonText: "확인",
+        });
       }
     }
-
   };
 
   const handleNameChange = (e) => {
-      const value = e.target.value;
-      if(value.length < 5){
-        setReceiverName(value);
-      }
-  }
+    const value = e.target.value;
+    if (value.length < 5) {
+      setReceiverName(value);
+    }
+  };
 
   // 정규식 적용
   const handleTelChange = (e) => {
@@ -179,7 +179,7 @@ const Payment = () => {
     if (regex.test(e.target.value)) {
       setReceiverMobileNum(e.target.value);
     }
-  }
+  };
 
   useEffect(() => {
     const sendOrderRequest = async () => {
@@ -191,13 +191,11 @@ const Payment = () => {
         console.log("uselocation 으로 넘겨온값 출력");
         console.log(orderList);
 
-
         setOrderPageLists(response.data.result.data);
         // Handle the response as needed
 
-        const resMileage = await TokenAxios.get(`/api/mileage/user`)
+        const resMileage = await TokenAxios.get(`/api/mileage/user`);
         localStorage.setItem("mileage", resMileage.data.result.data);
-
       } catch (error) {
         console.error("주문 데이터 전송 실패:", error);
         console.log("자세한 오류 응답:", error.response); // 자세한 오류 응답 기록
@@ -208,16 +206,21 @@ const Payment = () => {
       // Only send the request if orderList is not empty
       sendOrderRequest();
     }
-
   }, [orderList]);
 
   // 전화번호 자동으로 - 넣어주는 코드
   useEffect(() => {
     if (receiverMobileNum.length === 10) {
-      setReceiverMobileNum(receiverMobileNum.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3'));
+      setReceiverMobileNum(
+        receiverMobileNum.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3"),
+      );
     }
     if (receiverMobileNum.length === 13) {
-      setReceiverMobileNum(receiverMobileNum.replace(/-/g, '').replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3'));
+      setReceiverMobileNum(
+        receiverMobileNum
+          .replace(/-/g, "")
+          .replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3"),
+      );
     }
   }, [receiverMobileNum]);
 
@@ -295,118 +298,228 @@ const Payment = () => {
                       borderBottom: "1px solid gray",
                     }}
                   >
-                    <Typography variant="h4" sx={{ textAlign: "center", marginBottom: "1%" }}>주문 정보</Typography>
+                    <Typography
+                      variant="h4"
+                      sx={{ textAlign: "center", marginBottom: "1%" }}
+                    >
+                      주문 정보
+                    </Typography>
                   </Grid>
 
-                  <Grid container spacing={1} justifyContent="space-between" sx={{ marginTop: "2%", marginBottom: "2%" }}>
-
+                  <Grid
+                    container
+                    spacing={1}
+                    justifyContent="space-between"
+                    sx={{ marginTop: "2%", marginBottom: "2%" }}
+                  >
                     <Grid item xs={3}></Grid>
-                    <Grid item xs={1} sx={{ display: 'flex', alignItems: 'center', marginBottom: "1%" }}>
-                      <Typography>수신인<StyledStar>*</StyledStar></Typography>
+                    <Grid
+                      item
+                      xs={1}
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        marginBottom: "1%",
+                      }}
+                    >
+                      <Typography>
+                        수신인<StyledStar>*</StyledStar>
+                      </Typography>
                     </Grid>
                     <Grid item xs={5} sx={{ marginBottom: "1%" }}>
                       <CustomInput
                         variant="soft"
                         value={receiverName}
                         onChange={handleNameChange}
-                        sx={{ backgroundColor: "white",
-                        border : "1.5px solid rgba(0,0,0,0.5)" }}
+                        sx={{
+                          backgroundColor: "white",
+                          border: "1.5px solid rgba(0,0,0,0.5)",
+                        }}
                       ></CustomInput>
                     </Grid>
                     <Grid item xs={3}></Grid>
 
                     <Grid item xs={3}></Grid>
-                    <Grid item xs={1} sx={{ display: 'flex', alignItems: 'center', marginBottom: "1%" }}>
-                      <Typography>연락처<StyledStar>*</StyledStar></Typography>
+                    <Grid
+                      item
+                      xs={1}
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        marginBottom: "1%",
+                      }}
+                    >
+                      <Typography>
+                        연락처<StyledStar>*</StyledStar>
+                      </Typography>
                     </Grid>
                     <Grid item xs={5} sx={{ marginBottom: "1%" }}>
                       <CustomInput
                         variant="soft"
                         value={receiverMobileNum}
                         onChange={handleTelChange}
-                        sx={{ backgroundColor: "white",
-                        border : "1.5px solid rgba(0,0,0,0.5)" }}
+                        sx={{
+                          backgroundColor: "white",
+                          border: "1.5px solid rgba(0,0,0,0.5)",
+                        }}
                       ></CustomInput>
                     </Grid>
                     <Grid item xs={3}></Grid>
 
                     <Grid item xs={3}></Grid>
-                    <Grid item xs={1} sx={{ display: 'flex', alignItems: 'center', marginBottom: "1%" }}>
-                      <Typography>배송지 주소<StyledStar>*</StyledStar></Typography>
+                    <Grid
+                      item
+                      xs={1}
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        marginBottom: "1%",
+                      }}
+                    >
+                      <Typography>
+                        배송지 주소<StyledStar>*</StyledStar>
+                      </Typography>
                     </Grid>
-                    <Grid item xs={5} style={{ display: "flex", alignItems: "center", marginBottom: "1%" }}>
+                    <Grid
+                      item
+                      xs={5}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        marginBottom: "1%",
+                      }}
+                    >
                       <Input
                         variant="soft"
                         value={receiverAddress}
-                        sx={{ marginRight: "10px", width: "420px", backgroundColor: "white",
-                        border : "1.5px solid rgba(0,0,0,0.5)" }}
+                        sx={{
+                          marginRight: "10px",
+                          width: "420px",
+                          backgroundColor: "white",
+                          border: "1.5px solid rgba(0,0,0,0.5)",
+                        }}
                       />
                       <DaumAddressComponent />
                     </Grid>
                     <Grid item xs={3}></Grid>
 
                     <Grid item xs={3}></Grid>
-                    <Grid item xs={1} sx={{ display: 'flex', alignItems: 'center', marginBottom: "1%" }}>
+                    <Grid
+                      item
+                      xs={1}
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        marginBottom: "1%",
+                      }}
+                    >
                       <Typography>상세 주소</Typography>
                     </Grid>
-                    <Grid item xs={5} style={{ display: "flex", alignItems: "center", marginBottom: "1%" }}>
+                    <Grid
+                      item
+                      xs={5}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        marginBottom: "1%",
+                      }}
+                    >
                       <CustomInput
                         variant="soft"
                         value={receiverDetailAddress}
-                        onChange={(e) => setReceiverDetailAddress(e.target.value)}
-                        sx={{ backgroundColor: "white",
-                        border : "1.5px solid rgba(0,0,0,0.5)" }}
+                        onChange={(e) =>
+                          setReceiverDetailAddress(e.target.value)
+                        }
+                        sx={{
+                          backgroundColor: "white",
+                          border: "1.5px solid rgba(0,0,0,0.5)",
+                        }}
                       ></CustomInput>
                     </Grid>
                     <Grid item xs={3}></Grid>
 
                     <Grid item xs={3}></Grid>
-                    <Grid item xs={1} sx={{ display: 'flex', alignItems: 'center', marginBottom: "1%" }}>
-                      <Typography>배송 요청사항<StyledStar>*</StyledStar></Typography>
+                    <Grid
+                      item
+                      xs={1}
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        marginBottom: "1%",
+                      }}
+                    >
+                      <Typography>
+                        배송 요청사항<StyledStar>*</StyledStar>
+                      </Typography>
                     </Grid>
                     <Grid item xs={5} sx={{ marginBottom: "1%" }}>
                       <CustomInput
                         variant="soft"
                         value={receiverMemo}
                         onChange={(e) => setReceiverMemo(e.target.value)}
-                        sx={{ backgroundColor: "white",
-                        border : "1.5px solid rgba(0,0,0,0.5)" }}
+                        sx={{
+                          backgroundColor: "white",
+                          border: "1.5px solid rgba(0,0,0,0.5)",
+                        }}
                       ></CustomInput>
                     </Grid>
                     <Grid item xs={3}></Grid>
                   </Grid>
                 </Grid>
-
               </tr>
             </thead>
             <tbody>
               <tr>
-                <Grid container spacing={2} justifyContent="space-between" sx={{ borderBottom: "1px solid gray" }}>
-
-                  <Grid item xs={3} style={{ textAlign: "center", marginBottom: "1.5%" }}>
+                <Grid
+                  container
+                  spacing={2}
+                  justifyContent="space-between"
+                  sx={{ borderBottom: "1px solid gray" }}
+                >
+                  <Grid
+                    item
+                    xs={3}
+                    style={{ textAlign: "center", marginBottom: "1.5%" }}
+                  >
                     <Typography style={{ fontWeight: "bold" }}>
                       상품명
                     </Typography>
                   </Grid>
-                  <Grid item xs={1} style={{ textAlign: "center", marginBottom: "1.5%" }}>
+                  <Grid
+                    item
+                    xs={1}
+                    style={{ textAlign: "center", marginBottom: "1.5%" }}
+                  >
+                    <Typography style={{ fontWeight: "bold" }}>옵션</Typography>
+                  </Grid>
+                  <Grid
+                    item
+                    xs={2}
+                    style={{ textAlign: "center", marginBottom: "1.5%" }}
+                  >
+                    <Typography style={{ fontWeight: "bold" }}>가격</Typography>
+                  </Grid>
+                  <Grid
+                    item
+                    xs={1}
+                    style={{ textAlign: "center", marginBottom: "1.5%" }}
+                  >
+                    <Typography style={{ fontWeight: "bold" }}>수량</Typography>
+                  </Grid>
+                  <Grid
+                    item
+                    xs={1}
+                    style={{ textAlign: "center", marginBottom: "1.5%" }}
+                  >
                     <Typography style={{ fontWeight: "bold" }}>
-                      옵션
+                      배송비
                     </Typography>
                   </Grid>
-                  <Grid item xs={2} style={{ textAlign: "center", marginBottom: "1.5%" }}>
-                    <Typography style={{ fontWeight: "bold" }}>
-                      가격
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={1} style={{ textAlign: "center", marginBottom: "1.5%" }}>
-                    <Typography style={{ fontWeight: "bold" }}>
-                      수량
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={1} style={{ textAlign: "center", marginBottom: "1.5%" }}>
-                    <Typography style={{ fontWeight: "bold" }}>배송비</Typography>
-                  </Grid>
-                  <Grid item xs={2} style={{ textAlign: "center", marginBottom: "1.5%" }}>
+                  <Grid
+                    item
+                    xs={2}
+                    style={{ textAlign: "center", marginBottom: "1.5%" }}
+                  >
                     <Typography style={{ fontWeight: "bold" }}>
                       최종가격
                     </Typography>
@@ -415,15 +528,30 @@ const Payment = () => {
               </tr>
               {orderPageLists.map((orderItem, index) => (
                 <tr key={index}>
-                  <Grid container spacing={2} justifyContent="space-between" sx={{ marginTop: "0.1%", pb: "1%", borderBottom: "1px solid gray" }}>
+                  <Grid
+                    container
+                    spacing={2}
+                    justifyContent="space-between"
+                    sx={{
+                      marginTop: "0.1%",
+                      pb: "1%",
+                      borderBottom: "1px solid gray",
+                    }}
+                  >
                     <Grid item xs={3} style={{ textAlign: "center" }}>
                       <Typography>{orderItem.productName}</Typography>
                     </Grid>
                     <Grid item xs={1} style={{ textAlign: "center" }}>
-                      <Typography>{orderItem.productOptionDetail === 'default' ? '-' : orderItem.productOptionDetail}</Typography>
+                      <Typography>
+                        {orderItem.productOptionDetail === "default"
+                          ? "-"
+                          : orderItem.productOptionDetail}
+                      </Typography>
                     </Grid>
                     <Grid item xs={2} style={{ textAlign: "center" }}>
-                      <Typography>{orderItem.productPrice?.toLocaleString()}</Typography>
+                      <Typography>
+                        {orderItem.productPrice?.toLocaleString()}
+                      </Typography>
                     </Grid>
                     <Grid item xs={1} style={{ textAlign: "center" }}>
                       <Typography>{orderItem.productAmount}</Typography>
@@ -432,7 +560,9 @@ const Payment = () => {
                       <Typography>무료</Typography>
                     </Grid>
                     <Grid item xs={2} style={{ textAlign: "center" }}>
-                      <Typography>{orderItem.totalPrice?.toLocaleString()}</Typography>
+                      <Typography>
+                        {orderItem.totalPrice?.toLocaleString()}
+                      </Typography>
                     </Grid>
                   </Grid>
                 </tr>
@@ -445,11 +575,17 @@ const Payment = () => {
                   textAlign: "center",
                 }}
               >
-                <Grid container spacing={2} justifyContent="space-between" sx={{mt: "0.5%"}}>
+                <Grid
+                  container
+                  spacing={2}
+                  justifyContent="space-between"
+                  sx={{ mt: "0.5%" }}
+                >
                   <Grid item xs={12}>
                     <h3>
-                      총 상품 가격 {calculateTotalPrice()?.toLocaleString()} + 총 배송비 0 = 총
-                      주문금액 {calculateTotalPrice()?.toLocaleString()}
+                      총 상품 가격 {calculateTotalPrice()?.toLocaleString()} +
+                      총 배송비 0 = 총 주문금액{" "}
+                      {calculateTotalPrice()?.toLocaleString()}
                     </h3>
                   </Grid>
                 </Grid>
@@ -457,7 +593,6 @@ const Payment = () => {
             </tfoot>
           </table>
         </Box>
-
 
         {/* Add your order information here */}
       </Box>
@@ -500,5 +635,5 @@ const CustomInput = styled(Input)`
 `;
 
 const StyledStar = styled.span`
-  color : red;
-`
+  color: red;
+`;

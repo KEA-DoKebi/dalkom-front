@@ -1,5 +1,10 @@
 import { Grid, Typography, Box, Pagination, Tabs, Tab } from "@mui/material";
-import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
+import {
+  Link,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { TokenAxios } from "apis/CommonAxios";
@@ -26,18 +31,16 @@ const CategoryBody = () => {
     "스포츠/레저",
     "카카오굿즈",
   ]); // 정적 상위 카테고리 배열
-  const {setPage} = searchStore(state => state);
-
+  const { setPage } = searchStore((state) => state);
 
   const navigate = useNavigate();
-
 
   // 페이지 변환하게 하는 함수
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
-    if(subCategorySeq === undefined){
+    if (subCategorySeq === undefined) {
       navigate(`/category/${categorySeq}?page=${value}`);
-    }else{
+    } else {
       navigate(`/category/${categorySeq}/sub/${subCategorySeq}?page=${value}`);
     }
     // 화면을 맨 위로 스크롤 이동
@@ -109,13 +112,13 @@ const CategoryBody = () => {
   useEffect(() => {
     getSubProductLists();
     setTabValue(Number(subCategorySeq));
-    setPage("카테고리 검색결과")
+    setPage("카테고리 검색결과");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [subCategorySeq, currentPage]);
 
   useEffect(() => {
     setCurrentPage(searchPage || 1);
-  },[searchPage])
+  }, [searchPage]);
 
   return (
     <StyledBox>

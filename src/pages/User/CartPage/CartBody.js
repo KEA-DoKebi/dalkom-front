@@ -46,8 +46,8 @@ const FinalPaymentContainer = styled.div`
   flex-direction: column;
   align-items: flex-start;
   width: 520px;
-  margin-top : 50px;
-  margin-left : 30px;
+  margin-top: 50px;
+  margin-left: 30px;
   font-size: 16px;
 `;
 
@@ -101,7 +101,7 @@ export default function CartBody() {
             amount: item.amount,
             totalPrice: item.amount * item.price, // Adjust calculation based on available data
             imageUrl: item.imageUrl,
-            stock : item.stock,
+            stock: item.stock,
           }));
           console.log("mappedData값");
           console.log(mappedData);
@@ -123,29 +123,28 @@ export default function CartBody() {
       // 동의한 경우에만 페이지 이동
       const selectedRowsStock = rows
         ?.filter((row) => selectedRows.includes(row.orderCartSeq))
-        ?.map((row) => (row.amount <= row.stock ? true : false) )
-      
+        ?.map((row) => (row.amount <= row.stock ? true : false));
+
       const isNotValid = selectedRowsStock.includes(false);
-      if(isNotValid){
+      if (isNotValid) {
         Swal.fire({
           icon: "error",
           title: "재고가 부족합니다",
-          showConfirmButton: true, 
-          confirmButtonText : "확인",
-          buttonsStyling: true,  
-          confirmButtonColor: 'black',
+          showConfirmButton: true,
+          confirmButtonText: "확인",
+          buttonsStyling: true,
+          confirmButtonColor: "black",
         });
-      }
-      else{
+      } else {
         const selectedRowsData = rows
           .filter((row) => selectedRows.includes(row.orderCartSeq))
           .map((row) => ({
             productSeq: row.productSeq,
             productOptionSeq: row.prdtOptionSeq,
             productAmount: row.amount,
-            orderCartSeq : row.orderCartSeq
+            orderCartSeq: row.orderCartSeq,
           }));
-        // 결제하기 페이지로 넘어갈때 state 로 값 넘준다 
+        // 결제하기 페이지로 넘어갈때 state 로 값 넘준다
         navigate("/payment", { state: { orderList: selectedRowsData } });
       }
     }
@@ -190,12 +189,13 @@ export default function CartBody() {
     } catch (error) {
       console.error("선택된 상품 삭제 실패:", error);
     }
-    Swal.fire({//
+    Swal.fire({
+      //
       icon: "success",
       title: "장바구니에서 삭제되었습니다.",
       showConfirmButton: true,
-      confirmButtonColor: 'black',
-      confirmButtonText: '확인',
+      confirmButtonColor: "black",
+      confirmButtonText: "확인",
     });
   };
 
@@ -299,8 +299,7 @@ export default function CartBody() {
 
       <FinalPaymentContainer>
         <Divider />
-        <div style={{ fontSize: "30px", marginTop: "20px", width : "500px" }}>
-          
+        <div style={{ fontSize: "30px", marginTop: "20px", width: "500px" }}>
           최종 결제 금액: {totalAmount.toLocaleString()}
         </div>
         <div style={{ fontSize: "25px", marginTop: "20px" }}>
@@ -338,5 +337,5 @@ export default function CartBody() {
 }
 
 const TitleTableCell = styled(TableCell)`
-  font-weight : bold;
-`
+  font-weight: bold;
+`;

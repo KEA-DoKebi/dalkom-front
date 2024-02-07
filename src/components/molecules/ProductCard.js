@@ -12,43 +12,39 @@ export const ProductCard = ({ imageUrl, title, price, star, review, seq, categor
   const {addImageList, addSeq, imageList, seqList, subCategorySeq, setSubCategorySeq} = productImageStore((state) => state);
 
   const handleAddButtonClick = () => {
+    console.log("카드에서 받아오는 카테고리" + categorySeq);
+    console.log("상태에서 받아오는 카테고리" + subCategorySeq);
 
-    console.log("카드에서 받아오는 카테고리" + categorySeq)
-    console.log("상태에서 받아오는 카테고리" + subCategorySeq)
-
-    if(!seqList.includes(seq)){
-      if(subCategorySeq === 0 || categorySeq === subCategorySeq){
-        if(imageList.length < 3){
+    if (!seqList.includes(seq)) {
+      if (subCategorySeq === 0 || categorySeq === subCategorySeq) {
+        if (imageList.length < 3) {
           addImageList(imageUrl);
           addSeq(seq);
           setSubCategorySeq(categorySeq);
-        }
-        else{
-          Swal.fire({//
+        } else {
+          Swal.fire({
+            //
             position: "center",
             icon: "warning",
             title: "비교 상품은 3개까지만<br> 담을 수 있습니다.",
             showConfirmButton: true,
-            confirmButtonColor: 'black',
-            confirmButtonText: '확인',
+            confirmButtonColor: "black",
+            confirmButtonText: "확인",
           });
         }
-      }
-      else{
-        Swal.fire({//
+      } else {
+        Swal.fire({
+          //
           position: "center",
           icon: "warning",
           title: "같은 카테고리의 상품만<br> 담을 수 있습니다.",
           showConfirmButton: true,
-          confirmButtonColor: 'black',
-          confirmButtonText: '확인',
+          confirmButtonColor: "black",
+          confirmButtonText: "확인",
         });
       }
     }
-    
-  }
-
-    
+  };
 
   return (
     <Link to={`/product/${seq}/상품상세`}>
@@ -61,7 +57,7 @@ export const ProductCard = ({ imageUrl, title, price, star, review, seq, categor
               sx={{
                 fontSize: "15px",
                 fontWeight: "bold",
-                lineHeight: "normal"
+                lineHeight: "normal",
               }}
             >
               ➕ 상품 비교

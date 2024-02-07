@@ -22,10 +22,15 @@ export const PinkSwitch = styled(Switch)(() => ({
   },
 }));
 
-export function OnOffSwitch({checked, onChange, sx, disabled}) {
+export function OnOffSwitch({ checked, onChange, sx, disabled }) {
   return (
     <div>
-      <PinkSwitch checked={checked} onChange={onChange} disabled={disabled} sx={sx} />
-    </div> 
+      <PinkSwitch
+        checked={checked}
+        onChange={onChange}
+        disabled={disabled}
+        sx={sx}
+      />
+    </div>
   );
 }

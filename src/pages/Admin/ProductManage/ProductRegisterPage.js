@@ -227,20 +227,22 @@ const ProductRegisterPage = () => {
           navigate("/admin/product/list");
         });
       } else {
-        // 실패 처리
         Swal.fire({
+          //
           icon: "error",
           title: "상품 등록에 실패했습니다.",
+          showConfirmButton: true,
           confirmButtonColor: "gray",
           confirmButtonText: "확인",
         });
       }
     } catch (e) {
       console.log(e);
-      console.table(e.config.data);
       Swal.fire({
+        //
         icon: "error",
         title: "상품 등록에 실패했습니다.",
+        showConfirmButton: true,
         confirmButtonColor: "gray",
         confirmButtonText: "확인",
       });
@@ -431,7 +433,6 @@ const ProductRegisterPage = () => {
                     {...register("price")}
                   />
                 </div>
-
                 <div
                   style={{
                     display: "flex",

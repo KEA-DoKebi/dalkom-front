@@ -17,21 +17,20 @@ const Body = styled.div`
   flex-direction: column;
   border: 1px solid;
   border-radius: 20px;
-  border-color: #EEEEEE;
+  border-color: #eeeeee;
   min-height: 50vh;
 `;
 
 const FAQDetailBody = () => {
-    const location = useLocation();
-    const { selectedFaq } = location.state;
+  const location = useLocation();
+  const { selectedFaq } = location.state;
 
-    return (
-        <Main>
-                <h1>{selectedFaq.title}</h1>
-            <Body dangerouslySetInnerHTML={{ __html: selectedFaq.content }}>
-            </Body>
-        </Main>
-    );
+  return (
+    <Main>
+      <h1>{selectedFaq.title}</h1>
+      <Body dangerouslySetInnerHTML={{ __html: selectedFaq.content }}></Body>
+    </Main>
+  );
 };
 
 export default FAQDetailBody;

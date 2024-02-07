@@ -33,7 +33,7 @@ const UserRegisterPage = () => {
     // AdminButton이 클릭되면 Alert를 열도록 상태를 업데이트
     setAlertOpen();
   };
-  
+
   useEffect(() => {
     // 각 페이지가 마운트될 때 selectedMenu를 업데이트
     // setSelectedMenu 함수를 호출하여 상태를 업데이트
@@ -67,8 +67,6 @@ const UserRegisterPage = () => {
       setAlertOpen(true); // alert 열기
     }
   };
-
-  
 
   const { register, handleSubmit } = useForm();
 
