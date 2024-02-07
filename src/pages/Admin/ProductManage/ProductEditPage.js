@@ -106,9 +106,14 @@ const ProductEditPage = () => {
         });
         //이미지 업로드 url 반환
         const IMG_URL = await upload.promise().then((res) => res.Location);
-        console.log(IMG_URL);
+        const newPath = IMG_URL.replace("https://dalkom-image.s3.ap-northeast-2.amazonaws.com", "https://d3tilqrki7dfvu.cloudfront.net");
+        console.log(newPath); // 결과: https://d3tilqrki7dfvu.cloudfront.net/upload/1707195870907.png
+
+        // const cloudfront = "https://d3tilqrki7dfvu.cloudfront.net/";
+        // const replaceURL = IMG_URL.replace("https://dalkom-image.s3.ap-northeast-2.amazonaws.com/", cloudfront);
+        // console.log(replaceURL);
         
-        setProductImage(IMG_URL)  
+        setProductImage(newPath)  
               
       } catch (error) {
         console.error('Error during S3 upload:', error);

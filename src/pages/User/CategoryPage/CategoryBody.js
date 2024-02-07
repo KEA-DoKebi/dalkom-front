@@ -173,7 +173,7 @@ const CategoryBody = () => {
               <Grid item xs={3} key={product.productSeq}>
                 <ProductCard
                   key={product.productSeq}
-                  imageUrl={product.imageUrl}
+                  imageUrl={`${product.imageUrl}?w=300&h=300&f=webp`}
                   title={product.name}
                   price={product.price}
                   star={product.rating}

@@ -114,7 +114,7 @@ const MainBody = () => {
                                       <Grid item xs={3} key={product.productSeq}>
                                         <MainProductCard
                                             key={product.productSeq}
-                                            imageUrl={product.imageUrl}
+                                            imageUrl={`${product.imageUrl}?w=292&h=300&f=webp`}
                                             title={product.name}
                                             price={Number(product.price).toLocaleString()}
                                             star={product.rating}
