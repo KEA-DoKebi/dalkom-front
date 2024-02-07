@@ -53,8 +53,13 @@ const Payment = () => {
           navigate("/mypage/mile")
         }
       });
-    } else {
-      if (receiverName && receiverAddress && receiverMemo && receiverMobileNum) {
+    }else{
+      if (
+          receiverName.replace(/ /gi,"") && 
+          receiverAddress.replace(/ /gi,"") && 
+          receiverMemo.replace(/ /gi,"") && 
+          receiverMobileNum.replace(/ /gi,"")
+        ) {
         Swal.fire({
           title: "결제 하시겠습니까?",
           showDenyButton: true,

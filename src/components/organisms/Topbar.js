@@ -31,7 +31,7 @@ const SubMenu = ({ subMenu, categorySeq }) => {
           // onClick={() => onSubMenuItemClick(item.title)}
           style={{ fontWeight: "normal", marginRight : "60px" }}
         >
-          <CustomLink to={`/category/${categorySeq}/sub/${item.seq}`}>
+          <CustomLink to={`/category/${categorySeq}/sub/${item.seq}?page=1`}>
             <CustomText>{item.title}</CustomText> 
           </CustomLink>
         </div>
@@ -137,7 +137,7 @@ const Topbar = () => {
     if (e.key === 'Enter') {
       const searchKeyword = e.target.value
       console.log(e.target.value);
-      navigate(`/search?searchKeyword=${searchKeyword}`)
+      navigate(`/search?searchKeyword=${searchKeyword}&page=1`)
       console.log('검색 실행:', searchKeyword);
     }
    
