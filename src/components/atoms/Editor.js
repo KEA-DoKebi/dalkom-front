@@ -54,7 +54,7 @@ const EditorComponent = ({ onContentChange, placeholder, value }) => {
         const range = editor.getSelection();
         //커서 위치에 이미지 삽입
         editor.insertEmbed(range.index, "image", IMG_URL);
-        console.log(IMG_URL)
+        console.log(IMG_URL);
       } catch (error) {
         console.log(error);
       }
