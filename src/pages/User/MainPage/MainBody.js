@@ -56,31 +56,31 @@ const MainBody = () => {
 
   return (
       <StyledBox>
-        <StyledCarousel animation={false}>
-          <StyledPaper sx={{ backgroundColor: "#FFF8DC", animation : "false" }}>
+        <StyledCarousel stopAutoPlayOnHover={true} >
+          <StyledPaper sx={{ backgroundColor: "#FFF8DC" }}>
             <Link to="/cs/manual">
-              <BannerImage src="/images/MainPage/dokebiBanner1.png" />
+              <BannerImage src="/images/MainPage/dokebiBanner4.png" />
             </Link>
           </StyledPaper>
 
-          <StyledPaper sx={{ backgroundColor: "#FEE300" }}>
+          <StyledPaper sx={{ backgroundColor: "#ffd1d2" }}>
             <Link to="/cs/manual">
-              <BannerImage src="/images/MainPage/dokebiBanner2.png" />
+              <BannerImage src="/images/MainPage/dokebiBanner5.png" />
             </Link>
           </StyledPaper>
 
-          <StyledPaper sx={{ backgroundColor: "#494881" }}>
-            <Link to="/cs/manual">
-              <BannerImage src="/images/MainPage/dokebiBanner3.png" />
-            </Link>
-          </StyledPaper>
+          {/*<StyledPaper sx={{ backgroundColor: "#494881" }}>*/}
+          {/*  <Link to="/cs/manual">*/}
+          {/*    <BannerImage src="/images/MainPage/dokebiBanner3.png" />*/}
+          {/*  </Link>*/}
+          {/*</StyledPaper>*/}
         </StyledCarousel>
 
         <CategoryBox>
           {categoryLists.map((category) => (
               <StyledLink
                   key={category.categorySeq}
-                  to={`/category/${category.categorySeq}?page=1`}
+                  to={`/category/${category.categorySeq}`}
               >
                 <ImageBox>
                   <StyledAvartar
@@ -153,25 +153,17 @@ const StyledCarousel = styled(Carousel)`
   align-items: center;
   z-index: 0;
   margin-top: -5vh;
-  && .MuiPaper-root {
-    background-color: transparent;
-    animation: none !important;
-    transition: none !important;
-  }
 `;
 
 const StyledPaper = styled(Paper)`
   ${centerFlex}
-  height : 400px;
   box-shadow: none;
-  && {
-    animation: none !important;
-    transition: none !important;
-  }
+
 `;
 
 const BannerImage = styled.img`
   ${centerFlex}
+  height : 400px;
 `;
 
 const CategoryBox = styled(Box)`
@@ -228,3 +220,4 @@ const StyledTableCell = styled(TableCell)({
 });
 
 export default MainBody;
+
