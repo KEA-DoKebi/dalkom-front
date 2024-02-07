@@ -28,7 +28,7 @@ export const MainProductCard = ({ imageUrl, title, price, star, review, seq }) =
                 alt="마일리지"
                 style={{ width: "20px", height: "20px", marginRight: "5px" }}
               />
-              {price}
+              {price.toLocaleString()}
             </Typography>
           </CardDescription>
           <CardDescription>
