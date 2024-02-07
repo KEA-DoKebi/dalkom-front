@@ -97,14 +97,12 @@ const Login = () => {
         navigate("/admin");
       }
     } catch (e) {
-      Swal.fire({
-        icon: "error",
-        title: "헉!!!",
-        text: "로그인에 실패하였어요!",
-        // footer: `${e.response.data.result.msg}`,
-
-        footer:
-          "자세한 이유는 백엔드의 에러 코드가 전부 구현됐을 때에 알 수 있습니다!",
+      Swal.fire({//
+        icon: "warning",
+        title: "로그인에 실패했습니다.",
+        showConfirmButton: true,
+        confirmButtonColor: 'black',
+        confirmButtonText: '확인',
       });
       console.log(e);
     }

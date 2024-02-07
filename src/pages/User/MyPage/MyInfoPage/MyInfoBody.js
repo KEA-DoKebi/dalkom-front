@@ -26,7 +26,7 @@ export const UserButton = styled(Button)`
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 0px;
+  border-radius: 10px;
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
   margin-bottom: 5%;
 
@@ -72,16 +72,25 @@ const MyInfoBody = () => {
       const res = await TokenAxios.put("/api/user", data);
       res.address = userAddress
       console.log(res.data);
-      // Swal.fire 성공 메시지
-      Swal.fire({
+      Swal.fire({//
         position: "center",
         icon: "success",
-        title: "수정완료 되었습니다!",
-        showConfirmButton: false,
-        timer: 1500
+        title: "수정이 완료되었습니다.",
+        showConfirmButton: true,
+        confirmButtonColor: 'black',
+        confirmButtonText: '확인',
       });
     } catch (e) {
-      console.log(e);
+        console.log(e);
+        Swal.fire({//
+            position: "center",
+            icon: "error",
+            title: "수정에 실패했습니다.",
+            showConfirmButton: true,
+            confirmButtonColor: 'gray',
+            confirmButtonText: '확인',
+        });
+
     }
   };
 

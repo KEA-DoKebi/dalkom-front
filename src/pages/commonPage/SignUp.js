@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { colors } from "styles/commonTheme";
 import signUpImage from "assets/images/signUpPage.png";
@@ -96,14 +96,12 @@ const CustomButton = muiStyled(Button)({
 });
 
 const SignUp = () => {
-  const { register, handleSubmit, watch } = useForm();
+  const { register, handleSubmit ,watch, setError, clearErrors, formState: { errors } } = useForm();
   const [joinedDate, setJoinedDate] = useState(null);
   const [isShowPw, setShowPwState] = useState(true);
 
   const password = watch("password");
   const comfirmPassword = watch("confirmPassword");
-
-
 
   const toggleHidePassword =()=>{
     setShowPwState(!isShowPw);
@@ -122,26 +120,40 @@ const SignUp = () => {
     try {
       const res = await DefaultAxios.post("/api/user/sign-up", data);
       if (res.data.message === "회원가입 성공") {
-        Swal.fire({
+        Swal.fire({//
           icon: "success",
           title: "회원가입이 완료되었습니다.",
-          showConfirmButton: false,
-          timer: 1500,
+          showConfirmButton: true,
+          confirmButtonColor: 'black',
+          confirmButtonText: '확인',
         }).then(() => {
           navigate("/login");
         });
       }
     } catch (e) {
       // console.log(e);
-      Swal.fire({
+      Swal.fire({//
         icon: "error",
-        title: "회원 가입에 실패했습니다.",
-        // footer: `${e.response.data.result.msg}`,
+        title: "회원가입에 실패했습니다.",
+        showConfirmButton: true,
+        confirmButtonColor: 'gray',
+        confirmButtonText: '확인',
         footer:
-          "자세한 이유는 백엔드의 에러 코드가 전부 구현됐을 때에 알 수 있습니다!",
+          "등록된 임직원이 아닙니다.",
       });
     }
   };
+
+  useEffect(() => {
+    if (password && comfirmPassword && password !== comfirmPassword) {
+      setError("confirmPassword", {
+        type: "manual",
+        message: "비밀번호가 일치하지 않습니다.",
+      });
+    } else {
+      clearErrors("confirmPassword");
+    }
+  }, [password, comfirmPassword, setError, clearErrors]);
 
   return (
     <Base>
@@ -186,23 +198,31 @@ const SignUp = () => {
                 <StyleTextField
                   id="password"
                   label="비밀번호"
-                  type={isShowPw? "password":"text"}
+                  type={isShowPw ? "text" : "password"}
                   variant="outlined"
                   placeholder="비밀번호를 입력하세요."
                   {...register("password")}
+                  error={!!errors.password}
+                  helperText={errors.password ? errors.password.message : ""}
                 />
-                <Icon onClick={toggleHidePassword}> {isShowPw ? <FaEyeSlash /> : <FaEye />}</Icon>
+                <Icon onClick={toggleHidePassword}>
+                  {isShowPw ? <FaEyeSlash /> : <FaEye />}
+                </Icon>
               </div>
               <div style={{display : "flex", justifyContent : "space-between", position : "relative"}}>
                 <StyleTextField
                   id="confirmPassword"
                   label="비밀번호 확인"
-                  type={isShowPw? "password":"text"}
+                  type={isShowPw ? "text" : "password"}
                   variant="outlined"
                   placeholder="비밀번호를 다시 입력하세요."
                   {...register("confirmPassword")}
+                  error={!!errors.confirmPassword}
+                  helperText={errors.confirmPassword ? errors.confirmPassword.message : ""}
                 />
-                <Icon onClick={toggleHidePassword}> {isShowPw ? <FaEyeSlash /> : <FaEye />}</Icon>
+                <Icon onClick={toggleHidePassword}>
+                  {isShowPw ? <FaEyeSlash /> : <FaEye />}
+                </Icon>
               </div>
               <StyleTextField
                 id="nickname"

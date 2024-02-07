@@ -43,6 +43,13 @@ import { BrowserRouter, Route } from "react-router-dom";
 import { init as initApm } from "@elastic/apm-rum";
 import ProductDetailPage from "pages/User/ProductDetailPage/ProductDetailPage";
 import { AuthProvider } from "./AuthContext";
+import { SearchPage } from "pages/User/SearchPage/SearchPage";
+
+import { FAQDetailPage } from "pages/User/CustomerServicePage/FAQDetailPage";
+import { NoticeDetailPage } from "pages/User/CustomerServicePage/NoticeDetailPage";
+
+import MileageInquiryPage from "pages/Admin/InquiryManage/MileageInquiryPage";
+
 
 // eslint-disable-next-line no-unused-vars, no-undef
 const apm = initApm({
@@ -76,6 +83,7 @@ const Router = () => {
           <Route path="/product/:productSeq/:menuName" element={<ProductDetailPage />} />
 
           <Route path="/cart" element={<Cart />} />
+          <Route path="/search" element={<SearchPage />} />
           {/* 관리자 관리 */}
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/admin/list" element={<AdminListPage />} />
@@ -102,7 +110,9 @@ const Router = () => {
           <Route path="/cs">
             <Route path="/cs/manual" element={<ManualPage />} />
             <Route path="/cs/notice" element={<NoticePage />} />
+            <Route path="/cs/notice/:noticeSeq" element={<NoticeDetailPage />} />
             <Route path="/cs/user-faq" element={<UserFAQPage />} />
+            <Route path="/cs/user-faq/:inquirySeq" element={<FAQDetailPage />} />
           </Route>
 
           {/* 관리자 */}
@@ -148,12 +158,16 @@ const Router = () => {
                 element={<OrderInquiryPage />}
               />
               <Route
-                path="/admin/inquiry/payment"
+                path="/admin/inquiry/refund"
                 element={<PaymentInquiryPage />}
               />
               <Route
                 path="/admin/inquiry/product"
                 element={<ProductInquiryPage />}
+              />
+              <Route
+                path="/admin/inquiry/mileage"
+                element={<MileageInquiryPage />}
               />
             </Route>
 

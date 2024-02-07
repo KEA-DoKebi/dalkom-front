@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import AdminBar from "components/organisms/AdminBar";
 import { AdminButton } from "components/atoms/AdminCommonButton";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { CustomSelect } from "components/atoms/AdminSelectBox";
 import CloseIcon from '@mui/icons-material/Close';
 import Search from 'components/molecules/Search';
@@ -27,21 +27,22 @@ import Swal from "sweetalert2";
 
 // 각 항목에 대한 공통 스타일을 설정합니다.
 const itemFlexStyles = {
-  "& > *:nth-child(1)": { flex: 1 }, // 주문번호
-  "& > *:nth-child(2)": { flex: 1 }, // 주문일시
-  "& > *:nth-child(3)": { flex: 0.5 }, // 수량
-  "& > *:nth-child(4)": { flex: 1 }, // 주문자
-  "& > *:nth-child(5)": { flex: 1 }, // 수령인
-  "& > *:nth-child(6)": { flex: 1 }, // 결제금액
-  "& > *:nth-child(7)": { flex: 1.5 }, // 주문상태
-  "& > *:nth-child(8)": { flex: 1 }, // 주문상세
+  "& > *:nth-child(1)": { width : "5%" }, // 주문번호
+  "& > *:nth-child(2)": { width : "16%" }, // 주문일시
+  "& > *:nth-child(3)": { width : "5%" }, // 수량
+  "& > *:nth-child(4)": { width : "16%" }, // 주문자
+  "& > *:nth-child(5)": { width : "16%" }, // 수령인
+  "& > *:nth-child(6)": { width : "16%" }, // 결제금액
+  "& > *:nth-child(7)": { width : "17%" }, // 주문상태
+  "& > *:nth-child(8)": { width : "5%" }, // 주문상세
+  "&:before, &:after": { content: '""', width : "2%" },
 };
 
 const StyledList = styled(List)`
   padding: 0;
   width: 100%;
   border: none;
-  background-color: background.paper;
+  background-color: background .paper;
   height: 70%; // 전체 높이의 70%로 설정
 `;
 
@@ -50,9 +51,7 @@ const ListItemLabelStyled = styled(ListItem)`
   justify-content: space-evenly;
   align-items: center;
   width: 100%;
-  height: calc(
-    70vh / 10
-  ); // 전체 높이의 70%를 10로 나눈 값으로 레이블 행의 높이를 설정
+  height: calc(70vh / 11);
   padding: 12px;
   ${itemFlexStyles}// 공통 스타일 적용
 `;
@@ -62,10 +61,11 @@ const ListItemStyled = styled(ListItem)`
   justify-content: space-evenly;
   align-items: center;
   width: 100%;
-  height: calc(70vh / 8); // 전체 높이의 70%를 8로 나눈 값
+  height: calc(70vh / 11); // 전체 높이의 70%를 11로 나눈 값
   padding: 12px;
   ${itemFlexStyles}// 공통 스타일 적용
 `;
+
 
 const formatDate = (dateString) => {
   const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
@@ -83,7 +83,7 @@ const AdminListPage = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedValue, setSelectedValue] = useState("");
-  const pageSize =7;
+  const pageSize =10;
   const optionList = [
     { label: "주문자" },
     { label: "수령인" },
@@ -108,30 +108,10 @@ const AdminListPage = () => {
       console.error('Error searching admin:', error);
     }
   }
-  useEffect(() => {
-    // 각 페이지가 마운트될 때 selectedMenu를 업데이트
-    // setSelectedMenu 함수를 호출하여 상태를 업데이트
-    setSelectedMenu("주문 목록");
-    if (searchQuery.trim() !== "") {
-      handleSearch(searchQuery);
-    } else {
-      adminOrderGet(currentPage);
-    }
-     // 페이지가 변경될 때 API 호출
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPage,searchQuery]);
-
-  const adminOrderGet = async (page) => {
-    const res = await TokenAxios.get(`/api/order?page=${page}&size=${pageSize}`);
-    setDataList(res.data.result.data.content);
-    setTotalPages(res.data.result.data.totalPages);
-  };
   
   const handleSearchInputChange = (event) => {
     setSearchQuery(event.target.value);
   };
-
-   
 
   // 주문 상세 조회 (get)
   const handleOpenModal = async (order) => {
@@ -162,23 +142,30 @@ const AdminListPage = () => {
     // updateState(selectedOrder.orderSeq, event.target.value);
   };
 
-   
   const options = [
-    { label: "Option 1", value: "option1" },
-    { label: "Option 2", value: "option2" },
-    // Add more options as needed
-  ];
+  { label: "주문확인", value: "11" },
+  { label: "배송준비", value: "12" },
+  { label: "배송시작", value: "13" },
+  { label: "배송완료", value: "14" },
+  { label: "구매확정", value: "15" },
+  { label: "주문취소", value: "21" },
+  { label: "반품/환불접수", value: "31" },
+  { label: "반송완료", value: "32" },
+  { label: "반품/환불완료", value: "33" }
+]
+
 
   const dataListLabels = [
-    "주문번호",
-    "주문일시",
+    "번호",
+    "일시",
     "수량",
     "주문자",
     "수령인",
     "결제금액",
     "주문상태",
-    "주문상세",
+    "상세",
   ];
+
   const handleSaveClick = () => {
     if (selectedOrder && orderState) {
       updateState(selectedOrder.orderSeq, orderState);
@@ -187,9 +174,6 @@ const AdminListPage = () => {
       console.log("주문 정보 또는 상태가 없습니다.")
     }
   }
-
-  
-  
 
   // Pagination에서 페이지가 변경될 때 호출되는 함수
   const handlePageChange = (event, newPage) => {
@@ -205,7 +189,7 @@ const AdminListPage = () => {
   
 
   // 전체 주문 조회 (get)
-  const adminGet = async (page) => {
+  const adminOrderGet = async (page) => {
     const res = await TokenAxios.get(`/api/order?page=${page}&size=${pageSize}`);
     console.log(res.data.result.data.content);
     setDataList(res.data.result.data.content);
@@ -218,48 +202,30 @@ const AdminListPage = () => {
     try {
       const res = await TokenAxios.put(`/api/order/${orderSeq}/state`, { orderState: newState });
       if (res.status === 200) {
-        Swal.fire("성공", "상태를 변경했습니다.", "success");
-        adminGet(currentPage);
+        Swal.fire({//
+          icon: "success",
+          title: "상태가 변경되었습니다.",
+          showConfirmButton: true,
+          confirmButtonColor: 'black',
+          confirmButtonText: '확인',
+        }).then(() => {
+          adminOrderGet(currentPage);
+        });
+
       } else {
         throw new Error('API response error');
       }
     } catch (e) {
       console.error("상태 변경 실패", e)
-      Swal.fire("실패", "상태를 변경할 수 없습니다.", "error")
+      Swal.fire({//
+        icon: "error",
+        title: "상태 변경에 실패했습니다.",
+        showConfirmButton: true,
+        confirmButtonColor: 'gray',
+        confirmButtonText: '확인',
+      });
     }
   }
-
-    
-  const OrderList = ({ order, index }) => {
-    return (
-      <ListItemStyled>
-        <Typography variant="body1" sx={{ textAlign: "center" }}>
-          {index + 1 + (currentPage * pageSize)}
-        </Typography>
-        <Typography variant="body1" sx={{ textAlign: "center", ml: "10px" }}>
-          {formatDate(order.ordrDate)}
-        </Typography>
-        <Typography variant="body1" sx={{ textAlign: "center", ml: "10px" }}>
-          {order.ordrCnt}
-        </Typography>
-        <Typography variant="body1" sx={{ textAlign: "center", ml: "10px" }}>
-          {order.name}
-        </Typography>
-        <Typography variant="body1" sx={{ textAlign: "center", ml: "10px" }}>
-          {order.receiveName}
-        </Typography>
-        <Typography variant="body1" sx={{ textAlign: "center", ml: "10px" }}>
-          {Number(order.totalPrice).toLocaleString()}
-        </Typography>
-        <Typography variant="body1" sx={{ textAlign: "center", ml: "10px" }}>
-          {order.ordrStateName}
-        </Typography>
-        <IconButton onClick={() => handleOpenModal(order)} sx={{ textAlign: "center" }}>
-          <InfoOutlinedIcon />
-        </IconButton>
-      </ListItemStyled>
-    );
-  };
 
   useEffect(() => {
     // 각 페이지가 마운트될 때 selectedMenu를 업데이트
@@ -267,13 +233,45 @@ const AdminListPage = () => {
     if (searchQuery.trim() !== "") {
       handleSearch(searchQuery);
     } else {
-      adminGet(currentPage);
+      adminOrderGet(currentPage);
     }
     setSelectedMenu("주문 목록");
-  },[currentPage,searchQuery,handleSearch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPage, searchQuery]);
+    
+  const OrderList = ({ order, index }) => {
+    return (
+      <ListItemStyled>
+        <Typography variant="body1" sx={{ textAlign: "center" }}>
+          {index + 1 + (currentPage * pageSize)}
+        </Typography>
+        <Typography variant="body1" sx={{ textAlign: "center" }}>
+          {formatDate(order.ordrDate)}
+        </Typography>
+        <Typography variant="body1" sx={{ textAlign: "center" }}>
+          {order.ordrCnt}
+        </Typography>
+        <Typography variant="body1" sx={{ textAlign: "center" }}>
+          {order.name}
+        </Typography>
+        <Typography variant="body1" sx={{ textAlign: "center" }}>
+          {order.receiveName}
+        </Typography>
+        <Typography variant="body1" sx={{ textAlign: "center", ml: "10px" }}>
+          {Number(order.totalPrice).toLocaleString()}
+        </Typography>
+        <Typography variant="body1" sx={{ textAlign: "center" }}>
+          {order.ordrStateName}
+        </Typography>
+        <IconButton onClick={() => handleOpenModal(order)} sx={{ textAlign: "center" }}>
+          <KeyboardDoubleArrowRightIcon />
+        </IconButton>
+      </ListItemStyled>
+    );
+  };
 
   return (
-    <Paper sx={{ display: "flex", height: "100vh" }}>
+    <Paper sx={{ display: "flex" }} elevation={0}>
       {/* AdminBar 컴포넌트에 selectedMenu와 setSelectedMenu props 전달 */}
       <AdminBar selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
       <Box
@@ -300,7 +298,13 @@ const AdminListPage = () => {
             margin: "16px",
           }}
         >
-          <Toolbar sx={{ justifyContent: "left", width: "100%" }}>
+          <Toolbar
+            sx={{
+              justifyContent: "space-between",
+              height: "10vh",
+              width: "100%",
+            }}
+          >
             <Search
               onSearch={handleSearch}
               searchQuery={searchQuery}
@@ -310,7 +314,7 @@ const AdminListPage = () => {
               style={{ paddingRight: 60 }}
             />
           </Toolbar>
-          <Box sx={{ width: "100%", height: "80%", overflowY: "auto" }}>
+          <Box sx={{ width: "100%", height: "73.6vh", overflowY: "auto" }}>
             <StyledList aria-label="mailbox folders">
               <ListItemLabelStyled>
                 {dataListLabels.map((label, index) => (
@@ -322,7 +326,6 @@ const AdminListPage = () => {
                     >
                       {label}
                     </Typography>
-
                   </React.Fragment>
                 ))}
               </ListItemLabelStyled>

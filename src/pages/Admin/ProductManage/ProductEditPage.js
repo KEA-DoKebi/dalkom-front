@@ -23,8 +23,11 @@ import { TokenAxios } from "apis/CommonAxios";
 import AWS from "aws-sdk";
 import EditorComponent from "components/atoms/Editor";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
+
 
 const ProductRegisterPage = () => {
+  const navigate = useNavigate();
 
   // env 파일 변수로 설정
   const REACT_APP_AWS_S3_BUCKET_REGION = process.env.REACT_APP_AWS_S3_BUCKET_REGION;
@@ -174,18 +177,33 @@ const ProductRegisterPage = () => {
     try{
       const res = await TokenAxios.put(`/api/product/${selectedProductSeq}`, data);
       if(res.data.success){
-        Swal.fire({
+        Swal.fire({//
           icon: "success",
-          title: "🎉🎉상품이 수정되었습니다!",
-          showConfirmButton: false,
-          timer: 1000,
+          title: "상품이 등록되었습니다.",
+          showConfirmButton: true,
+          confirmButtonColor: 'black',
+          confirmButtonText: '확인',
+        }).then(() => {
+          navigate("/admin/product/list");
         });
       }else{
-        Swal.fire("상품 수정하는데에 문제가 발생하였습니다", "", "info");
+        Swal.fire({//
+          icon: "error",
+          title: "상품 등록에 실패했습니다.",
+          showConfirmButton: true,
+          confirmButtonColor: 'gray',
+          confirmButtonText: '확인',
+        });
       }
     }catch(e){
       console.log(e);
-      Swal.fire("상품 수정하는데에 문제가 발생하였습니다", "", "info");
+      Swal.fire({//
+        icon: "error",
+        title: "상품 등록에 실패했습니다.",
+        showConfirmButton: true,
+        confirmButtonColor: 'gray',
+        confirmButtonText: '확인',
+      });
     }
     
   }
@@ -409,7 +427,10 @@ const ProductRegisterPage = () => {
                         </MenuItem>
                       ))}
                     </Select>
-                    <InputBoxXS
+                    
+                  </>
+                )}
+                <InputBoxXS
                       type="number"
                       color="neutral"
                       disabled={false}
@@ -417,8 +438,6 @@ const ProductRegisterPage = () => {
                       variant="soft"
                       {...register("amount")}
                     />
-                  </>
-                )}
               </div>
               <div
                 style={{

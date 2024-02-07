@@ -3,6 +3,7 @@ import {
     Button,
     IconButton, Pagination,
     Paper,
+    Divider,
     Table,
     TableBody,
     TableCell,
@@ -49,14 +50,20 @@ const InquiryHistoryBody = () => {
 
     return (
         <Paper elevation={0}>
-            <Typography sx={{fontSize: "40px", mt: "30px", mb: "10px"}}>
+            <Typography sx={{ fontSize: "40px", mb: 3}}>
                 문의 내역
             </Typography>
-            <Paper variant="outlined">
-                <TableContainer style={{maxHeight: "none"}}>
+            <Divider sx={{ borderBottomWidth: 3 }} color={"black"}></Divider>
+
+           <Paper elevation={0}
+                style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    width: "100%",
+                }}>
+                <TableContainer style={{ maxHeight: "none" }}>
                     {" "}
-                    {/* maxHeight 스타일 추가 */}
-                    <Table sx={{width: "100%", margin: "auto"}}>
+                    <Table sx={{ width: "100%", margin: "auto" }}>
                         <TableHead>
                             <TableRow>
                                 <TableCell

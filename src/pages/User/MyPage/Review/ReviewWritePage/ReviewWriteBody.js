@@ -63,20 +63,28 @@ const ReviewWriteBody = () => {
     try {
       const res = await TokenAxios.post(`/api/review/${orderDetailSeq}`, data);
       console.log(res.data);
-      Swal.fire({
+      Swal.fire({//
         position: "center",
         icon: "success",
-        title: "리뷰작성이 완료되었습니다!",
-        showConfirmButton: false,
-        timer: 1500,
+        title: "리뷰 작성이 완료되었습니다.",
+        showConfirmButton: true,
+        confirmButtonColor: 'black',
+        confirmButtonText: '확인',
         didClose: () => {
           // 얼럿이 닫힌 후에 페이지 이동
-
           navigate("/mypage/review"); // history 객체를 통해 페이지 이동
         }
       });
     } catch (e) {
       console.log(e);
+      Swal.fire({//
+        position: "center",
+        icon: "error",
+        title: "리뷰 작성에 실패했습니다.",
+        showConfirmButton: true,
+        confirmButtonColor: 'gray',
+        confirmButtonText: '확인',
+      });
     }
   };
 
@@ -106,7 +114,8 @@ const ReviewWriteBody = () => {
             }}
           />
         </Box>
-
+        
+        
         <EditorComponent
           onContentChange={handleEditorContentChange}
           id="content"
@@ -126,7 +135,7 @@ const ReviewWriteBody = () => {
             type="submit"
             variant="contained"
             color="primary"
-            sx={{ backgroundColor: "#000", color: "#fff" }}
+            sx={{ backgroundColor: "#000", color: "#fff", my:5 }}
           >
             리뷰 제출
           </Button>

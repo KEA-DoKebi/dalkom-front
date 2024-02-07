@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import {
   AppBar,
@@ -12,7 +12,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Menu from "@mui/material/Menu";
 import Input from "@mui/joy/Input";
 import "assets/font/font.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { TokenAxios } from "apis/CommonAxios";
 
 const SubMenu = ({ subMenu, categorySeq }) => {
@@ -43,6 +43,9 @@ const SubMenu = ({ subMenu, categorySeq }) => {
 const Topbar = () => {
   const [subMenuPosition ] = useState({ top: 0, left: 0 });
   const navigate = useNavigate();
+  const [mileage, setMileage] = useState(0);
+  const location = useLocation();
+  
 
   const menuItems = [
     {
@@ -130,6 +133,17 @@ const Topbar = () => {
 
   }
 
+  const handleSearchBar = (e) => {
+    if (e.key === 'Enter') {
+      const searchKeyword = e.target.value
+      console.log(e.target.value);
+      navigate(`/search?searchKeyword=${searchKeyword}`)
+      console.log('검색 실행:', searchKeyword);
+    }
+   
+  }
+
+
   // const handleSubMenuIteClick = (categorySeq ,subMenu) => {
   //   navigate(`/category/${categorySeq}/sub/${subMenu.seq}`)
   //   // 여기에서 선택한 서브 메뉴에 대한 추가적인 로직을 수행할 수 있습니다.
@@ -140,6 +154,16 @@ const Topbar = () => {
     localStorage.clear();
     navigate("/login");
   };
+
+  const getMileage = async() => {
+    const res = await TokenAxios("/api/mileage/user");
+    setMileage(res.data.result.data);
+    localStorage.setItem("mileage", res.data.result.data);
+  }
+
+  useEffect(() => {
+    getMileage();
+  },[location.pathname])
 
   return (
     <AppBar
@@ -270,6 +294,7 @@ const Topbar = () => {
           startDecorator={<SearchIcon />}
           variant="outlined"
           sx={{ width: "30vw", height: "50px", borderRadius: "50px" }}
+          onKeyDown={(e) =>handleSearchBar(e)}
         />
 
         <div
@@ -286,6 +311,7 @@ const Topbar = () => {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
+              justifyContent : "center",
             }}
           >
             <CustomLink to="/cart">
@@ -311,6 +337,7 @@ const Topbar = () => {
                     <img
                       src="/images/delivery.svg"
                       alt="배송조회"
+                      style={{ width: '36px', height: '36px' }}
                     />
                 </IconButton>
                 <Typography>배송조회</Typography>
@@ -328,6 +355,7 @@ const Topbar = () => {
                     <img
                         src="/images/cs.svg"
                         alt="고객센터"
+                        style={{ width: '36px', height: '36px' }}
                     />
                 </IconButton>
                 <Typography>고객센터</Typography>
@@ -367,7 +395,7 @@ const Topbar = () => {
             }}
           >
             <Typography sx={{ fontSize: "30px" }}>
-              {Number(localStorage.getItem("mileage")).toLocaleString()}
+              {mileage.toLocaleString()}
             </Typography>
           </div>
         </div>

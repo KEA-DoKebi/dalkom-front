@@ -31,10 +31,6 @@ const initialMenuData = [
         path: "/admin/user/list",
       },
       {
-        label: "사용자 등록",
-        path: "/admin/user/register",
-      },
-      {
         label: "마일리지 승인",
         path: "/admin/user/mile",
       },
@@ -50,14 +46,6 @@ const initialMenuData = [
       {
         label: "상품 목록",
         path: "/admin/product/list",
-      },
-      {
-        label: "상품 등록",
-        path: "/admin/product/register",
-      },
-      {
-        label: "상품 수정/삭제",
-        path: "/admin/product/edit",
       },
     ],
   },
@@ -82,8 +70,12 @@ const initialMenuData = [
         path: "/admin/inquiry/order",
       },
       {
-        label: "결제 문의",
-        path: "/admin/inquiry/payment",
+        label: "반품/환불 문의",
+        path: "/admin/inquiry/refund",
+      },
+      {
+        label: "마일리지 문의",
+        path: "/admin/inquiry/mileage",
       },
     ],
   },

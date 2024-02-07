@@ -10,28 +10,10 @@ import {
     TableContainer,
     TableHead,
     TableRow,
+    Divider,
     Typography,
 } from "@mui/material";
 import {TokenAxios} from "apis/CommonAxios";
-
-const getMileHistoryTypeText = (type) => {
-    switch (type) {
-        case "0":
-            return "지급";
-        case "1":
-            return "충전";
-        case "2":
-            return "사용";
-        case "3":
-            return "취소";
-        case "4":
-            return "반품";
-        case "5":
-            return "환불";
-        default:
-            return "알 수 없음";
-    }
-};
 
 export default function MileageHistoryBody() {
     const [data, setData] = useState([]);
@@ -58,13 +40,20 @@ export default function MileageHistoryBody() {
 
     return (
         <Paper elevation={0}>
-            <Typography sx={{fontSize: "40px", mt: "30px", mb: "10px"}}>히스토리</Typography>
+            <Typography sx={{ fontSize: "40px", my:3, mb: 3}}>
+                히스토리
+            </Typography>
+            <Divider sx={{ borderBottomWidth: 3 }} color={"black"}></Divider>
 
-            <Paper variant="outlined">
-                <TableContainer style={{maxHeight: "none"}}>
+            <Paper elevation={0}
+                style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    width: "100%",
+                }}>
+                <TableContainer style={{ maxHeight: "none" }}>
                     {" "}
-                    {/* maxHeight 스타일 추가 */}
-                    <Table sx={{width: "100%", margin: "auto"}}>
+                    <Table sx={{ width: "100%", margin: "auto" }}>
                         <TableHead>
                             <TableRow>
                                 <TableCell
@@ -113,7 +102,7 @@ export default function MileageHistoryBody() {
                             {data.map((mileHistory) => (
                                 <TableRow key={mileHistory.mileageHistorySeq}>
                                     <TableCell style={{width: "25%", textAlign: "center"}}>
-                                        {getMileHistoryTypeText(mileHistory.type)}
+                                        {mileHistory.typeName}
                                     </TableCell>
                                     <TableCell style={{width: "25%", textAlign: "center"}}>
                                         {mileHistory.createdAt.substring(0, 10)}

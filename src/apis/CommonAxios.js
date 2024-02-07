@@ -17,6 +17,18 @@ export const TokenAxios = axios.create({
   baseURL, // 조건에 따라 설정된 baseURL 사용
   headers: {
     "Content-Type": "application/json",
-    "AccessToken" : localStorage.getItem("accessToken"),
   },
 });
+
+TokenAxios.interceptors.request.use(
+  (config) => {
+    const nextConfig = config;
+    const accessToken = localStorage.getItem("accessToken");
+    nextConfig.headers.AccessToken = accessToken ? accessToken : '';
+
+    return nextConfig;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+)
