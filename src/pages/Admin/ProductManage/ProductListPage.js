@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import AdminBar from "components/organisms/AdminBar";
-import { AdminButton } from "components/atoms/AdminCommonButton";
-import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
-import mileageIcon from "./배경제거M-admin.png"; // 컴포넌트와 같은 디렉토리에 있는 경우
+import { AdminButton, AdminButton2 } from "components/atoms/AdminCommonButton";
 import Search from 'components/molecules/Search';
 import {
   Box,
@@ -14,7 +12,6 @@ import {
   List,
   ListItem,
   Typography,
-  IconButton,
 } from "@mui/material";
 import { TokenAxios } from "apis/CommonAxios";
 import { Link, useNavigate } from "react-router-dom";
@@ -141,6 +138,7 @@ const ProductListPage = () => {
 
   // 상품 정보를 표시하기 위한 컴포넌트입니다.
   const ProductItem = ({ product, index }) => {
+
     return (
       <ListItemStyled>
         <Typography variant="body1" sx={{ textAlign: "center" }}>
@@ -171,28 +169,31 @@ const ProductListPage = () => {
         <Typography
           variant="body1" sx={{ textAlign: "left" }}>
             <div style={{ marginLeft: "70px" }}>
-              <img
-                src={mileageIcon}
+            <img
+                src="/images/M-admin.png"
                 alt="마일리지"
                 style={{ width: "15px", height: "15px", marginRight: "10px" }}
               />
               {product.price.toLocaleString()}
             </div>
         </Typography>
+        <div>
         <Link
-          to={`/admin/product/edit`}
-          style={{ textDecoration: "none", textAlign: "center" }}
+          to={`/admin/product/edit/${product.productSeq}`}
+          style={{ textDecoration: "none"}}
         >
-          <IconButton>
-            <KeyboardDoubleArrowRightIcon />
-          </IconButton>
+          
+          <AdminButton2 >
+            보기
+          </AdminButton2>
         </Link>
+        </div>
       </ListItemStyled>
     );
   };
 
   return (
-    <Paper sx={{ display: "flex"}} elevation={0}>
+    <Paper sx={{ display: "flex", minHeight:"100vh"}} elevation={0}>
       {/* AdminBar 컴포넌트에 selectedMenu와 setSelectedMenu props 전달 */}
       <AdminBar selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
       <Box
@@ -231,7 +232,7 @@ const ProductListPage = () => {
               onSearch={handleSearch}
               searchQuery={searchQuery}
               onInputChange={handleSearchInputChange}
-               setSelectedValue={setSelectedValue}
+              setSelectedValue={setSelectedValue}
               optionList={optionList}
             />
             <AdminButton 
@@ -241,6 +242,7 @@ const ProductListPage = () => {
               등록하기
             </AdminButton>
           </Toolbar>
+          {dataList.length > 0 ? (
           <Box sx={{ width: "100%", height: "73.6vh", overflowY: "auto" }}>
             <StyledList aria-label="mailbox folders">
               <ListItemLabelStyled>
@@ -267,6 +269,11 @@ const ProductListPage = () => {
               ))}
             </StyledList>
           </Box>
+          ) : (
+            <Typography variant="h6" sx={{ textAlign: "center", mt: 5 }}>
+              표시할 목록이 없습니다.
+            </Typography>
+          )}
 
           <Box
             sx={{
@@ -278,13 +285,15 @@ const ProductListPage = () => {
           >
             {" "}
             {/* 페이지네이션 섹션 */}
-            <Pagination
-              count={totalPages}
-              page={currentPage + 1}
-              onChange={(event, newPage) =>
-                handlePageChange(event, newPage - 1)
-              }
-            />
+            {totalPages > 0 && (
+                <Pagination
+                  count={totalPages}
+                  page={currentPage + 1}
+                  onChange={(event, newPage) =>
+                    handlePageChange(event, newPage - 1)
+                  }
+                />
+              )}
           </Box>
         </Box>
       </Box>
