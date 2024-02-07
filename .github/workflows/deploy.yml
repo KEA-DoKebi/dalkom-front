@@ -36,11 +36,12 @@ jobs:
         run: |
           echo "REACT_APP_NODE_ENV=${{ secrets.REACT_APP_NODE_ENV }}" >> .env
 
+          echo "REACT_APP_SERVER_ADDRESS=${{ secrets.REACT_APP_SERVER_ADDRESS }}" >> .env
           echo "REACT_APP_APM_TOKEN=${{ secrets.REACT_APP_APM_TOKEN }}" >> .env
           echo "REACT_APP_APM_URL=${{ secrets.REACT_APP_APM_URL }}" >> .env
-          echo "REACT_APP_SERVER_ADDRESS=${{ secrets.REACT_APP_SERVER_ADDRESS }}" >> .env
 
-          echo "REACT_APP_AWS_S3_BUCKET_NAME=${{ secrets.AWS_S3_BUCKET_IMAGE_NAME }}" >> .env
+          echo "REACT_APP_AWS_S3_BUCKET_NAME=${{ secrets.AWS_S3_BUCKET_WEB_NAME }}" >> .env
+          echo "REACT_APP_AWS_S3_STORAGE_BUCKET_NAME" = ${{ secrets.AWS_S3_BUCKET_IMAGE_NAME }}" >> .env
           echo "REACT_APP_AWS_S3_BUCKET_REGION=${{ secrets.AWS_S3_REGION }}" >> .env
           echo "REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID=${{ secrets.AWS_WEB_ACCESS_KEY }}" >> .env
           echo "REACT_APP_AWS_S3_BUCKET_SECRET_ACCESS_KEY=${{ secrets.AWS_WEB_SECRET_KEY }}" >> .env
