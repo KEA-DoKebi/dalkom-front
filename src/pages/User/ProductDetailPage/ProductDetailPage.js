@@ -51,6 +51,17 @@ const ProductDetailPage = () => {
     }
   };
 
+  // productSeq, productOptionSeq, productAmount
+  const handleGoToPayment = () => {
+    const selectedRowsData = [{
+      productSeq : productSeq,
+      productOptionSeq : option.productOptionSeq,
+      productAmount : amount,
+      orderCartSeq : 0,
+    }]
+    navigate("/payment", {state : {orderList : selectedRowsData}})
+  }
+
   const getProductDetail = async () => {
     try {
       const res = await TokenAxios.get(`/api/product/${productSeq}`);
@@ -73,11 +84,9 @@ const ProductDetailPage = () => {
   };
 
   const postCartData = async (data) => {
-    console.log(data);
-
     try {
       await TokenAxios.post("/api/cart/user", data);
-      // console.log(res.data);
+      
     } catch (error) {
       console.log("Error response data:", error.response.data);
       console.log("Error stack trace:", error.stack);
@@ -256,7 +265,7 @@ const ProductDetailPage = () => {
             </ProductContentContainer>
             <ProductButtonContainer>
               <div style={{ marginTop: "10vh" }}>
-                <StyledButton variant="contained">즉시 구매하기</StyledButton>
+                <StyledButton variant="contained" onClick={handleGoToPayment}>즉시 구매하기</StyledButton>
                 <StyledButton variant="contained" onClick={handleAddToCart}>
                   장바구니 담기
                 </StyledButton>
