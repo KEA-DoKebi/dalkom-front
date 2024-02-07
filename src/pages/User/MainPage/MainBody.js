@@ -56,8 +56,8 @@ const MainBody = () => {
 
   return (
       <StyledBox>
-        <StyledCarousel>
-          <StyledPaper sx={{ backgroundColor: "#FFF8DC" }}>
+        <StyledCarousel animation={false}>
+          <StyledPaper sx={{ backgroundColor: "#FFF8DC", animation : "false" }}>
             <Link to="/cs/manual">
               <BannerImage src="/images/MainPage/dokebiBanner1.png" />
             </Link>
@@ -153,17 +153,25 @@ const StyledCarousel = styled(Carousel)`
   align-items: center;
   z-index: 0;
   margin-top: -5vh;
+  && .MuiPaper-root {
+    background-color: transparent;
+    animation: none !important;
+    transition: none !important;
+  }
 `;
 
 const StyledPaper = styled(Paper)`
   ${centerFlex}
+  height : 400px;
   box-shadow: none;
-
+  && {
+    animation: none !important;
+    transition: none !important;
+  }
 `;
 
 const BannerImage = styled.img`
   ${centerFlex}
-  height : 400px;
 `;
 
 const CategoryBox = styled(Box)`
