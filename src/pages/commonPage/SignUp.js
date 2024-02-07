@@ -29,7 +29,7 @@ const Body = styled.div`
   height: 800px;
   display: flex;
   padding-right: 5%;
-
+  position: relative; 
   justify-content: flex-start;
   background-color: ${colors.white};
   border-radius: 20px;
@@ -44,10 +44,10 @@ const Img = styled.div`
 `;
 
 const Img2 = styled.img`
-  width: 10%;
+  width: 65%;
   height: auto;
   position: absolute;
-  transform: translate(-31%, 45%);
+  transform: translate(-36%, 50%);
 `;
 
 const TitleSmall = styled.h2`
