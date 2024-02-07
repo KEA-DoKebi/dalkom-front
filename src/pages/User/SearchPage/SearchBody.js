@@ -15,10 +15,14 @@ export const SearchBody = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const getSearchItems = async() => {
-    const res = await TokenAxios.get(`/api/product/search?page=${currentPage-1}&size=12&name=${searchKeyword}`)
-    console.log(res.data);
-    setProductDataList(res.data.result.data.content);
-    setTotalPages(res.data.result.data.totalPages)
+    try {
+      const res = await TokenAxios.get(`/api/product/search/main?page=${currentPage-1}&size=12&name=${searchKeyword}`);
+      console.log(res); // 비동기 작업이 완료된 후에 로그 출력
+      setProductDataList(res.data.result.data.content);
+      setTotalPages(res.data.result.data.totalPages);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   }
 
   const handlePageChange = (event, value) => {
