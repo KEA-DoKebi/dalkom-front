@@ -70,6 +70,7 @@ const CategoryBody = () => {
       const res = await TokenAxios.get(
         `/api/product/category/${categorySeq}?page=${currentPage - 1}&size=12`,
       );
+      console.log(res.data);
       setProductLists(res.data.result.data.content);
       setTotalPages(res.data.result.data.totalPages);
     } catch (e) {
@@ -175,12 +176,13 @@ const CategoryBody = () => {
               <Grid item xs={3} key={product.productSeq}>
                 <ProductCard
                   key={product.productSeq}
-                  imageUrl={product.imageUrl}
+                  imageUrl={`${product.imageUrl}?w=300&h=300&f=webp`}
                   title={product.name}
                   price={product.price}
                   star={product.rating}
                   review={product.reviewAmount}
                   seq={product.productSeq}
+                  state={product.state}
                   categorySeq={subCategorySeq}
                 />
               </Grid>

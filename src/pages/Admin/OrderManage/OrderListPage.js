@@ -243,47 +243,47 @@ const AdminListPage = () => {
 
   const OrderList = ({ order, index }) => {
     return (
-      <ListItemStyled>
-        <Typography variant="body1" sx={{ textAlign: "center" }}>
-          {index + 1 + currentPage * pageSize}
-        </Typography>
-        <Typography variant="body1" sx={{ textAlign: "center" }}>
-          {formatDate(order.ordrDate)}
-        </Typography>
-        <Typography variant="body1" sx={{ textAlign: "center" }}>
-          {order.ordrCnt}
-        </Typography>
-        <Typography variant="body1" sx={{ textAlign: "center" }}>
-          {order.name}
-        </Typography>
-        <Typography variant="body1" sx={{ textAlign: "center" }}>
-          {order.receiveName}
-        </Typography>
-        <Typography variant="body1" sx={{ textAlign: "left" }}>
-        <div style={{ marginLeft: "70px" }}>
-        <img
-                src="/images/M-admin.png"
-                alt="마일리지"
-                style={{ width: "15px", height: "15px", marginRight: "10px" }}
+        <ListItemStyled>
+          <Typography variant="body1" sx={{textAlign: "center"}}>
+            {index + 1 + (currentPage * pageSize)}
+          </Typography>
+          <Typography variant="body1" sx={{textAlign: "center"}}>
+            {formatDate(order.ordrDate)}
+          </Typography>
+          <Typography variant="body1" sx={{textAlign: "center"}}>
+            {order.ordrCnt}
+          </Typography>
+          <Typography variant="body1" sx={{textAlign: "center"}}>
+            {order.name}
+          </Typography>
+          <Typography variant="body1" sx={{textAlign: "center"}}>
+            {order.receiveName}
+          </Typography>
+          <Typography variant="body1" sx={{textAlign: "left"}}>
+            <div style={{marginLeft: "70px"}}>
+              <img
+                  src="/images/M-admin.png"
+                  alt="마일리지"
+                  style={{width: "15px", height: "15px", marginRight: "10px"}}
               />
               {Number(order.totalPrice).toLocaleString()}
             </div>
-          
-        </Typography>
-        <Typography variant="body1" sx={{ textAlign: "center" }}>
-          {order.ordrStateName}
-        </Typography>
-        <div>
-          <AdminButton2 onClick={() => handleOpenModal(order)} >
-            보기
-          </AdminButton2>
-        </div>
-      </ListItemStyled>
+
+          </Typography>
+          <Typography variant="body1" sx={{textAlign: "center"}}>
+            {order.ordrStateName}
+          </Typography>
+          <div style={{display: "flex", justifyContent: "center"}}>
+            <AdminButton2 onClick={() => handleOpenModal(order)}>
+              보기
+            </AdminButton2>
+          </div>
+        </ListItemStyled>
     );
   };
 
   return (
-    <Paper sx={{ display: "flex", minHeight:"100vh" }} elevation={0}>
+      <Paper sx={{display: "flex", minHeight: "100vh" }} elevation={0}>
       {/* AdminBar 컴포넌트에 selectedMenu와 setSelectedMenu props 전달 */}
       <AdminBar selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
       <Box
