@@ -10,7 +10,7 @@ import {
 import { FormControl, FormHelperText, Input } from "@mui/joy";
 import { TokenAxios } from "apis/CommonAxios";
 import { useForm } from "react-hook-form";
-import Swal from 'sweetalert2'
+import Swal from "sweetalert2";
 import DaumPostcode from "react-daum-postcode";
 import { CustomButton } from "common";
 
@@ -44,7 +44,6 @@ const MyInfoBody = () => {
   const [maskedName, setMaskedName] = useState("");
   const [nickname, setNickname] = useState("");
 
-
   const loadData = async () => {
     try {
       const res = await TokenAxios.get("/api/user/self");
@@ -66,7 +65,12 @@ const MyInfoBody = () => {
   }, [userInfo.address]);
 
   //유저 정보 수정
-  const { register, handleSubmit, watch, formState: { errors } } = useForm();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
   const password = watch("password");
 
   const editInfo = async (data) => {
@@ -76,34 +80,35 @@ const MyInfoBody = () => {
         icon: "error",
         title: "정보가 입력되지 않았습니다.",
         showConfirmButton: true,
-        confirmButtonColor: 'gray',
-        confirmButtonText: '확인',
+        confirmButtonColor: "gray",
+        confirmButtonText: "확인",
       });
       return; // 비밀번호가 입력되지 않았으면 함수 종료
     }
     try {
       const res = await TokenAxios.put("/api/user", data);
-      res.address = userAddress
+      res.address = userAddress;
       console.log(res.data);
-      Swal.fire({//
+      Swal.fire({
+        //
         position: "center",
         icon: "success",
         title: "수정이 완료되었습니다.",
         showConfirmButton: true,
-        confirmButtonColor: 'black',
-        confirmButtonText: '확인',
+        confirmButtonColor: "black",
+        confirmButtonText: "확인",
       });
     } catch (e) {
       console.log(e);
-      Swal.fire({//
+      Swal.fire({
+        //
         position: "center",
         icon: "error",
         title: "수정에 실패했습니다.",
         showConfirmButton: true,
-        confirmButtonColor: 'gray',
-        confirmButtonText: '확인',
+        confirmButtonColor: "gray",
+        confirmButtonText: "확인",
       });
-
     }
   };
 
@@ -169,17 +174,17 @@ const MyInfoBody = () => {
   }, [userInfo.name]);
 
   const maskEmail = (email) => {
-    if (!email) return ''; // 이메일이 없을 경우 빈 문자열 반환
+    if (!email) return ""; // 이메일이 없을 경우 빈 문자열 반환
 
-    const atIndex = email.indexOf('@');
-    const dotIndex = email.indexOf('.com');
-    if (atIndex === -1 || dotIndex === -1) return ''; // 이메일 형식이 아닐 경우 빈 문자열 반환
+    const atIndex = email.indexOf("@");
+    const dotIndex = email.indexOf(".com");
+    if (atIndex === -1 || dotIndex === -1) return ""; // 이메일 형식이 아닐 경우 빈 문자열 반환
 
     const prefix = email.substring(0, atIndex);
     const suffix = email.substring(atIndex + 1, dotIndex);
-    const maskedPrefix = prefix.substring(0, 3) + '*'.repeat(prefix.length - 3);
-    const maskedSuffix = '*'.repeat(suffix.length);
-    return maskedPrefix + '@' + maskedSuffix + '.com';
+    const maskedPrefix = prefix.substring(0, 3) + "*".repeat(prefix.length - 3);
+    const maskedSuffix = "*".repeat(suffix.length);
+    return maskedPrefix + "@" + maskedSuffix + ".com";
   };
 
   return (
@@ -198,14 +203,19 @@ const MyInfoBody = () => {
 
           <Divider sx={{ borderBottomWidth: 3 }} color={"black"}></Divider>
 
-          <Grid container spacing={2} justifyContent="auto" sx={{ mt: 8, alignItems: "center" }}>
+          <Grid
+            container
+            spacing={2}
+            justifyContent="auto"
+            sx={{ mt: 8, alignItems: "center" }}
+          >
             {/* 왼쪽의 빈 공간 */}
             <Grid item xs={2}></Grid>
             {/* 아이디 */}
-            <Grid item xs={2} >
+            <Grid item xs={2}>
               <Typography>아이디</Typography>
             </Grid>
-            <Grid item xs={4} >
+            <Grid item xs={4}>
               <Typography>{maskEmail(userInfo.email)}</Typography>
               {/* <Textarea disabled placeholder={userInfo.email} /> */}
             </Grid>
@@ -213,21 +223,22 @@ const MyInfoBody = () => {
 
             {/* 비밀번호 */}
             <Grid item xs={2} sx={{ mt: 2 }}></Grid>
-            <Grid item xs={2} sx={{ mt: 2 }} >
+            <Grid item xs={2} sx={{ mt: 2 }}>
               <Typography>비밀번호</Typography>
             </Grid>
             <Grid item xs={4} sx={{ mt: 2 }}>
               <CustomInput
                 variant="soft"
-                placeholder="비밀번호" type="password" {...register("password")}
+                placeholder="비밀번호"
+                type="password"
+                {...register("password")}
                 sx={{
                   backgroundColor: "white",
-                  border: "1.5px solid rgba(0,0,0,0.5)"
+                  border: "1.5px solid rgba(0,0,0,0.5)",
                 }}
               />
             </Grid>
             <Grid item xs={4} sx={{ mt: 2 }}></Grid>
-
 
             {/* 비밀번호 확인 */}
             <Grid item xs={2} sx={{ mt: 2 }}></Grid>
@@ -237,16 +248,22 @@ const MyInfoBody = () => {
             <Grid item xs={4} sx={{ mt: 2 }}>
               <CustomInput
                 variant="soft"
-                placeholder="비밀번호 확인" type="password"
+                placeholder="비밀번호 확인"
+                type="password"
                 {...register("passwordConfirmation", {
-                  validate: (value) => value === password || "Passwords do not match",
+                  validate: (value) =>
+                    value === password || "Passwords do not match",
                 })}
                 sx={{
                   backgroundColor: "white",
-                  border: "1.5px solid rgba(0,0,0,0.5)"
+                  border: "1.5px solid rgba(0,0,0,0.5)",
                 }}
               />
-              {errors.passwordConfirmation && <FormHelperText>{errors.passwordConfirmation.message}</FormHelperText>}
+              {errors.passwordConfirmation && (
+                <FormHelperText>
+                  {errors.passwordConfirmation.message}
+                </FormHelperText>
+              )}
             </Grid>
             <Grid item xs={4} sx={{ mt: 2 }}></Grid>
 
@@ -268,14 +285,22 @@ const MyInfoBody = () => {
               <Typography sx={{ marginBottom: 3.5 }}>닉네임</Typography>
             </Grid>
             <Grid item xs={4} sx={{ mt: 2 }}>
-              <FormControl sx={{ display: "flex", flexDirection: "column", alignItems: "stretch" }}>
+              <FormControl
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "stretch",
+                }}
+              >
                 <CustomInput
                   variant="soft"
-                  placeholder="닉네임" type="text" {...register("nickname")}
+                  placeholder="닉네임"
+                  type="text"
+                  {...register("nickname")}
                   value={nickname}
                   sx={{
                     backgroundColor: "white",
-                    border: "1.5px solid rgba(0,0,0,0.5)"
+                    border: "1.5px solid rgba(0,0,0,0.5)",
                   }}
                   onChange={(e) => setNickname(e.target.value)}
                 />
@@ -297,25 +322,28 @@ const MyInfoBody = () => {
               <Typography>주소</Typography>
             </Grid>
 
-
-            <Grid item xs={4} sx={{ mt: 2 }} style={{ display: "flex", alignItems: "center" }}>
+            <Grid
+              item
+              xs={4}
+              sx={{ mt: 2 }}
+              style={{ display: "flex", alignItems: "center" }}
+            >
               <Input
                 variant="soft"
                 placeholder="주소"
                 value={userAddress}
                 sx={{
-                  marginRight: "10px", width: "420px", backgroundColor: "white",
-                  border: "1.5px solid rgba(0,0,0,0.5)"
+                  marginRight: "10px",
+                  width: "420px",
+                  backgroundColor: "white",
+                  border: "1.5px solid rgba(0,0,0,0.5)",
                 }}
                 {...register("address")}
               />
               <DaumAddressComponent />
             </Grid>
 
-
-            <Grid item xs={4} sx={{ mt: 2 }}>
-
-            </Grid>
+            <Grid item xs={4} sx={{ mt: 2 }}></Grid>
             <Grid item xs={2} sx={{ mt: 2 }}></Grid>
             <Grid item xs={2} sx={{ mt: 2 }}>
               <Typography>상세주소</Typography>
@@ -323,16 +351,15 @@ const MyInfoBody = () => {
             <Grid item xs={4} sx={{ mt: 2 }}>
               <CustomInput
                 variant="soft"
-                placeholder="상세주소" type="password"
+                placeholder="상세주소"
+                type="password"
                 sx={{
                   backgroundColor: "white",
-                  border: "1.5px solid rgba(0,0,0,0.5)"
+                  border: "1.5px solid rgba(0,0,0,0.5)",
                 }}
               />
             </Grid>
             <Grid item xs={4} sx={{ mt: 2 }}></Grid>
-
-
           </Grid>
         </div>
         <Grid container justifyContent="center" sx={{ mt: 10 }}>
@@ -349,7 +376,7 @@ export default MyInfoBody;
 
 const SearchAddressButton = styled(CustomButton)`
   font-size: 11px;
-  height:34px;
+  height: 34px;
 `;
 
 const CustomInput = styled(Input)`
@@ -358,4 +385,3 @@ const CustomInput = styled(Input)`
     outline: none; // 클릭 시 태두리 제거
   }
 `;
-

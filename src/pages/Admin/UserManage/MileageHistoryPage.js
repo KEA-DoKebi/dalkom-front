@@ -126,7 +126,7 @@ const MileageHistoryPage = () => {
   // 마일리지 신청내역 조회(승인/거부 상태만) (get)
   const getMileageApplyHistory = async (page) => {
     const res = await TokenAxios.get(
-      `/api/mileage/apply?page=${page}&size=${pageSize}`
+      `/api/mileage/apply?page=${page}&size=${pageSize}`,
     );
     setDataList(res.data.result.data.content);
     setTotalPages(res.data.result.data.totalPages);
@@ -170,10 +170,9 @@ const MileageHistoryPage = () => {
           {formatDate(apply.createdAt)}
         </Typography>
         <Typography variant="body1" sx={{ textAlign: "center" }}>
-
-            {apply.approvedState === "Y" ? (
-              <CheckCircleRoundedIcon
-              sx={{ color: "#B6DEDE", fontSize: 30, marginLeft: 1 }} 
+          {apply.approvedState === "Y" ? (
+            <CheckCircleRoundedIcon
+              sx={{ color: "#B6DEDE", fontSize: 30, marginLeft: 1 }}
             />
           ) : (
             <CancelRoundedIcon
@@ -249,7 +248,7 @@ const MileageHistoryPage = () => {
                         <Divider component="li" light />
                       )}
                     </React.Fragment>
-                  )
+                  ),
               )}
             </StyledList>
           </Box>

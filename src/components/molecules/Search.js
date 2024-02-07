@@ -1,14 +1,18 @@
 // SearchComponent.jsx
 
-import React from 'react';
-import { InputBoxS } from 'components/atoms/Input';
-import SearchIcon from '@mui/icons-material/Search';
-import Autocomplete from '@mui/joy/Autocomplete';
+import React from "react";
+import { InputBoxS } from "components/atoms/Input";
+import SearchIcon from "@mui/icons-material/Search";
+import Autocomplete from "@mui/joy/Autocomplete";
 import styled from "styled-components";
 
-
-const Search = ({ onSearch, searchQuery, onInputChange,setSelectedValue,optionList }) => {
-
+const Search = ({
+  onSearch,
+  searchQuery,
+  onInputChange,
+  setSelectedValue,
+  optionList,
+}) => {
   const handleSearchIconClick = () => {
     onSearch(searchQuery);
   };
@@ -43,7 +47,6 @@ export default Search;
 const FlexContainer = styled.div`
   display: flex;
   align-items: center;
-  justify-content :center;
-  margin-left : 440px
-
+  justify-content: center;
+  margin-left: 440px;
 `;

@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import AdminBar from "components/organisms/AdminBar";
 import { AdminButton } from "components/atoms/AdminCommonButton";
-import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
+import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import { CustomSelect } from "components/atoms/AdminSelectBox";
-import CloseIcon from '@mui/icons-material/Close';
-import Search from 'components/molecules/Search';
+import CloseIcon from "@mui/icons-material/Close";
+import Search from "components/molecules/Search";
 import {
   Box,
   Divider,
@@ -39,7 +39,7 @@ const itemFlexStyles = {
 };
 
 const StyledDialog = styled(Dialog)`
-    z-index: 900;
+  z-index: 900;
 `;
 
 const StyledList = styled(List)`
@@ -70,10 +70,9 @@ const ListItemStyled = styled(ListItem)`
   ${itemFlexStyles}// 공통 스타일 적용
 `;
 
-
 const formatDate = (dateString) => {
-  const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
-  return new Date(dateString).toLocaleDateString('ko-KR', options);
+  const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+  return new Date(dateString).toLocaleDateString("ko-KR", options);
 };
 
 const AdminListPage = () => {
@@ -88,15 +87,12 @@ const AdminListPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedValue, setSelectedValue] = useState("");
   const pageSize = 10;
-  const optionList = [
-    { label: "주문자" },
-    { label: "수령인" },
-  ]
+  const optionList = [{ label: "주문자" }, { label: "수령인" }];
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleSearch = async (searchQuery) => {
     try {
-      let apiUrl = `/api/order/admin/search?page=${currentPage}&size=${pageSize}`;  // 기본 API URL
+      let apiUrl = `/api/order/admin/search?page=${currentPage}&size=${pageSize}`; // 기본 API URL
 
       // 선택된 검색어에 따라 검색 조건 추가
       if (selectedValue.label === "주문자") {
@@ -109,9 +105,9 @@ const AdminListPage = () => {
       setDataList(res.data.result.data.content);
       setTotalPages(res.data.result.data.totalPages);
     } catch (error) {
-      console.error('Error searching admin:', error);
+      console.error("Error searching admin:", error);
     }
-  }
+  };
 
   const handleSearchInputChange = (event) => {
     setSearchQuery(event.target.value);
@@ -155,9 +151,8 @@ const AdminListPage = () => {
     { label: "주문취소", value: "21" },
     { label: "반품/환불접수", value: "31" },
     { label: "반송완료", value: "32" },
-    { label: "반품/환불완료", value: "33" }
-  ]
-
+    { label: "반품/환불완료", value: "33" },
+  ];
 
   const dataListLabels = [
     "번호",
@@ -175,9 +170,9 @@ const AdminListPage = () => {
       updateState(selectedOrder.orderSeq, orderState);
       handleCloseModal();
     } else {
-      console.log("주문 정보 또는 상태가 없습니다.")
+      console.log("주문 정보 또는 상태가 없습니다.");
     }
-  }
+  };
 
   // Pagination에서 페이지가 변경될 때 호출되는 함수
   const handlePageChange = (event, newPage) => {
@@ -191,10 +186,11 @@ const AdminListPage = () => {
     }
   };
 
-
   // 전체 주문 조회 (get)
   const adminOrderGet = async (page) => {
-    const res = await TokenAxios.get(`/api/order?page=${page}&size=${pageSize}`);
+    const res = await TokenAxios.get(
+      `/api/order?page=${page}&size=${pageSize}`,
+    );
     console.log(res.data.result.data.content);
     setDataList(res.data.result.data.content);
     console.log(res.data.result.data.totalPages);
@@ -204,32 +200,35 @@ const AdminListPage = () => {
   // 주문 상태 변경
   const updateState = async (orderSeq, newState) => {
     try {
-      const res = await TokenAxios.put(`/api/order/${orderSeq}/state`, { orderState: newState });
+      const res = await TokenAxios.put(`/api/order/${orderSeq}/state`, {
+        orderState: newState,
+      });
       if (res.status === 200) {
-        Swal.fire({//
+        Swal.fire({
+          //
           icon: "success",
           title: "상태가 변경되었습니다.",
           showConfirmButton: true,
-          confirmButtonColor: 'black',
-          confirmButtonText: '확인',
+          confirmButtonColor: "black",
+          confirmButtonText: "확인",
         }).then(() => {
           adminOrderGet(currentPage);
         });
-
       } else {
-        throw new Error('API response error');
+        throw new Error("API response error");
       }
     } catch (e) {
-      console.error("상태 변경 실패", e)
-      Swal.fire({//
+      console.error("상태 변경 실패", e);
+      Swal.fire({
+        //
         icon: "error",
         title: "상태 변경에 실패했습니다.",
         showConfirmButton: true,
-        confirmButtonColor: 'gray',
-        confirmButtonText: '확인',
+        confirmButtonColor: "gray",
+        confirmButtonText: "확인",
       });
     }
-  }
+  };
 
   useEffect(() => {
     // 각 페이지가 마운트될 때 selectedMenu를 업데이트
@@ -247,7 +246,7 @@ const AdminListPage = () => {
     return (
       <ListItemStyled>
         <Typography variant="body1" sx={{ textAlign: "center" }}>
-          {index + 1 + (currentPage * pageSize)}
+          {index + 1 + currentPage * pageSize}
         </Typography>
         <Typography variant="body1" sx={{ textAlign: "center" }}>
           {formatDate(order.ordrDate)}
@@ -267,7 +266,10 @@ const AdminListPage = () => {
         <Typography variant="body1" sx={{ textAlign: "center" }}>
           {order.ordrStateName}
         </Typography>
-        <IconButton onClick={() => handleOpenModal(order)} sx={{ textAlign: "center" }}>
+        <IconButton
+          onClick={() => handleOpenModal(order)}
+          sx={{ textAlign: "center" }}
+        >
           <KeyboardDoubleArrowRightIcon />
         </IconButton>
       </ListItemStyled>
@@ -362,17 +364,33 @@ const AdminListPage = () => {
               }
             />
           </Box>
-          <StyledDialog onClose={handleCloseModal} open={modalOpen} maxWidth={false}
+          <StyledDialog
+            onClose={handleCloseModal}
+            open={modalOpen}
+            maxWidth={false}
             sx={{
               "& .MuiDialog-paper": {
                 borderRadius: "30px",
               },
-            }}>
-            <DialogTitle style={{ fontWeight: "bold", fontSize: "1.5rem", textAlign: "center", marginTop: "10px" }}>
+            }}
+          >
+            <DialogTitle
+              style={{
+                fontWeight: "bold",
+                fontSize: "1.5rem",
+                textAlign: "center",
+                marginTop: "10px",
+              }}
+            >
               <IconButton
                 aria-label="close"
                 onClick={handleCloseModal}
-                sx={{ position: 'absolute', right: 8, top: 8, color: (theme) => theme.palette.grey[500], }}
+                sx={{
+                  position: "absolute",
+                  right: 8,
+                  top: 8,
+                  color: (theme) => theme.palette.grey[500],
+                }}
               >
                 <CloseIcon />
               </IconButton>
@@ -381,7 +399,9 @@ const AdminListPage = () => {
               </Typography>
             </DialogTitle>
             {selectedOrder && (
-              <DialogContent style={{ width: 1200, height: 650, overflowY: "initial" }} >
+              <DialogContent
+                style={{ width: 1200, height: 650, overflowY: "initial" }}
+              >
                 <div>
                   <Grid container spacing={2} marginTop="2%">
                     <Grid item xs={1}>
@@ -395,8 +415,7 @@ const AdminListPage = () => {
                     <Grid item xs={1}>
                       <Typography>{selectedOrder.orderName}</Typography>
                     </Grid>
-                    <Grid item xs={2.5}>
-                    </Grid>
+                    <Grid item xs={2.5}></Grid>
                     <Grid item xs={1.8}>
                       <Typography style={{ fontWeight: "bold" }}>
                         주문 상태
@@ -434,7 +453,9 @@ const AdminListPage = () => {
                       </Typography>
                     </Grid>
                     <Grid item xs={3}>
-                      <Typography>{formatDate(selectedOrder.orderDate)}</Typography>
+                      <Typography>
+                        {formatDate(selectedOrder.orderDate)}
+                      </Typography>
                     </Grid>
                   </Grid>
 
@@ -448,7 +469,9 @@ const AdminListPage = () => {
                       </Typography>
                     </Grid>
                     <Grid item xs={2.8}>
-                      <Typography>{selectedOrder.receiverDetail.receiverName}</Typography>
+                      <Typography>
+                        {selectedOrder.receiverDetail.receiverName}
+                      </Typography>
                     </Grid>
                     <Grid item xs={1.8} marginLeft={"6%"}>
                       <Typography style={{ fontWeight: "bold" }}>
@@ -456,7 +479,9 @@ const AdminListPage = () => {
                       </Typography>
                     </Grid>
                     <Grid item xs={3}>
-                      <Typography>{selectedOrder.receiverDetail.receiverMobileNum}</Typography>
+                      <Typography>
+                        {selectedOrder.receiverDetail.receiverMobileNum}
+                      </Typography>
                     </Grid>
                   </Grid>
                   <Grid container spacing={2} marginTop="0.5%">
@@ -469,7 +494,9 @@ const AdminListPage = () => {
                       </Typography>
                     </Grid>
                     <Grid item xs={2}>
-                      <Typography>{selectedOrder.receiverDetail.receiverAddress}</Typography>
+                      <Typography>
+                        {selectedOrder.receiverDetail.receiverAddress}
+                      </Typography>
                     </Grid>
                   </Grid>
 
@@ -483,10 +510,11 @@ const AdminListPage = () => {
                       </Typography>
                     </Grid>
                     <Grid item xs={2}>
-                      <Typography>{selectedOrder.receiverDetail.receiverMemo}</Typography>
+                      <Typography>
+                        {selectedOrder.receiverDetail.receiverMemo}
+                      </Typography>
                     </Grid>
                   </Grid>
-
 
                   <table
                     style={{
@@ -530,29 +558,56 @@ const AdminListPage = () => {
                         </Grid>
                       </tr>
                     </thead>
-                    <Box sx={{ height: "100px", maxHeight: "100px", overflowY: "auto", width: "100%" }}>
-
-                      <tbody sx={{ height: "100px", maxHeight: "100px", overflowY: "auto" }}>
+                    <Box
+                      sx={{
+                        height: "100px",
+                        maxHeight: "100px",
+                        overflowY: "auto",
+                        width: "100%",
+                      }}
+                    >
+                      <tbody
+                        sx={{
+                          height: "100px",
+                          maxHeight: "100px",
+                          overflowY: "auto",
+                        }}
+                      >
                         {selectedOrder.detailList.map((detail, index) => (
                           <tr key={index}>
-                            <Grid container spacing={2} justifyContent="space-between" style={{ width: "1100px" }}>
+                            <Grid
+                              container
+                              spacing={2}
+                              justifyContent="space-between"
+                              style={{ width: "1100px" }}
+                            >
                               <Grid item xs={5} style={{ textAlign: "center" }}>
-                                <Typography style={{ fontSize: "14px", marginTop: "2%" }}>
+                                <Typography
+                                  style={{ fontSize: "14px", marginTop: "2%" }}
+                                >
                                   {detail.productName}
                                 </Typography>
                               </Grid>
                               <Grid item xs={2} style={{ textAlign: "center" }}>
-                                <Typography style={{ fontSize: "14px", marginTop: "2%" }}>
-                                  {detail.detail === "default" ? "-" : detail.detail}
+                                <Typography
+                                  style={{ fontSize: "14px", marginTop: "2%" }}
+                                >
+                                  {detail.detail === "default"
+                                    ? "-"
+                                    : detail.detail}
                                 </Typography>
                               </Grid>
                               <Grid item xs={2} style={{ textAlign: "center" }}>
-                                <Typography style={{ fontSize: "14px", marginTop: "2%" }}>
+                                <Typography
+                                  style={{ fontSize: "14px", marginTop: "2%" }}
+                                >
                                   {detail.amount}
                                 </Typography>
                               </Grid>
                               <Grid item xs={3} style={{ textAlign: "center" }}>
-                                <Typography style={{ fontSize: "14px", marginTop: "2%" }}>
+                                <Typography
+                                  style={{ fontSize: "14px", marginTop: "2%" }}
+                                >
                                   {Number(detail.totalPrice).toLocaleString()}
                                 </Typography>
                               </Grid>
@@ -568,7 +623,9 @@ const AdminListPage = () => {
                       {" "}
                     </Grid>
                     <Grid item xs={1.5}>
-                      <Typography style={{ marginTop: "2%", fontWeight: "bold" }}>
+                      <Typography
+                        style={{ marginTop: "2%", fontWeight: "bold" }}
+                      >
                         결제 금액
                       </Typography>
                     </Grid>
@@ -578,7 +635,6 @@ const AdminListPage = () => {
                       </Typography>
                     </Grid>
                   </Grid>
-
                 </div>
                 <DialogActions
                   style={{ justifyContent: "center", marginTop: "20px" }}

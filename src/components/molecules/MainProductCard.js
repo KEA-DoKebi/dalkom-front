@@ -4,8 +4,14 @@ import { Card, Typography } from "@mui/material";
 import { StarRating } from "../atoms/StarRating";
 import { Link } from "react-router-dom";
 
-export const MainProductCard = ({ imageUrl, title, price, star, review, seq }) => {
-
+export const MainProductCard = ({
+  imageUrl,
+  title,
+  price,
+  star,
+  review,
+  seq,
+}) => {
   return (
     <Link to={`/product/${seq}/상품상세`}>
       <SungjunCard>

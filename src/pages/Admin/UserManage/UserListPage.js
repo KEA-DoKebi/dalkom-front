@@ -3,7 +3,7 @@ import styled from "styled-components";
 import AdminBar from "components/organisms/AdminBar";
 import { AdminButton } from "components/atoms/AdminCommonButton";
 import DeleteIcon from "@mui/icons-material/Delete";
-import Search from 'components/molecules/Search';
+import Search from "components/molecules/Search";
 import mileageIcon from "../ProductManage/배경제거M-admin.png"; // 컴포넌트와 같은 디렉토리에 있는 경우
 import {
   Box,
@@ -19,16 +19,15 @@ import {
 import { TokenAxios } from "apis/CommonAxios";
 import { useNavigate } from "react-router-dom";
 
-
 // 각 항목에 대한 공통 스타일을 설정합니다.
 const itemFlexStyles = {
-  "& > *:nth-child(1)": { width : "5%" }, // 번호
-  "& > *:nth-child(2)": { width : "22%" }, // ID
-  "& > *:nth-child(3)": { width : "21%" }, // 닉네임
-  "& > *:nth-child(4)": { width : "21%" }, // 마일리지
-  "& > *:nth-child(5)": { width : "22%" }, // 기본배송지
-  "& > *:nth-child(6)": { width : "5%" }, // 삭제
-  "&:before, &:after": { content: '""', width : "2%" },
+  "& > *:nth-child(1)": { width: "5%" }, // 번호
+  "& > *:nth-child(2)": { width: "22%" }, // ID
+  "& > *:nth-child(3)": { width: "21%" }, // 닉네임
+  "& > *:nth-child(4)": { width: "21%" }, // 마일리지
+  "& > *:nth-child(5)": { width: "22%" }, // 기본배송지
+  "& > *:nth-child(6)": { width: "5%" }, // 삭제
+  "&:before, &:after": { content: '""', width: "2%" },
 };
 
 const StyledList = styled(List)`
@@ -59,7 +58,6 @@ const ListItemStyled = styled(ListItem)`
   ${itemFlexStyles}// 공통 스타일 적용
 `;
 
-
 const AdminListPage = () => {
   const navigate = useNavigate();
   // Declare selectedMenu and setSelectedMenu using useState
@@ -78,10 +76,7 @@ const AdminListPage = () => {
     "기본배송지",
     "삭제",
   ];
-  const optionList = [
-    { label: "ID" },
-    { label: "닉네임" }
-  ]
+  const optionList = [{ label: "ID" }, { label: "닉네임" }];
   const pageSize = 10;
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -89,33 +84,33 @@ const AdminListPage = () => {
     try {
       console.log(selectedValue.label);
       console.log(searchQuery);
-      
-      let apiUrl = `/api/user/search?page=${currentPage}&size=10`;  // 기본 API URL
-      
+
+      let apiUrl = `/api/user/search?page=${currentPage}&size=10`; // 기본 API URL
+
       // 선택된 검색어에 따라 검색 조건 추가
       if (selectedValue.label === "ID") {
         apiUrl += `&email=${searchQuery}`;
       } else if (selectedValue.label === "닉네임") {
         apiUrl += `&nickname=${searchQuery}`;
       }
-      
+
       const res = await TokenAxios.get(apiUrl);
       setDataList(res.data.result.data.content);
       setTotalPages(res.data.result.data.totalPages);
       console.log(res.data.result.data.content);
     } catch (error) {
-      console.error('Error searching admin:', error);
+      console.error("Error searching admin:", error);
     }
   };
 
   useEffect(() => {
     if (searchQuery.trim() !== "") {
-        handleSearch(searchQuery);
+      handleSearch(searchQuery);
     } else {
-        userGet(currentPage);
+      userGet(currentPage);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-}, [currentPage, searchQuery]);
+  }, [currentPage, searchQuery]);
 
   const userGet = async (page) => {
     const res = await TokenAxios.get(`/api/user?page=${page}&size=10`);
@@ -125,7 +120,6 @@ const AdminListPage = () => {
   const handleSearchInputChange = (event) => {
     setSearchQuery(event.target.value);
   };
-
 
   const handleDeleteUser = async (userSeq) => {
     // 사용자 삭제 API 호출
@@ -137,21 +131,20 @@ const AdminListPage = () => {
       console.error("Error deleting user:", error);
     }
   };
-  
 
   // Pagination에서 페이지가 변경될 때 호출되는 함수
   const handlePageChange = (event, newPage) => {
     setCurrentPage(newPage); // 현재 페이지 업데이트
     if (searchQuery.trim() !== "") {
       handleSearch(searchQuery);
-  } else {
+    } else {
       // 검색어가 없는 경우 전체 데이터에 대한 페이징 수행
       userGet(newPage);
-  }
+    }
   };
 
   // 사용자 정보를 표시하기 위한 컴포넌트입니다.
-  const UserList = ({ user, currentPage, pageSize}) => {
+  const UserList = ({ user, currentPage, pageSize }) => {
     const userNumber = currentPage * pageSize + dataList.indexOf(user) + 1;
 
     return (
@@ -165,24 +158,27 @@ const AdminListPage = () => {
         <Typography variant="body1" sx={{ textAlign: "center" }}>
           {user.nickname}
         </Typography>
-        <Typography variant="body1" sx={{  marginLeft:"10px",textAlign: "left" }}>
-          <div style={{marginLeft:"100px"}}>
-              <img
-                src={mileageIcon}
-                alt="마일리지"
-                style={{ width: "15px", height: "15px", marginRight: "10px" }}
-              />
-              {Number(user.mileage).toLocaleString()}
-           </div>
-           
+        <Typography
+          variant="body1"
+          sx={{ marginLeft: "10px", textAlign: "left" }}
+        >
+          <div style={{ marginLeft: "100px" }}>
+            <img
+              src={mileageIcon}
+              alt="마일리지"
+              style={{ width: "15px", height: "15px", marginRight: "10px" }}
+            />
+            {Number(user.mileage).toLocaleString()}
+          </div>
         </Typography>
         <Typography variant="body1" sx={{ textAlign: "center" }}>
           {user.address}
         </Typography>
         <IconButton
           onClick={() => handleDeleteUser(user.userSeq)}
-          sx={{  
-            "&:hover": { backgroundColor: "#FFFFFF" } }} // 호버 효과 제거
+          sx={{
+            "&:hover": { backgroundColor: "#FFFFFF" },
+          }} // 호버 효과 제거
         >
           <DeleteIcon />
         </IconButton>
@@ -230,7 +226,7 @@ const AdminListPage = () => {
               onSearch={handleSearch}
               searchQuery={searchQuery}
               onInputChange={handleSearchInputChange}
-               setSelectedValue={setSelectedValue}
+              setSelectedValue={setSelectedValue}
               optionList={optionList}
             />
             <AdminButton
@@ -260,10 +256,11 @@ const AdminListPage = () => {
               <Divider component="li" />
               {dataList.map((user, index) => (
                 <React.Fragment key={index}>
-                  <UserList 
-                  user={user} 
-                  currentPage={currentPage}
-                  pageSize={pageSize}/>
+                  <UserList
+                    user={user}
+                    currentPage={currentPage}
+                    pageSize={pageSize}
+                  />
                   {index !== dataList.length && (
                     <Divider component="li" light />
                   )}

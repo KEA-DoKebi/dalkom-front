@@ -17,21 +17,20 @@ const Body = styled.div`
   flex-direction: column;
   border: 1px solid;
   border-radius: 20px;
-  border-color: #EEEEEE;
+  border-color: #eeeeee;
   min-height: 50vh;
 `;
 
 const NoticeDetailBody = () => {
-    const location = useLocation();
-    const { selectedNotice } = location.state;
+  const location = useLocation();
+  const { selectedNotice } = location.state;
 
-    return (
-        <Main>
-                <h1>{selectedNotice.title}</h1>
-            <Body dangerouslySetInnerHTML={{ __html: selectedNotice.content }}>
-            </Body>
-        </Main>
-    );
+  return (
+    <Main>
+      <h1>{selectedNotice.title}</h1>
+      <Body dangerouslySetInnerHTML={{ __html: selectedNotice.content }}></Body>
+    </Main>
+  );
 };
 
 export default NoticeDetailBody;

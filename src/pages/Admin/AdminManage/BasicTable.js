@@ -18,12 +18,24 @@ export default function BasicTable({ productData }) {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell sx={{fontWeight:"bold"}} align="center">순위</TableCell>
-            <TableCell sx={{fontWeight:"bold"}} align="center">상품명</TableCell>
-            <TableCell sx={{fontWeight:"bold"}} align="center">제조사</TableCell>
-            <TableCell sx={{fontWeight:"bold"}} align="center">가격</TableCell>
-            <TableCell sx={{fontWeight:"bold"}} align="center">판매수량</TableCell>
-            <TableCell sx={{fontWeight:"bold"}} align="center">누적 판매금액</TableCell>
+            <TableCell sx={{ fontWeight: "bold" }} align="center">
+              순위
+            </TableCell>
+            <TableCell sx={{ fontWeight: "bold" }} align="center">
+              상품명
+            </TableCell>
+            <TableCell sx={{ fontWeight: "bold" }} align="center">
+              제조사
+            </TableCell>
+            <TableCell sx={{ fontWeight: "bold" }} align="center">
+              가격
+            </TableCell>
+            <TableCell sx={{ fontWeight: "bold" }} align="center">
+              판매수량
+            </TableCell>
+            <TableCell sx={{ fontWeight: "bold" }} align="center">
+              누적 판매금액
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
