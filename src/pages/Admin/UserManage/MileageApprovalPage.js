@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import AdminBar from "components/organisms/AdminBar";
 import { TokenAxios } from "apis/CommonAxios";
 import Search from 'components/molecules/Search';
-
+import mileageIcon from "./M-Admin.png"; 
 import {
   Paper,
   Box,
@@ -211,9 +211,16 @@ const MileageApprovalPage = () => {
         </Typography>
         <Typography
           variant="body1"
-          sx={{ textAlign: "center" }}
+          sx={{ textAlign: "left" }}
         >
-          {Number(apply.balance).toLocaleString()}
+            <div style={{ marginLeft: "50px" }}>
+              <img
+                src={mileageIcon}
+                alt="마일리지"
+                style={{ width: "15px", height: "15px", marginRight: "10px" }}
+              />
+              {Number(apply.balance).toLocaleString()}
+            </div>
         </Typography>
         <Typography
           variant="body1"
@@ -244,7 +251,7 @@ const MileageApprovalPage = () => {
   };
 
   return (
-    <Paper sx={{ display: "flex" }} elevation={0}>
+    <Paper sx={{ display: "flex" , minHeight:"100vh"}} elevation={0}>
       {/* AdminBar 컴포넌트에 selectedMenu와 setSelectedMenu props 전달 */}
       <AdminBar selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
       <Box
@@ -286,7 +293,9 @@ const MileageApprovalPage = () => {
               optionList={optionList}
             />
           </Toolbar>
+          
           <Box sx={{ width: "100%", height: "73.6vh", overflowY: "auto" }}>
+          {dataList.length > 0 ? (
             <StyledList aria-label="mailbox folders">
               <ListItemLabelStyled>
                 {dataListLabels.map((label, index) => (
@@ -311,7 +320,13 @@ const MileageApprovalPage = () => {
                 </React.Fragment>
               ))}
             </StyledList>
+            ) : (
+            <Typography variant="h6" sx={{ textAlign: "center", mt: 5 }}>
+              표시할 목록이 없습니다.
+            </Typography>
+          )}
           </Box>
+          
           <Box
             sx={{
               flex: 1,
@@ -322,13 +337,15 @@ const MileageApprovalPage = () => {
           >
             {" "}
             {/* 페이지네이션 섹션 */}
-            <Pagination
-              count={totalPages}
-              page={currentPage + 1}
-              onChange={(event, newPage) =>
-                handlePageChange(event, newPage - 1)
-              }
-            />
+            {totalPages > 0 && (
+                <Pagination
+                  count={totalPages}
+                  page={currentPage + 1}
+                  onChange={(event, newPage) =>
+                    handlePageChange(event, newPage - 1)
+                  }
+                />
+              )}
           </Box>
         </Box>
       </Box>

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import Search from "components/molecules/Search";
@@ -21,7 +20,7 @@ import {
 } from "@mui/material";
 import AdminBar from "components/organisms/AdminBar";
 import { InputBoxM } from "components/atoms/Input";
-import { AdminButton } from "components/atoms/AdminCommonButton";
+import { AdminButton, AdminButton2 } from "components/atoms/AdminCommonButton";
 import { TokenAxios } from "../../../apis/CommonAxios";
 import { useForm } from "react-hook-form";
 import CloseIcon from "@mui/icons-material/Close";
@@ -287,16 +286,17 @@ const FAQPage = () => {
         <Typography variant="body1" sx={{ textAlign: "center" }}>
           {faq.title}
         </Typography>
-        <KeyboardDoubleArrowRightIcon
-          onClick={() => handleUpdateModalOpen(faq.inquirySeq)}
-          sx={{ textAlign: "center" }}
-        />
+        <div>
+          <AdminButton2 onClick={() => handleUpdateModalOpen(faq.noticeSeq)} >
+            보기
+          </AdminButton2>
+        </div>
       </ListItemStyled>
     );
   };
 
   return (
-    <Paper sx={{ display: "flex" }} elevation={0}>
+    <Paper sx={{ display: "flex" , minHeight:"100vh"}} elevation={0}>
       {/* AdminBar 컴포넌트에 selectedMenu와 setSelectedMenu props 전달 */}
       <AdminBar selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
       <Box
@@ -345,7 +345,7 @@ const FAQPage = () => {
               작성하기
             </AdminButton>
           </Toolbar>
-
+          {dataList.length > 0 ? (
           <Box sx={{ width: "100%", height: "73.6vh", overflowY: "auto" }}>
             <StyledList aria-label="mailbox folders">
               <ListItemLabelStyled>
@@ -372,6 +372,11 @@ const FAQPage = () => {
               ))}
             </StyledList>
           </Box>
+          ) : (
+            <Typography variant="h6" sx={{ textAlign: "center", mt: 5 }}>
+              표시할 목록이 없습니다.
+            </Typography>
+          )}
           <Box
             sx={{
               flex: 1,
@@ -382,13 +387,15 @@ const FAQPage = () => {
           >
             {" "}
             {/* 페이지네이션 섹션 */}
-            <Pagination
-              count={totalPages}
-              page={currentPage + 1}
-              onChange={(event, newPage) =>
-                handlePageChange(event, newPage - 1)
-              }
-            />
+            {totalPages > 0 && (
+                <Pagination
+                  count={totalPages}
+                  page={currentPage + 1}
+                  onChange={(event, newPage) =>
+                    handlePageChange(event, newPage - 1)
+                  }
+                />
+              )}
           </Box>
           {/* FAQ 작성 모달  */}
           <StyledDialog

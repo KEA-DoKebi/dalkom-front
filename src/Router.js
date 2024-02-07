@@ -143,7 +143,7 @@ const Router = () => {
                 path="/admin/product/register"
                 element={<ProductRegisterPage />}
               />
-              <Route path="/admin/product/edit" element={<ProductEditPage />} />
+              <Route path="/admin/product/edit/:productSeq" element={<ProductEditPage />} />
             </Route>
 
             {/* 주문 관리 */}

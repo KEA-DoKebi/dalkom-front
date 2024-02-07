@@ -17,10 +17,9 @@ import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import Modal from "@mui/material/Modal";
 import AdminBar from "components/organisms/AdminBar";
 import { MuiColorChip } from "components/atoms/AdminChip";
-import { AdminButton } from "components/atoms/AdminCommonButton";
+import { AdminButton, AdminButton2 } from "components/atoms/AdminCommonButton";
 import { TokenAxios } from "../../../apis/CommonAxios";
 import Search from "components/molecules/Search";
-import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import Swal from "sweetalert2";
 
 let currentInquirySeq = null;
@@ -246,18 +245,17 @@ const OrderInquiryPage = () => {
             status={inquiry.answerState === "Y" ? "completed" : "waiting"}
           />
         </Typography>
-        <IconButton
-          onClick={() => handleOpenModal(inquiry.inquirySeq)}
-          sx={{ "&:hover": { backgroundColor: "#FFFFFF" } }} // 호버 효과 제거
-        >
-          <KeyboardDoubleArrowRightIcon />
-        </IconButton>
+        <div>
+          <AdminButton2 onClick={() => handleOpenModal(inquiry.inquirySeq)} >
+            보기
+          </AdminButton2>
+        </div>
       </ListItemStyled>
     );
   };
 
   return (
-    <Paper sx={{ display: "flex" }} elevation={0}>
+    <Paper sx={{ display: "flex", minHeight:"100vh" }} elevation={0}>
       {/* AdminBar 컴포넌트에 selectedMenu와 setSelectedMenu props 전달 */}
       <AdminBar selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
       <Box
@@ -299,7 +297,7 @@ const OrderInquiryPage = () => {
               optionList={optionList}
             />
           </Toolbar>
-
+          {dataList.length > 0 ? (
           <Box sx={{ width: "100%", height: "73.6vh", overflowY: "auto" }}>
             <StyledList aria-label="mailbox folders">
               <ListItemLabelStyled>
@@ -326,6 +324,11 @@ const OrderInquiryPage = () => {
               ))}
             </StyledList>
           </Box>
+          ) : (
+            <Typography variant="h6" sx={{ textAlign: "center", mt: 5 }}>
+              표시할 목록이 없습니다.
+            </Typography>
+          )}
           <Box
             sx={{
               flex: 1,
@@ -334,13 +337,15 @@ const OrderInquiryPage = () => {
               alignItems: "center",
             }}
           >
-            <Pagination
-              count={totalPages} // 총 페이지 수를 적용
-              page={currentPage + 1} // 현재 페이지 설정 (0부터 시작하므로 그대로 사용)
-              onChange={(event, newPage) =>
-                handlePageChange(event, newPage - 1)
-              } // 페이지 변경 시 호출되는 함수 설정
-            />
+            {totalPages > 0 && (
+                <Pagination
+                  count={totalPages}
+                  page={currentPage + 1}
+                  onChange={(event, newPage) =>
+                    handlePageChange(event, newPage - 1)
+                  }
+                />
+              )}
           </Box>
 
           <Modal

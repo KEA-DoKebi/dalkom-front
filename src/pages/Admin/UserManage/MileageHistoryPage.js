@@ -15,6 +15,7 @@ import styled from "styled-components";
 import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 import Search from "components/molecules/Search";
 import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
+import mileageIcon from "./M-Admin.png"; 
 
 // 각 항목에 대한 공통 스타일을 설정합니다.
 const itemFlexStyles = {
@@ -157,11 +158,25 @@ const MileageHistoryPage = () => {
         <Typography variant="body1" sx={{ textAlign: "center" }}>
           {apply.nickname}
         </Typography>
-        <Typography variant="body1" sx={{ textAlign: "center" }}>
-          {Number(apply.balance).toLocaleString()}
+        <Typography variant="body1" sx={{ textAlign: "left" }}>
+        <div style={{ marginLeft: "50px" }}>
+              <img
+                src={mileageIcon}
+                alt="마일리지"
+                style={{ width: "15px", height: "15px", marginRight: "10px" }}
+              />
+              {Number(apply.balance).toLocaleString()}
+            </div>
         </Typography>
-        <Typography variant="body1" sx={{ textAlign: "center" }}>
-          {Number(apply.amount).toLocaleString()}
+        <Typography variant="body1" sx={{ textAlign: "left" }}>
+        <div style={{ marginLeft: "50px" }}>
+              <img
+                src={mileageIcon}
+                alt="마일리지"
+                style={{ width: "15px", height: "15px", marginRight: "10px" }}
+              />
+              {Number(apply.amount).toLocaleString()}
+            </div>
         </Typography>
         <Typography variant="body1" sx={{ textAlign: "center" }}>
           {apply.name}
@@ -186,7 +201,7 @@ const MileageHistoryPage = () => {
   };
 
   return (
-    <Paper sx={{ display: "flex" }} elevation={0}>
+    <Paper sx={{ display: "flex", minHeight:"100vh" }} elevation={0}>
       {/* AdminBar 컴포넌트에 selectedMenu와 setSelectedMenu props 전달 */}
       <AdminBar selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
       <Box
@@ -228,6 +243,7 @@ const MileageHistoryPage = () => {
               optionList={optionList}
             />
           </Toolbar>
+          {dataList.length > 0 ? (
           <Box sx={{ width: "100%", height: "73.6vh", overflowY: "auto" }}>
             <StyledList aria-label="mailbox folders">
               <ListItemLabelStyled>
@@ -253,6 +269,11 @@ const MileageHistoryPage = () => {
               )}
             </StyledList>
           </Box>
+          ) : (
+            <Typography variant="h6" sx={{ textAlign: "center", mt: 5 }}>
+              표시할 목록이 없습니다.
+            </Typography>
+          )}
 
           <Box
             sx={{
@@ -264,13 +285,15 @@ const MileageHistoryPage = () => {
           >
             {" "}
             {/* 페이지네이션 섹션 */}
-            <Pagination
-              count={totalPages}
-              page={currentPage + 1}
-              onChange={(event, newPage) =>
-                handlePageChange(event, newPage - 1)
-              }
-            />
+            {totalPages > 0 && (
+                <Pagination
+                  count={totalPages}
+                  page={currentPage + 1}
+                  onChange={(event, newPage) =>
+                    handlePageChange(event, newPage - 1)
+                  }
+                />
+              )}
           </Box>
         </Box>
       </Box>

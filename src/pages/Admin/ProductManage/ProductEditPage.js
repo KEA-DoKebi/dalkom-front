@@ -15,7 +15,6 @@ import {
 } from "@mui/material";
 import { pink } from "@mui/material/colors";
 import { InputBoxXS, InputBoxM } from "components/atoms/Input";
-
 import { AdminButton } from "components/atoms/AdminCommonButton";
 import { PinkSwitch } from "components/atoms/OnOffSwitch";
 import { useForm, Controller } from "react-hook-form";
@@ -26,7 +25,7 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
 
-const ProductRegisterPage = () => {
+const ProductEditPage = () => {
   const navigate = useNavigate();
 
   // env 파일 변수로 설정
@@ -51,9 +50,7 @@ const ProductRegisterPage = () => {
   const [productPrice, setProductPrice] = useState();
   const [productStockList, setProductStockList] = useState([]);
   
-
   
-
   // 상위 카테고리 API 
   const getCategoryList = async() => {
     const res = await TokenAxios.get(`/api/category`);
@@ -216,7 +213,7 @@ const ProductRegisterPage = () => {
   
 
   return (
-    <Paper sx={{ display: "flex", height: "100vh" }}>
+    <Paper sx={{ display: "flex", minHeight: "100vh" }} elevation={0}>
       {/* AdminBar 컴포넌트에 selectedMenu와 setSelectedMenu props 전달 */}
       <AdminBar selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
       <Box
@@ -240,6 +237,7 @@ const ProductRegisterPage = () => {
             backgroundColor: "#FFFFFF",
             borderRadius: "27px",
             margin: "16px",
+            padding:4,
           }}
         >
         <form
@@ -261,7 +259,7 @@ const ProductRegisterPage = () => {
                   ))}
           </Select>
           <Grid container spacing={2}>
-            <Grid item xs={3.5}>
+            <Grid item xs={3}>
               <div
                 style={{
                   display: "flex",
@@ -291,7 +289,7 @@ const ProductRegisterPage = () => {
             <Grid item xs={1.5}>
 
             </Grid>
-            <Grid item xs={7}>
+            <Grid item xs={7.5}>
               <div
                 style={{
                   display: "flex",
@@ -534,4 +532,4 @@ const ProductRegisterPage = () => {
   );
 };
 
-export default ProductRegisterPage;
+export default ProductEditPage;
