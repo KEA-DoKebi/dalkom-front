@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Typography, Paper } from "@mui/material";
+import { Grid, Typography, Paper, Divider } from "@mui/material";
 import { Select, selectClasses, Option, Textarea } from "@mui/joy";
 import { KeyboardArrowDown } from "@mui/icons-material";
 import EditorComponent from "components/atoms/Editor";
@@ -51,16 +51,14 @@ const InquiryWriteBody = () => {
 
   return (
     <Paper elevation={0}>
-      <Typography variant="h4" sx={{ mt: 7, mb: 3 }}>
-        문의하기
-      </Typography>
-
+      <Typography sx={{ fontSize: "40px", mb: 3 }}>문의하기</Typography>
+      <Divider sx={{ borderBottomWidth: 3 }} color={"black"}></Divider>
       <form
         onSubmit={handleSubmit((data) => {
           inquoryCreate(data);
         })}
       >
-        <Grid container spacing={0.5} alignItems="center" sx={{ mb: 2 }}>
+        <Grid container spacing={0.5} alignItems="center" sx={{ mb: 2, mt: 4 }}>
           <Grid item xs={1}>
             <Select
               id="categorySeq"
