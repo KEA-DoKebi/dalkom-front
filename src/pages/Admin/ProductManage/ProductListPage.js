@@ -176,22 +176,23 @@ const ProductListPage = () => {
             </div>
         </Typography>
         <div>
-        <Link
-          to={`/admin/product/edit/${product.productSeq}`}
-          style={{ textDecoration: "none"}}
-        >
-          
-          <AdminButton2 >
-            보기
-          </AdminButton2>
-        </Link>
+            <Link
+                to={`/admin/product/edit/${product.productSeq}`}
+                style={{textDecoration: "none"}}
+            >
+                <div style={{display: "flex", justifyContent: "center"}}>
+                    <AdminButton2>
+                        보기
+                    </AdminButton2>
+                </div>
+            </Link>
         </div>
       </ListItemStyled>
-    );
+  );
   };
 
   return (
-    <Paper sx={{ display: "flex", minHeight:"100vh"}} elevation={0}>
+      <Paper sx={{ display: "flex", minHeight:"100vh"}} elevation={0}>
       {/* AdminBar 컴포넌트에 selectedMenu와 setSelectedMenu props 전달 */}
       <AdminBar selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
       <Box

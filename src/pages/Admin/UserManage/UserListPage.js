@@ -21,7 +21,7 @@ import { useNavigate } from "react-router-dom";
 // 각 항목에 대한 공통 스타일을 설정합니다.
 const itemFlexStyles = {
   "& > *:nth-child(1)": { width: "5%" }, // 번호
-  "& > *:nth-child(2)": { width: "22%" }, // ID
+  "& > *:nth-child(2)": { width: "22%" }, // 이메일
   "& > *:nth-child(3)": { width: "21%" }, // 닉네임
   "& > *:nth-child(4)": { width: "21%" }, // 마일리지
   "& > *:nth-child(5)": { width: "22%" }, // 기본배송지
@@ -69,13 +69,13 @@ const AdminListPage = () => {
   const [dataList, setDataList] = useState([]);
   const dataListLabels = [
     "번호",
-    "ID",
+    "이메일",
     "닉네임",
     "마일리지",
     "기본배송지",
     "삭제",
   ];
-  const optionList = [{ label: "ID" }, { label: "닉네임" }];
+  const optionList = [{ label: "이메일" }, { label: "닉네임" }];
   const pageSize = 10;
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -87,7 +87,7 @@ const AdminListPage = () => {
       let apiUrl = `/api/user/search?page=${currentPage}&size=10`; // 기본 API URL
 
       // 선택된 검색어에 따라 검색 조건 추가
-      if (selectedValue.label === "ID") {
+      if (selectedValue.label === "이메일") {
         apiUrl += `&email=${searchQuery}`;
       } else if (selectedValue.label === "닉네임") {
         apiUrl += `&nickname=${searchQuery}`;

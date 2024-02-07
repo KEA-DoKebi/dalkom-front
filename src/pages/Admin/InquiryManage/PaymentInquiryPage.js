@@ -31,12 +31,12 @@ const pageSize = 10;
 
 // 각 항목에 대한 공통 스타일을 설정합니다.
 const itemFlexStyles = {
-  "& > *:nth-child(1)": { width: "5%" }, // 번호
-  "& > *:nth-child(2)": { width: "26%" }, // 일시
-  "& > *:nth-child(3)": { width: "30%" }, // 제목
-  "& > *:nth-child(4)": { width: "30%" }, // 상태
-  "& > *:nth-child(5)": { width: "5%" }, // 작성
-  "&:before, &:after": { content: '""', width: "2%" },
+    "& > *:nth-child(1)": { width: "5%" }, // 번호
+    "& > *:nth-child(2)": { width: "40%" }, // 제목
+    "& > *:nth-child(3)": { width: "20%" }, // 일시
+    "& > *:nth-child(4)": { width: "20%" }, // 상태
+    "& > *:nth-child(5)": { width: "10%" }, // 작성
+    "&:before, &:after": { content: '""', width: "2%" },
 };
 
 const StyledDialog = styled(Dialog)`
@@ -77,7 +77,7 @@ const formatDate = (dateString) => {
 };
 
 const PaymentInquiryPage = () => {
-  const dataListLabels = ["번호", "일시", "제목", "상태", "답변"];
+  const dataListLabels = ["번호", "제목", "일시", "상태", "답변"];
   const [dataList, setDataList] = useState([]);
   const [selectedMenu, setSelectedMenu] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
@@ -214,32 +214,30 @@ const PaymentInquiryPage = () => {
 
   const InquiryList = ({ inquiry, index }) => {
     return (
-      <ListItemStyled>
-        <Typography variant="body1" sx={{ textAlign: "center" }}>
-          {index + 1 + currentPage * pageSize}
-        </Typography>
-        <Typography variant="body1" sx={{ textAlign: "center" }}>
-          {formatDate(inquiry.createdAt)}
-        </Typography>
-        <Typography variant="body1" sx={{ textAlign: "center" }}>
-          {inquiry.title}
-        </Typography>
-        <Typography variant="body1" sx={{ textAlign: "center" }}>
-          <MuiColorChip
-            status={inquiry.answerState === "Y" ? "completed" : "waiting"}
-          />
-        </Typography>
-        <div>
-          <AdminButton2 onClick={() => handleOpenModal(inquiry.inquirySeq)} >
-            보기
-          </AdminButton2>
-        </div>
-      </ListItemStyled>
+        <ListItemStyled>
+            <Typography variant="body1" sx={{ textAlign: "center" }}>
+                {index + 1 + currentPage * pageSize}
+            </Typography>
+            <Typography variant="body1" sx={{ textAlign: "center" }}>
+                {inquiry.title}
+            </Typography>
+            <Typography variant="body1" sx={{ textAlign: "center" }}>
+                {formatDate(inquiry.createdAt)}
+            </Typography>
+            <Typography variant="body1" sx={{ textAlign: "center" }}>
+                {inquiry.answerStateName}
+            </Typography>
+            <div style={{display: "flex", justifyContent: "center"}}>
+                <AdminButton2 onClick={() => handleOpenModal(inquiry.inquirySeq)}>
+                    보기
+                </AdminButton2>
+            </div>
+        </ListItemStyled>
     );
   };
 
   return (
-    <Paper sx={{ display: "flex", minHeight:"100vh" }} elevation={0}>
+      <Paper sx={{display: "flex", minHeight: "100vh" }} elevation={0}>
       {/* AdminBar 컴포넌트에 selectedMenu와 setSelectedMenu props 전달 */}
       <AdminBar selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
       <Box
