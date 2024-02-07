@@ -63,6 +63,6 @@ jobs:
       - name: CloudFront 무효화
         env:
           CLOUD_FRONT_ID: ${{ secrets.AWS_CLOUDFRONT_ID}}
-        run: |
+        run: 
           aws cloudfront create-invalidation \
-            --distribution-id $CLOUD_FRONT_ID --paths "/*""
+            --distribution-id $CLOUD_FRONT_ID --paths "/*"
