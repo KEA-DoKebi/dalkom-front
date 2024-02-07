@@ -27,7 +27,7 @@ import {
   FormControlLabel,
 } from "@mui/material";
 import { AdminButton } from "components/atoms/AdminCommonButton";
-import { InputBoxM } from "components/atoms/Input";
+import { InputBoxTitle } from "components/atoms/Input";
 import { DefaultAxios } from "apis/CommonAxios";
 import EditorComponent from "components/atoms/Editor";
 
@@ -42,7 +42,6 @@ const itemFlexStyles = {
   "& > *:nth-child(6)": { width: "5%" }, // 상세보기
   "&:before, &:after": { content: '""', width: "2%" },
 };
-
 
 const StyledList = styled(List)`
   padding: 0;
@@ -71,6 +70,7 @@ const ListItemStyled = styled(ListItem)`
   padding: 12px;
   ${itemFlexStyles}// 공통 스타일 적용
 `;
+
 const StyledDialog = styled(Dialog)`
     z-index: 900;
 `;
@@ -149,16 +149,16 @@ const AnnouncementPage = () => {
   useEffect(() => {
     // 각 페이지가 마운트될 때 selectedMenu를 업데이트
     // setSelectedMenu 함수를 호출하여 상태를 업데이트
-   
-   // 페이지가 변경될 때마다 API 호출
+
+    // 페이지가 변경될 때마다 API 호출
     if (searchQuery.trim() !== "") {
       handleSearch(searchQuery);
     } else {
-      getNotice(currentPage); 
+      getNotice(currentPage);
     }
     setSelectedMenu("공지사항");
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPage,searchQuery, selectedNotice]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPage, searchQuery, selectedNotice]);
 
   // Modal의 상태를 관리하는 state
   const [writeModalOpen, setWriteModalOpen] = useState(false);
@@ -227,7 +227,7 @@ const AnnouncementPage = () => {
         confirmButtonText: '확인',
       });
     }
-    setWriteModalOpen(false);
+    handleWriteCloseModal();
   };
 
   // 공지 조회 (get)
@@ -243,10 +243,10 @@ const AnnouncementPage = () => {
     setCurrentPage(newPage);
     if (searchQuery.trim() !== "") {
       handleSearch(searchQuery);
-  } else {
+    } else {
       // 검색어가 없는 경우 전체 데이터에 대한 페이징 수행
       getNotice(newPage);
-  }
+    }
   };
 
   // 공지 수정 (put)
@@ -337,16 +337,16 @@ const AnnouncementPage = () => {
           {index + 1 + currentPage * pageSize}
         </Typography>
         <Typography variant="body1" sx={{ textAlign: "center" }}>
-        {formatDate(notice.createdAt)}
+          {formatDate(notice.createdAt)}
         </Typography>
         <Typography variant="body1" sx={{ textAlign: "center" }}>
-        {notice.nickname}
+          {notice.nickname}
         </Typography>
         <Typography variant="body1" sx={{ textAlign: "center" }}>
-        {notice.title}
+          {notice.title}
         </Typography>
         <Typography variant="body1" sx={{ textAlign: "center" }}>
-        {notice.state === "Y" ? <CheckCircleIcon sx={{ color: "#F4B5C2", fontSize: 25 }}/> : ""}
+          {notice.state === "Y" ? <CheckCircleIcon sx={{ color: "#F4B5C2", fontSize: 25 }} /> : ""}
         </Typography>
         <KeyboardDoubleArrowRightIcon onClick={() => handleLookOpenModal(notice.noticeSeq)}
           sx={{ textAlign: "center" }} />
@@ -390,7 +390,6 @@ const AnnouncementPage = () => {
             }}
           >
             {/* 중앙 정렬을 위해 앞뒤로 <div/> 추가*/}
-            {/* <div /> */}
             <Search
               onSearch={handleSearch}
               searchQuery={searchQuery}
@@ -448,12 +447,12 @@ const AnnouncementPage = () => {
               }
             />
           </Box>
+          
           {/* 공지사항 작성 모달  */}
-          <Dialog
-            onClose={handleWriteOpenModal}
+          <StyledDialog
+            onClose={handleWriteCloseModal}
             open={writeModalOpen}
             maxWidth={false}
-            width="1200px"
             sx={{
               "& .MuiDialog-paper": {
                 borderRadius: "30px",
@@ -463,54 +462,45 @@ const AnnouncementPage = () => {
             <form
               onSubmit={handleSubmit((data) => {
                 postNotice(data);
-                // postNotice(data);})}>
-                // console.log(data)
               })}
             >
-              <DialogTitle>
-                <Typography
-                  variant="h6"
-                  fontWeight="bold"
-                  sx={{ textAlign: "center", mt: 2, mb: 2 }}
+              <DialogTitle style={{ fontWeight: "bold", fontSize: "1.5rem", textAlign: "center", marginTop: 20, marginLeft: 20, marginRight: 20 }}>
+                <IconButton
+                  aria-label="close"
+                  onClick={handleWriteCloseModal}
+                  sx={{ position: 'absolute', right: 8, top: 8, color: (theme) => theme.palette.grey[500], }}
                 >
+                  <CloseIcon />
+                </IconButton>
+                <Typography style={{ fontWeight: "bold", fontSize: "28px" }}>
                   공지사항
                 </Typography>
-                <Box display="flex">
-                  <InputBoxM
+
+                <Box display="flex" style={{ marginTop: 10 }}>
+                  <InputBoxTitle
                     id="title"
                     color="neutral"
-                    placeholder="Text"
+                    placeholder="공지 제목을 입력해주세요."
                     disabled={false}
                     variant="soft"
-                    sx={{ mb: 2, mt: 2, width: "100%" }}
+                    sx={{ mb: 2, mt: 3, width: "100%" }}
                     {...register("title")}
                   />
                   <FormControlLabel
                     control={<OnOffSwitch checked={switchState} onChange={handleSwitchChange} sx={{ mr: 2 }} />}
                     label="상단 고정"
                     labelPlacement="start"
+                    sx={{ mt: 1, marginLeft: 'auto' }}
                   />
                 </Box>
-
-                <IconButton
-                  aria-label="close"
-                  onClick={handleWriteCloseModal}
-                  sx={{
-                    position: "absolute",
-                    right: 8,
-                    top: 8,
-                    color: (theme) => theme.palette.grey[500],
-                  }}
-                >
-                  <CloseIcon />
-                </IconButton>
               </DialogTitle>
               <DialogContent
                 style={{
-                  width: 900,
+                  width: 1200,
                   height: "450px",
-                  overflowY: "auto",
+                  overflowY: "initial",
                   overflowX: "hidden",
+                  marginLeft: 20, marginRight: 20
                 }}
               >
                 <EditorComponent
@@ -543,63 +533,53 @@ const AnnouncementPage = () => {
                 </AdminButton>
               </DialogActions>
             </form>
-          </Dialog>
+          </StyledDialog>
 
           {/* 공지사항 수정 모달  */}
           <StyledDialog
-            onClose={handleUpdateOpenModal}
+            onClose={handleUpdateCloseModal}
             open={updateModalOpen}
             maxWidth={false}
-            width="1200px"
             sx={{
               "& .MuiDialog-paper": {
                 borderRadius: "30px",
               },
             }}
           >
-            <DialogTitle>
-              <Typography
-                variant="h6"
-                fontWeight="bold"
-                sx={{ textAlign: "center", mt: 2, mb: 2 }}
+            <DialogTitle style={{ fontWeight: "bold", fontSize: "1.5rem", textAlign: "center", marginTop: 20, marginLeft: 20, marginRight: 20 }}>
+              <IconButton
+                aria-label="close"
+                onClick={handleUpdateCloseModal}
+                sx={{ position: 'absolute', right: 8, top: 8, color: (theme) => theme.palette.grey[500], }}
               >
+                <CloseIcon />
+              </IconButton>
+              <Typography style={{ fontWeight: "bold", fontSize: "28px" }}>
                 공지사항
               </Typography>
-              <Box display="flex">
-                <InputBoxM
+
+              <Box display="flex" style={{ marginTop: 10 }}>
+                <InputBoxTitle
                   id="title"
                   value={editNotice?.title}
                   onChange={(e) =>
                     setEditNotice({ ...editNotice, title: e.target.value })
                   }
                   color="neutral"
-                  placeholder="Text"
+                  placeholder="공지 내용을 입력해주세요"
                   disabled={false}
                   variant="soft"
                   sx={{ mb: 2, mt: 2, width: "100%" }}
-                ></InputBoxM>
+                ></InputBoxTitle>
                 <FormControlLabel
                   control={<OnOffSwitch checked={editNotice.state === "Y"} onChange={handleEditSwitchChange} sx={{ mr: 2 }} />}
                   label="상단 고정"
                   labelPlacement="start"
+                  sx={{ mt: 1, marginLeft: 'auto' }}
                 />
               </Box>
-
-              <IconButton
-                aria-label="close"
-                onClick={handleUpdateCloseModal}
-                sx={{
-                  position: "absolute",
-                  right: 8,
-                  top: 8,
-                  color: (theme) => theme.palette.grey[500],
-                }}
-              >
-                <CloseIcon />
-              </IconButton>
             </DialogTitle>
-
-            <DialogContent style={{ width: 900, height: "450px", overflowY: "auto", overflowX: "hidden", }}>
+            <DialogContent style={{ width: 1200, height: "450px", overflowY: "initial", overflowX: "hidden", marginLeft: 20, marginRight: 20 }}>
               <EditorComponent
                 onContentChange={(content) => setEditNotice({ ...editNotice, content: content })}
                 placeholder="공지 내용을 입력해주세요."
@@ -613,94 +593,68 @@ const AnnouncementPage = () => {
               />
             </DialogContent>
 
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "flex-start",
-                width: "100%",
-                marginBottom: "20px",
-                marginLeft: "20px",
-                marginRight: "20px",
-              }}
-            >
-
-            </div>
             <DialogActions
               style={{ justifyContent: "center", marginTop: "20px", marginBottom: "20px" }}
             >
               <AdminButton autoFocus onClick={updateNotice}>
-                Save
+                저장
               </AdminButton>
             </DialogActions>
           </StyledDialog>
 
           {/* 공지사항 보기 모달 */}
           <StyledDialog
-            onClose={handleLookOpenModal}
+            onClose={handleLookCloseModal}
             open={lookModalOpen}
             maxWidth={false}
             sx={{
-              overflowX: "hidden",
+              overflowX: "initial",
               "& .MuiDialog-paper": {
                 borderRadius: "30px",
               },
             }}
           >
-            <DialogTitle>
-              <Typography
-                variant="h6"
-                fontWeight="bold"
-                sx={{ textAlign: "center", mt: 2, mb: 2 }}
-              >
-                공지사항
-              </Typography>
+            <DialogTitle style={{ fontWeight: "bold", fontSize: "1.5rem", textAlign: "center", marginTop: 20, marginBottom: 20 }}>
               <IconButton
                 aria-label="close"
                 onClick={handleLookCloseModal}
-                sx={{
-                  position: "absolute",
-                  right: 8,
-                  top: 8,
-                  color: (theme) => theme.palette.grey[500],
-                }}
+                sx={{ position: 'absolute', right: 8, top: 8, color: (theme) => theme.palette.grey[500] }}
               >
                 <CloseIcon />
               </IconButton>
+              <Typography style={{ fontWeight: "bold", fontSize: "28px" }}>
+                공지사항
+              </Typography>
             </DialogTitle>
             <DialogContent
               style={{
-                width: 900,
+                width: 1200,
                 height: "450px",
-                overflowY: "hidden",
-                overflowX: "hidden",
+                overflowY: "initial",
+                overflowX: "initial",
+                marginLeft: 20, marginRight: 20
               }}
             >
-              <div style={{ marginBottom: "30px", marginRight: "10px" }}>
-                <Typography varient="body2" sx={{ textAlign: "right" }}>
-                  작성일시 : {formatDate(selectedNotice?.createdAt)}  |  작성자 : {" "}
-                  {selectedNotice?.nickname}
-                </Typography>
-              </div>
               <div>
                 <Grid container rowSpacing={1}>
                   <Grid item xs={2}>
-                    <Typography varient="h6" fontWeight="bold" sx={{ textAlign: "center" }}>
+                    <Typography style={{fontSize: "20px", fontWeight: "bold"}} sx={{ textAlign: "center" }}>
                       제목
                     </Typography>
                   </Grid>
-                  <Grid item xs={10}>
-                    <Typography varient="subtitle2" fontWeight="bold" sx={{ textAlign: "left" }}>
+                  <Grid item xs={9.5}>
+                    <Typography variant="h6" fontWeight="bold" sx={{ textAlign: "left" }}>
                       {selectedNotice?.title}
                     </Typography>
                   </Grid>
                   <Grid item xs={2}>
-                    <Typography varient="subtitle2" fontWeight="bold" sx={{ textAlign: "center" }}>
+                    <Typography style={{fontSize: "20px", fontWeight: "bold"}} sx={{ textAlign: "center", mt: 2 }}>
                       내용
                     </Typography>
                   </Grid>
-                  <Grid item xs={10}>
-                    <Box sx={{ maxHeight: "350px", overflowY: "auto" }}>
-                      <Typography varient="subtitle2" sx={{ textAlign: "left" }}>
+                  <Grid item xs={9.5}>
+                    <Box sx={{ maxHeight: "350px", overflowY: "auto", mt: 0.5 }}>
+                      <Typography variant="subtitle1" sx={{ textAlign: "left" }}>
                         <div dangerouslySetInnerHTML={{ __html: selectedNotice?.content }} />
                       </Typography>
                     </Box>
@@ -708,23 +662,22 @@ const AnnouncementPage = () => {
                 </Grid>
               </div>
             </DialogContent>
+            <Grid container spacing={1} sx={{ mt: 5 }}>
+              <Grid item xs={2} justifyContent="center" sx={{ ml: 8 }}>
+                <FormControlLabel
+                  control={<OnOffSwitch checked={selectedNotice?.state === "Y"} onChange={handleSwitchChange} disabled={true} sx={{ mr: 2 }} />}
+                  label="상단 고정"
+                  labelPlacement="start"
+                />
+              </Grid>
+              <Grid item xs={8} sx={{ ml: 4 }}>
+                <Typography variant="body2" sx={{ textAlign: "right", marginLeft: "auto" }}>
+                  작성일시 : {formatDate(selectedNotice?.createdAt)}  |  작성자 : {" "}
+                  {selectedNotice?.nickname}
+                </Typography>
 
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "flex-start",
-                width: "100%",
-                marginTop: "20px",
-                marginLeft: "30px",
-                marginRight: "20px",
-              }}
-            >
-              <FormControlLabel
-                control={<OnOffSwitch checked={selectedNotice?.state === "Y"} onChange={handleSwitchChange} disabled={true} sx={{ mr: 2 }} />}
-                label="상단 고정"
-                labelPlacement="start"
-              />
-            </div>
+              </Grid>
+            </Grid>
 
             <DialogActions
               style={{
