@@ -15,10 +15,12 @@ import {
     TableHead,
     TableRow,
     Typography,
+    Grid,
+    TextField
 } from "@mui/material";
 import Swal from 'sweetalert2'
-import React, {useEffect, useState} from "react";
-import {TokenAxios} from "apis/CommonAxios";
+import React, { useEffect, useState } from "react";
+import { TokenAxios } from "apis/CommonAxios";
 import CloseIcon from "@mui/icons-material/Close";
 
 let currentNoticeSeq = 1;
@@ -101,21 +103,21 @@ const InquiryHistoryBody = () => {
             confirmButtonText: '확인'
         });
     };
-    
+
     const handleAnsweredButtonClick = () => {
         // 답변이 완료된 상태에서 버튼을 클릭했을 때 모달 열기
         setLookModalOpen(true);
     };
 
-    
+
     return (
         <Paper elevation={0}>
-            <Typography sx={{ fontSize: "40px", mb: 3}}>
+            <Typography sx={{ fontSize: "40px", mb: 3 }}>
                 문의 내역
             </Typography>
             <Divider sx={{ borderBottomWidth: 3 }} color={"black"}></Divider>
 
-           <Paper elevation={0}
+            <Paper elevation={0}
                 style={{
                     display: "flex",
                     justifyContent: "center",
@@ -182,10 +184,10 @@ const InquiryHistoryBody = () => {
                         <TableBody>
                             {data.map((inquiry) => (
                                 <TableRow key={inquiry.inquirySeq}>
-                                    <TableCell style={{width: "10%", textAlign: "center"}}>
+                                    <TableCell style={{ width: "10%", textAlign: "center" }}>
                                         {inquiry.category}
                                     </TableCell>
-                                    <TableCell style={{width: "20%", textAlign: "center"}}>
+                                    <TableCell style={{ width: "20%", textAlign: "center" }}>
                                         {inquiry.createdAt.substring(0, 10)}
                                     </TableCell>
                                     <TableCell style={{ width: "50%", textAlign: "center" }}>
@@ -193,36 +195,36 @@ const InquiryHistoryBody = () => {
                                             {inquiry.title}
                                         </Typography>
                                     </TableCell>
-                                    <TableCell style={{width: "10%", textAlign: "center"}}>
+                                    <TableCell style={{ width: "10%", textAlign: "center" }}>
                                         {inquiry.answerState === "Y" ? (
-                                           <Button
-                                           variant="contained"
-                                           color="success"
-                                           size="small"
-                                           sx={{
-                                               backgroundColor: 'success',
-                                               width: '74px'
-                                           }}
-                                           onClick={() => handleAnswerOpenModal(inquiry.inquirySeq)} 
-                                       >
-                                           답변완료
-                                       </Button>
+                                            <Button
+                                                variant="contained"
+                                                color="success"
+                                                size="small"
+                                                sx={{
+                                                    backgroundColor: 'success',
+                                                    width: '74px'
+                                                }}
+                                                onClick={() => handleAnswerOpenModal(inquiry.inquirySeq)}
+                                            >
+                                                답변완료
+                                            </Button>
                                         ) : (
                                             <Button
-                                           variant="contained"
-                                           color="warning"
-                                           size="small"
-                                           sx={{
-                                               backgroundColor: 'warning',
-                                               width: '74px'
-                                           }}
-                                           onClick={handleWaitingButtonClick} 
-                                       >
-                                           대기중
+                                                variant="contained"
+                                                color="warning"
+                                                size="small"
+                                                sx={{
+                                                    backgroundColor: 'warning',
+                                                    width: '74px'
+                                                }}
+                                                onClick={handleWaitingButtonClick}
+                                            >
+                                                대기중
                                             </Button>
                                         )}
                                     </TableCell>
-                                    <TableCell style={{width: "10%", textAlign: "center"}}>
+                                    <TableCell style={{ width: "10%", textAlign: "center" }}>
                                         <Button
                                             variant="contained"
                                             size="small"
@@ -232,10 +234,10 @@ const InquiryHistoryBody = () => {
                                                     backgroundColor: 'black',
                                                 },
                                             }}
-                                            onClick={() => { 
+                                            onClick={() => {
                                                 console.log(`Try: delete inquirySeq: ${inquiry.inquirySeq}`);
-                                                 deleteInquiry(inquiry.inquirySeq);
-                                             }}
+                                                deleteInquiry(inquiry.inquirySeq);
+                                            }}
                                         >
                                             삭제하기
                                         </Button>
@@ -263,57 +265,153 @@ const InquiryHistoryBody = () => {
                 />
             </Box>
 
-            <Dialog onClose={handleLookCloseModal} open={lookModalOpen} maxWidth={false} width="1200px" sx={{ "& .MuiDialog-paper": { borderRadius: "30px" } }}>
-                <DialogTitle>
-                    <Typography variant="h5" fontWeight="bold" sx={{ textAlign: "center", mt: 2, mb: 2 }}>문의사항</Typography>
-                    <IconButton aria-label="close" onClick={handleLookCloseModal} sx={{ position: "absolute", right: 8, top: 8, color: (theme) => theme.palette.grey[500] }}><CloseIcon /></IconButton>
+            <Dialog
+                onClose={handleLookCloseModal}
+                open={lookModalOpen}
+                maxWidth={false}
+                width="1200px"
+                sx={{
+                    "& .MuiDialog-paper": { borderRadius: "30px" }
+                }}>
+
+                <DialogTitle style={{ fontWeight: "bold", fontSize: "1.5rem", textAlign: "center", marginTop: 20, marginBottom: 20 }}>
+                    <IconButton aria-label="close" onClick={handleLookCloseModal} sx={{ position: "absolute", right: 8, top: 8, color: (theme) => theme.palette.grey[500] }}><CloseIcon />
+                    </IconButton>
+                    <Typography style={{ fontWeight: "bold", fontSize: "28px" }}>
+                        문의사항
+                    </Typography>
                 </DialogTitle>
-                <DialogContent 
+                <DialogContent
                     style={{
                         width: 900,
                         height: "450px",
                         overflowY: "initial",
                         overflowX: "initial",
-                        marginLeft: 40, marginRight:40
+                        marginLeft: 40, marginRight: 40
                     }}>
                     {/* 선택된 문의사항의 세부 내용을 표시하는 UI */}
                     {selectedInquiry && (
+                        // <div>
+                        //     <Typography variant="h6" fontWeight="bold">제목</Typography>
+                        //     <Typography> {selectedInquiry.title}</Typography>
+                        //     <Typography variant="h6" fontWeight="bold" marginTop="40px">내용</Typography>
+                        //     <Typography variant="body1" dangerouslySetInnerHTML={{ __html: selectedInquiry.content }}></Typography>
+                        // </div>
                         <div>
-                            <Typography variant="h6" fontWeight="bold">제목</Typography>
-                            <Typography> {selectedInquiry.title}</Typography>
-                            <Typography variant="h6" fontWeight="bold" marginTop="40px">내용</Typography>
-                            <Typography variant="body1" dangerouslySetInnerHTML={{ __html: selectedInquiry.content }}></Typography>
+                            <Grid container rowSpacing={1}>
+                                <Grid item xs={2}>
+                                    <Typography style={{ fontSize: "20px", fontWeight: "bold" }} sx={{ textAlign: "center" }}>
+                                        제목
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={9.5}>
+                                    <Typography variant="h6" fontWeight="bold" sx={{ textAlign: "left" }}>
+                                        {selectedInquiry?.title || "title"}
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={2}>
+                                    <Typography style={{ fontSize: "20px", fontWeight: "bold" }} sx={{ textAlign: "center", mt: 2 }}>
+                                        내용
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={9.5}>
+                                    <Box sx={{ maxHeight: "350px", overflowY: "auto", mt: 0.5 }}>
+                                        <Typography variant="subtitle1" sx={{ textAlign: "left" }}>
+                                            <div dangerouslySetInnerHTML={{ __html: selectedInquiry?.content }} />
+                                        </Typography>
+                                    </Box>
+                                </Grid>
+                            </Grid>
                         </div>
                     )}
                 </DialogContent>
             </Dialog>
 
 
-            <Dialog onClose={handleAnswerCloseModal} open={answerModalOpen} maxWidth={false} width="1200px" sx={{ "& .MuiDialog-paper": { borderRadius: "30px" } }}>
-                <DialogTitle>
-                    <Typography variant="h5" fontWeight="bold" sx={{ textAlign: "center", mt: 2, mb: 2 }}>문의답변</Typography>
-                    <IconButton aria-label="close" onClick={handleAnswerCloseModal} sx={{ position: "absolute", right: 8, top: 8, color: (theme) => theme.palette.grey[500] }}><CloseIcon /></IconButton>
+
+
+            <Dialog
+                onClose={handleAnswerCloseModal}
+                open={answerModalOpen}
+                maxWidth={false}
+                width="1200px"
+                
+                sx={{
+                    "& .MuiDialog-paper": { borderRadius: "30px" }
+                }}>
+
+                <DialogTitle style={{ fontWeight: "bold", fontSize: "1.5rem", textAlign: "center", marginTop: 20, marginBottom: 20 }}>
+                    <IconButton aria-label="close" onClick={handleAnswerCloseModal} sx={{ position: "absolute", right: 8, top: 8, color: (theme) => theme.palette.grey[500] }}><CloseIcon />
+                    </IconButton>
+                    <Typography style={{ fontWeight: "bold", fontSize: "28px" }}>
+                        문의내용
+                    </Typography>
                 </DialogTitle>
-                <DialogContent 
+
+
+                <DialogContent
                     style={{
                         width: 900,
-                        height: "450px",
+                        height: "100px",
                         overflowY: "initial",
                         overflowX: "initial",
-                        marginLeft: 40, marginRight:40
-                    }}>
-                    {/* 선택된 문의사항의 세부 내용을 표시하는 UI */}
-                    {selectedInquiry && (
-                        <div>
-                            <Typography>담당자: {selectedInquiry.nickname}</Typography>
-                            <Typography>답변일: {selectedInquiry.answeredAt}</Typography>   
-                            <Typography variant="h6" fontWeight="bold" marginTop="40px">답변 내용</Typography>
-                            <Typography>{selectedInquiry.answerContent}</Typography>
-                            
-                               
-                        </div>
-                    )}
+                        marginLeft: 40, marginRight: 40
+                    }}
+                >
+                    
+                        {/* 선택된 문의사항의 세부 내용을 표시하는 UI */}
+                        {selectedInquiry && (
+                            // <div>
+                            //     <Typography variant="h6" fontWeight="bold">제목</Typography>
+                            //     <Typography> {selectedInquiry.title}</Typography>
+                            //     <Typography variant="h6" fontWeight="bold" marginTop="40px">내용</Typography>
+                            //     <Typography variant="body1" dangerouslySetInnerHTML={{ __html: selectedInquiry.content }}></Typography>
+                            // </div>
+                            <div>
+                                <Grid container rowSpacing={1}>
+                                    <Grid item xs={2}>
+                                        <Typography style={{ fontSize: "20px", fontWeight: "bold" }} sx={{ textAlign: "center" }}>
+                                            제목
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item xs={9.5}>
+                                        <Typography variant="h6" fontWeight="bold" sx={{ textAlign: "left" }}>
+                                            {selectedInquiry?.title || "title"}
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item xs={2}>
+                                        <Typography style={{ fontSize: "20px", fontWeight: "bold" }} sx={{ textAlign: "center", mt: 2 }}>
+                                            내용
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item xs={9.5}>
+                                        <Box sx={{ maxHeight: "350px", overflowY: "auto", mt: 0.5 }}>
+                                            <Typography variant="subtitle1" sx={{ textAlign: "left" }}>
+                                                <div dangerouslySetInnerHTML={{ __html: selectedInquiry?.content }} />
+                                            </Typography>
+                                        </Box>
+                                    </Grid>
+                                </Grid>
+                            </div>
+                        )}
                 </DialogContent>
+
+                   
+                    <Box display="flex" justifyContent="center" alignItems="center" marginBottom= "30px" flexDirection="column" height="350px">
+                    <Typography style={{ fontWeight: "bold", fontSize: "28px" , textAlign: "center", marginBottom: "10px"}}>
+                        문의답변
+                    </Typography>
+                        <Typography
+                            id="outlined-textarea"
+                            sx={{
+                                width: "80%",
+                                backgroundColor:
+                                selectedInquiry?.answerState === "Y" ? "#f0f0f0" : "#f8fafc",
+                              }}
+                        >
+                        {selectedInquiry?.answerContent}
+                        </Typography>
+                    </Box>        
             </Dialog>
 
 
