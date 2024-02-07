@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import AdminBar from "components/organisms/AdminBar";
 import { TokenAxios } from "apis/CommonAxios";
 import Search from 'components/molecules/Search';
-import mileageIcon from "./M-Admin.png"; 
 import {
   Paper,
   Box,
@@ -214,8 +213,8 @@ const MileageApprovalPage = () => {
           sx={{ textAlign: "left" }}
         >
             <div style={{ marginLeft: "50px" }}>
-              <img
-                src={mileageIcon}
+            <img
+                src="/images/M-admin.png"
                 alt="마일리지"
                 style={{ width: "15px", height: "15px", marginRight: "10px" }}
               />

@@ -3,8 +3,7 @@ import styled from "styled-components";
 import AdminBar from "components/organisms/AdminBar";
 import { AdminButton } from "components/atoms/AdminCommonButton";
 import DeleteIcon from "@mui/icons-material/Delete";
-import Search from 'components/molecules/Search';
-import mileageIcon from "../ProductManage/배경제거M-admin.png"; // 컴포넌트와 같은 디렉토리에 있는 경우
+import Search from 'components/molecules/Search';// 컴포넌트와 같은 디렉토리에 있는 경우
 import {
   Box,
   Divider,
@@ -167,8 +166,8 @@ const AdminListPage = () => {
         </Typography>
         <Typography variant="body1" sx={{  marginLeft:"10px",textAlign: "left" }}>
           <div style={{marginLeft:"100px"}}>
-              <img
-                src={mileageIcon}
+          <img
+                src="/images/M-admin.png"
                 alt="마일리지"
                 style={{ width: "15px", height: "15px", marginRight: "10px" }}
               />

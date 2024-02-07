@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import AdminBar from "components/organisms/AdminBar";
 import { AdminButton, AdminButton2 } from "components/atoms/AdminCommonButton";
-import mileageIcon from "./배경제거M-admin.png"; // 컴포넌트와 같은 디렉토리에 있는 경우
 import Search from 'components/molecules/Search';
 import {
   Box,
@@ -170,8 +169,8 @@ const ProductListPage = () => {
         <Typography
           variant="body1" sx={{ textAlign: "left" }}>
             <div style={{ marginLeft: "70px" }}>
-              <img
-                src={mileageIcon}
+            <img
+                src="/images/M-admin.png"
                 alt="마일리지"
                 style={{ width: "15px", height: "15px", marginRight: "10px" }}
               />

@@ -15,7 +15,6 @@ import styled from "styled-components";
 import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 import Search from "components/molecules/Search";
 import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
-import mileageIcon from "./M-Admin.png"; 
 
 // 각 항목에 대한 공통 스타일을 설정합니다.
 const itemFlexStyles = {
@@ -160,8 +159,8 @@ const MileageHistoryPage = () => {
         </Typography>
         <Typography variant="body1" sx={{ textAlign: "left" }}>
         <div style={{ marginLeft: "50px" }}>
-              <img
-                src={mileageIcon}
+        <img
+                src="/images/M-admin.png"
                 alt="마일리지"
                 style={{ width: "15px", height: "15px", marginRight: "10px" }}
               />
@@ -170,8 +169,8 @@ const MileageHistoryPage = () => {
         </Typography>
         <Typography variant="body1" sx={{ textAlign: "left" }}>
         <div style={{ marginLeft: "50px" }}>
-              <img
-                src={mileageIcon}
+        <img
+                src="/images/M-admin.png"
                 alt="마일리지"
                 style={{ width: "15px", height: "15px", marginRight: "10px" }}
               />
