@@ -162,25 +162,17 @@ const StyledCarousel = styled(Carousel)`
   align-items: center;
   z-index: 0;
   margin-top: -5vh;
-  && .MuiPaper-root {
-    background-color: transparent;
-    animation: none !important;
-    transition: none !important;
-  }
 `;
 
 const StyledPaper = styled(Paper)`
   ${centerFlex}
-  height : 400px;
   box-shadow: none;
-  && {
-    animation: none !important;
-    transition: none !important;
-  }
+
 `;
 
 const BannerImage = styled.img`
   ${centerFlex}
+  height : 400px;
 `;
 
 const CategoryBox = styled(Box)`
@@ -237,3 +229,4 @@ const StyledTableCell = styled(TableCell)({
 });
 
 export default MainBody;
+

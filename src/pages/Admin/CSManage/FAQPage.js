@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import Search from "components/molecules/Search";
 import {
   Box,
@@ -20,7 +19,7 @@ import {
 } from "@mui/material";
 import AdminBar from "components/organisms/AdminBar";
 import { InputBoxXL } from "components/atoms/Input";
-import { AdminButton } from "components/atoms/AdminCommonButton";
+import { AdminButton, AdminButton2 } from "components/atoms/AdminCommonButton";
 import { TokenAxios } from "../../../apis/CommonAxios";
 import { useForm } from "react-hook-form";
 import CloseIcon from "@mui/icons-material/Close";
@@ -300,10 +299,11 @@ const FAQPage = () => {
         <Typography variant="body1" sx={{ textAlign: "center" }}>
           {faq.title}
         </Typography>
-        <KeyboardDoubleArrowRightIcon
+        <AdminButton2
           onClick={() => handleLookModalOpen(faq.inquirySeq)}
-          sx={{ textAlign: "center" }}
-        />
+        >
+          보기
+        </AdminButton2>
       </ListItemStyled>
     );
   };

@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Input } from "@mui/joy";
 
 export const InputBoxXS = styled(Input)`
-  width: 210px;
+  width: 120px;
   height: 50px;
 `;
 

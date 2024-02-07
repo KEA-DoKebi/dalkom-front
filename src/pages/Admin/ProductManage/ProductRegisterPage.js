@@ -12,10 +12,12 @@ import {
   FormControl,
   Select,
   MenuItem,
+  InputLabel,
+  IconButton,
 } from "@mui/material";
 import { pink } from "@mui/material/colors";
 import { InputBoxXS, InputBoxM } from "components/atoms/Input";
-
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { AdminButton } from "components/atoms/AdminCommonButton";
 import { PinkSwitch } from "components/atoms/OnOffSwitch";
 import { useForm, Controller } from "react-hook-form";
@@ -24,6 +26,7 @@ import AWS from "aws-sdk";
 import EditorComponent from "components/atoms/Editor";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 
 const ProductRegisterPage = () => {
   const navigate = useNavigate();
@@ -48,7 +51,7 @@ const ProductRegisterPage = () => {
   const [optionList, setOptionList] = useState([]);
   const [subOptionList, setSubOptionList] = useState([]);
   const [productImage, setProductImage] = useState(
-    "https://nayemdevs.com/wp-content/uploads/2020/03/default-product-image.png",
+    "https://nayemdevs.com/wp-content/uploads/2020/03/default-product-image.png"
   );
 
   // 상위 카테고리 API
@@ -62,6 +65,30 @@ const ProductRegisterPage = () => {
   const getSubCategoryList = async (categorySeq) => {
     const res = await TokenAxios.get(`/api/category/${categorySeq}`);
     setSubCategoryList(res.data.result.data);
+  };
+
+  // 옵션 및 수량 필드 상태 관리
+  const [optionFields, setOptionFields] = useState([
+    { prdtOptionSeq: "", amount: "" },
+  ]);
+
+  // 옵션 추가 함수
+  const addOptionField = () => {
+    setOptionFields([...optionFields, { prdtOptionSeq: "", amount: 1 }]);
+  };
+
+  // 옵션 제거 함수
+  const removeOptionField = (index) => {
+    const updatedOptionFields = optionFields.filter((_, idx) => idx !== index);
+    setOptionFields(updatedOptionFields);
+  };
+
+  // 옵션 필드 값 변경 함수
+  const handleOptionFieldChange = (index, field, value) => {
+    const updatedOptionFields = optionFields.map((optionField, idx) =>
+      idx === index ? { ...optionField, [field]: value } : optionField
+    );
+    setOptionFields(updatedOptionFields);
   };
 
   // 상위 옵션 API
@@ -152,23 +179,48 @@ const ProductRegisterPage = () => {
     trigger("info");
   };
 
-  // 상품 등록 클릭시 API 요청
   const handleRegisterBtnClicked = async (data) => {
     data.prdtOptionList = [
-      { amount: data.amount, prdtOptionSeq: data.prdtOptionSeq },
+      { amount: Number(data.amount), prdtOptionSeq: data.prdtOptionSeq },
     ];
+
     delete data.amount;
     delete data.prdtOptionSeq;
-    data.imageUrl = productImage;
 
+    // 옵션 데이터를 prdtOptionList에 올바르게 포함시키기
+    const optionListToAdd = optionFields
+      .map((field) => ({
+        prdtOptionSeq: Number(field.prdtOptionSeq), // 옵션 ID
+        amount: Number(field.amount), // 수량을 숫자로 변환
+      }))
+      .filter((field) => field.prdtOptionSeq && field.amount); // 유효한 옵션만 필터링
+
+    // 옵션 비활성화 상태에서 기본 옵션 값을 추가하는 로직
+    if (!state.option && optionListToAdd.length === 0) {
+      optionListToAdd.push({ prdtOptionSeq: 15, amount: 1 }); // 기본 옵션값 예시
+    }
+
+    // 기존 prdtOptionList가 있다면, 스프레드 연산자를 사용하여 기존 항목과 새로운 옵션 리스트를 합칩니다.
+    data.prdtOptionList = [
+      ...(data.prdtOptionList || []), // data.prdtOptionList가 존재하면 그 내용을 사용, 없으면 빈 배열 사용
+      ...optionListToAdd, // 새로 추가되는 옵션 리스트
+    ];
+
+    // 최종 데이터 객체 준비
+    const finalData = {
+      ...data, // 기존 폼 데이터
+      imageUrl: productImage, // 이미지 URL
+      // 필요한 경우 기타 필드 추가
+    };
+
+    console.log(data);
     try {
-      const res = await TokenAxios.post(`/api/product`, data);
+      const res = await TokenAxios.post(`/api/product`, finalData);
       if (res.data.success) {
+        // 성공 처리
         Swal.fire({
-          //
           icon: "success",
           title: "상품이 등록되었습니다.",
-          showConfirmButton: true,
           confirmButtonColor: "black",
           confirmButtonText: "확인",
         }).then(() => {
@@ -204,7 +256,7 @@ const ProductRegisterPage = () => {
   }, []);
 
   return (
-    <Paper sx={{ display: "flex", height: "100vh" }}>
+    <Paper sx={{ display: "flex", minHeight:"100vh" }} elevation={0}>
       {/* AdminBar 컴포넌트에 selectedMenu와 setSelectedMenu props 전달 */}
       <AdminBar selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
       <Box
@@ -228,6 +280,7 @@ const ProductRegisterPage = () => {
             backgroundColor: "#FFFFFF",
             borderRadius: "27px",
             margin: "16px",
+            padding: 4,
           }}
         >
           <form
@@ -236,7 +289,7 @@ const ProductRegisterPage = () => {
             })}
           >
             <Grid container spacing={2}>
-              <Grid item xs={3.5}>
+              <Grid item xs={3}>
                 <div
                   style={{
                     display: "flex",
@@ -272,7 +325,7 @@ const ProductRegisterPage = () => {
                 </div>
               </Grid>
               <Grid item xs={1.5}></Grid>
-              <Grid item xs={7}>
+              <Grid item xs={7.5}>
                 <div
                   style={{
                     display: "flex",
@@ -287,31 +340,46 @@ const ProductRegisterPage = () => {
                   >
                     카테고리
                   </Typography>
-                  <Select
-                    onChange={(e) => {
-                      getSubCategoryList(e.target.value);
-                    }}
-                    sx={{ mr: 6, width: "47%" }}
-                  >
-                    {categoryList.map((category) => (
-                      <MenuItem
-                        key={category.categorySeq}
-                        value={category.categorySeq}
-                      >
-                        {category.name}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                  <Select sx={{ width: "47%" }} {...register("categorySeq")}>
-                    {subCategoryList.map((subCategory) => (
-                      <MenuItem
-                        key={subCategory.categorySeq}
-                        value={subCategory.categorySeq}
-                      >
-                        {subCategory.name}
-                      </MenuItem>
-                    ))}
-                  </Select>
+                  <FormControl sx={{ mr: 5, width: "42%" }}>
+                    <InputLabel id="category-select-label">
+                      상위 카테고리
+                    </InputLabel>
+                    <Select
+                      sx={{ height: "50px" }}
+                      label="상위 카테고리"
+                      onChange={(e) => {
+                        getSubCategoryList(e.target.value);
+                      }}
+                    >
+                      {categoryList.map((category) => (
+                        <MenuItem
+                          key={category.categorySeq}
+                          value={category.categorySeq}
+                        >
+                          {category.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                  <FormControl sx={{ width: "42%" }}>
+                    <InputLabel id="category-select-label">
+                      하위 카테고리
+                    </InputLabel>
+                    <Select
+                      label="하위 카테고리"
+                      sx={{ height: "50px" }}
+                      {...register("categorySeq")}
+                    >
+                      {subCategoryList.map((subCategory) => (
+                        <MenuItem
+                          key={subCategory.categorySeq}
+                          value={subCategory.categorySeq}
+                        >
+                          {subCategory.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
                 </div>
                 <div style={{ display: "flex", alignItems: "center" }}>
                   <Typography
@@ -390,34 +458,46 @@ const ProductRegisterPage = () => {
 
                   {state.option && (
                     <>
-                      <Select
-                        onChange={(e) => {
-                          getSubOptionList(e.target.value);
-                        }}
-                        sx={{ width: "30%", mr: 3 }}
-                      >
-                        {optionList.map((option) => (
-                          <MenuItem
-                            key={option.optionCode}
-                            value={option.optionCode}
-                          >
-                            {option.name}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                      <Select
-                        sx={{ width: "30%", mr: 3 }}
-                        {...register(`prdtOptionSeq`)}
-                      >
-                        {subOptionList.map((subOption) => (
-                          <MenuItem
-                            key={subOption.prdtOptionSeq}
-                            value={subOption.prdtOptionSeq}
-                          >
-                            {subOption.detail}
-                          </MenuItem>
-                        ))}
-                      </Select>
+                      <FormControl sx={{ width: "25%", mr: 3 }}>
+                        <InputLabel id="category-select-label">
+                          옵션 타입
+                        </InputLabel>
+
+                        <Select
+                          label="옵션 타입"
+                          sx={{ height: "50px" }}
+                          onChange={(e) => {
+                            getSubOptionList(e.target.value);
+                          }}
+                        >
+                          {optionList.map((option) => (
+                            <MenuItem
+                              key={option.optionCode}
+                              value={option.optionCode}
+                            >
+                              {option.name}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                      <FormControl sx={{ width: "25%", mr: 3 }}>
+                        <InputLabel id="category-select-label">옵션</InputLabel>
+
+                        <Select
+                          sx={{ height: "50px" }}
+                          label="옵션"
+                          {...register(`prdtOptionSeq`)}
+                        >
+                          {subOptionList.map((subOption) => (
+                            <MenuItem
+                              key={subOption.prdtOptionSeq}
+                              value={subOption.prdtOptionSeq}
+                            >
+                              {subOption.detail}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
                       {/* <Input 
                       type="number"
                     /> */}
@@ -429,9 +509,83 @@ const ProductRegisterPage = () => {
                     disabled={false}
                     placeholder="수량"
                     variant="soft"
+                    sx={{ mr: 2 }}
                     {...register("amount")}
                   />
+                  {state.option && (
+                    <>
+                      <IconButton onClick={addOptionField} variant="contained">
+                        <AddCircleIcon
+                          sx={{ fontSize: "30px", color: pink[600] }}
+                        />
+                      </IconButton>
+                    </>
+                  )}
                 </div>
+                {state.option && addOptionField && (
+                  <div >
+                    {optionFields.map((field, index) => (
+                      <div
+                        key={index}
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent:"flex-end",
+                          marginBottom: "40px",
+                          marginTop:"-30px",
+                          marginRight:"4.5px"
+                        }}
+                      >
+                        <FormControl sx={{ width: "25%", mr: 3 }}>
+                          <InputLabel id={`option-label-${index}`}>
+                            옵션
+                          </InputLabel>
+                          <Select
+                            label="옵션"
+                            value={field.prdtOptionSeq}
+                            onChange={(e) =>
+                              handleOptionFieldChange(
+                                index,
+                                "prdtOptionSeq",
+                                e.target.value
+                              )
+                            }
+                            sx={{ height: "50px" }}
+                          >
+                            {subOptionList.map((subOption) => (
+                              <MenuItem
+                                key={subOption.prdtOptionSeq}
+                                value={subOption.prdtOptionSeq}
+                              >
+                                {subOption.detail}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                        <InputBoxXS
+                          type="number"
+                          color="neutral"
+                          placeholder="수량"
+                          variant="soft"
+                          sx={{ mr: 2 }}
+                          value={field.amount}
+                          onChange={(e) =>
+                            handleOptionFieldChange(
+                              index,
+                              "amount",
+                              e.target.value
+                            )
+                          }
+                        />
+                        <IconButton onClick={() => removeOptionField(index)}>
+                          <RemoveCircleIcon
+                            sx={{ fontSize: "30px", color: pink[600] }}
+                          />
+                        </IconButton>
+                      </div>
+                    ))}
+                  </div>
+                )}
 
                 <div
                   style={{

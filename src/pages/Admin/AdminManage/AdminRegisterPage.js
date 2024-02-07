@@ -62,7 +62,11 @@ const AdminRegisterPage = () => {
   const { register, handleSubmit } = useForm();
 
   return (
+<<<<<<< HEAD
     <Paper sx={{ display: "flex", height: "100vh" }}>
+=======
+    <Paper sx={{ display: "flex", minHeight: "100vh" }} elevation={0}>
+>>>>>>> 2f22b573d08180576b8429250baa82baadc608d1
       {/* AdminBar 컴포넌트에 selectedMenu와 setSelectedMenu props 전달 */}
       <AdminBar selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
       <Box

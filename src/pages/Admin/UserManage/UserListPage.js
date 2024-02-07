@@ -113,7 +113,7 @@ const AdminListPage = () => {
   }, [currentPage, searchQuery]);
 
   const userGet = async (page) => {
-    const res = await TokenAxios.get(`/api/user?page=${page}&size=10`);
+    const res = await TokenAxios.get(`/api/user?page=${page}&size=${pageSize}`);
     setDataList(res.data.result.data.content);
     setTotalPages(res.data.result.data.totalPages);
   };
@@ -187,7 +187,7 @@ const AdminListPage = () => {
   };
 
   return (
-    <Paper sx={{ display: "flex" }} elevation={0}>
+    <Paper sx={{ display: "flex", minHeight:"100vh" }} elevation={0}>
       {/* AdminBar 컴포넌트에 selectedMenu와 setSelectedMenu props 전달 */}
       <AdminBar selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
       <Box
@@ -238,6 +238,7 @@ const AdminListPage = () => {
               등록하기
             </AdminButton>
           </Toolbar>
+          {dataList.length > 0 ? (
           <Box sx={{ width: "100%", height: "73.6vh", overflowY: "auto" }}>
             <StyledList aria-label="mailbox folders">
               <ListItemLabelStyled>
@@ -268,6 +269,11 @@ const AdminListPage = () => {
               ))}
             </StyledList>
           </Box>
+          ) : (
+            <Typography variant="h6" sx={{ textAlign: "center", mt: 5 }}>
+              표시할 목록이 없습니다.
+            </Typography>
+          )}
           <Box
             sx={{
               flex: 1,
@@ -278,13 +284,15 @@ const AdminListPage = () => {
           >
             {" "}
             {/* 페이지네이션 섹션 */}
-            <Pagination
-              count={totalPages}
-              page={currentPage + 1}
-              onChange={(event, newPage) =>
-                handlePageChange(event, newPage - 1)
-              }
-            />
+            {totalPages > 0 && (
+                <Pagination
+                  count={totalPages}
+                  page={currentPage + 1}
+                  onChange={(event, newPage) =>
+                    handlePageChange(event, newPage - 1)
+                  }
+                />
+              )}
           </Box>
         </Box>
       </Box>
