@@ -54,10 +54,9 @@ const ProductDetailPage = () => {
   // productSeq, productOptionSeq, productAmount
   const handleGoToPayment = () => {
     const selectedRowsData = [{
-      productSeq : productSeq,
+      productSeq : parseInt(productSeq, 10),
       productOptionSeq : option.productOptionSeq,
       productAmount : amount,
-      orderCartSeq : 0,
     }]
     navigate("/payment", {state : {orderList : selectedRowsData}})
   }

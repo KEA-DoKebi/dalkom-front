@@ -86,45 +86,85 @@ const Payment = () => {
                     password: password,
                   });
                   if (res.data.success) {
-                    try {
-                      const res = await TokenAxios.post("/api/order", {
-                        receiverInfoRequest: {
-                          receiverName: receiverName,
-                          receiverAddress: receiverAddress + receiverDetailAddress,
-                          receiverMobileNum: receiverMobileNum,
-                          receiverMemo: receiverMemo,
-                        },
+                    console.log("비밀번호 인증후");
+                    console.log(res);
+                    for (const order of orderList) {
+                      const isOrderCartSeqExist = 'orderCartSeq' in order && order.orderCartSeq !== null;
 
-
-                        orderProductRequestList: orderList
-                      })
-
-                      if (res.data.success) {
-                        localStorage.setItem("mileage", res.data.result.data);
-                        setOrderPageLists([]);
-                        setReceiverName("");
-                        setReceiverMobileNum("");
-                        setReceiverAddress("");
-                        setReceiverDetailAddress("");
-                        setReceiverMemo("");
-                        Swal.fire({//
-                          icon: "success",
-                          title: "결제가 완료되었습니다.",
-                          showConfirmButton: true,
-                          confirmButtonText: "확인",
-                          buttonsStyling: true,
-                          confirmButtonColor: 'black',
-                        }).then((result) => {
-                          if (result.isConfirmed) {
-                            navigate("/mypage/order/list");
+                      try {
+                        if(isOrderCartSeqExist){
+                          const res = await TokenAxios.post("/api/order", {
+                            receiverInfoRequest: {
+                              receiverName: receiverName,
+                              receiverAddress: receiverAddress + receiverDetailAddress,
+                              receiverMobileNum: receiverMobileNum,
+                              receiverMemo: receiverMemo,
+                            },
+                            orderProductRequestList: orderList
+                            
+                          })
+                          if (res.data.success) {
+                            localStorage.setItem("mileage", res.data.result.data);
+                            setOrderPageLists([]);
+                            setReceiverName("");
+                            setReceiverMobileNum("");
+                            setReceiverAddress("");
+                            setReceiverDetailAddress("");
+                            setReceiverMemo("");
+                            Swal.fire({//
+                              icon: "success",
+                              title: "결제가 완료되었습니다.",
+                              showConfirmButton: true,
+                              confirmButtonText: "확인",
+                              buttonsStyling: true,
+                              confirmButtonColor: 'black',
+                            }).then((result) => {
+                              if (result.isConfirmed) {
+                                navigate("/mypage/order/list");
+                              }
+                            });
                           }
-                        });
+                        }else{
+                          const res = await TokenAxios.post("/api/order/direct", {
+                            receiverInfoRequest: {
+                              receiverName: receiverName,
+                              receiverAddress: receiverAddress + receiverDetailAddress,
+                              receiverMobileNum: receiverMobileNum,
+                              receiverMemo: receiverMemo,
+                            },
+                            orderDirectProductRequestList: orderList
+                          })
+                          if (res.data.success) {
+                            localStorage.setItem("mileage", res.data.result.data);
+                            setOrderPageLists([]);
+                            setReceiverName("");
+                            setReceiverMobileNum("");
+                            setReceiverAddress("");
+                            setReceiverDetailAddress("");
+                            setReceiverMemo("");
+                            Swal.fire({//
+                              icon: "success",
+                              title: "결제가 완료되었습니다.",
+                              showConfirmButton: true,
+                              confirmButtonText: "확인",
+                              buttonsStyling: true,
+                              confirmButtonColor: 'black',
+                            }).then((result) => {
+                              if (result.isConfirmed) {
+                                navigate("/mypage/order/list");
+                              }
+                            });
+                          }
+                        }
+                      } catch (e) {
+                        
+                        Swal.showValidationMessage(`
+                            결제에 실패했습니다.
+                          `)
                       }
-                    } catch (e) {
-                      Swal.showValidationMessage(`
-                          결제에 실패했습니다.
-                        `)
                     }
+
+                    
                   }
                 } catch (e) {
                   Swal.showValidationMessage(`
