@@ -81,7 +81,6 @@ const FAQPage = () => {
   const [editorContent, setEditorContent] = useState("");
   const [dataList, setDataList] = useState([]);
   const [selectedFaq, setSelectedFaq] = useState(null);
-  const [editFaq, setEditFaq] = useState({ title: "", content: "" });
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState();
   const [searchQuery, setSearchQuery] = useState("");
