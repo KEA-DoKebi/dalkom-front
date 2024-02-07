@@ -80,7 +80,7 @@ const MainBody = () => {
           {categoryLists.map((category) => (
               <StyledLink
                   key={category.categorySeq}
-                  to={`/category/${category.categorySeq}`}
+                  to={`/category/${category.categorySeq}?page=1`}
               >
                 <ImageBox>
                   <StyledAvartar

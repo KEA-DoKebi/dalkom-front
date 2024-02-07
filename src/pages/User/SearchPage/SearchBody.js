@@ -2,7 +2,7 @@ import { Grid, Pagination } from '@mui/material';
 import { TokenAxios } from 'apis/CommonAxios';
 import { MainProductCard } from 'components/molecules/MainProductCard';
 import React, { useEffect, useState } from 'react'
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 
 export const SearchBody = () => {
@@ -11,8 +11,10 @@ export const SearchBody = () => {
   const [productDataList, setProductDataList]= useState([]);
   
   const searchKeyword = query.get("searchKeyword");
+  const searchPage = Number(query.get("page"));
   const [totalPages, setTotalPages] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(searchPage);
+  const navigate = useNavigate();
 
   const getSearchItems = async() => {
     const res = await TokenAxios.get(`/api/product/search?page=${currentPage-1}&size=12&name=${searchKeyword}`)
@@ -25,17 +27,22 @@ export const SearchBody = () => {
     setCurrentPage(value);
     // 화면을 맨 위로 스크롤 이동
     window.scrollTo(0, 0);
+    navigate(`/search?searchKeyword=${searchKeyword}&page=${value}`)
   };
 
   useEffect(() => {
-    getSearchItems()
+    setCurrentPage(searchPage || 1);
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[searchPage, searchKeyword])
+
+  useEffect(() => {
+    getSearchItems()
   },[currentPage])
 
   return (
     <Grid container spacing={1}>
         <Grid item xs={12}>
-            <h1 style={{textAlign : "center"}}>{`${searchKeyword} 검색결과`}</h1>
+            <h1 style={{textAlign : "center"}}>{`${searchKeyword.split("?")[0]} 검색결과`}</h1>
         </Grid>
         <Grid item xs={2}></Grid>
         <Grid item xs={8}>
