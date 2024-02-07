@@ -11,10 +11,13 @@ import {
   Paper,
   Toolbar,
   Typography,
+  Dialog,
+  DialogActions,
+  DialogTitle,
+  DialogContent,
 } from "@mui/material";
 import TextField from "@mui/material/TextField";
-import HighlightOffIcon from "@mui/icons-material/HighlightOff";
-import Modal from "@mui/material/Modal";
+import CloseIcon from "@mui/icons-material/Close";
 import AdminBar from "components/organisms/AdminBar";
 import { MuiColorChip } from "components/atoms/AdminChip";
 import { AdminButton, AdminButton2 } from "components/atoms/AdminCommonButton";
@@ -35,6 +38,10 @@ const itemFlexStyles = {
   "& > *:nth-child(5)": { width: "5%" }, // 작성
   "&:before, &:after": { content: '""', width: "2%" },
 };
+
+const StyledDialog = styled(Dialog)`
+    z-index: 900;
+`;
 
 const StyledList = styled(List)`
   padding: 0;
@@ -64,36 +71,9 @@ const ListItemStyled = styled(ListItem)`
   ${itemFlexStyles}// 공통 스타일 적용
 `;
 
-const ModalBoxStyled = styled(Box)`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 1200px;
-  height: 800px;
-
-  padding-left: 150px;
-  padding-right: 150px;
-  padding-bottom: 10px;
-
-  align-items: center;
-  justify-content: center;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  background-color: white;
-  border-radius: 10px;
-  border: 2px solid white;
-`;
-
 const formatDate = (dateString) => {
   const options = { year: "numeric", month: "2-digit", day: "2-digit" };
   return new Date(dateString).toLocaleDateString("ko-KR", options);
-};
-
-const removeHtmlTags = (htmlString) => {
-  const doc = new DOMParser().parseFromString(htmlString, "text/html");
-  return doc.body.textContent || "";
 };
 
 const ProductInquiryPage = () => {
@@ -205,11 +185,14 @@ const ProductInquiryPage = () => {
                 showConfirmButton: true,
                 confirmButtonColor: 'black',
                 confirmButtonText: '확인',
-                onClose: () => {
-                    // Close the modal when the "확인" button is clicked
-                    setOpenModal(false);
-                    getInquiryByCategory(currentPage);
-                },
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // 답변 저장 후 성공적으로 처리되면 데이터를 새로고침
+                    getInquiryByCategory(currentPage).then(() => {
+                        // 필요한 경우 페이지를 새로 고침하지 않고도 UI를 업데이트하기 위해 상태를 업데이트할 수 있습니다.
+                        console.log("Data refreshed after saving the answer.");
+                    });
+                }
             });
     
             // getInquiryByCategory(currentPage);
@@ -355,52 +338,65 @@ const ProductInquiryPage = () => {
               )}
           </Box>
 
-          <Modal
-            open={openModal}
-            onClose={handleCloseModal}
-            aria-labelledby="simple-modal-title"
-            aria-describedby="simple-modal-description"
-          >
-            <ModalBoxStyled>
+          <StyledDialog
+          onClose={handleCloseModal}
+          open={openModal}
+          maxWidth={false}
+          sx={{
+            overflowX: "initial",
+            "& .MuiDialog-paper": {
+              borderRadius: "30px",
+            },
+          }}>
+            <DialogTitle style={{ fontWeight: "bold", fontSize: "1.5rem", textAlign: "center", marginTop: 20, marginBottom: 20 }}>
               <IconButton
+                aria-label="close"
                 onClick={handleCloseModal}
-                sx={{ mt: 4, mr: 4 }}
-                style={{ position: "absolute", right: 0, top: 0 }}
+                sx={{ position: 'absolute', right: 8, top: 8, color: (theme) => theme.palette.grey[500] }}
               >
-                <HighlightOffIcon></HighlightOffIcon>
+                <CloseIcon />
               </IconButton>
+              <Typography style={{ fontWeight: "bold", fontSize: "28px" }}>
+                문의
+              </Typography>
+            </DialogTitle>
 
-              <Grid container spacing={2}>
-                <Grid item xs={2}>
-                  <Typography variant="h6" fontWeight="bold" sx={{ mb: 2 }}>
-                    제목
-                  </Typography>
+            <DialogContent
+            style={{
+              width: 1200,
+              height: "370px",
+              overflowY: "initial",
+              overflowX: "initial",
+              marginLeft: 20, marginRight: 20
+            }}>
+              <div>
+                <Grid container rowSpacing={1}>
+                  <Grid item xs={2}>
+                    <Typography style={{fontSize: "20px", fontWeight: "bold"}} sx={{ textAlign: "center" }}>
+                      제목
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={9.5}>
+                    <Typography variant="h6" fontWeight="bold" sx={{ textAlign: "left" }}>
+                      {selectedItem?.title || "title"}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={2}>
+                    <Typography style={{fontSize: "20px", fontWeight: "bold"}} sx={{ textAlign: "center", mt: 2 }}>
+                      내용
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={9.5}>
+                    <Box sx={{ maxHeight: "350px", overflowY: "auto", mt: 0.5 }}>
+                      <Typography variant="subtitle1" sx={{ textAlign: "left" }}>
+                        <div dangerouslySetInnerHTML={{ __html: selectedItem?.content }} />
+                      </Typography>
+                    </Box>
+                  </Grid>
                 </Grid>
-                <Grid item xs={10}>
-                  <Typography>{selectedItem?.title || "title"}</Typography>
-                </Grid>
-                <Grid item xs={2}>
-                  <Typography variant="h6" fontWeight="bold" sx={{ mb: 2 }}>
-                    내용
-                  </Typography>
-                </Grid>
-                <Grid
-                  item
-                  xs={10}
-                  style={{
-                    height: "600px",
-                    maxHeight: "400px",
-                    overflowY: "auto",
-                  }}
-                >
-                  <Typography>
-                    {removeHtmlTags(selectedItem?.content) || ""}
-                  </Typography>
-                </Grid>
-
-                <Grid item xs={12} style={{ height: "20" }}></Grid>
-              </Grid>
-
+              </div>
+            </DialogContent>
+            <Box display="flex" justifyContent="center" alignItems="center">
               <TextField
                 id="outlined-textarea"
                 defaultValue={selectedItem?.answerContent}
@@ -409,24 +405,31 @@ const ProductInquiryPage = () => {
                     ? ""
                     : "답변을 입력해주세요."
                 }
-                maxRows={4}
                 rows={4}
                 multiline
                 disabled={selectedItem?.answerContent} // 답변이 완료된 경우 비활성화
                 inputRef={textareaRef}
                 sx={{
-                  mb: 4,
-                  width: "100%",
+                  width: "80%",
                   backgroundColor:
                     selectedItem?.answerState === "Y" ? "#f0f0f0" : "#f8fafc",
                 }}
               />
-
-              <AdminButton variant="contained" onClick={handleModalSaveButton}>
-                저장
-              </AdminButton>
-            </ModalBoxStyled>
-          </Modal>
+            </Box>
+            <DialogActions
+              style={{
+                justifyContent: "center",
+                marginTop: "40px",
+                marginBottom: "30px",
+              }}
+            >
+              {!selectedItem?.answerContent && (
+                <AdminButton autoFocus onClick={handleModalSaveButton}>
+                  저장
+                </AdminButton>
+              )}
+            </DialogActions>
+          </StyledDialog>
         </Box>
       </Box>
     </Paper>

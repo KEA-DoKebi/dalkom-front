@@ -15,25 +15,6 @@ import {
 } from "@mui/material";
 import {TokenAxios} from "apis/CommonAxios";
 
-const getMileHistoryTypeText = (type) => {
-    switch (type) {
-        case "0":
-            return "지급";
-        case "1":
-            return "충전";
-        case "2":
-            return "사용";
-        case "3":
-            return "취소";
-        case "4":
-            return "반품";
-        case "5":
-            return "환불";
-        default:
-            return "알 수 없음";
-    }
-};
-
 export default function MileageHistoryBody() {
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
@@ -121,7 +102,7 @@ export default function MileageHistoryBody() {
                             {data.map((mileHistory) => (
                                 <TableRow key={mileHistory.mileageHistorySeq}>
                                     <TableCell style={{width: "25%", textAlign: "center"}}>
-                                        {getMileHistoryTypeText(mileHistory.type)}
+                                        {mileHistory.typeName}
                                     </TableCell>
                                     <TableCell style={{width: "25%", textAlign: "center"}}>
                                         {mileHistory.createdAt.substring(0, 10)}

@@ -22,13 +22,13 @@ export const TokenAxios = axios.create({
 
 TokenAxios.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("accessToken");
-    if (token) {
-      config.headers["AccessToken"] = token;
-    }
-    return config;
+    const nextConfig = config;
+    const accessToken = localStorage.getItem("accessToken");
+    nextConfig.headers.AccessToken = accessToken ? accessToken : '';
+
+    return nextConfig;
   },
   (error) => {
     return Promise.reject(error);
   }
-);
+)

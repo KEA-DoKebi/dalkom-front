@@ -11,17 +11,67 @@ import {
     TableContainer,
     TableHead,
     TableRow,
-    TextField,
     Typography,
 } from "@mui/material";
-import AddCardIcon from "@mui/icons-material/AddCard";
 import { TokenAxios } from "apis/CommonAxios";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 
 export default function MileageApprovalBody() {
-    const { register, handleSubmit } = useForm();
+    const { handleSubmit } = useForm();
     const [data, setData] = useState([]);
+
+    const handleChargeBtnClicked = () => {
+        Swal.fire({
+            title : "얼마를 충전하시겠습니까?",
+            input : "text",
+            buttonsStyling : true,
+            confirmButtonText : "충전하기",
+            confirmButtonColor : "black",
+            inputValidator: (value) => {
+                const mileage = Number(value);
+                if (!value) {
+                    return "금액을 입력해주세요!";
+                } else if (isNaN(mileage) || mileage < 0) {
+                    return "유효한 금액을 입력해주세요!";
+                } else if (mileage >= 3000000) {
+                    return "최대 2,999,999까지 충전 가능합니다.";
+                }
+            },
+            preConfirm : async (mileage) => {
+                try{
+                    const res = await TokenAxios.post(`/api/mileage/apply/user`, {
+                        amount : mileage,
+                    })
+                    if(res.data.success){
+                        Swal.fire({
+                            icon: "success",
+                            title: "충전 신청이 완료되었습니다.",
+                            showConfirmButton: true,
+                            confirmButtonText: "확인",
+                            buttonsStyling: true,
+                            confirmButtonColor: 'black',
+                        }).then((result) => {
+                            if(result.isConfirmed){
+
+                            }
+                        })
+                    }
+                }catch(e){
+                    if(e.response.status === 409){
+                        Swal.showValidationMessage(`
+                          이미 진행중인 결제내역이 존재합니다.
+                        `)
+                    }else{
+                        Swal.showValidationMessage(`
+                          충전에 실패하였습니다.
+                        `)
+                    }
+                    
+                }
+            }
+        })
+    }
 
     //마일리지 충전
     const mileCharge = async (chargeAmount) => {
@@ -29,13 +79,11 @@ export default function MileageApprovalBody() {
             icon: "question",
             title: "마일리지를 충전하시겠습니까?",
             showCancelButton: true,
-            confirmButtonColor: "black",
-            cancelButtonColor: "gray",
-            confirmButtonText: "네",
-            cancelButtonText: "아니요",
-            customClass: {
-                container: 'custom-swal-container'
-            }
+            confirmButtonColor: 'black',
+            cancelButtonColor: 'gray',
+            confirmButtonText: '확인',
+            cancelButtonText: '취소',
+            reverseButtons: true,
         });
 
         if (result.isConfirmed) {
@@ -65,7 +113,6 @@ export default function MileageApprovalBody() {
                         confirmButtonText: '확인',
                     });
                 }else{
-                    Swal.fire("실패", "충전 신청에 실패했습니다.", "error");
                     Swal.fire({//
                         position: "center",
                         icon: "error",
@@ -93,7 +140,7 @@ export default function MileageApprovalBody() {
 
     useEffect(() => {
         chargeRequestHistory();
-    }, []);
+    }, [data]);
 
     return (
         <Paper elevation={0}>
@@ -117,7 +164,7 @@ export default function MileageApprovalBody() {
                             mb: "10px"
                         }}
                     >
-                        <TextField
+                        {/* <TextField
                             id="amount"
                             placeholder="충전하기"
                             variant="standard"
@@ -129,6 +176,21 @@ export default function MileageApprovalBody() {
                             onClick={mileCharge}
                         >
                             <AddCardIcon />
+                        </Button> */}
+                        <Button
+                           style={{
+                             backgroundColor : "gold",
+                             width : "120px",
+                             height : "50px",
+                             fontSize : "18px",
+                             fontWeight : "bold",
+                             color : "black",
+                             borderRadius : "15px",
+                             margin : 0,
+                           }}
+                           onClick={handleChargeBtnClicked}
+                        >
+                            충전하기
                         </Button>
                     </Box>
                 </form>

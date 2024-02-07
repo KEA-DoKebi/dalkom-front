@@ -16,6 +16,7 @@ import styled, { css } from "styled-components";
 import { Link } from "react-router-dom";
 import { TokenAxios } from "apis/CommonAxios";
 import { MainProductCard } from "components/molecules/MainProductCard";
+import { searchStore } from "store/store";
 
 // MainBody코드
 const MainBody = () => {
@@ -28,12 +29,14 @@ const MainBody = () => {
     kakaofriends: [],
   });
 
+  const {setPage} = searchStore(state => state);
+
 
   const getMainProductList = async () => {
     const res = await TokenAxios.get("/api/product/category/main?page=0&size=8");
     setProductLists(res.data);
-    // setProductLists(res.data);
   };
+
 
 
   const [categoryLists] = useState([
@@ -47,12 +50,14 @@ const MainBody = () => {
 
   useEffect(() => {
     getMainProductList();
+    setPage("메인 검색결과")
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
       <StyledBox>
-        <StyledCarousel>
-          <StyledPaper sx={{ backgroundColor: "#FFF8DC" }}>
+        <StyledCarousel animation={false}>
+          <StyledPaper sx={{ backgroundColor: "#FFF8DC", animation : "false" }}>
             <Link to="/cs/manual">
               <BannerImage src="/images/MainPage/dokebiBanner1.png" />
             </Link>
@@ -75,7 +80,7 @@ const MainBody = () => {
           {categoryLists.map((category) => (
               <StyledLink
                   key={category.categorySeq}
-                  to={`/category/${category.categorySeq}`}
+                  to={`/category/${category.categorySeq}?page=1`}
               >
                 <ImageBox>
                   <StyledAvartar
@@ -89,17 +94,6 @@ const MainBody = () => {
 
         <TableContainer>
           <Table>
-            {/*<TableHead>*/}
-            {/*  <TableRow sx={{ display: "flex", justifyContent: "center" }}>*/}
-            {/*    <TableCell sx={{ fontWeight: "bold", fontSize: "30px", height: "50px", borderBottom: "none" }}>*/}
-            {/*      <Grid container>*/}
-            {/*        <Grid item xs={12}>*/}
-            {/*          상품목록*/}
-            {/*        </Grid>*/}
-            {/*      </Grid>*/}
-            {/*    </TableCell>*/}
-            {/*  </TableRow>*/}
-            {/*</TableHead>*/}
             <TableBody>
               {Object.entries(productLists).map(
                   ([categoryKey, productList], index) => {
@@ -159,17 +153,25 @@ const StyledCarousel = styled(Carousel)`
   align-items: center;
   z-index: 0;
   margin-top: -5vh;
+  && .MuiPaper-root {
+    background-color: transparent;
+    animation: none !important;
+    transition: none !important;
+  }
 `;
 
 const StyledPaper = styled(Paper)`
   ${centerFlex}
+  height : 400px;
   box-shadow: none;
-
+  && {
+    animation: none !important;
+    transition: none !important;
+  }
 `;
 
 const BannerImage = styled.img`
   ${centerFlex}
-  height : 400px;
 `;
 
 const CategoryBox = styled(Box)`

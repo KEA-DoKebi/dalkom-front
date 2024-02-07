@@ -27,16 +27,20 @@ import mileageIcon from "./M-Admin.png";
 
 // 각 항목에 대한 공통 스타일을 설정합니다.
 const itemFlexStyles = {
-  "& > *:nth-child(1)": { width : "5%" }, // 주문번호
-  "& > *:nth-child(2)": { width : "16%" }, // 주문일시
-  "& > *:nth-child(3)": { width : "5%" }, // 수량
-  "& > *:nth-child(4)": { width : "16%" }, // 주문자
-  "& > *:nth-child(5)": { width : "16%" }, // 수령인
-  "& > *:nth-child(6)": { width : "16%" }, // 결제금액
-  "& > *:nth-child(7)": { width : "17%" }, // 주문상태
-  "& > *:nth-child(8)": { width : "5%" }, // 주문상세
-  "&:before, &:after": { content: '""', width : "2%" },
+  "& > *:nth-child(1)": { width: "5%" }, // 주문번호
+  "& > *:nth-child(2)": { width: "16%" }, // 주문일시
+  "& > *:nth-child(3)": { width: "5%" }, // 수량
+  "& > *:nth-child(4)": { width: "16%" }, // 주문자
+  "& > *:nth-child(5)": { width: "16%" }, // 수령인
+  "& > *:nth-child(6)": { width: "16%" }, // 결제금액
+  "& > *:nth-child(7)": { width: "17%" }, // 주문상태
+  "& > *:nth-child(8)": { width: "5%" }, // 주문상세
+  "&:before, &:after": { content: '""', width: "2%" },
 };
+
+const StyledDialog = styled(Dialog)`
+    z-index: 900;
+`;
 
 const StyledList = styled(List)`
   padding: 0;
@@ -83,7 +87,7 @@ const AdminListPage = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedValue, setSelectedValue] = useState("");
-  const pageSize =10;
+  const pageSize = 10;
   const optionList = [
     { label: "주문자" },
     { label: "수령인" },
@@ -93,14 +97,14 @@ const AdminListPage = () => {
   const handleSearch = async (searchQuery) => {
     try {
       let apiUrl = `/api/order/admin/search?page=${currentPage}&size=${pageSize}`;  // 기본 API URL
-      
+
       // 선택된 검색어에 따라 검색 조건 추가
       if (selectedValue.label === "주문자") {
         apiUrl += `&name=${searchQuery}`;
       } else if (selectedValue.label === "수령인") {
-        apiUrl += `&receiverName=${searchQuery}`; 
+        apiUrl += `&receiverName=${searchQuery}`;
       }
-      
+
       const res = await TokenAxios.get(apiUrl);
       setDataList(res.data.result.data.content);
       setTotalPages(res.data.result.data.totalPages);
@@ -108,30 +112,10 @@ const AdminListPage = () => {
       console.error('Error searching admin:', error);
     }
   }
-  useEffect(() => {
-    // 각 페이지가 마운트될 때 selectedMenu를 업데이트
-    // setSelectedMenu 함수를 호출하여 상태를 업데이트
-    setSelectedMenu("주문 목록");
-    if (searchQuery.trim() !== "") {
-      handleSearch(searchQuery);
-    } else {
-      adminOrderGet(currentPage);
-    }
-     // 페이지가 변경될 때 API 호출
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPage,searchQuery]);
 
-  const adminOrderGet = async (page) => {
-    const res = await TokenAxios.get(`/api/order?page=${page}&size=${pageSize}`);
-    setDataList(res.data.result.data.content);
-    setTotalPages(res.data.result.data.totalPages);
-  };
-  
   const handleSearchInputChange = (event) => {
     setSearchQuery(event.target.value);
   };
-
-   
 
   // 주문 상세 조회 (get)
   const handleOpenModal = async (order) => {
@@ -162,12 +146,18 @@ const AdminListPage = () => {
     // updateState(selectedOrder.orderSeq, event.target.value);
   };
 
-   
   const options = [
-    { label: "Option 1", value: "option1" },
-    { label: "Option 2", value: "option2" },
-    // Add more options as needed
-  ];
+    { label: "주문확인", value: "11" },
+    { label: "배송준비", value: "12" },
+    { label: "배송시작", value: "13" },
+    { label: "배송완료", value: "14" },
+    { label: "구매확정", value: "15" },
+    { label: "주문취소", value: "21" },
+    { label: "반품/환불접수", value: "31" },
+    { label: "반송완료", value: "32" },
+    { label: "반품/환불완료", value: "33" }
+  ]
+
 
   const dataListLabels = [
     "번호",
@@ -179,6 +169,7 @@ const AdminListPage = () => {
     "주문상태",
     "상세",
   ];
+
   const handleSaveClick = () => {
     if (selectedOrder && orderState) {
       updateState(selectedOrder.orderSeq, orderState);
@@ -188,24 +179,21 @@ const AdminListPage = () => {
     }
   }
 
-  
-  
-
   // Pagination에서 페이지가 변경될 때 호출되는 함수
   const handlePageChange = (event, newPage) => {
     setCurrentPage(newPage); // 현재 페이지 업데이트
 
     if (searchQuery.trim() !== "") {
       handleSearch(searchQuery);
-  } else {
+    } else {
       // 검색어가 없는 경우 전체 데이터에 대한 페이징 수행
       adminOrderGet(newPage);
-  }
+    }
   };
-  
+
 
   // 전체 주문 조회 (get)
-  const adminGet = async (page) => {
+  const adminOrderGet = async (page) => {
     const res = await TokenAxios.get(`/api/order?page=${page}&size=${pageSize}`);
     console.log(res.data.result.data.content);
     setDataList(res.data.result.data.content);
@@ -225,7 +213,7 @@ const AdminListPage = () => {
           confirmButtonColor: 'black',
           confirmButtonText: '확인',
         }).then(() => {
-          adminGet(currentPage);
+          adminOrderGet(currentPage);
         });
 
       } else {
@@ -243,7 +231,18 @@ const AdminListPage = () => {
     }
   }
 
-    
+  useEffect(() => {
+    // 각 페이지가 마운트될 때 selectedMenu를 업데이트
+    // setSelectedMenu 함수를 호출하여 상태를 업데이트
+    if (searchQuery.trim() !== "") {
+      handleSearch(searchQuery);
+    } else {
+      adminOrderGet(currentPage);
+    }
+    setSelectedMenu("주문 목록");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPage, searchQuery]);
+
   const OrderList = ({ order, index }) => {
     return (
       <ListItemStyled>
@@ -284,17 +283,6 @@ const AdminListPage = () => {
       </ListItemStyled>
     );
   };
-
-  useEffect(() => {
-    // 각 페이지가 마운트될 때 selectedMenu를 업데이트
-    // setSelectedMenu 함수를 호출하여 상태를 업데이트
-    if (searchQuery.trim() !== "") {
-      handleSearch(searchQuery);
-    } else {
-      adminGet(currentPage);
-    }
-    setSelectedMenu("주문 목록");
-  },[currentPage,searchQuery,handleSearch]);
 
   return (
     <Paper sx={{ display: "flex", minHeight:"100vh" }} elevation={0}>
@@ -392,9 +380,12 @@ const AdminListPage = () => {
                 />
               )}
           </Box>
-
-          <Dialog onClose={handleCloseModal} open={modalOpen} maxWidth={false} style={{ borderRadius: "30px" }}
-            PaperProps={{ sx: { borderRadius: "30px" } }} >
+          <StyledDialog onClose={handleCloseModal} open={modalOpen} maxWidth={false}
+            sx={{
+              "& .MuiDialog-paper": {
+                borderRadius: "30px",
+              },
+            }}>
             <DialogTitle style={{ fontWeight: "bold", fontSize: "1.5rem", textAlign: "center", marginTop: "10px" }}>
               <IconButton
                 aria-label="close"
@@ -403,7 +394,9 @@ const AdminListPage = () => {
               >
                 <CloseIcon />
               </IconButton>
-              주문 상세 정보
+              <Typography style={{ fontWeight: "bold", fontSize: "28px" }}>
+                주문 상세 정보
+              </Typography>
             </DialogTitle>
             {selectedOrder && (
               <DialogContent style={{ width: 1200, height: 650, overflowY: "initial" }} >
@@ -515,8 +508,9 @@ const AdminListPage = () => {
 
                   <table
                     style={{
-                      marginLeft: "5%",
+                      marginLeft: "40px",
                       marginTop: "5%",
+                      marginRight: "30px",
                       border: "1px solid black",
                       borderCollapse: "collapse",
                       width: "90%",
@@ -559,7 +553,7 @@ const AdminListPage = () => {
                       <tbody sx={{ height: "100px", maxHeight: "100px", overflowY: "auto" }}>
                         {selectedOrder.detailList.map((detail, index) => (
                           <tr key={index}>
-                            <Grid container spacing={2} justifyContent="space-between" style={{ width: "1100px"}}>
+                            <Grid container spacing={2} justifyContent="space-between" style={{ width: "1100px" }}>
                               <Grid item xs={5} style={{ textAlign: "center" }}>
                                 <Typography style={{ fontSize: "14px", marginTop: "2%" }}>
                                   {detail.productName}
@@ -599,13 +593,13 @@ const AdminListPage = () => {
                     <Grid item xs={2}>
                       <Typography>
                         {Number(selectedOrder.totalPrice).toLocaleString()}
-                        </Typography>
+                      </Typography>
                     </Grid>
                   </Grid>
 
                 </div>
                 <DialogActions
-                  style={{ justifyContent: "center", marginTop: "60px" }}
+                  style={{ justifyContent: "center", marginTop: "20px" }}
                 >
                   <AdminButton autoFocus onClick={handleSaveClick}>
                     저장
@@ -613,7 +607,7 @@ const AdminListPage = () => {
                 </DialogActions>
               </DialogContent>
             )}
-          </Dialog>
+          </StyledDialog>
         </Box>
       </Box>
     </Paper>
