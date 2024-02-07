@@ -69,12 +69,12 @@ const ProductRegisterPage = () => {
 
   // 옵션 및 수량 필드 상태 관리
   const [optionFields, setOptionFields] = useState([
-    { prdtOptionSeq: "", amount: "" },
+    { prdtOptionSeq: "", amount: 0 },
   ]);
 
   // 옵션 추가 함수
   const addOptionField = () => {
-    setOptionFields([...optionFields, { prdtOptionSeq: "", amount: 1 }]);
+    setOptionFields([...optionFields, { prdtOptionSeq: "", amount: 0 }]);
   };
 
   // 옵션 제거 함수
@@ -522,6 +522,7 @@ const ProductRegisterPage = () => {
                     </>
                   )}
                 </div>
+                
                 {state.option && addOptionField && (
                   <div >
                     {optionFields.map((field, index) => (
