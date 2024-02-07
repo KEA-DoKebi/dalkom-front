@@ -40,7 +40,10 @@ const MyInfoBody = () => {
   //기존 유저 정보 불러오기
   const [userInfo, setUserInfo] = useState([]);
   const [openDaumAddress, setOpenDaumAddress] = useState(false);
-  const [userAddress, setUserAddress] = useState(userInfo.address || "");
+  const [userAddress, setUserAddress] = useState("")
+  
+  //useState(userInfo.address || "");
+
   const [maskedName, setMaskedName] = useState("");
   const [nickname, setNickname] = useState("");
 
@@ -50,10 +53,15 @@ const MyInfoBody = () => {
       console.log(res.data.result.data);
       setUserInfo(res.data.result.data);
       setNickname(res.data.result.data.nickname);
+      setUserAddress(res.data.result.data.address);
     } catch (e) {
       console.log(e);
     }
   };
+
+  const mainAddress = userAddress.split('/')[0];
+  const detailAddress = userAddress.split('/')[1];
+
   useEffect(() => {
     loadData();
   }, []);
@@ -194,7 +202,8 @@ const MyInfoBody = () => {
     <Paper elevation={0}>
       <form
         onSubmit={handleSubmit((data) => {
-          data.address = userAddress;
+          data.address = `${userAddress}/${data.detailAddress}`;
+          delete(data.detailAddress)
           console.log(data);
           editInfo(data);
         })}
@@ -327,7 +336,7 @@ const MyInfoBody = () => {
               <Input
                 variant="soft"
                 placeholder="주소"
-                value={userAddress}
+                value={mainAddress}
                 sx={{
                   marginRight: "10px",
                   width: "420px",
@@ -348,11 +357,13 @@ const MyInfoBody = () => {
               <CustomInput
                 variant="soft"
                 placeholder="상세주소"
-                type="password"
+                type="text"
+                value={detailAddress}
                 sx={{
                   backgroundColor: "white",
                   border: "1.5px solid rgba(0,0,0,0.5)",
                 }}
+                {...register("detailAddress")}
               />
             </Grid>
             <Grid item xs={4} sx={{ mt: 2 }}></Grid>
