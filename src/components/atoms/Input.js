@@ -16,12 +16,17 @@ export const InputBoxM = styled(Input)`
   height: 50px;
 `;
 
+export const InputBoxTitle = styled(Input)`
+width: 48vw;
+height: 50px;
+`;
+
 export const InputBoxL = styled(Input)`
   width: 1060px;
   height: 50px;
 `;
 
 export const InputBoxXL = styled(Input)`
-  width: 960px;
-  height: 140px;
+  width: 1150px;
+  height: 50px;
 `;
