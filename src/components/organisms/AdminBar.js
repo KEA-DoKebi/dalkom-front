@@ -19,9 +19,7 @@ const drawerWidth = 260;
 const initialMenuData = [
   {
     title: "관리자 관리",
-    items: [
-      { label: "관리자 목록", path: "/admin/list" },
-    ],
+    items: [{ label: "관리자 목록", path: "/admin/list" }],
   },
   {
     title: "사용자 관리",
@@ -134,15 +132,15 @@ function AdminBar() {
   const navigate = useNavigate();
   const role = localStorage.getItem("role"); // 역할(role) 정보 가져오기
 
-    // role에 따라 필터링된 menuData 생성
-    const menuData = useMemo(() => {
-      if (role === "2") {
-        // "관리자 관리" 메뉴를 제외한 나머지 메뉴 데이터를 반환
-        return initialMenuData.filter(group => group.title !== "관리자 관리");
-      }
-      // 수정이 필요 없는 경우 전체 메뉴 데이터 반환
-      return initialMenuData;
-    }, [role]);
+  // role에 따라 필터링된 menuData 생성
+  const menuData = useMemo(() => {
+    if (role === "2") {
+      // "관리자 관리" 메뉴를 제외한 나머지 메뉴 데이터를 반환
+      return initialMenuData.filter((group) => group.title !== "관리자 관리");
+    }
+    // 수정이 필요 없는 경우 전체 메뉴 데이터 반환
+    return initialMenuData;
+  }, [role]);
 
   const selectedMenu = menuData
     .flatMap((group) => group.items)
@@ -168,7 +166,10 @@ function AdminBar() {
       >
         <Toolbar sx={{ justifyContent: "space-between" }}>
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Link to="/admin" style={{ textDecoration: "none", color: "inherit" }}>
+            <Link
+              to="/admin"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
               <Typography
                 variant="h6"
                 noWrap
@@ -218,8 +219,7 @@ function AdminBar() {
       >
         <Toolbar />
         <Box sx={{ overflow: "auto" }}>
-
-        <List>
+          <List>
             {menuData.map((menuGroup) => (
               <React.Fragment key={menuGroup.title}>
                 <ListItem>
