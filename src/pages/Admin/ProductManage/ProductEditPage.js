@@ -53,7 +53,6 @@ const ProductEditPage = () => {
   const [productStockList, setProductStockList] = useState();
   const [productInfo, setProductInfo] = useState();
   const [productState, setProductState] = useState();
-  const [editInfo, setEditInfo] = useState({ title: "", content: "" });
   const { productSeq } = useParams(); // URL에서 seq 파라미터를 가져옴
   // useState로 "바꿀 수량"을 관리하는 상태 추가
   const [selectedAmount, setSelectedAmount] = useState("");
@@ -162,7 +161,7 @@ const ProductEditPage = () => {
     if (productCategorySeq) {
       findParentAndSubCategory(productCategorySeq); // 페이지 로딩 시 상품 정보를 가져옴
     }
-  }, [productCategorySeq]);
+  }, );
 
   useEffect(() => {
     // productState 값이 설정되면 해당 상태에 맞는 라디오 버튼을 선택하도록 설정
