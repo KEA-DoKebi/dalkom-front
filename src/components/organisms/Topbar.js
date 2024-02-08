@@ -144,6 +144,7 @@ const Topbar = () => {
 
   const getMileage = async () => {
     const res = await TokenAxios("/api/mileage/user");
+    console.log(res.data);
     setMileage(res.data.result.data);
     localStorage.setItem("mileage", res.data.result.data);
   };

@@ -1,6 +1,5 @@
 import React from "react";
 import Button from "@mui/material/Button";
-import { Link } from "react-router-dom";
 import { styled } from "@mui/system";
 
 // 좌/우 정렬 및 스타일 적용된 커스텀 버튼
@@ -13,9 +12,9 @@ const StyledButton = styled(Button)(({ left, right }) => ({
   color: "#000000",
 }));
 
-const TextButton = ({ left, right, to, text }) => {
+const TextButton = ({ left, right, onClick, text }) => {
   return (
-    <StyledButton component={Link} to={to} left={left} right={right}>
+    <StyledButton onClick={onClick} left={left} right={right}>
       <span>{text}</span>
     </StyledButton>
   );
