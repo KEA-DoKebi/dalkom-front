@@ -29,10 +29,14 @@ const ProductEditPage = () => {
   const navigate = useNavigate();
 
   // env 파일 변수로 설정
-  const REACT_APP_AWS_S3_BUCKET_REGION = process.env.REACT_APP_AWS_S3_BUCKET_REGION;
-  const REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID = process.env.REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID;
-  const REACT_APP_AWS_S3_BUCKET_SECRET_ACCESS_KEY = process.env.REACT_APP_AWS_S3_BUCKET_SECRET_ACCESS_KEY;
-  const REACT_APP_AWS_S3_STORAGE_BUCKET_NAME = process.env.REACT_APP_AWS_S3_STORAGE_BUCKET_NAME;
+  const REACT_APP_AWS_S3_BUCKET_REGION =
+    process.env.REACT_APP_AWS_S3_BUCKET_REGION;
+  const REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID =
+    process.env.REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID;
+  const REACT_APP_AWS_S3_BUCKET_SECRET_ACCESS_KEY =
+    process.env.REACT_APP_AWS_S3_BUCKET_SECRET_ACCESS_KEY;
+  const REACT_APP_AWS_S3_STORAGE_BUCKET_NAME =
+    process.env.REACT_APP_AWS_S3_STORAGE_BUCKET_NAME;
 
   // react-hook-form에 필요한 메소드들
   const { control, register, handleSubmit, setValue, trigger } = useForm();
@@ -197,7 +201,6 @@ const ProductEditPage = () => {
           region: REACT_APP_AWS_S3_BUCKET_REGION,
           accessKeyId: REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID,
           secretAccessKey: REACT_APP_AWS_S3_BUCKET_SECRET_ACCESS_KEY,
-          
         });
         //s3에 업로드할 객체 생성
         const upload = new AWS.S3.ManagedUpload({
@@ -211,25 +214,23 @@ const ProductEditPage = () => {
         });
         //이미지 업로드 url 반환
         const IMG_URL = await upload.promise().then((res) => res.Location);
-        console.log(IMG_URL)
-        const newPath = IMG_URL.replace("https://dalkom-image.s3.ap-northeast-2.amazonaws.com", "https://d3tilqrki7dfvu.cloudfront.net");
-        console.log(newPath); 
-        setProductImage(newPath)  
-              
+        console.log(IMG_URL);
+
+        setProductImage(IMG_URL);
       } catch (error) {
-        console.error('Error during S3 upload:', error);
+        console.error("Error during S3 upload:", error);
 
         // 오류 메시지 또는 에러 코드 출력
         if (error.message) {
-          console.error('Error message:', error.message);
+          console.error("Error message:", error.message);
         }
         if (error.code) {
-          console.error('Error code:', error.code);
+          console.error("Error code:", error.code);
         }
       }
     } else {
       //업로드 취소할 시
-      
+
       return;
     }
 
@@ -359,7 +360,6 @@ const ProductEditPage = () => {
                     flexDirection: "column",
                     alignItems: "center",
                   }}
-                  sx={{ m : "5vh", width: "85%" }}
                 >
                   {productImage && (
                     <img
@@ -620,20 +620,16 @@ const ProductEditPage = () => {
                 </div>
               </Grid>
             </Grid>
-          </Grid>
-          <Grid
-            item
-            xs={12}
-            sx={{ display: "flex", justifyContent: "center", mt: 10 }}
-          >
-            <AdminButton 
-              variant="contained" 
-              type="submit"
+            <Grid
+              item
+              xs={12}
+              sx={{ display: "flex", justifyContent: "center", mt: 10 }}
             >
-              수정
-            </AdminButton>
-          </Grid>
-        </form>
+              <AdminButton variant="contained" type="submit">
+                수정
+              </AdminButton>
+            </Grid>
+          </form>
         </Box>
       </Box>
     </Paper>
