@@ -49,6 +49,7 @@ import { FAQDetailPage } from "pages/User/CustomerServicePage/FAQDetailPage";
 import { NoticeDetailPage } from "pages/User/CustomerServicePage/NoticeDetailPage";
 
 import MileageInquiryPage from "pages/Admin/InquiryManage/MileageInquiryPage";
+import RouteChangeTracker from "./RouteChangeTracker";
 
 // eslint-disable-next-line no-unused-vars, no-undef
 const apm = initApm({
@@ -58,9 +59,14 @@ const apm = initApm({
   environment: "dalkom-front",
 });
 
+
+
 const Router = () => {
+
+
   return (
     <BrowserRouter>
+    <RouteChangeTracker />
       <AuthProvider>
         <ApmRoutes>
           {/* 사용자 */}
