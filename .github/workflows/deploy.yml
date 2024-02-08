@@ -32,11 +32,21 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      #- name: Setting .env
-      # run: |
-      #   echo "REACT_APP_APM_TOKEN=${{ secrets.REACT_APP_APM_TOKEN }}" >> .env
-      #   echo "REACT_APP_APM_URL=${{ secrets.REACT_APP_APM_URL }}" >> .env
-      #   cat .env
+      - name: Setting .env
+        run: |
+          echo "REACT_APP_NODE_ENV=${{ secrets.REACT_APP_NODE_ENV }}" >> .env
+
+          echo "REACT_APP_SERVER_ADDRESS=${{ secrets.REACT_APP_SERVER_ADDRESS }}" >> .env
+          echo "REACT_APP_APM_TOKEN=${{ secrets.REACT_APP_APM_TOKEN }}" >> .env
+          echo "REACT_APP_APM_URL=${{ secrets.REACT_APP_APM_URL }}" >> .env
+          echo "REACT_APP_GOOGLE_ANALYTICS=${{ secrets.REACT_APP_GOOGLE_ANALYTICS }}" >> .env
+
+          echo "REACT_APP_AWS_S3_BUCKET_NAME=${{ secrets.AWS_S3_BUCKET_WEB_NAME }}" >> .env
+          echo "REACT_APP_AWS_S3_STORAGE_BUCKET_NAME=${{ secrets.AWS_S3_BUCKET_IMAGE_NAME }}" >> .env
+          echo "REACT_APP_AWS_S3_BUCKET_REGION=${{ secrets.AWS_S3_REGION }}" >> .env
+          echo "REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID=${{ secrets.AWS_WEB_ACCESS_KEY }}" >> .env
+          echo "REACT_APP_AWS_S3_BUCKET_SECRET_ACCESS_KEY=${{ secrets.AWS_WEB_SECRET_KEY }}" >> .env
+          cat .env
 
       # - run: echo "${{ secrets.ENV }}" > .env
 
@@ -46,7 +56,7 @@ jobs:
           npm run build
 
       - name: 빌드한 파일 S3에 업로드
-        run: aws s3 sync build/ s3://${{ secrets.AWS_S3_BUCKET_NAME }} --acl public-read
+        run: aws s3 sync build/ s3://${{ secrets.AWS_S3_BUCKET_WEB_NAME }} --acl public-read
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_WEB_ACCESS_KEY }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_WEB_SECRET_KEY }}
@@ -57,4 +67,4 @@ jobs:
           CLOUD_FRONT_ID: ${{ secrets.AWS_CLOUDFRONT_ID}}
         run: |
           aws cloudfront create-invalidation \
-            --distribution-id $CLOUD_FRONT_ID --paths /*
+            --distribution-id $CLOUD_FRONT_ID --paths "/*"
