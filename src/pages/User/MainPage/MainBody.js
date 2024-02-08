@@ -58,24 +58,24 @@ const MainBody = () => {
 
   return (
     <StyledBox>
-      <StyledCarousel animation={false}>
-        <StyledPaper sx={{ backgroundColor: "#FFF8DC", animation: "false" }}>
+      <StyledCarousel>
+        <StyledPaper sx={{ backgroundColor: "#FFF8DC" }}>
           <Link to="/cs/manual">
-            <BannerImage src="/images/MainPage/dokebiBanner1.png" />
+            <BannerImage src="/images/MainPage/dokebiBanner4.png" />
           </Link>
         </StyledPaper>
 
-        <StyledPaper sx={{ backgroundColor: "#FEE300" }}>
+        <StyledPaper sx={{ backgroundColor: "#ffd1d2" }}>
           <Link to="/cs/manual">
-            <BannerImage src="/images/MainPage/dokebiBanner2.png" />
+            <BannerImage src="/images/MainPage/dokebiBanner5.png" />
           </Link>
         </StyledPaper>
 
-        <StyledPaper sx={{ backgroundColor: "#494881" }}>
-          <Link to="/cs/manual">
-            <BannerImage src="/images/MainPage/dokebiBanner3.png" />
-          </Link>
-        </StyledPaper>
+        {/*<StyledPaper sx={{ backgroundColor: "#494881" }}>*/}
+        {/*  <Link to="/cs/manual">*/}
+        {/*    <BannerImage src="/images/MainPage/dokebiBanner3.png" />*/}
+        {/*  </Link>*/}
+        {/*</StyledPaper>*/}
       </StyledCarousel>
 
       <CategoryBox>
