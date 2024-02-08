@@ -24,9 +24,9 @@ const pageSize = 10;
 const itemFlexStyles = {
   "& > *:nth-child(1)": { width: "5%" }, // 번호
   "& > *:nth-child(2)": { width: "22%" }, // ID
-  "& > *:nth-child(3)": { width: "21%" }, // 이름
-  "& > *:nth-child(4)": { width: "21%" }, // 부서
-  "& > *:nth-child(5)": { width: "22%" }, // 닉네임
+  "& > *:nth-child(3)": { width: "22%" }, // 닉네임
+  "& > *:nth-child(4)": { width: "21%" }, // 이름
+  "& > *:nth-child(5)": { width: "21%" }, // 부서
   "& > *:nth-child(6)": { width: "5%" }, // 삭제
   "&:before, &:after": { content: '""', width: "2%" },
 };
@@ -69,7 +69,7 @@ const AdminListPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedValue, setSelectedValue] = useState("");
   const [dataList, setDataList] = useState([]);
-  const dataListLabels = ["번호", "ID", "이름", "부서", "닉네임", "삭제"];
+  const dataListLabels = ["번호", "ID", "닉네임", "이름", "부서", "삭제"];
   const optionList = [
     { label: "이름" },
     { label: "ID" },
@@ -148,13 +148,13 @@ const AdminListPage = () => {
           {admin.adminId}
         </Typography>
         <Typography variant="body1" sx={{ textAlign: "center" }}>
+          {admin.nickname}
+        </Typography>
+        <Typography variant="body1" sx={{ textAlign: "center" }}>
           {admin.name}
         </Typography>
         <Typography variant="body1" sx={{ textAlign: "center" }}>
           {admin.depart}
-        </Typography>
-        <Typography variant="body1" sx={{ textAlign: "center" }}>
-          {admin.nickname}
         </Typography>
         <IconButton
           onClick={() => handleDeleteAdmin(admin.adminSeq)}

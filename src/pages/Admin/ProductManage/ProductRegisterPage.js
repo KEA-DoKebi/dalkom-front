@@ -53,6 +53,11 @@ const ProductRegisterPage = () => {
   const [productImage, setProductImage] = useState(
     "https://nayemdevs.com/wp-content/uploads/2020/03/default-product-image.png"
   );
+  const [clickCount, setClickCount] = useState(0);
+
+  const handleAddClick = () => {
+    setClickCount(clickCount + 1); // 클릭 횟수 증가
+  };
 
   // 상위 카테고리 API
   const getCategoryList = async () => {
@@ -69,13 +74,21 @@ const ProductRegisterPage = () => {
 
   // 옵션 및 수량 필드 상태 관리
   const [optionFields, setOptionFields] = useState([
-    { prdtOptionSeq: "", amount: "" },
+    { prdtOptionSeq: "", amount: 0 },
   ]);
 
   // 옵션 추가 함수
   const addOptionField = () => {
-    setOptionFields([...optionFields, { prdtOptionSeq: "", amount: 1 }]);
+    setOptionFields([...optionFields, { prdtOptionSeq: "", amount: 0 }]);
   };
+
+    // 버튼 클릭 시 두 함수 모두 실행하는 핸들러
+    const handleButtonClick = () => {
+      if (clickCount > 0) {
+      addOptionField(); // 옵션 필드 추가 함수 호출
+      }
+      handleAddClick(); // 클릭 횟수 증가 함수 호출
+    };
 
   // 옵션 제거 함수
   const removeOptionField = (index) => {
@@ -514,15 +527,15 @@ const ProductRegisterPage = () => {
                   />
                   {state.option && (
                     <>
-                      <IconButton onClick={addOptionField} variant="contained">
+                      <IconButton onClick={handleButtonClick} variant="contained">
                         <AddCircleIcon
                           sx={{ fontSize: "30px", color: pink[600] }}
                         />
                       </IconButton>
-                    </>
+                    </> 
                   )}
                 </div>
-                {state.option && addOptionField && (
+                {state.option && clickCount>0 && (
                   <div >
                     {optionFields.map((field, index) => (
                       <div
