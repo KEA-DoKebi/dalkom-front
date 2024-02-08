@@ -39,8 +39,18 @@ export const ProductReview = ({ info }) => {
           >
             가격
           </Typography>
-          <StyledTypoGraphy style={{ fontWeight: "bold", color: "#203461" }}>
-            {Number(info.productCompareDetailDto.price).toLocaleString()}
+          <StyledTypoGraphy style={{ 
+            fontWeight: "bold", 
+            color: "#203461", 
+            textAlign: "center", 
+            display: "flex", 
+            alignItems: "center" }}>
+              <img
+                src="/images/M-1.png"
+                alt="마일리지"
+                style={{ width: "26px", height: "26px", marginRight: "5px" }}
+              />
+              {Number(info.productCompareDetailDto.price).toLocaleString()}
           </StyledTypoGraphy>
           <Typography
             sx={{ fontSize: "15px", fontWeight: "bold", color: "#555555" }}

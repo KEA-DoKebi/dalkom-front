@@ -137,7 +137,6 @@ export default function MileageApprovalBody() {
     try {
       const res = await TokenAxios.get("/api/mileage/apply/user?page=0&size=5");
       setData(res.data.result.data.content);
-      console.log(res.data.result.data.content);
     } catch (e) {
       console.log(e);
     }

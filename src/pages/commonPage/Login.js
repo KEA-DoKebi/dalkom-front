@@ -85,9 +85,12 @@ const Login = () => {
       if (mode === "user") {
         const res = await DefaultAxios.post("api/user/login", data);
         console.log(res.data.result.data);
-        const tokenData = res.data.result.data;
-        localStorage.setItem("accessToken", tokenData.accessToken);
-        localStorage.setItem("mileage", tokenData.mileage);
+        const token = res.data.result.data.accessToken;
+        const mileage = res.data.result.data.mileage;
+        console.log(token);
+        console.log(mileage.toString());
+        localStorage.setItem("accessToken", token);
+        localStorage.setItem("mileage", mileage.toString());
         navigate("/");
       } else {
         const res = await DefaultAxios.post("api/admin/login", data);
@@ -154,8 +157,18 @@ const Login = () => {
           </InputWrapper>
 
           <Find>
-            <TextButton left to="/signUp" text="회원가입" />
-            <TextButton right to="/signUp" text="이메일 | 비밀번호 찾기" />
+            <TextButton left onClick={() => navigate("/signUp")} text="회원가입" />
+            <TextButton right text="이메일 | 비밀번호 찾기" 
+            onClick={
+              () => 
+              Swal.fire({
+                icon: "info",
+                title: "관리자에게 문의하세요.<br/> 📞 031-123-4567",
+                showConfirmButton: true,
+                confirmButtonColor: "gray",
+                confirmButtonText: "확인",
+              })}
+            />
           </Find>
           <CenterDiv>
             <CustomButton type="submit" variant="contained">
