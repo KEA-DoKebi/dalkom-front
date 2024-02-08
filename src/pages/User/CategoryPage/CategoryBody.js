@@ -1,8 +1,12 @@
 import { Grid, Typography, Box, Pagination, Tabs, Tab } from "@mui/material";
-import { Link, useParams } from "react-router-dom";
+import {
+  Link,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { DefaultAxios } from "apis/CommonAxios";
 import { TokenAxios } from "apis/CommonAxios";
 import { ProductCard } from "components/molecules/ProductCard";
 import { BottomMenu } from "components/molecules/BottomMenu";
@@ -11,12 +15,14 @@ import { searchStore } from "store/store";
 const CategoryBody = () => {
   // URL에 있는 값 가져오는 함수 (Router에 저장된 변수명으로 가져옴)
   const { categorySeq, subCategorySeq } = useParams();
+  const [query] = useSearchParams();
+  const searchPage = Number(query.get("page"));
 
   const [subCategoryLists, setSubCategoryLists] = useState([]);
   const [productLists, setProductLists] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [tabValue, setTabValue] = useState(0);
+  const [currentPage, setCurrentPage] = useState(searchPage);
+  const [tabValue, setTabValue] = useState(1);
   const [categoryNames] = useState([
     "패션/뷰티",
     "생활",
@@ -25,25 +31,32 @@ const CategoryBody = () => {
     "스포츠/레저",
     "카카오굿즈",
   ]); // 정적 상위 카테고리 배열
-  const {setPage} = searchStore(state => state);
+  const { setPage } = searchStore((state) => state);
+
+  const navigate = useNavigate();
 
   // 페이지 변환하게 하는 함수
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
+    if (subCategorySeq === undefined) {
+      navigate(`/category/${categorySeq}?page=${value}`);
+    } else {
+      navigate(`/category/${categorySeq}/sub/${subCategorySeq}?page=${value}`);
+    }
     // 화면을 맨 위로 스크롤 이동
     window.scrollTo(0, 0);
   };
 
-  const handleTabChange = (event, newValue) => {
-    setTabValue(newValue);
-    console.log(newValue);
+  const handleTabChange = (event) => {
+    setTabValue(event.target.value);
+    console.log(event.target.value);
   };
 
   // 하위 카테고리 목록 가져오는 api
   const getCategoryLists = async () => {
     try {
       if (categorySeq <= 6) {
-        const res = await DefaultAxios.get(`/api/category/${categorySeq}`);
+        const res = await TokenAxios.get(`/api/category/${categorySeq}`);
         setSubCategoryLists(res.data.result.data);
       }
     } catch (e) {
@@ -57,6 +70,7 @@ const CategoryBody = () => {
       const res = await TokenAxios.get(
         `/api/product/category/${categorySeq}?page=${currentPage - 1}&size=12`,
       );
+      console.log(res.data);
       setProductLists(res.data.result.data.content);
       setTotalPages(res.data.result.data.totalPages);
     } catch (e) {
@@ -82,9 +96,8 @@ const CategoryBody = () => {
   useEffect(() => {
     getCategoryLists();
     getMainProductLists();
-    setCurrentPage(1);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [categorySeq]);
+  }, [categorySeq, currentPage]);
 
   // 현재 페이지가 바뀔 때 수행
   useEffect(() => {
@@ -97,12 +110,15 @@ const CategoryBody = () => {
   }, [currentPage]);
 
   useEffect(() => {
-    setCurrentPage(1);
     getSubProductLists();
     setTabValue(Number(subCategorySeq));
-    setPage("카테고리 검색결과")
+    setPage("카테고리 검색결과");
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [subCategorySeq]);
+  }, [subCategorySeq, currentPage]);
+
+  useEffect(() => {
+    setCurrentPage(searchPage || 1);
+  }, [searchPage]);
 
   return (
     <StyledBox>
@@ -112,7 +128,7 @@ const CategoryBody = () => {
             onClick={getMainProductLists}
             sx={{ textAlign: "center", marginBottom: "2vh" }}
           >
-            <StyledLink to={`/category/${categorySeq}`}>
+            <StyledLink to={`/category/${categorySeq}?page=1`}>
               {categorySeq <= 6 && categoryNames[categorySeq - 1]}
             </StyledLink>
           </StyleTypoGrapy>
@@ -160,12 +176,13 @@ const CategoryBody = () => {
               <Grid item xs={3} key={product.productSeq}>
                 <ProductCard
                   key={product.productSeq}
-                  imageUrl={product.imageUrl}
+                  imageUrl={`${product.imageUrl}?w=300&h=300&f=webp`}
                   title={product.name}
                   price={product.price}
                   star={product.rating}
                   review={product.reviewAmount}
                   seq={product.productSeq}
+                  state={product.state}
                   categorySeq={subCategorySeq}
                 />
               </Grid>

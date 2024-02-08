@@ -10,8 +10,8 @@ import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
 import { styled as muiStyled } from "@mui/system";
 import Swal from "sweetalert2";
-import {FaEye} from "react-icons/fa"
-import {FaEyeSlash} from "react-icons/fa"
+import { FaEye } from "react-icons/fa";
+import { FaEyeSlash } from "react-icons/fa";
 import { Button } from "@mui/material";
 
 const Base = styled.div`
@@ -29,7 +29,7 @@ const Body = styled.div`
   height: 800px;
   display: flex;
   padding-right: 5%;
-
+  position: relative; 
   justify-content: flex-start;
   background-color: ${colors.white};
   border-radius: 20px;
@@ -44,10 +44,10 @@ const Img = styled.div`
 `;
 
 const Img2 = styled.img`
-  width: 10%;
+  width: 65%;
   height: auto;
   position: absolute;
-  transform: translate(-31%, 45%);
+  transform: translate(-36%, 50%);
 `;
 
 const TitleSmall = styled.h2`
@@ -96,16 +96,23 @@ const CustomButton = muiStyled(Button)({
 });
 
 const SignUp = () => {
-  const { register, handleSubmit ,watch, setError, clearErrors, formState: { errors } } = useForm();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setError,
+    clearErrors,
+    formState: { errors },
+  } = useForm();
   const [joinedDate, setJoinedDate] = useState(null);
   const [isShowPw, setShowPwState] = useState(true);
 
   const password = watch("password");
   const comfirmPassword = watch("confirmPassword");
 
-  const toggleHidePassword =()=>{
+  const toggleHidePassword = () => {
     setShowPwState(!isShowPw);
-  }
+  };
 
   const handleDateSelect = (date) => {
     // 여기서 date는 선택된 날짜 정보입니다.
@@ -120,26 +127,27 @@ const SignUp = () => {
     try {
       const res = await DefaultAxios.post("/api/user/sign-up", data);
       if (res.data.message === "회원가입 성공") {
-        Swal.fire({//
+        Swal.fire({
+          //
           icon: "success",
           title: "회원가입이 완료되었습니다.",
           showConfirmButton: true,
-          confirmButtonColor: 'black',
-          confirmButtonText: '확인',
+          confirmButtonColor: "black",
+          confirmButtonText: "확인",
         }).then(() => {
           navigate("/login");
         });
       }
     } catch (e) {
       // console.log(e);
-      Swal.fire({//
+      Swal.fire({
+        //
         icon: "error",
         title: "회원가입에 실패했습니다.",
         showConfirmButton: true,
-        confirmButtonColor: 'gray',
-        confirmButtonText: '확인',
-        footer:
-          "등록된 임직원이 아닙니다.",
+        confirmButtonColor: "gray",
+        confirmButtonText: "확인",
+        footer: "등록된 임직원이 아닙니다.",
       });
     }
   };
@@ -194,7 +202,13 @@ const SignUp = () => {
                 placeholder="이름을 입력하세요."
                 {...register("name")}
               />
-              <div style={{display : "flex", justifyContent : "space-between", position : "relative"}}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  position: "relative",
+                }}
+              >
                 <StyleTextField
                   id="password"
                   label="비밀번호"
@@ -209,7 +223,13 @@ const SignUp = () => {
                   {isShowPw ? <FaEyeSlash /> : <FaEye />}
                 </Icon>
               </div>
-              <div style={{display : "flex", justifyContent : "space-between", position : "relative"}}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  position: "relative",
+                }}
+              >
                 <StyleTextField
                   id="confirmPassword"
                   label="비밀번호 확인"
@@ -218,7 +238,9 @@ const SignUp = () => {
                   placeholder="비밀번호를 다시 입력하세요."
                   {...register("confirmPassword")}
                   error={!!errors.confirmPassword}
-                  helperText={errors.confirmPassword ? errors.confirmPassword.message : ""}
+                  helperText={
+                    errors.confirmPassword ? errors.confirmPassword.message : ""
+                  }
                 />
                 <Icon onClick={toggleHidePassword}>
                   {isShowPw ? <FaEyeSlash /> : <FaEye />}
@@ -239,7 +261,13 @@ const SignUp = () => {
                 placeholder="주소를 입력하세요."
                 {...register("address")}
               />
-              {password === comfirmPassword ? <CustomButton type="submit" variant="contained">회원가입</CustomButton>: <CustomButton disabled>회원가입</CustomButton>}
+              {password === comfirmPassword ? (
+                <CustomButton type="submit" variant="contained">
+                  회원가입
+                </CustomButton>
+              ) : (
+                <CustomButton disabled>회원가입</CustomButton>
+              )}
             </InputWrapper>
           </form>
         </Container>
@@ -257,12 +285,11 @@ const StyleTextField = styled(TextField)`
   background-color: #fbfcfe;
 `;
 
-
 const Icon = styled.div`
   position: absolute;
   top: 20px;
   bottom: 0px;
-  left : 93%;
+  left: 93%;
   height: 30px;
   cursor: pointer;
 `;

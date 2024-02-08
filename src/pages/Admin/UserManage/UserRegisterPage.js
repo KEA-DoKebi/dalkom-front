@@ -33,7 +33,7 @@ const UserRegisterPage = () => {
     // AdminButton이 클릭되면 Alert를 열도록 상태를 업데이트
     setAlertOpen();
   };
-  
+
   useEffect(() => {
     // 각 페이지가 마운트될 때 selectedMenu를 업데이트
     // setSelectedMenu 함수를 호출하여 상태를 업데이트
@@ -68,12 +68,10 @@ const UserRegisterPage = () => {
     }
   };
 
-  
-
   const { register, handleSubmit } = useForm();
 
   return (
-    <Paper sx={{ display: "flex", height: "100vh" }}>
+    <Paper sx={{ display: "flex", minHeight: "100vh" }} elevation={0}>
       {/* AdminBar 컴포넌트에 selectedMenu와 setSelectedMenu props 전달 */}
       <AdminBar selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
       <Box

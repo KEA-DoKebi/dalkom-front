@@ -3,11 +3,11 @@ import SidebarLayout from "components/templete/SidebarLayout";
 import InquiryHistoryBody from "./InquiryHistoryBody";
 
 const InquiryHistory = () => {
-    return (
-        <SidebarLayout>
-            <InquiryHistoryBody/>
-        </SidebarLayout>
-    );
+  return (
+    <SidebarLayout>
+      <InquiryHistoryBody />
+    </SidebarLayout>
+  );
 };
 
 export default InquiryHistory;

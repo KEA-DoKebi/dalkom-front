@@ -31,17 +31,21 @@ export const BottomMenu = () => {
   };
 
   return (
-      <StyledPopUpContainer
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-          // isHovered 상태에 따라 스타일 변경
-          style={{
-            marginBottom: isHovered ? "0.5vh" : "-250px",
-            transition: "margin-bottom 0.5s",
-          }}
-      >
+    <StyledPopUpContainer
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      // isHovered 상태에 따라 스타일 변경
+      style={{
+        marginBottom: isHovered ? "0.5vh" : "-250px",
+        transition: "margin-bottom 0.5s",
+      }}
+    >
       <Grid container>
-        <Grid item xs={12} sx={{ marginBottom: "0.5vh", textAlign: "center", padding: "20px" }}>
+        <Grid
+          item
+          xs={12}
+          sx={{ marginBottom: "0.5vh", textAlign: "center", padding: "20px" }}
+        >
           <StyledPopUpTitle>상품 비교하기</StyledPopUpTitle>
         </Grid>
         <Grid item xs={1}></Grid>
@@ -93,7 +97,15 @@ export const BottomMenu = () => {
           </ImageContainer>
         </Grid>
         <Grid item xs={1}></Grid>
-        <Grid item xs={12} sx={{ textAlign: "center", marginTop: "1.5vh", marginBottom: "1.5vh" }}>
+        <Grid
+          item
+          xs={12}
+          sx={{
+            textAlign: "center",
+            marginTop: "1.5vh",
+            marginBottom: "1.5vh",
+          }}
+        >
           <StyledButton variant="contained" onClick={handleCompareBtnClicked}>
             비교하기
           </StyledButton>

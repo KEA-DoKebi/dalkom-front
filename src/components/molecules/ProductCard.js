@@ -7,48 +7,44 @@ import { Button } from "react-scroll";
 import { productImageStore } from "store/store";
 import Swal from "sweetalert2";
 
-export const ProductCard = ({ imageUrl, title, price, star, review, seq, categorySeq }) => {
+export const ProductCard = ({ imageUrl, title, price, star, review, seq, categorySeq, state }) => {
   
   const {addImageList, addSeq, imageList, seqList, subCategorySeq, setSubCategorySeq} = productImageStore((state) => state);
 
   const handleAddButtonClick = () => {
+    console.log("카드에서 받아오는 카테고리" + categorySeq);
+    console.log("상태에서 받아오는 카테고리" + subCategorySeq);
 
-    console.log("카드에서 받아오는 카테고리" + categorySeq)
-    console.log("상태에서 받아오는 카테고리" + subCategorySeq)
-
-    if(!seqList.includes(seq)){
-      if(subCategorySeq === 0 || categorySeq === subCategorySeq){
-        if(imageList.length < 3){
+    if (!seqList.includes(seq)) {
+      if (subCategorySeq === 0 || categorySeq === subCategorySeq) {
+        if (imageList.length < 3) {
           addImageList(imageUrl);
           addSeq(seq);
           setSubCategorySeq(categorySeq);
-        }
-        else{
-          Swal.fire({//
+        } else {
+          Swal.fire({
+            //
             position: "center",
             icon: "warning",
             title: "비교 상품은 3개까지만<br> 담을 수 있습니다.",
             showConfirmButton: true,
-            confirmButtonColor: 'black',
-            confirmButtonText: '확인',
+            confirmButtonColor: "black",
+            confirmButtonText: "확인",
           });
         }
-      }
-      else{
-        Swal.fire({//
+      } else {
+        Swal.fire({
+          //
           position: "center",
           icon: "warning",
           title: "같은 카테고리의 상품만<br> 담을 수 있습니다.",
           showConfirmButton: true,
-          confirmButtonColor: 'black',
-          confirmButtonText: '확인',
+          confirmButtonColor: "black",
+          confirmButtonText: "확인",
         });
       }
     }
-    
-  }
-
-    
+  };
 
   return (
     <Link to={`/product/${seq}/상품상세`}>
@@ -61,7 +57,7 @@ export const ProductCard = ({ imageUrl, title, price, star, review, seq, categor
               sx={{
                 fontSize: "15px",
                 fontWeight: "bold",
-                lineHeight: "normal"
+                lineHeight: "normal",
               }}
             >
               ➕ 상품 비교
@@ -72,7 +68,9 @@ export const ProductCard = ({ imageUrl, title, price, star, review, seq, categor
           <CardTitle>{title}</CardTitle>
           <CardDescription>
             {/* <img src="/images/M-user.png" width="15px" height="15px"/>  {price} */}
-            <Typography
+            {state === "Y" ? 
+            (
+              <Typography
               variant="body1"
               sx={{
                 textAlign: "center",
@@ -88,6 +86,28 @@ export const ProductCard = ({ imageUrl, title, price, star, review, seq, categor
               />
               {Number(price).toLocaleString()}
             </Typography>
+            ) 
+            :
+            <div>
+            <Typography
+            variant="body1"
+            sx={{
+              textAlign: "center",
+              display: "flex",
+              alignItems: "center",
+              marginBottom: "7px",
+            }}
+          >
+            <img
+              src="/images/M-1.png"
+              alt="마일리지"
+              style={{ width: "20px", height: "20px", marginRight: "5px" }}
+            />
+            <Typography sx={{color: "gray", textDecoration:"line-through"}}> {Number(price).toLocaleString()} </Typography>
+            <span style={{fontSize : "15px", marginLeft : "3px"}}>(품절)</span>
+          </Typography>
+          </div>  
+          }
           </CardDescription>
           <CardDescription>
             <StarRating

@@ -4,12 +4,14 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import AWS from "aws-sdk";
 
-const REACT_APP_AWS_S3_BUCKET_REGION = process.env.REACT_APP_AWS_S3_BUCKET_REGION;
+const REACT_APP_AWS_S3_BUCKET_REGION =
+  process.env.REACT_APP_AWS_S3_BUCKET_REGION;
 const REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID =
   process.env.REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID;
 const REACT_APP_AWS_S3_BUCKET_SECRET_ACCESS_KEY =
   process.env.REACT_APP_AWS_S3_BUCKET_SECRET_ACCESS_KEY;
-const REACT_APP_AWS_S3_STORAGE_BUCKET_NAME = process.env.REACT_APP_AWS_S3_STORAGE_BUCKET_NAME;
+const REACT_APP_AWS_S3_STORAGE_BUCKET_NAME =
+  process.env.REACT_APP_AWS_S3_STORAGE_BUCKET_NAME;
 
 const EditorComponent = ({ onContentChange, placeholder, value }) => {
   const handleContentChange = (content) => {
@@ -52,6 +54,7 @@ const EditorComponent = ({ onContentChange, placeholder, value }) => {
         const range = editor.getSelection();
         //커서 위치에 이미지 삽입
         editor.insertEmbed(range.index, "image", IMG_URL);
+        console.log(IMG_URL);
       } catch (error) {
         console.log(error);
       }

@@ -50,7 +50,6 @@ import { NoticeDetailPage } from "pages/User/CustomerServicePage/NoticeDetailPag
 
 import MileageInquiryPage from "pages/Admin/InquiryManage/MileageInquiryPage";
 
-
 // eslint-disable-next-line no-unused-vars, no-undef
 const apm = initApm({
   serviceName: "dalkom-front",
@@ -77,10 +76,19 @@ const Router = () => {
           />
 
           <Route path="/product/:productSeq" element={<ProductDetailPage />} />
-          <Route path="/mypage/review/write/:ordrDetailSeq" element={<ReviewWrite />} />
-          <Route path="/mypage/review/edit/:reviewSeq" element={<ReviewEdit />} />
+          <Route
+            path="/mypage/review/write/:ordrDetailSeq"
+            element={<ReviewWrite />}
+          />
+          <Route
+            path="/mypage/review/edit/:reviewSeq"
+            element={<ReviewEdit />}
+          />
           <Route path="/mypage/myinfo" element={<MyInfo />} />
-          <Route path="/product/:productSeq/:menuName" element={<ProductDetailPage />} />
+          <Route
+            path="/product/:productSeq/:menuName"
+            element={<ProductDetailPage />}
+          />
 
           <Route path="/cart" element={<Cart />} />
           <Route path="/search" element={<SearchPage />} />
@@ -110,9 +118,15 @@ const Router = () => {
           <Route path="/cs">
             <Route path="/cs/manual" element={<ManualPage />} />
             <Route path="/cs/notice" element={<NoticePage />} />
-            <Route path="/cs/notice/:noticeSeq" element={<NoticeDetailPage />} />
+            <Route
+              path="/cs/notice/:noticeSeq"
+              element={<NoticeDetailPage />}
+            />
             <Route path="/cs/user-faq" element={<UserFAQPage />} />
-            <Route path="/cs/user-faq/:inquirySeq" element={<FAQDetailPage />} />
+            <Route
+              path="/cs/user-faq/:inquirySeq"
+              element={<FAQDetailPage />}
+            />
           </Route>
 
           {/* 관리자 */}
@@ -145,7 +159,7 @@ const Router = () => {
                 path="/admin/product/register"
                 element={<ProductRegisterPage />}
               />
-              <Route path="/admin/product/edit" element={<ProductEditPage />} />
+              <Route path="/admin/product/edit/:productSeq" element={<ProductEditPage />} />
             </Route>
 
             {/* 주문 관리 */}

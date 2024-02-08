@@ -7,13 +7,12 @@ import {
   Button,
   Paper,
 } from "@mui/material";
-import { Textarea, FormControl, FormHelperText, Input } from "@mui/joy";
+import { FormControl, FormHelperText, Input } from "@mui/joy";
 import { TokenAxios } from "apis/CommonAxios";
 import { useForm } from "react-hook-form";
-import Swal from 'sweetalert2'
+import Swal from "sweetalert2";
 import DaumPostcode from "react-daum-postcode";
 import { CustomButton } from "common";
-
 
 export const UserButton = styled(Button)`
   background-color: #000000;
@@ -38,63 +37,92 @@ export const UserButton = styled(Button)`
 `;
 
 const MyInfoBody = () => {
-    //기존 유저 정보 불러오기
-    const [userInfo, setUserInfo] = useState([]);
-    const [openDaumAddress, setOpenDaumAddress] = useState(false);
-    const [userAddress, setUserAddress] = useState(userInfo.address || "");
+  //기존 유저 정보 불러오기
+  const [userInfo, setUserInfo] = useState([]);
+  const [openDaumAddress, setOpenDaumAddress] = useState(false);
+  const [userAddress, setUserAddress] = useState("")
+  
+  //useState(userInfo.address || "");
 
+  const [maskedName, setMaskedName] = useState("");
+  const [nickname, setNickname] = useState("");
 
+  const loadData = async () => {
+    try {
+      const res = await TokenAxios.get("/api/user/self");
+      console.log(res.data.result.data);
+      setUserInfo(res.data.result.data);
+      setNickname(res.data.result.data.nickname);
+      setUserAddress(res.data.result.data.address);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
-    const loadData = async () => {
-        try {
-            const res = await TokenAxios.get("/api/user/self");
-            console.log(res.data.result.data);
-            setUserInfo(res.data.result.data);
-        } catch (e) {
-            console.log(e);
-        }
-    };
-    useEffect(() => {
-        loadData();
-    }, []);
+  const mainAddress = userAddress.split('/')[0];
+  const detailAddress = userAddress.split('/')[1];
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  useEffect(() => {
+    if (userInfo.address) {
+      setUserAddress(userInfo.address);
+    }
+  }, [userInfo.address]);
 
   //유저 정보 수정
-  const { register, handleSubmit,watch ,formState: { errors }} = useForm();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
   const password = watch("password");
-  // password rule 추가 가능 
-  // const passwordRules = {
-  //   required: "Password is required",
-  //   minLength: { value: 8, message: "Password must be at least 8 characters long" },
-  // };
 
   const editInfo = async (data) => {
+    if (!data.password) {
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "정보가 입력되지 않았습니다.",
+        showConfirmButton: true,
+        confirmButtonColor: "gray",
+        confirmButtonText: "확인",
+      });
+      return; // 비밀번호가 입력되지 않았으면 함수 종료
+    }
+
+    data.nickname = data.nickname || nickname;
+    
     try {
       const res = await TokenAxios.put("/api/user", data);
-      res.address = userAddress
+      res.address = userAddress;
       console.log(res.data);
-      Swal.fire({//
+      Swal.fire({
+        //
         position: "center",
         icon: "success",
         title: "수정이 완료되었습니다.",
         showConfirmButton: true,
-        confirmButtonColor: 'black',
-        confirmButtonText: '확인',
+        confirmButtonColor: "black",
+        confirmButtonText: "확인",
       });
     } catch (e) {
-        console.log(e);
-        Swal.fire({//
-            position: "center",
-            icon: "error",
-            title: "수정에 실패했습니다.",
-            showConfirmButton: true,
-            confirmButtonColor: 'gray',
-            confirmButtonText: '확인',
-        });
-
+      console.log(e);
+      Swal.fire({
+        //
+        position: "center",
+        icon: "error",
+        title: "수정에 실패했습니다.",
+        showConfirmButton: true,
+        confirmButtonColor: "gray",
+        confirmButtonText: "확인",
+      });
     }
   };
 
-  
   const DaumAddressComponent = () => {
     const handle = {
       clickButton: () => {
@@ -134,123 +162,233 @@ const MyInfoBody = () => {
     );
   };
 
+  const maskName = (name) => {
+    const length = name.length;
+    const middleIndex = Math.floor(length / 2);
+    let maskedName = "";
 
+    for (let i = 0; i < length; i++) {
+      if (i === middleIndex) {
+        maskedName += "*";
+      } else {
+        maskedName += name[i];
+      }
+    }
+    return maskedName;
+  };
 
-    return (
-        <Paper elevation={0}>
-            <form
-                onSubmit={handleSubmit((data) => {
-                  data.address = userAddress;
-                    console.log(data);
-                    editInfo(data);
+  useEffect(() => {
+    if (userInfo.name) {
+      const maskedValue = maskName(userInfo.name); // 마스킹된 이름 생성
+      setMaskedName(maskedValue); // 마스킹된 이름 설정
+    }
+  }, [userInfo.name]);
+
+  const maskEmail = (email) => {
+    if (!email) return ""; // 이메일이 없을 경우 빈 문자열 반환
+
+    const atIndex = email.indexOf("@");
+    const dotIndex = email.indexOf(".com");
+    if (atIndex === -1 || dotIndex === -1) return ""; // 이메일 형식이 아닐 경우 빈 문자열 반환
+
+    const prefix = email.substring(0, atIndex);
+    const suffix = email.substring(atIndex + 1, dotIndex);
+    const maskedPrefix = prefix.substring(0, 3) + "*".repeat(prefix.length - 3);
+    const maskedSuffix = "*".repeat(suffix.length);
+    return maskedPrefix + "@" + maskedSuffix + ".com";
+  };
+
+  return (
+    <Paper elevation={0}>
+      <form
+        onSubmit={handleSubmit((data) => {
+          data.address = `${userAddress}/${data.detailAddress}`;
+          delete(data.detailAddress)
+          console.log(data);
+          editInfo(data);
+        })}
+      >
+        <div>
+          <Typography sx={{ fontSize: "40px", mb: 3 }}>
+            개인정보 확인 / 수정
+          </Typography>
+
+          <Divider sx={{ borderBottomWidth: 3 }} color={"black"}></Divider>
+
+          <Grid
+            container
+            spacing={2}
+            justifyContent="auto"
+            sx={{ mt: 8, alignItems: "center" }}
+          >
+            {/* 왼쪽의 빈 공간 */}
+            <Grid item xs={2}></Grid>
+            {/* 아이디 */}
+            <Grid item xs={2}>
+              <Typography>아이디</Typography>
+            </Grid>
+            <Grid item xs={4}>
+              <Typography>{maskEmail(userInfo.email)}</Typography>
+              {/* <Textarea disabled placeholder={userInfo.email} /> */}
+            </Grid>
+            <Grid item xs={4}></Grid>
+
+            {/* 비밀번호 */}
+            <Grid item xs={2} sx={{ mt: 2 }}></Grid>
+            <Grid item xs={2} sx={{ mt: 2 }}>
+              <Typography>비밀번호</Typography>
+            </Grid>
+            <Grid item xs={4} sx={{ mt: 2 }}>
+              <CustomInput
+                variant="soft"
+                placeholder="비밀번호"
+                type="password"
+                {...register("password")}
+                sx={{
+                  backgroundColor: "white",
+                  border: "1.5px solid rgba(0,0,0,0.5)",
+                }}
+              />
+            </Grid>
+            <Grid item xs={4} sx={{ mt: 2 }}></Grid>
+
+            {/* 비밀번호 확인 */}
+            <Grid item xs={2} sx={{ mt: 2 }}></Grid>
+            <Grid item xs={2} sx={{ mt: 2 }}>
+              <Typography>비밀번호 확인</Typography>
+            </Grid>
+            <Grid item xs={4} sx={{ mt: 2 }}>
+              <CustomInput
+                variant="soft"
+                placeholder="비밀번호 확인"
+                type="password"
+                {...register("passwordConfirmation", {
+                  validate: (value) =>
+                    value === password || "Passwords do not match",
                 })}
+                sx={{
+                  backgroundColor: "white",
+                  border: "1.5px solid rgba(0,0,0,0.5)",
+                }}
+              />
+              {errors.passwordConfirmation && (
+                <FormHelperText>
+                  {errors.passwordConfirmation.message}
+                </FormHelperText>
+              )}
+            </Grid>
+            <Grid item xs={4} sx={{ mt: 2 }}></Grid>
+
+            {/* 이름(실명) */}
+            <Grid item xs={2} sx={{ mt: 2 }}></Grid>
+            <Grid item xs={2} sx={{ mt: 2 }}>
+              <Typography>이름(실명)</Typography>
+            </Grid>
+            <Grid item xs={4} sx={{ mt: 2 }}>
+              {/* <Textarea disabled placeholder={userInfo.name} /> */}
+              {/* {userInfo.name} */}
+              {maskedName}
+            </Grid>
+            <Grid item xs={4} sx={{ mt: 2 }}></Grid>
+
+            {/* 닉네임 */}
+            <Grid item xs={2} sx={{ mt: 2 }}></Grid>
+            <Grid item xs={2} sx={{ mt: 2 }}>
+              <Typography sx={{ marginBottom: 3.5 }}>닉네임</Typography>
+            </Grid>
+            <Grid item xs={4} sx={{ mt: 2 }}>
+              <FormControl
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "stretch",
+                }}
+              >
+                <CustomInput
+                  variant="soft"
+                  placeholder="닉네임"
+                  type="text"
+                  {...register("nickname")}
+                  value={nickname}
+                  sx={{
+                    backgroundColor: "white",
+                    border: "1.5px solid rgba(0,0,0,0.5)",
+                  }}
+                  onChange={(e) => setNickname(e.target.value)}
+                />
+                <FormHelperText>닉네임은 최대 15자입니다.</FormHelperText>
+              </FormControl>
+            </Grid>
+            <Grid item xs={4}></Grid>
+
+            {/* 주소 */}
+            <Grid item xs={2} sx={{ mt: 2 }}></Grid>
+            <Grid item xs={2} sx={{ mt: 2 }}>
+              <Typography>주소</Typography>
+            </Grid>
+
+            <Grid
+              item
+              xs={4}
+              sx={{ mt: 2 }}
+              style={{ display: "flex", alignItems: "center" }}
             >
-                <div>
-                    <Typography variant="h4" sx={{mt: 7}}>
-                        기존 회원정보
-                    </Typography>
+              <Input
+                variant="soft"
+                placeholder="주소"
+                value={mainAddress}
+                sx={{
+                  marginRight: "10px",
+                  width: "420px",
+                  backgroundColor: "white",
+                  border: "1.5px solid rgba(0,0,0,0.5)",
+                }}
+                {...register("address")}
+              />
+              <DaumAddressComponent />
+            </Grid>
 
-                    <Divider sx={{borderBottomWidth: 3}} color={"black"}></Divider>
-
-                    <Grid container spacing={2} justifyContent="auto" sx={{ mt: 8, alignItems: "center" }}>
-                        {/* 왼쪽의 빈 공간 */}
-                        <Grid item xs={2}></Grid>
-                        {/* 아이디 */}
-                        <Grid item xs={2} >
-                            <Typography>아이디</Typography>
-                        </Grid>
-                        <Grid item xs={4} >
-                            <Typography>{userInfo.email}</Typography>
-                            {/* <Textarea disabled placeholder={userInfo.email} /> */}
-                        </Grid>
-                        <Grid item xs={4}></Grid>
-
-                        {/* 비밀번호 */}
-                        <Grid item xs={2} sx={{mt:2}}></Grid>
-                        <Grid item xs={2} sx={{mt:2}} >
-                            <Typography>비밀번호</Typography>
-                        </Grid>
-                        <Grid item xs={4} sx={{mt:2}}>
-                            <Input placeholder="비밀번호" type="password" {...register("password")} />
-                        </Grid>
-                        <Grid item xs={4} sx={{mt:2}}></Grid>
-                        
-
-                        {/* 비밀번호 확인 */}
-                        <Grid item xs={2} sx={{mt:2}}></Grid>
-                        <Grid item xs={2} sx={{mt:2}}>
-                            <Typography>비밀번호 확인</Typography>
-                        </Grid>
-                        <Grid item xs={4} sx={{mt:2}}>
-                            <Input placeholder="비밀번호 확인"  type="password"
-                            {...register("passwordConfirmation", {
-                              validate: (value) => value === password || "Passwords do not match",
-                            })} />
-                             {errors.passwordConfirmation && <FormHelperText>{errors.passwordConfirmation.message}</FormHelperText>}
-                        </Grid>
-                        <Grid item xs={4} sx={{mt:2}}></Grid>
-
-                        {/* 이름(실명) */}
-                        <Grid item xs={2} sx={{mt:2}}></Grid>
-                        <Grid item xs={2} sx={{mt:2}}>
-                            <Typography>이름(실명)</Typography>
-                        </Grid>
-                        <Grid item xs={4} sx={{mt:2}}>
-                            <Textarea disabled placeholder={userInfo.name} />
-                        </Grid>
-                        <Grid item xs={4} sx={{mt:2}}></Grid>
-
-                        {/* 닉네임 */}
-                        <Grid item xs={2} sx={{mt:2}}></Grid>
-                        <Grid item xs={2} sx={{mt:2}}>
-                            <Typography sx={{ marginBottom: 3.5 }}>닉네임</Typography>
-                        </Grid>
-                        <Grid item xs={4} sx={{mt:2}}>
-                            <FormControl sx={{ display: "flex", flexDirection: "column", alignItems: "stretch" }}>
-                                <Textarea
-                                    placeholder="닉네임"
-                                    defaultValue={userInfo.nickname}
-                                    {...register("nickname")}
-                                    sx={{ flexGrow: 1 }} // Textarea가 여유 공간을 모두 차지하도록 설정
-                                />
-                                <FormHelperText>닉네임은 최대 15자입니다.</FormHelperText>
-                            </FormControl>
-                        </Grid>
-                        <Grid item xs={4}></Grid>
-
-                        {/* 주소 */}
-                        <Grid item xs={2} sx={{mt:2}}></Grid>
-                        <Grid item xs={2} sx={{mt:2}}>
-                            <Typography>주소</Typography>
-                        </Grid>
-                        <Grid item xs={4} sx={{mt:2}}>
-                        <Input
-                              placeholder="주소"
-                              value={userAddress}
-                              // You don't need to register the address field if it's not editable
-                              // {...register("address")}
-                            />
-                        </Grid>
-                        <Grid item xs={4} sx={{mt:2}}>
-                        <DaumAddressComponent />
-                        </Grid>
-
-                        
-                    </Grid>
-
-                </div>
-                <Grid container justifyContent="center" sx={{mt: 10}}>
-                    <UserButton variant="solid" type="submit">
-                        수정하기
-                    </UserButton>
-                </Grid>
-            </form>
-        </Paper>
-    );
+            <Grid item xs={4} sx={{ mt: 2 }}></Grid>
+            <Grid item xs={2} sx={{ mt: 2 }}></Grid>
+            <Grid item xs={2} sx={{ mt: 2 }}>
+              <Typography>상세주소</Typography>
+            </Grid>
+            <Grid item xs={4} sx={{ mt: 2 }}>
+              <CustomInput
+                variant="soft"
+                placeholder="상세주소"
+                type="text"
+                value={detailAddress}
+                sx={{
+                  backgroundColor: "white",
+                  border: "1.5px solid rgba(0,0,0,0.5)",
+                }}
+                {...register("detailAddress")}
+              />
+            </Grid>
+            <Grid item xs={4} sx={{ mt: 2 }}></Grid>
+          </Grid>
+        </div>
+        <Grid container justifyContent="center" sx={{ mt: 10 }}>
+          <UserButton variant="solid" type="submit">
+            수정하기
+          </UserButton>
+        </Grid>
+      </form>
+    </Paper>
+  );
 };
 
 export default MyInfoBody;
 
 const SearchAddressButton = styled(CustomButton)`
   font-size: 11px;
+  height: 34px;
+`;
+
+const CustomInput = styled(Input)`
+  width: 470px;
+  &:focus {
+    outline: none; // 클릭 시 태두리 제거
+  }
 `;

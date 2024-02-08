@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  IconButton,
-  Paper,
-} from "@mui/material";
+import { AppBar, Toolbar, Typography, IconButton, Paper } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import MenuIcon from "@mui/icons-material/Menu";
 import Menu from "@mui/material/Menu";
@@ -29,10 +23,10 @@ const SubMenu = ({ subMenu, categorySeq }) => {
         <div
           key={item.seq}
           // onClick={() => onSubMenuItemClick(item.title)}
-          style={{ fontWeight: "normal", marginRight : "60px" }}
+          style={{ fontWeight: "normal", marginRight: "60px" }}
         >
-          <CustomLink to={`/category/${categorySeq}/sub/${item.seq}`}>
-            <CustomText>{item.title}</CustomText> 
+          <CustomLink to={`/category/${categorySeq}/sub/${item.seq}?page=1`}>
+            <CustomText>{item.title}</CustomText>
           </CustomLink>
         </div>
       ))}
@@ -41,11 +35,10 @@ const SubMenu = ({ subMenu, categorySeq }) => {
 };
 
 const Topbar = () => {
-  const [subMenuPosition ] = useState({ top: 0, left: 0 });
+  const [subMenuPosition] = useState({ top: 0, left: 0 });
   const navigate = useNavigate();
   const [mileage, setMileage] = useState(0);
   const location = useLocation();
-  
 
   const menuItems = [
     {
@@ -110,9 +103,6 @@ const Topbar = () => {
     },
   ];
 
-  
-  
-
   const [menuOpen, setMenuOpen] = useState(false);
   const [, setMenuPosition] = useState({ top: 0, left: 0 });
 
@@ -123,26 +113,23 @@ const Topbar = () => {
     setMenuOpen(!menuOpen);
   };
 
-  const logout = async() => {
-    try{
+  const logout = async () => {
+    try {
       const res = await TokenAxios.post(`/api/user/logout`);
       console.log(res.data);
-    }catch(e){
+    } catch (e) {
       console.log(e);
     }
-
-  }
+  };
 
   const handleSearchBar = (e) => {
-    if (e.key === 'Enter') {
-      const searchKeyword = e.target.value
+    if (e.key === "Enter") {
+      const searchKeyword = e.target.value;
       console.log(e.target.value);
-      navigate(`/search?searchKeyword=${searchKeyword}`)
-      console.log('검색 실행:', searchKeyword);
+      navigate(`/search?searchKeyword=${searchKeyword}&page=1`);
+      console.log("검색 실행:", searchKeyword);
     }
-   
-  }
-
+  };
 
   // const handleSubMenuIteClick = (categorySeq ,subMenu) => {
   //   navigate(`/category/${categorySeq}/sub/${subMenu.seq}`)
@@ -155,15 +142,15 @@ const Topbar = () => {
     navigate("/login");
   };
 
-  const getMileage = async() => {
+  const getMileage = async () => {
     const res = await TokenAxios("/api/mileage/user");
     setMileage(res.data.result.data);
     localStorage.setItem("mileage", res.data.result.data);
-  }
+  };
 
   useEffect(() => {
     getMileage();
-  },[location.pathname])
+  }, [location.pathname]);
 
   return (
     <AppBar
@@ -175,59 +162,61 @@ const Topbar = () => {
         position: "fixed",
       }}
     >
-        <Toolbar
-            variant="dense"
-            sx={{
-                justifyContent: "flex-end",
-                alignItems: "flex-end",
-                maxHeight: "5vh",
-                marginTop: "0.5vh"
-            }}
-        >
-            {/* <Button sx={{ color: "black" }}>로그아웃</Button>|
+      <Toolbar
+        variant="dense"
+        sx={{
+          justifyContent: "flex-end",
+          alignItems: "flex-end",
+          maxHeight: "5vh",
+          marginTop: "0.5vh",
+        }}
+      >
+        {/* <Button sx={{ color: "black" }}>로그아웃</Button>|
             <Button sx={{ color: "black" }}>마이페이지</Button> */}
-            <div
-                style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "flex-end",
-                    width: "200px",
-                    marginRight: "8vh"
-                }}
-            >
-                <CustomLink
-                    to="/login"
-                    style={{
-                        display: "flex",
-                        fontSize: "15px",
-                        color: "gray",
-                        marginRight: "10px",
-                    }}
-                    onClick={handleLogout}
-                >
-                    로그아웃
-                </CustomLink>
-                <CustomLink
-                    to="/mypage/order/list"
-                    style={{
-                        fontSize: "15px",
-                        color: "gray",
-                    }}
-                >
-                    마이페이지
-                </CustomLink>
-            </div>
-        </Toolbar>
-        <Toolbar sx={{
-            justifyContent: "space-between",
-            height: "100px",
-            minHeight: "100px",
-            maxHeight: "110px",
-            boxShadow: "0px 3px 5px rgba(0, 0, 0, 0.1)",
-            paddingTop: "0px",
-            paddingBottom: "10px",
-        }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "flex-end",
+            width: "200px",
+            marginRight: "8vh",
+          }}
+        >
+          <CustomLink
+            to="/login"
+            style={{
+              display: "flex",
+              fontSize: "15px",
+              color: "gray",
+              marginRight: "10px",
+            }}
+            onClick={handleLogout}
+          >
+            로그아웃
+          </CustomLink>
+          <CustomLink
+            to="/mypage/order/list"
+            style={{
+              fontSize: "15px",
+              color: "gray",
+            }}
+          >
+            마이페이지
+          </CustomLink>
+        </div>
+      </Toolbar>
+      <Toolbar
+        sx={{
+          justifyContent: "space-between",
+          height: "100px",
+          minHeight: "100px",
+          maxHeight: "110px",
+          boxShadow: "0px 3px 5px rgba(0, 0, 0, 0.1)",
+          paddingTop: "0px",
+          paddingBottom: "10px",
+        }}
+      >
         <div>
           <IconButton
             aria-label="menu"
@@ -245,7 +234,7 @@ const Topbar = () => {
               vertical: "top", // Set the vertical origin to 'bottom'
               horizontal: "left",
             }}
-            sx={{ mt: "10vh"}}
+            sx={{ mt: "10vh" }}
           >
             <Paper
               sx={{
@@ -258,22 +247,19 @@ const Topbar = () => {
               }}
             >
               {menuItems.map((item, index) => (
-                <div style={{marginBottom : "30px"}}>
-                  <div
-                    key={index}
-                  >
-                    <CategoryText>{`${item.label}`}</CategoryText> 
+                <div style={{ marginBottom: "30px" }}>
+                  <div key={index}>
+                    <CategoryText>{`${item.label}`}</CategoryText>
                   </div>
-                  <div style={{textAlign : "center"}}>
-                      <SubMenu
-                        subMenu={item.subMenu}
-                        top={subMenuPosition.top}
-                        left={subMenuPosition.left}
-                        categorySeq={item.seq}
-                      />
+                  <div style={{ textAlign: "center" }}>
+                    <SubMenu
+                      subMenu={item.subMenu}
+                      top={subMenuPosition.top}
+                      left={subMenuPosition.left}
+                      categorySeq={item.seq}
+                    />
                   </div>
                 </div>
-
               ))}
             </Paper>
           </Menu>
@@ -294,7 +280,7 @@ const Topbar = () => {
           startDecorator={<SearchIcon />}
           variant="outlined"
           sx={{ width: "30vw", height: "50px", borderRadius: "50px" }}
-          onKeyDown={(e) =>handleSearchBar(e)}
+          onKeyDown={(e) => handleSearchBar(e)}
         />
 
         <div
@@ -311,65 +297,65 @@ const Topbar = () => {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              justifyContent : "center",
+              justifyContent: "center",
             }}
           >
             <CustomLink to="/cart">
-                <IconButton>
-                    <img
-                        src="/images/cart.svg"
-                        alt="장바구니"
-                        style={{ width: '36px', height: '36px' }}
-                    />
-                </IconButton>
-                <Typography>장바구니</Typography>
+              <IconButton>
+                <img
+                  src="/images/cart.svg"
+                  alt="장바구니"
+                  style={{ width: "36px", height: "36px" }}
+                />
+              </IconButton>
+              <Typography>장바구니</Typography>
             </CustomLink>
           </div>
-            <div
-                style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                }}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
           >
             <CustomLink to="/mypage/order/list">
-                <IconButton>
-                    <img
-                      src="/images/delivery.svg"
-                      alt="배송조회"
-                      style={{ width: '36px', height: '36px' }}
-                    />
-                </IconButton>
-                <Typography>배송조회</Typography>
+              <IconButton>
+                <img
+                  src="/images/delivery.svg"
+                  alt="배송조회"
+                  style={{ width: "36px", height: "36px" }}
+                />
+              </IconButton>
+              <Typography>배송조회</Typography>
             </CustomLink>
-            </div>
-            <div
-                style={{
-                    display: "flex",
+          </div>
+          <div
+            style={{
+              display: "flex",
               flexDirection: "column",
               alignItems: "center",
             }}
           >
             <CustomLink to="/cs/notice">
-                <IconButton>
-                    <img
-                        src="/images/cs.svg"
-                        alt="고객센터"
-                        style={{ width: '36px', height: '36px' }}
-                    />
-                </IconButton>
-                <Typography>고객센터</Typography>
+              <IconButton>
+                <img
+                  src="/images/cs.svg"
+                  alt="고객센터"
+                  style={{ width: "36px", height: "36px" }}
+                />
+              </IconButton>
+              <Typography>고객센터</Typography>
             </CustomLink>
-            </div>
+          </div>
         </div>
         <div
-            style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "flex-end",
-                width: "200px",
-                marginRight: "8vh"
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "flex-end",
+            width: "200px",
+            marginRight: "8vh",
           }}
         >
           <div
@@ -379,7 +365,7 @@ const Topbar = () => {
               alignItems: "center",
             }}
           >
-            <Link to = "/mypage/mile">
+            <Link to="/mypage/mile">
               <img
                 src="/images/M-user.png"
                 alt="유저 마일리지"
@@ -416,17 +402,17 @@ const CategoryText = styled.div`
 `;
 
 const CustomText = styled(Typography)`
-  font-size : 15px;
-  line-height : 3;
-  
+  font-size: 15px;
+  line-height: 3;
+
   &:hover {
     color: blue;
     text-decoration: underline;
     text-underline-offset: 4px;
   }
-`
+`;
 
-// 큰 div박스 1개에 작은 div박스 두개 넣은 다음에 눌렀을 때 
+// 큰 div박스 1개에 작은 div박스 두개 넣은 다음에 눌렀을 때
 /* 
   일단 왼쪽 div박스에 상위 카테고리 목록 쫙뿌리고
   오른쪽 div박스에는 하위 카테고리 목록 쫙 뿌리자.

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { TokenAxios } from "apis/CommonAxios";
-import { useLocation } from 'react-router-dom';
+import { useLocation } from "react-router-dom";
 import { Paper } from "@mui/material";
 import Box from "@mui/joy/Box";
 import Button from "@mui/joy/Button";
@@ -9,7 +9,7 @@ import Rating from "@mui/material/Rating";
 import { styled } from "@mui/system";
 import { useForm } from "react-hook-form";
 import EditorComponent from "components/atoms/Editor";
-import Swal from 'sweetalert2'
+import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
 const Img = styled("img")({
@@ -19,7 +19,7 @@ const Img = styled("img")({
 
 const ReviewWriteBody = () => {
   const navigate = useNavigate();
-  //불러온 데이터 
+  //불러온 데이터
   const location = useLocation();
   const orderDetailSeq = location.state?.orderDetailSeq;
   const [productInfo, setProductInfo] = useState([]);
@@ -28,10 +28,9 @@ const ReviewWriteBody = () => {
   const { register, handleSubmit, setValue, trigger } = useForm();
 
   const handleEditorContentChange = (content) => {
-    setValue('content', content, { shouldValidate: true });
-    trigger('content');
+    setValue("content", content, { shouldValidate: true });
+    trigger("content");
   };
-
 
   //데이터 불러오기
   const loadOrderDetail = useCallback(async () => {
@@ -44,8 +43,7 @@ const ReviewWriteBody = () => {
       }
       const res = await TokenAxios.get(`/api/order/detail/${orderDetailSeq}`);
       console.log(res.data.result.data);
-      setProductInfo(res.data.result.data)
-      
+      setProductInfo(res.data.result.data);
     } catch (e) {
       console.error(e);
       // 에러 처리 (예: 에러 페이지로 리다이렉트)
@@ -63,27 +61,29 @@ const ReviewWriteBody = () => {
     try {
       const res = await TokenAxios.post(`/api/review/${orderDetailSeq}`, data);
       console.log(res.data);
-      Swal.fire({//
+      Swal.fire({
+        //
         position: "center",
         icon: "success",
         title: "리뷰 작성이 완료되었습니다.",
         showConfirmButton: true,
-        confirmButtonColor: 'black',
-        confirmButtonText: '확인',
+        confirmButtonColor: "black",
+        confirmButtonText: "확인",
         didClose: () => {
           // 얼럿이 닫힌 후에 페이지 이동
           navigate("/mypage/review"); // history 객체를 통해 페이지 이동
-        }
+        },
       });
     } catch (e) {
       console.log(e);
-      Swal.fire({//
+      Swal.fire({
+        //
         position: "center",
         icon: "error",
         title: "리뷰 작성에 실패했습니다.",
         showConfirmButton: true,
-        confirmButtonColor: 'gray',
-        confirmButtonText: '확인',
+        confirmButtonColor: "gray",
+        confirmButtonText: "확인",
       });
     }
   };
@@ -114,8 +114,7 @@ const ReviewWriteBody = () => {
             }}
           />
         </Box>
-        
-        
+
         <EditorComponent
           onContentChange={handleEditorContentChange}
           id="content"
@@ -127,15 +126,19 @@ const ReviewWriteBody = () => {
           }}
         />
 
-
         <Box
-          sx={{ width: "100%", display: "flex", justifyContent: "center", mt: 2 }}
+          sx={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            mt: 2,
+          }}
         >
           <Button
             type="submit"
             variant="contained"
             color="primary"
-            sx={{ backgroundColor: "#000", color: "#fff", my:5 }}
+            sx={{ backgroundColor: "#000", color: "#fff", my: 5 }}
           >
             리뷰 제출
           </Button>

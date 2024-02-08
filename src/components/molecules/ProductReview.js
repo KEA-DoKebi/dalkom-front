@@ -15,7 +15,12 @@ export const ProductReview = ({ info }) => {
             style={{ width: "15vw", height: "15vw" }}
           />
           <Typography
-            sx={{ fontSize: "15px", fontWeight: "bold", color: "#555555", marginTop: "2vw" }}
+            sx={{
+              fontSize: "15px",
+              fontWeight: "bold",
+              color: "#555555",
+              marginTop: "2vw",
+            }}
           >
             상품명
           </Typography>
@@ -34,7 +39,7 @@ export const ProductReview = ({ info }) => {
           >
             가격
           </Typography>
-          <StyledTypoGraphy style={{fontWeight : "bold", color : "#203461"}}>
+          <StyledTypoGraphy style={{ fontWeight: "bold", color: "#203461" }}>
             {Number(info.productCompareDetailDto.price).toLocaleString()}
           </StyledTypoGraphy>
           <Typography
@@ -42,7 +47,7 @@ export const ProductReview = ({ info }) => {
           >
             평점
           </Typography>
-          <StyledTypoGraphy style={{color : "gold"}}>
+          <StyledTypoGraphy style={{ color: "gold" }}>
             {info.rating}
           </StyledTypoGraphy>
           <Typography
@@ -50,7 +55,7 @@ export const ProductReview = ({ info }) => {
           >
             리뷰 수
           </Typography>
-          <StyledTypoGraphy style={{color : "#F6A0BD"}}>
+          <StyledTypoGraphy style={{ color: "#F6A0BD" }}>
             {info.reviewNum}
           </StyledTypoGraphy>
           <Typography
@@ -58,7 +63,7 @@ export const ProductReview = ({ info }) => {
           >
             평점이 높은 리뷰
           </Typography>
-          <StyledTypoGraphy style={{color : "#00E676"}}>
+          <StyledTypoGraphy style={{ color: "#00E676" }}>
             {/*{info.goodReviewSummery.split(",").map((review, index) => (*/}
             {/*  <span key={index}>*/}
             {/*    <div dangerouslySetInnerHTML={{ __html: review.trim() }} />*/}
@@ -73,7 +78,7 @@ export const ProductReview = ({ info }) => {
           >
             평점이 낮은 리뷰
           </Typography>
-          <StyledTypoGraphy style={{color : "#F44336"}}>
+          <StyledTypoGraphy style={{ color: "#F44336" }}>
             {/*{info.badReviewSummery.split(",").map((review, index) => (*/}
             {/*  <span key={index}>*/}
             {/*    <div dangerouslySetInnerHTML={{ __html: review.trim() }} />*/}
@@ -92,4 +97,4 @@ const StyledTypoGraphy = styled(Typography)`
   font-size: 25px;
   color: "#00000099";
   margin-bottom: 3vh;
-`
+`;

@@ -22,7 +22,7 @@ export const ComparisonBody = () => {
   const getCategoryProductLists = async () => {
     try {
       const res = await TokenAxios.get(
-          `/api/product/category/detail/${subCategorySeq}?page=0&size=50`,
+        `/api/product/category/detail/${subCategorySeq}?page=0&size=50`,
       );
       setSubCategoryProductList(res.data.result.data.page.content);
       setSelectedCategory(res.data.result.data.categoryName);
@@ -73,84 +73,84 @@ export const ComparisonBody = () => {
   }, [subCategorySeq]);
 
   return (
-      <Paper elevation={0} sx={{ padding: 2 }}>
-        <Typography
-            sx={{
-              textAlign: "center",
-              marginBottom: 5,
-              fontFamily: "hyundai",
-              fontSize: "30px",
-              fontWeight: "900",
-            }}
-        >
-          {selectedCategory} 상품 비교하기
-        </Typography>
-        <Grid container>
-          <Grid item xs={2}></Grid>
-          <Grid item xs={2}>
-            <SelectBox>
-              <Select
-                  value={selectedProductSeqList[0]}
-                  onChange={(e) => handleSelectChange(e, 0)}
-                  sx={{ width: "15vw", marginBottom: "3vh" }}
-                  // disabled={!selectedCategory}
-              >
-                {subCategoryProductList.map((product) => (
-                    <MenuItem
-                        key={product.productSeq}
-                        value={product.productSeq}
-                        // disabled={Object.values(selectedProducts).includes(product.productSeq)}
-                    >
-                      {product.name}
-                    </MenuItem>
-                ))}
-              </Select>
-            </SelectBox>
-          </Grid>
-          <Grid item xs={1}></Grid>
-          <Grid item xs={2}>
-            <SelectBox>
-              <Select
-                  value={selectedProductSeqList[1]}
-                  onChange={(e) => handleSelectChange(e, 1)}
-                  sx={{ width: "15vw", marginBottom: "3vh" }}
-                  // disabled={!selectedCategory}
-              >
-                {subCategoryProductList.map((product) => (
-                    <MenuItem
-                        key={product.productSeq}
-                        value={product.productSeq}
-                        // disabled={Object.values(selectedProducts).includes(product.productSeq)}
-                    >
-                      {product.name}
-                    </MenuItem>
-                ))}
-              </Select>
-            </SelectBox>
-          </Grid>
-          <Grid item xs={1}></Grid>
-          <Grid item xs={2}>
-            <SelectBox>
-              <Select
-                  value={selectedProductSeqList[2]}
-                  onChange={(e) => handleSelectChange(e, 2)}
-                  sx={{ width: "15vw", marginBottom: "3vh" }}
-                  // disabled={!selectedCategory}
-              >
-                {subCategoryProductList.map((product) => (
-                    <MenuItem
-                        key={product.productSeq}
-                        value={product.productSeq}
-                        // disabled={Object.values(selectedProducts).includes(product.productSeq)}
-                    >
-                      {product.name}
-                    </MenuItem>
-                ))}
-              </Select>
-            </SelectBox>
-          </Grid>
-          <Grid item xs={2}></Grid>
+    <Paper elevation={0} sx={{ padding: 2 }}>
+      <Typography
+        sx={{
+          textAlign: "center",
+          marginBottom: 5,
+          fontFamily: "hyundai",
+          fontSize: "30px",
+          fontWeight: "900",
+        }}
+      >
+        {selectedCategory} 상품 비교하기
+      </Typography>
+      <Grid container>
+        <Grid item xs={2}></Grid>
+        <Grid item xs={2}>
+          <SelectBox>
+            <Select
+              value={selectedProductSeqList[0]}
+              onChange={(e) => handleSelectChange(e, 0)}
+              sx={{ width: "15vw", marginBottom: "3vh" }}
+              // disabled={!selectedCategory}
+            >
+              {subCategoryProductList.map((product) => (
+                <MenuItem
+                  key={product.productSeq}
+                  value={product.productSeq}
+                  // disabled={Object.values(selectedProducts).includes(product.productSeq)}
+                >
+                  {product.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </SelectBox>
         </Grid>
+        <Grid item xs={1}></Grid>
+        <Grid item xs={2}>
+          <SelectBox>
+            <Select
+              value={selectedProductSeqList[1]}
+              onChange={(e) => handleSelectChange(e, 1)}
+              sx={{ width: "15vw", marginBottom: "3vh" }}
+              // disabled={!selectedCategory}
+            >
+              {subCategoryProductList.map((product) => (
+                <MenuItem
+                  key={product.productSeq}
+                  value={product.productSeq}
+                  // disabled={Object.values(selectedProducts).includes(product.productSeq)}
+                >
+                  {product.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </SelectBox>
+        </Grid>
+        <Grid item xs={1}></Grid>
+        <Grid item xs={2}>
+          <SelectBox>
+            <Select
+              value={selectedProductSeqList[2]}
+              onChange={(e) => handleSelectChange(e, 2)}
+              sx={{ width: "15vw", marginBottom: "3vh" }}
+              // disabled={!selectedCategory}
+            >
+              {subCategoryProductList.map((product) => (
+                <MenuItem
+                  key={product.productSeq}
+                  value={product.productSeq}
+                  // disabled={Object.values(selectedProducts).includes(product.productSeq)}
+                >
+                  {product.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </SelectBox>
+        </Grid>
+        <Grid item xs={2}></Grid>
+      </Grid>
       <Grid container>
         <Grid item xs={2}></Grid>
         <Grid item xs={2}>
@@ -166,7 +166,7 @@ export const ComparisonBody = () => {
         </Grid>
         <Grid item xs={2}></Grid>
       </Grid>
-      </Paper>
+    </Paper>
   );
 };
 

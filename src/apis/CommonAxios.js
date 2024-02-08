@@ -24,11 +24,11 @@ TokenAxios.interceptors.request.use(
   (config) => {
     const nextConfig = config;
     const accessToken = localStorage.getItem("accessToken");
-    nextConfig.headers.AccessToken = accessToken ? accessToken : '';
+    nextConfig.headers.AccessToken = accessToken ? accessToken : "";
 
     return nextConfig;
   },
   (error) => {
     return Promise.reject(error);
-  }
-)
+  },
+);

@@ -4,8 +4,14 @@ import { Card, Typography } from "@mui/material";
 import { StarRating } from "../atoms/StarRating";
 import { Link } from "react-router-dom";
 
-export const MainProductCard = ({ imageUrl, title, price, star, review, seq }) => {
-
+export const MainProductCard = ({
+  imageUrl,
+  title,
+  price,
+  star,
+  review,
+  seq,
+}) => {
   return (
     <Link to={`/product/${seq}/상품상세`}>
       <SungjunCard>
@@ -28,7 +34,7 @@ export const MainProductCard = ({ imageUrl, title, price, star, review, seq }) =
                 alt="마일리지"
                 style={{ width: "20px", height: "20px", marginRight: "5px" }}
               />
-              {price}
+              {price.toLocaleString()}
             </Typography>
           </CardDescription>
           <CardDescription>

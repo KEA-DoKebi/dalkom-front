@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import Search from "components/molecules/Search";
 import {
   Box,
@@ -18,21 +15,23 @@ import {
   Paper,
   Toolbar,
   Typography,
+  Grid,
 } from "@mui/material";
 import AdminBar from "components/organisms/AdminBar";
-import { InputBoxM } from "components/atoms/Input";
-import { AdminButton } from "components/atoms/AdminCommonButton";
+import { InputBoxXL } from "components/atoms/Input";
+import { AdminButton, AdminButton2 } from "components/atoms/AdminCommonButton";
 import { TokenAxios } from "../../../apis/CommonAxios";
 import { useForm } from "react-hook-form";
 import CloseIcon from "@mui/icons-material/Close";
 import Swal from "sweetalert2";
+import EditorComponent from "components/atoms/Editor";
 
 let currentInquirySeq = null;
 
 const itemFlexStyles = {
   "& > *:nth-child(1)": { width: "5%" }, // 번호
-  "& > *:nth-child(2)": { width: "30%" }, // 작성일시
-  "& > *:nth-child(3)": { width: "56%" }, // FAQ
+  "& > *:nth-child(2)": { width: "56%" }, // FAQ
+  "& > *:nth-child(3)": { width: "30%" }, // 작성일시
   "& > *:nth-child(4)": { width: "5%" }, // 상세보기
   "&:before, &:after": { content: '""', width: "2%" },
 };
@@ -68,26 +67,19 @@ const StyledDialog = styled(Dialog)`
   z-index: 900;
 `;
 
-const CKEditorContainer = styled.div`
-  .ck-editor__editable {
-    min-height: 400px;
-  }
-`;
-
 const formatDate = (dateString) => {
   const options = { year: "numeric", month: "2-digit", day: "2-digit" };
   return new Date(dateString).toLocaleDateString("ko-KR", options);
 };
 
 const FAQPage = () => {
-  const dataListLabels = ["번호", "일시", "FAQ", "보기"];
+  const dataListLabels = ["번호", "FAQ", "작성일시", "상세보기"];
   // Declare selectedMenu and setSelectedMenu using useState
   const [selectedMenu, setSelectedMenu] = useState("FAQ");
-  const { register, handleSubmit } = useForm();
-  const [editorData, setEditorData] = useState("");
+  const { register, handleSubmit, setValue, trigger } = useForm();
+  const [editorContent, setEditorContent] = useState("");
   const [dataList, setDataList] = useState([]);
   const [selectedFaq, setSelectedFaq] = useState(null);
-  const [editFaq, setEditFaq] = useState({ title: "", content: "" });
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState();
   const [searchQuery, setSearchQuery] = useState("");
@@ -98,6 +90,11 @@ const FAQPage = () => {
   const handleSearchInputChange = (event) => {
     setSearchQuery(event.target.value);
   };
+
+  const handleEditorContentChange = (content) => {
+    setEditorContent(content);
+  };
+
   const handleSearch = async (searchQuery) => {
     try {
       let apiUrl = `/api/faq/search?${currentPage}&size=${pageSize}`; // 기본 API URL
@@ -115,11 +112,8 @@ const FAQPage = () => {
     }
   };
 
-  const handleEditorChange = (event, editor) => {
-    setEditorData(editor.getData());
-  };
-
   const [createModalOpen, setCreateModalOpen] = useState(false);
+  const [lookModalOpen, setLookModalOpen] = useState(false);
   const [updateModalOpen, setUpdateModalOpen] = useState(false);
 
   const handleCreateModalOpen = () => {
@@ -130,31 +124,51 @@ const FAQPage = () => {
     setCreateModalOpen(false);
   };
 
-  const handleUpdateModalOpen = async (inquirySeq) => {
-    try {
-      const res = await TokenAxios.get(`/api/inquiry/${inquirySeq}`);
-      currentInquirySeq = inquirySeq;
-
-      setEditFaq(res.data.result.data);
-      setSelectedFaq(res.data.result.data);
-      setUpdateModalOpen(true);
-    } catch (e) {
-      console.error("FAQ 상세 정보 불러오기 실패: ", e);
-    }
+  const handleUpdateModalOpen = async (faqSeq) => {
+    setSelectedFaq(selectedFaq);
+    setUpdateModalOpen(true);
+    setLookModalOpen(false);
   };
 
   const handleUpdateModalClose = () => {
     setUpdateModalOpen(false);
   };
 
+  const handleLookModalOpen = async (inquirySeq) => {
+    try {
+      const res = await TokenAxios.get(`/api/inquiry/${inquirySeq}`);
+      currentInquirySeq = inquirySeq;
+
+      // setEditFaq(res.data.result.data);
+      setSelectedFaq(res.data.result.data);
+      setLookModalOpen(true);
+    } catch (e) {
+      console.error("FAQ 상세 정보 불러오기 실패: ", e);
+    }
+  };
+
+  const handleLookModalClose = () => {
+    setLookModalOpen(false);
+  };
+
   // FAQ 등록
   const createFaq = async (data) => {
-    data.content = editorData;
+    data.content = editorContent;
 
     try {
       await TokenAxios.post(`/api/faq`, data);
+      Swal.fire({
+        //
+        position: "center",
+        icon: "success",
+        title: "FAQ 등록이 완료되었습니다.",
+        showConfirmButton: true,
+        confirmButtonColor: "black",
+        confirmButtonText: "확인",
+      });
     } catch (e) {
       Swal.fire({
+        position: "center",
         title: "FAQ 등록에 실패했습니다.",
         showConfirmButton: true,
         confirmButtonColor: "gray",
@@ -183,31 +197,33 @@ const FAQPage = () => {
   };
 
   // FAQ 수정
-  const updateFaq = async (data) => {
+  const updateFaq = async () => {
     try {
       await TokenAxios.put(`/api/faq/${currentInquirySeq}`, {
-        title: editFaq.title,
-        content: editFaq.content,
+        title: selectedFaq.title,
+        content: selectedFaq.content,
       });
-      Swal.fire({//
+      Swal.fire({
+        //
         icon: "success",
         title: "FAQ 수정이 완료되었습니다.",
         showConfirmButton: true,
-        confirmButtonColor: 'black',
-        confirmButtonText: '확인',
-    }).then(() => {
+        confirmButtonColor: "black",
+        confirmButtonText: "확인",
+      }).then(() => {
         handleUpdateModalClose();
-        getFaq();
-    });
+        getFaq(currentPage);
+      });
     } catch (e) {
       console.error("FAQ 수정 실패: ", e);
-      Swal.fire({//
+      Swal.fire({
+        //
         icon: "error",
         title: "FAQ 수정에 실패했습니다.",
         showConfirmButton: true,
-        confirmButtonColor: 'gray',
-        confirmButtonText: '확인',
-    });
+        confirmButtonColor: "gray",
+        confirmButtonText: "확인",
+      });
     }
   };
 
@@ -215,26 +231,28 @@ const FAQPage = () => {
   const deleteFaq = async (inquirySeq) => {
     try {
       await TokenAxios.delete(`/api/faq/${inquirySeq}`);
-      Swal.fire({//
+      Swal.fire({
+        //
         icon: "success",
         title: "FAQ가 삭제되었습니다.",
         showConfirmButton: true,
-        confirmButtonColor: 'black',
-        confirmButtonText: '확인',
-    }).then(() => {
+        confirmButtonColor: "black",
+        confirmButtonText: "확인",
+      }).then(() => {
         getFaq();
-        handleUpdateModalClose();
+        handleLookModalClose();
         // setUpdateModalOpen(false);
-    });
+      });
     } catch (e) {
       console.error("FAQ 삭제 실패:", e);
-      Swal.fire({//
+      Swal.fire({
+        //
         icon: "error",
         title: "FAQ 삭제에 실패했습니다.",
         showConfirmButton: true,
-        confirmButtonColor: 'gray',
-        confirmButtonText: '확인',
-    });
+        confirmButtonColor: "gray",
+        confirmButtonText: "확인",
+      });
     }
   };
 
@@ -244,10 +262,10 @@ const FAQPage = () => {
         title: "삭제하시겠습니까?",
         icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: 'black',
-        confirmButtonText: '확인',
-        cancelButtonColor: 'gray',
-        cancelButtonText: '취소',
+        confirmButtonColor: "black",
+        confirmButtonText: "확인",
+        cancelButtonColor: "gray",
+        cancelButtonText: "취소",
         reverseButtons: true,
       }).then((result) => {
         if (result.isConfirmed) {
@@ -267,31 +285,32 @@ const FAQPage = () => {
     // setSelectedMenu 함수를 호출하여 상태를 업데이트
     setSelectedMenu("FAQ");
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPage, selectedFaq]);
+  }, [currentPage, searchQuery, selectedFaq]);
 
   const FAQList = ({ faq, index }) => {
     return (
-      <ListItemStyled>
-        <Typography variant="body1" sx={{ textAlign: "center" }}>
-          {index + 1 + currentPage * pageSize}
-        </Typography>
-        <Typography variant="body1" sx={{ textAlign: "center" }}>
-          {formatDate(faq.createdAt)}
-        </Typography>
-        <Typography variant="body1" sx={{ textAlign: "center" }}>
-          {faq.title}
-        </Typography>
-        <KeyboardDoubleArrowRightIcon
-          onClick={() => handleUpdateModalOpen(faq.inquirySeq)}
-          sx={{ textAlign: "center" }}
-        />
-      </ListItemStyled>
-    );
+        <ListItemStyled>
+          <Typography variant="body1" sx={{textAlign: "center"}}>
+            {index + 1 + currentPage * pageSize}
+          </Typography>
+          <Typography variant="body1" sx={{textAlign: "center"}}>
+            {faq.title}
+          </Typography>
+          <Typography variant="body1" sx={{textAlign: "center"}}>
+            {formatDate(faq.createdAt)}
+          </Typography>
+            <div style={{display: "flex", justifyContent: "center"}}>
+              <AdminButton2 onClick={() => handleLookModalOpen(faq.inquirySeq)}>
+                보기
+              </AdminButton2>
+            </div>
+        </ListItemStyled>
+  );
   };
 
   return (
-    <Paper sx={{ display: "flex" }} elevation={0}>
-      {/* AdminBar 컴포넌트에 selectedMenu와 setSelectedMenu props 전달 */}
+    <Paper sx={{display: "flex"}} elevation={0}>
+        {/* AdminBar 컴포넌트에 selectedMenu와 setSelectedMenu props 전달 */}
       <AdminBar selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
       <Box
         sx={{
@@ -324,17 +343,13 @@ const FAQPage = () => {
               width: "100%",
             }}
           >
-            {/* 중앙 정렬을 위해 앞뒤로 <div/> 추가*/}
-            <div sx={{ marginLeft: "10px" }}>
-              <Search
-                onSearch={handleSearch}
-                searchQuery={searchQuery}
-                onInputChange={handleSearchInputChange}
-                setSelectedValue={setSelectedValue}
-                optionList={optionList}
-              />
-            </div>
-
+            <Search
+              onSearch={handleSearch}
+              searchQuery={searchQuery}
+              onInputChange={handleSearchInputChange}
+              setSelectedValue={setSelectedValue}
+              optionList={optionList}
+            />
             <AdminButton variant="contained" onClick={handleCreateModalOpen}>
               작성하기
             </AdminButton>
@@ -384,28 +399,34 @@ const FAQPage = () => {
               }
             />
           </Box>
+
           {/* FAQ 작성 모달  */}
           <StyledDialog
             // 이 부분이 handleCreateModalClose가 아니라 Open이어야 다른 곳 눌러도 안 꺼진다!!!!
-            onClose={handleCreateModalOpen}
+            onClose={handleCreateModalClose}
             open={createModalOpen}
             maxWidth={false}
+            sx={{
+              "& .MuiDialog-paper": {
+                borderRadius: "30px",
+              },
+            }}
           >
             <form
               onSubmit={handleSubmit((data) => {
                 createFaq(data);
               })}
             >
-              <DialogTitle>
-                <InputBoxM
-                  id="title"
-                  color="neutral"
-                  placeholder="Text"
-                  disabled={false}
-                  variant="soft"
-                  sx={{ mb: 2, mt: 2, width: "100%" }}
-                  {...register("title")}
-                />
+              <DialogTitle
+                style={{
+                  fontWeight: "bold",
+                  fontSize: "1.5rem",
+                  textAlign: "center",
+                  marginTop: 20,
+                  marginLeft: 20,
+                  marginRight: 20,
+                }}
+              >
                 <IconButton
                   aria-label="close"
                   onClick={handleCreateModalClose}
@@ -418,32 +439,43 @@ const FAQPage = () => {
                 >
                   <CloseIcon />
                 </IconButton>
+                <Typography style={{ fontWeight: "bold", fontSize: "28px" }}>
+                  FAQ
+                </Typography>
+                <InputBoxXL
+                  id="title"
+                  color="neutral"
+                  placeholder="FAQ 제목을 입력해주세요."
+                  disabled={false}
+                  variant="soft"
+                  sx={{ mb: 2, mt: 3, width: "100%" }}
+                  {...register("title")}
+                />
               </DialogTitle>
               <DialogContent
                 style={{
-                  width: 900,
+                  width: 1200,
                   height: "450px",
-                  overflowY: "auto",
+                  overflowY: "initial",
                   overflowX: "hidden",
+                  marginLeft: 20,
+                  marginRight: 20,
                 }}
               >
-                <CKEditorContainer>
-                  <CKEditor
-                    editor={ClassicEditor}
-                    onChange={handleEditorChange}
-                  />
-                </CKEditorContainer>
+                <EditorComponent
+                  onContentChange={handleEditorContentChange}
+                  id="content"
+                  data=""
+                  placeholder="FAQ 내용을 입력해주세요."
+                  value={editorContent}
+                  onChange={(event, editor) => {
+                    setValue("content", editor.getData());
+                    trigger("content");
+                    console.log("content");
+                  }}
+                  maxWidth={false}
+                />
               </DialogContent>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "flex-start",
-                  width: "100%",
-                  marginBottom: "20px",
-                  marginLeft: "20px",
-                  marginRight: "20px",
-                }}
-              ></div>
               <DialogActions
                 style={{
                   justifyContent: "center",
@@ -456,7 +488,7 @@ const FAQPage = () => {
                   autoFocus
                   onClick={handleCreateModalClose}
                 >
-                  저장
+                  작성
                 </AdminButton>
               </DialogActions>
             </form>
@@ -467,69 +499,201 @@ const FAQPage = () => {
             onClose={handleUpdateModalClose}
             open={updateModalOpen}
             maxWidth={false}
+            sx={{
+              "& .MuiDialog-paper": {
+                borderRadius: "30px",
+              },
+            }}
           >
-            <form
-              onSubmit={handleSubmit((data) => {
-                updateFaq(data);
-              })}
+            <DialogTitle
+              style={{
+                fontWeight: "bold",
+                fontSize: "1.5rem",
+                textAlign: "center",
+                marginTop: 20,
+                marginLeft: 20,
+                marginRight: 20,
+              }}
             >
-              <DialogTitle
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
+              <IconButton
+                aria-label="close"
+                onClick={handleUpdateModalClose}
+                sx={{
+                  position: "absolute",
+                  right: 8,
+                  top: 8,
+                  color: (theme) => theme.palette.grey[500],
                 }}
               >
-                <InputBoxM
-                  defaultValue={selectedFaq?.title}
-                  onChange={(e) =>
-                    setEditFaq({ ...editFaq, title: e.target.value })
-                  }
-                  color="neutral"
-                  placeholder="Text"
-                  disabled={false}
-                  variant="soft"
-                  sx={{ mb: 2, mt: 2, width: "70%" }}
-                ></InputBoxM>
-                <IconButton
-                  aria-label="close"
-                  onClick={handleUpdateModalClose}
-                  sx={{
-                    position: "absolute",
-                    right: 8,
-                    top: 8,
-                    color: (theme) => theme.palette.grey[500],
-                  }}
-                >
-                  <CloseIcon />
-                </IconButton>
-              </DialogTitle>
-              <DialogContent style={{ width: 900, height: 550 }}>
-                <CKEditorContainer>
-                  <CKEditor
-                    editor={ClassicEditor}
-                    data={selectedFaq?.content}
-                    onChange={(event, editor) => {
-                      setEditFaq({ ...editFaq, content: editor.getData() });
-                    }}
-                  />
-                </CKEditorContainer>
-                <DialogActions
-                  style={{ justifyContent: "center", marginTop: "20px" }}
-                >
-                  <AdminButton
-                    type="submit"
-                    autoFocus
-                    onClick={handleUpdateModalClose}
-                  >
-                    수정
-                  </AdminButton>
-                  <AdminButton autoFocus onClick={handleDeleteClick}>
-                    삭제
-                  </AdminButton>
-                </DialogActions>
-              </DialogContent>
-            </form>
+                <CloseIcon />
+              </IconButton>
+              <Typography style={{ fontWeight: "bold", fontSize: "28px" }}>
+                FAQ
+              </Typography>
+
+              <InputBoxXL
+                id="title"
+                value={selectedFaq?.title}
+                onChange={(e) =>
+                  setSelectedFaq({ ...selectedFaq, title: e.target.value })
+                }
+                color="neutral"
+                placeholder="FAQ 제목을 입력해주세요."
+                disabled={false}
+                variant="soft"
+                sx={{ mb: 2, mt: 2, width: "100%" }}
+              ></InputBoxXL>
+            </DialogTitle>
+
+            <DialogContent
+              style={{
+                width: 1200,
+                height: "450px",
+                overflowY: "initial",
+                overflowX: "hidden",
+                marginLeft: 20,
+                marginRight: 20,
+              }}
+            >
+              <EditorComponent
+                onContentChange={(content) =>
+                  setSelectedFaq({ ...selectedFaq, content: content })
+                }
+                placeholder="FAQ 내용을 입력해주세요."
+                id="content"
+                value={selectedFaq?.content}
+                onChange={(event, editor) => {
+                  setValue("content", editor.getData());
+                  trigger("content");
+                  console.log("content");
+                }}
+              />
+            </DialogContent>
+
+            <DialogActions
+              style={{
+                justifyContent: "center",
+                marginTop: "20px",
+                marginBottom: "20px",
+              }}
+            >
+              <AdminButton autoFocus onClick={updateFaq}>
+                저장
+              </AdminButton>
+            </DialogActions>
+          </StyledDialog>
+
+          {/* FAQ 보기 모달  */}
+          <StyledDialog
+            onClose={handleLookModalClose}
+            open={lookModalOpen}
+            maxWidth={false}
+            sx={{
+              overflowX: "initial",
+              "& .MuiDialog-paper": {
+                borderRadius: "30px",
+              },
+            }}
+          >
+            <DialogTitle
+              style={{
+                fontWeight: "bold",
+                fontSize: "1.5rem",
+                textAlign: "center",
+                marginTop: 20,
+                marginBottom: 20,
+              }}
+            >
+              <IconButton
+                aria-label="close"
+                onClick={handleLookModalClose}
+                sx={{
+                  position: "absolute",
+                  right: 8,
+                  top: 8,
+                  color: (theme) => theme.palette.grey[500],
+                }}
+              >
+                <CloseIcon />
+              </IconButton>
+              <Typography style={{ fontWeight: "bold", fontSize: "28px" }}>
+                FAQ
+              </Typography>
+            </DialogTitle>
+            <DialogContent
+              style={{
+                width: 1200,
+                height: "450px",
+                overflowY: "initial",
+                overflowX: "initial",
+                marginLeft: 20,
+                marginRight: 20,
+              }}
+            >
+              <div>
+                <Grid container rowSpacing={1}>
+                  <Grid item xs={2}>
+                    <Typography
+                      style={{ fontSize: "20px", fontWeight: "bold" }}
+                      sx={{ textAlign: "center" }}
+                    >
+                      제목
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={9.5}>
+                    <Typography
+                      variant="h6"
+                      fontWeight="bold"
+                      sx={{ textAlign: "left" }}
+                    >
+                      {selectedFaq?.title}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={2}>
+                    <Typography
+                      style={{ fontSize: "20px", fontWeight: "bold" }}
+                      sx={{ textAlign: "center", mt: 2 }}
+                    >
+                      내용
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={9.5}>
+                    <Box
+                      sx={{ maxHeight: "350px", overflowY: "auto", mt: 0.5 }}
+                    >
+                      <Typography
+                        variant="subtitle1"
+                        sx={{ textAlign: "left" }}
+                      >
+                        <div
+                          dangerouslySetInnerHTML={{
+                            __html: selectedFaq?.content,
+                          }}
+                        />
+                      </Typography>
+                    </Box>
+                  </Grid>
+                </Grid>
+              </div>
+            </DialogContent>
+            <DialogActions
+              style={{
+                justifyContent: "center",
+                marginTop: "40px",
+                marginBottom: "30px",
+              }}
+            >
+              <AdminButton
+                autoFocus
+                onClick={handleUpdateModalOpen}
+                style={{ marginRight: "3%" }}
+              >
+                수정
+              </AdminButton>
+              <AdminButton autoFocus onClick={handleDeleteClick}>
+                삭제
+              </AdminButton>
+            </DialogActions>
           </StyledDialog>
         </Box>
       </Box>

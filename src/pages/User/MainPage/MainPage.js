@@ -3,7 +3,6 @@ import DefaultLayout from "components/templete/DefaultLayout";
 import MainBody from "./MainBody";
 
 const MainPage = () => {
-
   return (
     <DefaultLayout>
       <MainBody />
