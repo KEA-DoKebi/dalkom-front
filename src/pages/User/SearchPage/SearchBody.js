@@ -7,19 +7,22 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 export const SearchBody = () => {
   const [query] = useSearchParams();
   const [productDataList, setProductDataList] = useState([]);
+  const [isData, setIsData] = useState(1);
 
   const searchKeyword = query.get("searchKeyword");
   const searchPage = Number(query.get("page"));
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(searchPage);
+  
   const navigate = useNavigate();
 
   const getSearchItems = async() => {
     try {
       const res = await TokenAxios.get(`/api/product/search/main?page=${currentPage-1}&size=12&name=${searchKeyword}`);
-      console.log(res); // 비동기 작업이 완료된 후에 로그 출력
+      console.log(res.data); // 비동기 작업이 완료된 후에 로그 출력
       setProductDataList(res.data.result.data.content);
       setTotalPages(res.data.result.data.totalPages);
+      setIsData(res.data.result.data.content.length);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -40,41 +43,47 @@ export const SearchBody = () => {
   useEffect(() => {
     getSearchItems();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPage]);
+  }, [currentPage, searchKeyword]);
 
   return (
     <Grid container spacing={1}>
       <Grid item xs={12}>
-        <h1
-          style={{ textAlign: "center" }}
-        >{`${searchKeyword.split("?")[0]} 검색결과`}</h1>
+        <h1 style={{ textAlign: "center" }}>{`${searchKeyword.split("?")[0]} 검색결과`}</h1>
       </Grid>
-      <Grid item xs={2}></Grid>
-      <Grid item xs={8}>
-        <Grid container spacing={3}>
-          {productDataList?.map((product, idx) => (
-            <Grid item xs={3} key={idx}>
-              <MainProductCard
-                key={idx}
-                imageUrl={product.imageUrl}
-                title={product.name}
-                price={product.price}
-                star={product.rating}
-                review={product.reviewAmount}
-                seq={product.productSeq}
-              />
+      {isData ? (
+        <>
+          <Grid item xs={2}></Grid>
+          <Grid item xs={8}>
+            <Grid container spacing={3}>
+              {productDataList?.map((product, idx) => (
+                <Grid item xs={3} key={idx}>
+                  <MainProductCard
+                    imageUrl={product.imageUrl}
+                    title={product.name}
+                    price={product.price}
+                    star={product.rating}
+                    review={product.reviewAmount}
+                    seq={product.productSeq}
+                  />
+                </Grid>
+              ))}
             </Grid>
-          ))}
-        </Grid>
-      </Grid>
-      <Grid item xs={2}></Grid>
-      <Grid item xs={12} style={{ display: "flex", justifyContent: "center" }}>
+          </Grid>
+          <Grid item xs={2}></Grid>
+          <Grid item xs={12} style={{ display: "flex", justifyContent: "center" }}>
         <Pagination
           count={totalPages}
           page={currentPage}
           onChange={handlePageChange}
         />
       </Grid>
+        </>
+      ) : 
+      <Grid item xs={12} style={{ display: "flex", justifyContent: "center" }}>
+        <img src="/images/ready_for_product.png" alt="상품준비중" style={{ maxWidth: "100%", maxHeight: "100%" }}/>
+      </Grid>
+      }
     </Grid>
   );
+  
 };

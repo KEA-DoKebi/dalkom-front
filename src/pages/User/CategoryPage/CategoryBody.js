@@ -12,6 +12,11 @@ import { ProductCard } from "components/molecules/ProductCard";
 import { BottomMenu } from "components/molecules/BottomMenu";
 import { searchStore } from "store/store";
 
+
+
+
+
+
 const CategoryBody = () => {
   // URL에 있는 값 가져오는 함수 (Router에 저장된 변수명으로 가져옴)
   const { categorySeq, subCategorySeq } = useParams();
@@ -23,6 +28,7 @@ const CategoryBody = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(searchPage);
   const [tabValue, setTabValue] = useState(1);
+  const [isProduct, setIsProduct] = useState(true);
   const [categoryNames] = useState([
     "패션/뷰티",
     "생활",
@@ -71,9 +77,11 @@ const CategoryBody = () => {
         `/api/product/category/${categorySeq}?page=${currentPage - 1}&size=12`,
       );
       console.log(res.data);
+      setIsProduct(true);
       setProductLists(res.data.result.data.content);
       setTotalPages(res.data.result.data.totalPages);
     } catch (e) {
+      setIsProduct(false);
       console.log(e);
     }
   };
@@ -85,9 +93,11 @@ const CategoryBody = () => {
         `/api/product/category/detail/${subCategorySeq}?page=${currentPage - 1}&size=12`,
       );
       console.log(res.data);
+      setIsProduct(true);
       setProductLists(res.data.result.data.page.content);
       setTotalPages(res.data.result.data.page.totalPages);
     } catch (e) {
+      setIsProduct(false);
       console.log(e);
     }
   };
@@ -168,36 +178,46 @@ const CategoryBody = () => {
         <Grid item xs={2}></Grid>
       </Grid>
 
-      <Grid container spacing={1}>
-        <Grid item xs={2}></Grid>
-        <Grid item xs={8}>
-          <Grid container spacing={3}>
-            {productLists.map((product) => (
-              <Grid item xs={3} key={product.productSeq}>
-                <ProductCard
-                  key={product.productSeq}
-                  imageUrl={`${product.imageUrl}?w=300&h=300&f=webp`}
-                  title={product.name}
-                  price={product.price}
-                  star={product.rating}
-                  review={product.reviewAmount}
-                  seq={product.productSeq}
-                  state={product.state}
-                  categorySeq={subCategorySeq}
-                />
-              </Grid>
-            ))}
+      {isProduct 
+      ? 
+      <>
+        <Grid container spacing={1}>
+          <Grid item xs={2}></Grid>
+          <Grid item xs={8}>
+            <Grid container spacing={3}>
+              {productLists.map((product) => (
+                <Grid item xs={3} key={product.productSeq}>
+                  <ProductCard
+                    key={product.productSeq}
+                    imageUrl={`${product.imageUrl}?w=300&h=300&f=webp`}
+                    title={product.name}
+                    price={product.price}
+                    star={product.rating}
+                    review={product.reviewAmount}
+                    seq={product.productSeq}
+                    state={product.state}
+                    categorySeq={subCategorySeq}
+                  />
+                </Grid>
+              ))}
+            </Grid>
           </Grid>
         </Grid>
+        <BottomMenu />
+        <CenterPaginationContainer>
+          <Pagination
+            count={totalPages}
+            page={currentPage}
+            onChange={handlePageChange}
+          />
+        </CenterPaginationContainer>
+      </>
+      :
+      <Grid item xs={12} style={{ display: "flex", justifyContent: "center" }}>
+        <img src="/images/ready_for_product.png" alt="상품준비중" style={{ maxWidth: "100%", maxHeight: "100%" }}/>
       </Grid>
-      <BottomMenu />
-      <CenterPaginationContainer>
-        <Pagination
-          count={totalPages}
-          page={currentPage}
-          onChange={handlePageChange}
-        />
-      </CenterPaginationContainer>
+      }
+      
     </StyledBox>
   );
 };

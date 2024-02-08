@@ -24,7 +24,7 @@ const ProductDetailPage = () => {
   const [productReviewList, setProductReviewList] = useState([]);
   const [option, setOption] = useState({});
   const [menuItems] = useState(["상품상세", "상품평", "상품안내"]);
-  const [amount, setAmount] = useState();
+  const [amount, setAmount] = useState("0");
   const { productSeq, menuName } = useParams();
   const navigate = useNavigate();
 
@@ -33,9 +33,9 @@ const ProductDetailPage = () => {
     console.log(event.target.value);
   };
 
-  const handleCountChange = (event) => {
-    const number = Number(event.target.value);
-    if (number > 0 && option.amount >= number) {
+  const handleCountChange = (event, value) => {
+    const number = event.target.value;
+    if ( number > 0 && (option.amount >= number) && !(number < 0)) {
       setAmount(number);
     }
     if (option.amount < number) {
@@ -237,6 +237,7 @@ const ProductDetailPage = () => {
                   type="number"
                   placeholder="수량을 입력해주세요"
                   value={amount}
+                  min="0"
                   onChange={handleCountChange}
                   sx={{
                     minHeight: "50px",
