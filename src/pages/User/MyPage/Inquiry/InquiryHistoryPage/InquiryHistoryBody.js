@@ -98,8 +98,8 @@ import CloseIcon from "@mui/icons-material/Close";
     // 대기중인 상태에서 버튼을 클릭했을 때 알림 띄우기
     Swal.fire({
       icon: "warning",
-      title: "답변이 등록되지 않았습니다",
-      text: "조금만 기다려주세요 :)",
+      title: "아직 답변이 등록되지 않았습니다.",
+      confirmButtonColor: "black",
       confirmButtonText: "확인",
     });
   };
