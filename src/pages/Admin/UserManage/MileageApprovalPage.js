@@ -162,7 +162,7 @@ const MileageApprovalPage = () => {
       const res = await TokenAxios.get(apiUrl);
       setDataList(res.data.result.data.content);
       setTotalPages(res.data.result.data.totalPages);
-      console.log(res.data.result.data.content);
+      // console.log(res.data.result.data.content);
     } catch (error) {
       console.error("Error searching admin:", error);
     }

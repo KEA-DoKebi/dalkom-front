@@ -56,9 +56,7 @@ export const productImageStore = create(
   ),
 ); // 여기에서 "productImageStore"는 DevTools에서 표시될 스토어의 이름입니다.
 
-export const searchStore = create(
-  devtools(
-    (set) => ({
+export const searchStore = create(devtools((set) => ({
       searchKeyword: "",
       page: "",
 
@@ -71,10 +69,7 @@ export const searchStore = create(
         set({
           page: page,
         }),
-    }),
-    "searchStore",
-  ),
-);
+    }),"searchStore"));
 
 const useStore = create(
   process.env.REACT_APP_NODE_ENV !== "production" ? devtools(store) : store,
