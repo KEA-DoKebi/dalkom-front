@@ -23,7 +23,7 @@ const menuData = [
     title: "MY 활동",
     items: [
       { label: "문의하기", to: "/mypage/inquiry" },
-      { label: "문의 내역", to: "/mypage/inquiry/history" },
+      { label: "문의내역", to: "/mypage/inquiry/history" },
       { label: "리뷰관리", to: "/mypage/review" },
     ],
   },

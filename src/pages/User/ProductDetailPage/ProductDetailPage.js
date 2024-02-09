@@ -41,7 +41,7 @@ const ProductDetailPage = () => {
     if (option.amount < number) {
       Swal.fire({
         icon: "error", // 성공 아이콘 (success, error, warning, info 중 선택)
-        title: "수량은 재고보다 많이 설정할 수 없습니다",
+        title: "수량은 재고보다 많이 설정할 수 없습니다.",
         showConfirmButton: true,
         confirmButtonText: "확인",
         buttonsStyling: true,
@@ -98,7 +98,7 @@ const ProductDetailPage = () => {
     ) {
       Swal.fire({
         icon: "error", // 성공 아이콘 (success, error, warning, info 중 선택)
-        title: "마일리지가 부족합니다",
+        title: "마일리지가 부족합니다.",
         showConfirmButton: true,
         confirmButtonText: "충전",
         buttonsStyling: true,
