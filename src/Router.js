@@ -33,6 +33,7 @@ import OrderList from "pages/User/MyPage/Order/OrderListPage/OrderListPage";
 import Refund from "pages/User/MyPage/Order/RefundPage/RefundPage";
 import Review from "pages/User/MyPage/Review/ReviewPage/ReviewPage";
 import ReviewEdit from "pages/User/MyPage/Review/ReviewWritePage/ReviewEditPage";
+import ReviewDetail from "pages/User/MyPage/Review/ReviewWritePage/ReviewDetailPage";
 import ReviewWrite from "pages/User/MyPage/Review/ReviewWritePage/ReviewWritePage";
 import Payment from "pages/User/PaymentPage/PaymentPage";
 import Login from "pages/commonPage/Login";
@@ -89,6 +90,10 @@ const Router = () => {
           <Route
             path="/mypage/review/edit/:reviewSeq"
             element={<ReviewEdit />}
+          />
+          <Route
+            path="/mypage/review/detail/:reviewSeq"
+            element={<ReviewDetail />}
           />
           <Route path="/mypage/myinfo" element={<MyInfo />} />
           <Route
