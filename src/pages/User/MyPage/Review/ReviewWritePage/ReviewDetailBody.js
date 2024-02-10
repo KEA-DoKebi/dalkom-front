@@ -1,14 +1,12 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { TokenAxios } from "apis/CommonAxios";
+import { Box, Typography } from "@mui/material";
 import { useLocation } from "react-router-dom";
-import { Paper } from "@mui/material";
-import Box from "@mui/joy/Box";
-import Button from "@mui/joy/Button";
-import Typography from "@mui/joy/Typography";
-import Rating from "@mui/material/Rating";
-import { styled } from "@mui/system";
+import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import EditorComponent from "components/atoms/Editor";
+import { Paper } from "@mui/material";
+import Rating from "@mui/material/Rating";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
@@ -17,15 +15,16 @@ const Img = styled("img")({
   height: "auto",
 });
 
-const ReviewWriteBody = () => {
+const ReviewDetailBody = () => {
   const navigate = useNavigate();
   //불러온 데이터
   const location = useLocation();
-  const orderDetailSeq = location.state?.orderDetailSeq;
-  const [productInfo, setProductInfo] = useState([]);
+  const review_Seq = location.state?.review_Seq;
+  const [reviewInfo, setReviewInfo] = useState([]);
+  const [defaultContent, setDefaultContent] = useState("");
   //저장할 데이터
   const [rating, setRating] = useState(0);
-  const { register, handleSubmit, setValue, trigger } = useForm();
+  const { handleSubmit, setValue, trigger } = useForm();
 
   const handleEditorContentChange = (content) => {
     setValue("content", content, { shouldValidate: true });
@@ -36,82 +35,75 @@ const ReviewWriteBody = () => {
   const loadOrderDetail = useCallback(async () => {
     try {
       // orderSeq가 정의되어 있는지 확인
-      if (!orderDetailSeq) {
+      if (!review_Seq) {
         // orderSeq가 정의되지 않은 경우 처리 (예: 에러 페이지로 리다이렉트)
-        console.error("orderDetailSeq가 정의되지 않았습니다");
+        console.error("review_Seq가 정의되지 않았습니다");
         return;
       }
-      const res = await TokenAxios.get(`/api/order/detail/${orderDetailSeq}`);
+      const res = await TokenAxios.get(`/api/review/${review_Seq}`);
       console.log(res.data.result.data);
-      setProductInfo(res.data.result.data);
+
+      setReviewInfo(res.data.result.data);
+      setDefaultContent(res.data.result.data.content);
+      setRating(res.data.result.data.rating);
+      //setEditorContent(res.data.result.data.content);
     } catch (e) {
       console.error(e);
       // 에러 처리 (예: 에러 페이지로 리다이렉트)
     }
-  }, [orderDetailSeq]);
+  }, [review_Seq]);
   useEffect(() => {
     const fetchData = async () => {
       await loadOrderDetail();
     };
     fetchData();
-  }, [orderDetailSeq, loadOrderDetail]);
+  }, [review_Seq, loadOrderDetail]);
 
   //데이터 저장하기
-  const reviewCreate = async (data) => {
+  const reviewEdit = async (data) => {
     try {
-      const res = await TokenAxios.post(`/api/review/${orderDetailSeq}`, data);
+      const res = await TokenAxios.put(`/api/review/${review_Seq}`, data);
       console.log(res.data);
       Swal.fire({
-        //
         position: "center",
         icon: "success",
-        title: "리뷰 작성이 완료되었습니다.",
-        showConfirmButton: true,
-        confirmButtonColor: "black",
-        confirmButtonText: "확인",
+        title: "문의가 수정되었습니다!",
+        showConfirmButton: false,
+        timer: 1500,
         didClose: () => {
           // 얼럿이 닫힌 후에 페이지 이동
+
           navigate("/mypage/review"); // history 객체를 통해 페이지 이동
         },
       });
     } catch (e) {
       console.log(e);
-      Swal.fire({
-        //
-        position: "center",
-        icon: "error",
-        title: "리뷰 작성에 실패했습니다.",
-        showConfirmButton: true,
-        confirmButtonColor: "gray",
-        confirmButtonText: "확인",
-      });
     }
   };
 
   return (
     <Paper elevation={0} sx={{ p: 3 }}>
       <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-        <Img src={productInfo.imageUrl} alt="Product Image" />
+        <Img src={reviewInfo.imageUrl} alt="Product Image" />
         <Box sx={{ ml: 2 }}>
-          <Typography level="h6">{productInfo.productName}</Typography>
-          <Typography>{productInfo.detail}</Typography>
+          <Typography level="h6">{reviewInfo.productName}</Typography>
+          <Typography>{reviewInfo.detail}</Typography>
         </Box>
       </Box>
 
       <form
         onSubmit={handleSubmit((data) => {
-          reviewCreate(data);
+          reviewEdit(data);
           console.log(data);
         })}
       >
         <Box sx={{ mb: 2 }}>
           <Typography>별점</Typography>
           <Rating
-            data-testid="rating-component"
             value={rating}
             onChange={(event, newValue) => {
               setRating(newValue);
-              register("rating", { value: newValue }); // 폼 값 수동 업데이트
+              setValue("rating", newValue); // 폼 값 수동 업데이트
             }}
           />
         </Box>
@@ -119,7 +111,8 @@ const ReviewWriteBody = () => {
         <EditorComponent
           onContentChange={handleEditorContentChange}
           id="content"
-          placeholder="리뷰 내용을 입력해주세요."
+          placeholder="문의 내용을 입력해주세요."
+          value={defaultContent}
           onChange={(event, editor) => {
             setValue("content", editor.getData());
             trigger("content");
@@ -135,18 +128,10 @@ const ReviewWriteBody = () => {
             mt: 2,
           }}
         >
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            sx={{ backgroundColor: "#000", color: "#fff", my: 5 }}
-          >
-            리뷰 제출
-          </Button>
         </Box>
       </form>
     </Paper>
   );
 };
 
-export default ReviewWriteBody;
+export default ReviewDetailBody;

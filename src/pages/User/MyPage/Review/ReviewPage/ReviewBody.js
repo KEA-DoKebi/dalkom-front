@@ -142,7 +142,13 @@ export default function OrderListBody() {
                       readOnly
                       size="small"
                     />
+                    <Link
+                        to={`/mypage/review/detail/${review.reviewSeq}`}
+                        state={{ review_Seq: review.reviewSeq }}
+                        style={{ color: 'inherit', textDecoration: 'none' }}
+                      >
                     <div dangerouslySetInnerHTML={{ __html: review.content }} />
+                    </Link>
                   </TableCell>
                   <TableCell>
                     <Stack direction="row">
