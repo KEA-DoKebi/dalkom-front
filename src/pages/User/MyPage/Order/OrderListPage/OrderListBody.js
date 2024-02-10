@@ -14,6 +14,7 @@ import {
   Typography,
 } from "@mui/material";
 import { TokenAxios } from "apis/CommonAxios";
+import {useNavigate} from "react-router-dom";
 
 const mapOrderState = (stateCode) => {
   switch (stateCode) {
@@ -48,6 +49,7 @@ export default function OrderListBody() {
   const [order, setOrder] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState();
+  const navigate = useNavigate();
 
   //const pageSize = 10;
   const orderList = async (page) => {
@@ -55,6 +57,7 @@ export default function OrderListBody() {
       const res = await TokenAxios.get(`/api/order/user?page=${page}&size=10`);
       setTotalPages(res.data.result.data.totalPages);
       setOrder(res.data.result.data.content);
+      console.log(res.data.result.data)
     } catch (e) {
       console.error("Error fetching order list:", e);
     }
@@ -70,7 +73,7 @@ export default function OrderListBody() {
 
   // 주문 상세 아이콘을 누르면 Link를 사용하지 않고 URL에 파라미터를 담고 이동하도록 수정
   const handleOrderDetailOpen = async (ordrSeq) => {
-    window.location.href = `/order-detail/${ordrSeq}?orderSeq=${ordrSeq}`;
+    navigate(`/order-detail/${ordrSeq}?orderSeq=${ordrSeq}`);
   };
 
   return (
