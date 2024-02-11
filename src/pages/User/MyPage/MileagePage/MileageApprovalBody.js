@@ -253,32 +253,44 @@ export default function MileageApprovalBody() {
             </TableHead>
 
             <TableBody>
-              {data.map((chargeRequest) => (
-                <TableRow
-                  key={chargeRequest.requestSeq}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell
-                    component="th"
-                    scope="row"
-                    style={{ width: "25%", textAlign: "center" }}
+            
+              {data.length !== 0 ? (
+                data.map((chargeRequest) => (
+                  <TableRow
+                    key={chargeRequest.requestSeq}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
-                    {chargeRequest.approvedState === "W"
-                      ? "대기중"
-                      : chargeRequest.approvedState === "Y"
-                        ? "승인"
-                        : chargeRequest.approvedState === "N"
-                          ? "거부"
-                          : ""}
+                    <TableCell
+                      component="th"
+                      scope="row"
+                      style={{ width: "25%", textAlign: "center" }}
+                    >
+                      {chargeRequest.approvedState === "W"
+                        ? "대기중"
+                        : chargeRequest.approvedState === "Y"
+                          ? "승인"
+                          : chargeRequest.approvedState === "N"
+                            ? "거부"
+                            : ""}
+                    </TableCell>
+                    <TableCell style={{ width: "50%", textAlign: "center" }}>
+                      {chargeRequest.createdAt.substring(0, 10)}
+                    </TableCell>
+                    <TableCell style={{ width: "25%", textAlign: "center" }}>
+                      {Number(chargeRequest.amount).toLocaleString()}
+                    </TableCell>
+                  </TableRow>
+                ))
+              )
+              : 
+              (
+                <TableCell colSpan={6} style={{ textAlign: "center", borderBottom : "none" }}>
+                    <Typography variant="h6" sx={{mt : 1}} >
+                      마일리지 신청 내역이 없습니다.
+                    </Typography>
                   </TableCell>
-                  <TableCell style={{ width: "50%", textAlign: "center" }}>
-                    {chargeRequest.createdAt.substring(0, 10)}
-                  </TableCell>
-                  <TableCell style={{ width: "25%", textAlign: "center" }}>
-                    {Number(chargeRequest.amount).toLocaleString()}
-                  </TableCell>
-                </TableRow>
-              ))}
+              )
+            }
             </TableBody>
           </Table>
         </TableContainer>
