@@ -73,15 +73,28 @@ import CloseIcon from "@mui/icons-material/Close";
       setData(res.data.result.data.content);
       setTotalPages(res.data.result.data.totalPages);
     } catch (e) {
+      // 문의를 찾을 수 없을 때 나는 404 오류 캐치 해서 데이터 싹 비워주기
+      setData([])
       console.log(e);
     }
   };
 
   const deleteInquiry = async (inquirySeq) => {
     try {
-      await TokenAxios.delete(`/api/inquiry/${inquirySeq}`);
-      // 삭제 후 문의 내역을 다시 불러오기
-      inquiryHistory(0);
+      const res = await TokenAxios.delete(`/api/inquiry/${inquirySeq}`);
+      console.log(res.data);
+      if(res.data.success){
+        Swal.fire({
+          icon: "success",
+          title: "문의가 삭제되었습니다.",
+          showConfirmButton: true,
+          confirmButtonColor: "black",
+          confirmButtonText: "확인",
+        }).then(() => {
+          // 삭제 후 문의 내역을 다시 불러오기
+          inquiryHistory(0);
+        })
+      }
     } catch (e) {
       console.log(e);
     }
@@ -187,82 +200,91 @@ import CloseIcon from "@mui/icons-material/Close";
             </TableHead>
 
             <TableBody>
-              {data.map((inquiry) => (
-                <TableRow key={inquiry.inquirySeq}>
-                  <TableCell style={{ width: "10%", textAlign: "center" }}>
-                    {inquiry.category}
-                  </TableCell>
-                  <TableCell style={{ width: "15%", textAlign: "center" }}>
-                    {inquiry.createdAt.substring(0, 10)}
-                  </TableCell>
-                  <TableCell style={{ width: "35  %", textAlign: "center" }}>
-                    <Typography
-                      onClick={() => handleLookOpenModal(inquiry.inquirySeq)}
-                      style={{ cursor: "pointer" }}
-                    >
-                      {inquiry.title}
+              {data.length !== 0 ? (
+                data.map((inquiry) => (
+                  <TableRow key={inquiry.inquirySeq}>
+                    <TableCell style={{ width: "10%", textAlign: "center" }}>
+                      {inquiry.category}
+                    </TableCell>
+                    <TableCell style={{ width: "15%", textAlign: "center" }}>
+                      {inquiry.createdAt.substring(0, 10)}
+                    </TableCell>
+                    <TableCell style={{ width: "35  %", textAlign: "center" }}>
+                      <Typography
+                        onClick={() => handleLookOpenModal(inquiry.inquirySeq)}
+                        style={{ cursor: "pointer" }}
+                      >
+                        {inquiry.title}
+                      </Typography>
+                    </TableCell>
+  
+                    <TableCell style={{ width: "10%", textAlign: "center" }}>
+                    {inquiry.answerState === "Y" ? (
+                          <Typography>답변완료</Typography>
+                      ) : (
+                        <Typography>대기중</Typography>
+                      )}
+                    </TableCell>
+                    
+                    <TableCell style={{ width: "10%", textAlign: "center" }}>
+                      {inquiry.answerState === "Y" ? (
+                        <Button
+                          variant="contained"
+                          size="small"
+                          sx={{
+                            backgroundColor: "gray",
+                            "&:hover": {
+                              backgroundColor: "black",
+                            },
+                          }}
+                          onClick={() =>
+                            handleAnswerOpenModal(inquiry.inquirySeq)
+                          }
+                        >
+                          보기
+                        </Button>
+                      ) : (
+                        <Button
+                          variant="contained"
+                          size="small"
+                          sx={{
+                            backgroundColor: "gray",
+                            "&:hover": {
+                              backgroundColor: "black",
+                            },
+                          }}
+                          onClick={handleWaitingButtonClick}
+                        >
+                          보기
+                        </Button>
+                      )}
+                    </TableCell>
+                    <TableCell style={{ width: "10%", textAlign: "center" }}>
+                    <DeleteIcon  onClick={() => {
+                      console.log(
+                        `Try: delete inquirySeq: ${inquiry.inquirySeq}`,
+                        );
+                        deleteInquiry(inquiry.inquirySeq);
+                        }}/>
+  
+  
+                    </TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <TableCell colSpan={6} style={{ textAlign: "center", borderBottom : "none" }}>
+                    <Typography variant="h6" sx={{mt : 3}} >
+                      문의 내역이 없습니다.
                     </Typography>
                   </TableCell>
-
-                  <TableCell style={{ width: "10%", textAlign: "center" }}>
-                  {inquiry.answerState === "Y" ? (
-                        <Typography>답변완료</Typography>
-                    ) : (
-                      <Typography>대기중</Typography>
-                    )}
-                  </TableCell>
-                  
-                  <TableCell style={{ width: "10%", textAlign: "center" }}>
-                    {inquiry.answerState === "Y" ? (
-                      <Button
-                        variant="contained"
-                        size="small"
-                        sx={{
-                          backgroundColor: "gray",
-                          "&:hover": {
-                            backgroundColor: "black",
-                          },
-                        }}
-                        onClick={() =>
-                          handleAnswerOpenModal(inquiry.inquirySeq)
-                        }
-                      >
-                        보기
-                      </Button>
-                    ) : (
-                      <Button
-                        variant="contained"
-                        size="small"
-                        sx={{
-                          backgroundColor: "gray",
-                          "&:hover": {
-                            backgroundColor: "black",
-                          },
-                        }}
-                        onClick={handleWaitingButtonClick}
-                      >
-                        보기
-                      </Button>
-                    )}
-                  </TableCell>
-                  <TableCell style={{ width: "10%", textAlign: "center" }}>
-                  <DeleteIcon  onClick={() => {
-                    console.log(
-                      `Try: delete inquirySeq: ${inquiry.inquirySeq}`,
-                      );
-                      deleteInquiry(inquiry.inquirySeq);
-                      }}/>
-
-
-                  </TableCell>
-                </TableRow>
-              ))}
+              )} 
             </TableBody>
           </Table>
         </TableContainer>
       </Paper>
 
-      <Box
+      {data.length !== 0 && (
+        <Box
         sx={{
           flex: 1,
           display: "flex",
@@ -277,6 +299,7 @@ import CloseIcon from "@mui/icons-material/Close";
           onChange={(event, newPage) => handlePageChange(event, newPage - 1)} // 페이지 변경 시 호출되는 함수 설정
         />
       </Box>
+      )}
 
       <Dialog
         onClose={handleLookCloseModal}

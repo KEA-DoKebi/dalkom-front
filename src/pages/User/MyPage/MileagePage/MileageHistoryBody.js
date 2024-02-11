@@ -101,28 +101,37 @@ export default function MileageHistoryBody() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {data.map((mileHistory) => (
-                <TableRow key={mileHistory.mileageHistorySeq}>
-                  <TableCell style={{ width: "25%", textAlign: "center" }}>
-                    {mileHistory.typeName}
+              {data.length !== 0 ? (
+                data.map((mileHistory) => (
+                  <TableRow key={mileHistory.mileageHistorySeq}>
+                    <TableCell style={{ width: "25%", textAlign: "center" }}>
+                      {mileHistory.typeName}
+                    </TableCell>
+                    <TableCell style={{ width: "25%", textAlign: "center" }}>
+                      {mileHistory.createdAt.substring(0, 10)}
+                    </TableCell>
+                    <TableCell style={{ width: "25%", textAlign: "center" }}>
+                      {Number(mileHistory.amount).toLocaleString()}
+                    </TableCell>
+                    <TableCell style={{ width: "25%", textAlign: "center" }}>
+                      {Number(mileHistory.balance).toLocaleString()}
+                    </TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <TableCell colSpan={6} style={{ textAlign: "center", borderBottom : "none" }}>
+                    <Typography variant="h6" sx={{mt : 1}} >
+                      마일리지 내역이 없습니다.
+                    </Typography>
                   </TableCell>
-                  <TableCell style={{ width: "25%", textAlign: "center" }}>
-                    {mileHistory.createdAt.substring(0, 10)}
-                  </TableCell>
-                  <TableCell style={{ width: "25%", textAlign: "center" }}>
-                    {Number(mileHistory.amount).toLocaleString()}
-                  </TableCell>
-                  <TableCell style={{ width: "25%", textAlign: "center" }}>
-                    {Number(mileHistory.balance).toLocaleString()}
-                  </TableCell>
-                </TableRow>
-              ))}
+              )}
             </TableBody>
           </Table>
         </TableContainer>
       </Paper>
 
-      <Box
+      {data.length !== 0 && (
+        <Box
         sx={{
           flex: 1,
           display: "flex",
@@ -137,6 +146,8 @@ export default function MileageHistoryBody() {
           onChange={(event, newPage) => handlePageChange(event, newPage - 1)} // 페이지 변경 시 호출되는 함수 설정
         />
       </Box>
+      )}
+      
     </Paper>
   );
 }
