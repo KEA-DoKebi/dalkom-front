@@ -88,9 +88,7 @@ const Payment = () => {
                   if (res.data.success) {
                     console.log("비밀번호 인증후");
                     console.log(res);
-                    for (const order of orderList) {
-                      const isOrderCartSeqExist = 'orderCartSeq' in order && order.orderCartSeq !== null;
-
+                      const isOrderCartSeqExist = 'orderCartSeq' in orderList[0] && orderList[0].orderCartSeq !== null; 
                       try {
                         if(isOrderCartSeqExist){
                           const res = await TokenAxios.post("/api/order", {
@@ -101,7 +99,6 @@ const Payment = () => {
                               receiverMemo: receiverMemo,
                             },
                             orderProductRequestList: orderList
-                            
                           })
                           if (res.data.success) {
                             localStorage.setItem("mileage", res.data.result.data);
@@ -111,7 +108,7 @@ const Payment = () => {
                             setReceiverAddress("");
                             setReceiverDetailAddress("");
                             setReceiverMemo("");
-                            Swal.fire({//
+                            Swal.fire({
                               icon: "success",
                               title: "결제가 완료되었습니다.",
                               showConfirmButton: true,
@@ -157,18 +154,15 @@ const Payment = () => {
                           }
                         }
                       } catch (e) {
-                        
+                        console.error(e);
                         Swal.showValidationMessage(`
                             결제에 실패했습니다.
                           `)
                       }
-                    }
-
-                    
                   }
                 } catch (e) {
                   Swal.showValidationMessage(`
-                      정보가 일치하지 않습니다.
+                      비밀번호가 일치하지 않습니다. 
                   `);
                 }
               },
@@ -176,22 +170,15 @@ const Payment = () => {
               if (result.isDenied) {
                 Swal.fire({
                   icon: "error",
-                  title: "결제에 실패했습니다.",
+                  title: "결제에 취소했습니다.",
                   showConfirmButton: true,
                   confirmButtonText: "확인",
                   confirmButtonColor: "black",
                 });
               }
             });
-          } else if (result.isDenied) {
-            Swal.fire({
-              icon: "error",
-              title: "결제에 실패했습니다.",
-              showConfirmButton: true,
-              confirmButtonText: "확인",
-              confirmButtonColor: "black",
-            });
-          }
+            
+          } 
         });
       } else {
         Swal.fire({
