@@ -121,7 +121,10 @@ const CategoryBody = () => {
   }, [currentPage]);
 
   useEffect(() => {
-    getSubProductLists();
+    if(subCategorySeq !== undefined){
+      getSubProductLists();
+    }
+    // getSubProductLists();
     setTabValue(Number(subCategorySeq));
     // setSubCategorySeq(subCategorySeq);
     setPage("카테고리 검색결과");
