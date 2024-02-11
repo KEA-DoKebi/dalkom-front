@@ -115,8 +115,8 @@ const MainBody = () => {
                         <StyledGrid item xs={8}>
                           <Grid container spacing={3}>
                             {productList.map((product, idx) => (
-                              <Grid item xs={3} key={product.productSeq}>
-                                <MainProductCard data-cy={`product-card-${idx+1}`}
+                              <Grid item xs={3} key={product.productSeq} data-cy={`product-card-${idx+1}`}>
+                                <MainProductCard 
                                   key={product.productSeq}
                                   imageUrl={product.imageUrl}
                                   title={product.name}

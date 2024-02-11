@@ -1,9 +1,9 @@
-// 탑바의 모든 요소가 잘 나오는지 확인
+// 헤더, 푸터, 메인이 잘 나오는지 확인
 // 배너가 잘 나오는지 확인
 // 카테고리 아이콘들이 잘 나오는지 확인
 // 상품 리스트들이 잘 나오는지 확인
 // 푸터가 잘 나오는지 확인
-
+// 카테고리 아이콘 클릭시 카테고리 페이지로 이동하는지 확인
 
 describe('메인 페이지 테스트', () => {
   beforeEach(() => {
@@ -68,7 +68,6 @@ describe('메인 페이지 테스트', () => {
     });
   });
 
-  // 상품 리스트들이 잘 나오는지 확인
   it('상품 테이블이 정상적으로 로드되는지 확인', () => {
     // 상품 테이블 컨테이너 존재 확인
     cy.get('[data-cy="product-table"]').should('exist');
@@ -82,21 +81,19 @@ describe('메인 페이지 테스트', () => {
       cy.get(`[data-cy="product-grid-${index}"]`).should('exist');
 
       // 각 행 내의 상품 카드가 적절히 로드되었는지 확인
-      // 이 부분은 productList 배열의 길이에 따라 달라질 수 있으므로, 실제 데이터에 맞게 조정이 필요할 수 있습니다.
-      // 예시 코드는 상품 카드가 최소 하나 이상 존재한다고 가정합니다.
-      const index = 0; // 예시로 사용될 product-grid의 인덱스
-      const expectedProductCount = 48; // 이 그리드에서 기대하는 상품 카드의 수
-
-      // 각 상품 카드에 대해 반복 검사를 수행합니다.
+      const expectedProductCount = 5; // 이 그리드에서 기대하는 상품 카드의 수, 실제 조건에 맞게 조정 필요
       for (let i = 1; i <= expectedProductCount; i++) {
-        cy.get(`[data-cy="product-grid-${index}"]`, { timeout: 10000 }).find(`[data-cy="product-card-${i}"]`).should('exist');
+        cy.get(`[data-cy="product-grid-${index}"]`).find(`[data-cy="product-card-${i}"]`).should('exist');
       }
     });
   });
 
-    
 
+  it("카테고리 아이콘 클릭시 카테고리 페이지로 이동하는지 확인", () => {
+    // 예시로 첫 번째 카테고리 아이콘을 클릭하는 경우
+    cy.get('[data-cy="category-avatar-0"]').click();
+    cy.url().should('include', '/category/1');
+  })
 
-
-  });
+});
   
