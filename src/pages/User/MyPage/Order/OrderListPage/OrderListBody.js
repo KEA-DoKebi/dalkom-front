@@ -91,9 +91,9 @@ export default function OrderListBody() {
           width: "100%",
         }}
       >
-        <TableContainer style={{ maxHeight: "none" }}>
+        <TableContainer style={{ maxHeight: "none", textAlign : "center" }}>
           {" "}
-          <Table sx={{ width: "100%", margin: "auto" }}>
+          <Table sx={{ width: "100%", margin: "auto"}}>
             <TableHead>
               <TableRow>
                 <TableCell
@@ -165,57 +165,66 @@ export default function OrderListBody() {
             </TableHead>
 
             <TableBody>
-              {order.map((order) => (
-                <TableRow key={order.orderSeq}>
-                  {/*주문 정보*/}
-                  <TableCell style={{ textAlign: "center" }}>
-                    {order.orderTitle}
-                  </TableCell>
-
-                  {/*주문 일자*/}
-                  <TableCell style={{ textAlign: "center" }}>
-                    {order.ordrDate.substring(0, 10)}
-                  </TableCell>
-
-                  {/*주문 번호*/}
-                  <TableCell style={{ textAlign: "center" }}>
-                    {`DKS-${order.ordrSeq.toString().padStart(5, "0")}`}
-                  </TableCell>
-
-                  {/*금액*/}
-                  <TableCell style={{ textAlign: "center" }}>
-                    {Number(order.totalPrice).toLocaleString()}
-                  </TableCell>
-
-                  {/*상태*/}
-                  <TableCell style={{ textAlign: "center" }}>
-                    {mapOrderState(order.ordrState)}
-                  </TableCell>
-
-                  {/*주문 상세*/}
-
-                  <TableCell style={{ textAlign: "center" }}>
-                    <Button
-                      variant="contained"
-                      size="small"
-                      sx={{
-                        backgroundColor: "gray",
-                        "&:hover": {
-                          backgroundColor: "black",
-                        },
-                      }}
-                      onClick={() => handleOrderDetailOpen(order.ordrSeq)}
-                    >
-                      보기
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
+              {order.length !== 0 ? (
+                order?.map((order) => (
+                  <TableRow key={order.orderSeq}>
+                    {/*주문 정보*/}
+                    <TableCell style={{ textAlign: "center" }}>
+                      {order.orderTitle}
+                    </TableCell>
+  
+                    {/*주문 일자*/}
+                    <TableCell style={{ textAlign: "center" }}>
+                      {order.ordrDate.substring(0, 10)}
+                    </TableCell>
+  
+                    {/*주문 번호*/}
+                    <TableCell style={{ textAlign: "center" }}>
+                      {`DKS-${order.ordrSeq.toString().padStart(5, "0")}`}
+                    </TableCell>
+  
+                    {/*금액*/}
+                    <TableCell style={{ textAlign: "center" }}>
+                      {Number(order.totalPrice).toLocaleString()}
+                    </TableCell>
+  
+                    {/*상태*/}
+                    <TableCell style={{ textAlign: "center" }}>
+                      {mapOrderState(order.ordrState)}
+                    </TableCell>
+  
+                    {/*주문 상세*/}
+  
+                    <TableCell style={{ textAlign: "center" }}>
+                      <Button
+                        variant="contained"
+                        size="small"
+                        sx={{
+                          backgroundColor: "gray",
+                          "&:hover": {
+                            backgroundColor: "black",
+                          },
+                        }}
+                        onClick={() => handleOrderDetailOpen(order.ordrSeq)}
+                      >
+                        보기
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))
+              ): (
+                <TableCell colSpan={6} style={{ textAlign: "center", borderBottom : "none" }}>
+                  <Typography variant="h6" sx={{mt : 3}} >
+                    주문 내역이 없습니다.
+                  </Typography>
+                </TableCell>
+              )}
             </TableBody>
           </Table>
         </TableContainer>
       </Paper>
-      <Box
+      {order.length !== 0 && (
+        <Box
         sx={{
           flex: 1,
           display: "flex",
@@ -230,6 +239,9 @@ export default function OrderListBody() {
           onChange={(event, newPage) => handlePageChange(event, newPage - 1)} // 페이지 변경 시 호출되는 함수 설정
         />
       </Box>
+      )}
+
+      
     </Paper>
   );
 }

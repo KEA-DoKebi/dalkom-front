@@ -63,6 +63,7 @@ const CategoryBody = () => {
     try {
       if (categorySeq <= 6) {
         const res = await TokenAxios.get(`/api/category/${categorySeq}`);
+        console.log(res.data.result.data);
         setSubCategoryLists(res.data.result.data);
       }
     } catch (e) {
@@ -122,6 +123,7 @@ const CategoryBody = () => {
   useEffect(() => {
     getSubProductLists();
     setTabValue(Number(subCategorySeq));
+    // setSubCategorySeq(subCategorySeq);
     setPage("카테고리 검색결과");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [subCategorySeq, currentPage]);
@@ -137,6 +139,7 @@ const CategoryBody = () => {
           <StyleTypoGrapy
             onClick={getMainProductLists}
             sx={{ textAlign: "center", marginBottom: "2vh" }}
+            data-cy="category-title"
           >
             <StyledLink to={`/category/${categorySeq}?page=1`}>
               {categorySeq <= 6 && categoryNames[categorySeq - 1]}
@@ -168,6 +171,7 @@ const CategoryBody = () => {
                   key={subCategory.categorySeq}
                   label={subCategory.name}
                   value={subCategory.categorySeq}
+                  data-cy={`tab-${subCategory.categorySeq}`} // 각 탭을 선택하기 위한 용도
                   component={Link}
                   to={`/category/${categorySeq}/sub/${subCategory.categorySeq}?page=1`}
                 />
@@ -196,7 +200,8 @@ const CategoryBody = () => {
                     review={product.reviewAmount}
                     seq={product.productSeq}
                     state={product.state}
-                    categorySeq={subCategorySeq}
+                    categorySeq={product.subCategorySeq}
+                    data-cy={`product-card-${product.productSeq}`}
                   />
                 </Grid>
               ))}

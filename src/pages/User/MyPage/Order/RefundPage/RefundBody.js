@@ -158,19 +158,21 @@ export default function RefundBody() {
                       </TableCell>
                     </StyledTableRow>
                   ))
-                : [...Array(4)].map((_, index) => (
-                    <StyledTableRow key={`empty-${index}`}>
-                      <TableCell
-                        colSpan={4}
-                        style={{ height: "110px", borderBottom: "none" }}
-                      />
-                    </StyledTableRow>
-                  ))}
+                : 
+                (
+                  <TableCell colSpan={6} style={{ textAlign: "center", borderBottom : "none" }}>
+                    <Typography variant="h6" sx={{mt : 3}} >
+                      취소/반품/환불 내역이 없습니다.
+                    </Typography>
+                  </TableCell>
+                )
+              }
             </TableBody>
           </Table>
         </TableContainer>
       </Paper>
-      <Box
+      {data.length > 0 && (
+        <Box
         sx={{
           flex: 1,
           display: "flex",
@@ -185,6 +187,8 @@ export default function RefundBody() {
           onChange={(event, newPage) => handlePageChange(event, newPage - 1)} // 페이지 변경 시 호출되는 함수 설정
         />
       </Box>
+      )}
+      
     </Paper>
   );
 }
