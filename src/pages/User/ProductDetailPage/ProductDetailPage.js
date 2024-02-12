@@ -195,6 +195,7 @@ const ProductDetailPage = () => {
                 <Select
                   labelId="product-option"
                   id="option"
+                  name="option"
                   label="옵션"
                   placeholder="옵션을 선택해주세요"
                   value={productInfo?.stockList}
