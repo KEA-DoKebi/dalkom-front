@@ -23,13 +23,8 @@ export function useAuth() {
         }
       }
     } else {
-      setIsAuthenticated(false);
-      if (
-        !window.location.pathname.includes("/login") &&
-        !window.location.pathname.includes("/signUp")
-      ) {
-        navigate("/login");
-      }
+      setIsAuthenticated(true);
+      
     }
   }, [navigate]);
 

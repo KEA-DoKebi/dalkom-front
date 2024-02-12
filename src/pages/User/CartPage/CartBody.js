@@ -209,6 +209,7 @@ export default function CartBody() {
       <TableContainer>
         <Button
           onClick={handleDeleteSelected}
+          name="delete"
           style={{
             alignSelf: "flex-end",
             border: "1px solid",
@@ -243,6 +244,7 @@ export default function CartBody() {
               <StyledTableRow key={row.orderCartSeq}>
                 <TableCell>
                   <Checkbox
+                    name="select"
                     color="primary"
                     checked={selectedRows.includes(row.orderCartSeq)}
                     onChange={() => handleCheckboxChange(row.orderCartSeq)}
@@ -265,12 +267,14 @@ export default function CartBody() {
                     <QuantityButton
                       onClick={() => handleQuantityChange(row, -1)}
                       disabled={row.amount === 1}
+                      name="decrease"
                     >
                       -
                     </QuantityButton>
                     {row.amount}
                     <QuantityButton
                       onClick={() => handleQuantityChange(row, 1)}
+                      name="increase"
                     >
                       +
                     </QuantityButton>
@@ -311,6 +315,7 @@ export default function CartBody() {
           control={
             <Checkbox
               checked={agree}
+              name="agree"
               onChange={(e) => setAgree(e.target.checked)}
             />
           }
@@ -319,6 +324,7 @@ export default function CartBody() {
         />
         <Button
           disabled={!agree}
+          name="payment"
           style={{
             backgroundColor: agree ? "#000000" : "#eeeeee",
             width: "210px",
