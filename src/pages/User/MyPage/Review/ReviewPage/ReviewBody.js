@@ -123,75 +123,95 @@ export default function OrderListBody() {
             <TableBody>
               {/* {rows.length > 0
                 ? rows.map((row, index) => ( */}
-              {review.map((review) => (
-                <TableRow key={review.reviewSeq}>
-                  <TableCell sx={{ textAlign: "flex-start" }}>
-                    <ProductInfo>
-                      <Img src={review.imageUrl} alt="Product" />
-                      <TextContainer>
-                        <div>{review.name}</div>
-                        <div style={{ marginTop: "4px" }}>{review.detail}</div>
-                      </TextContainer>
-                    </ProductInfo>
-                  </TableCell>
-                  <TableCell>
-                    <div>{review.modifiedAt.substring(0, 10)}</div>
-                    <Rating
-                      name="read-only"
-                      value={review.rating}
-                      readOnly
-                      size="small"
-                    />
-                    <div dangerouslySetInnerHTML={{ __html: review.content }} />
-                  </TableCell>
-                  <TableCell>
-                    <Stack direction="row">
+              {review.length !== 0 ?
+               (
+                review.map((review) => (
+                  <TableRow key={review.reviewSeq}>
+                    <TableCell sx={{ textAlign: "flex-start" }}>
+                      <ProductInfo>
+                        <Img src={review.imageUrl} alt="Product" />
+                        <TextContainer>
+                          <div>{review.name}</div>
+                          <div style={{ marginTop: "4px" }}>{review.detail}</div>
+                        </TextContainer>
+                      </ProductInfo>
+                    </TableCell>
+                    <TableCell>
+                      <div>{review.modifiedAt.substring(0, 10)}</div>
+                      <Rating
+                        name="read-only"
+                        value={review.rating}
+                        readOnly
+                        size="small"
+                      />
                       <Link
-                        to={`/mypage/review/edit/${review.reviewSeq}`}
-                        state={{ review_Seq: review.reviewSeq }}
-                      >
-                        <Button sx={{ color: "#000000", padding: "0px" }}>
-                          수정
-                        </Button>
+                          to={`/mypage/review/detail/${review.reviewSeq}`}
+                          state={{ review_Seq: review.reviewSeq }}
+                          style={{ color: 'inherit', textDecoration: 'none' }}
+                        >
+                      <div dangerouslySetInnerHTML={{ __html: review.content }} />
                       </Link>
-                      |
-                      <Button
-                        sx={{ color: "#000000", padding: "0px" }}
-                        onClick={() => deleteReview(review.reviewSeq)}
-                      >
-                        삭제
-                      </Button>
-                    </Stack>
+                    </TableCell>
+                    <TableCell>
+                      <Stack direction="row">
+                        <Link
+                          to={`/mypage/review/edit/${review.reviewSeq}`}
+                          state={{ review_Seq: review.reviewSeq }}
+                        >
+                          <Button sx={{ color: "#000000", padding: "0px" }}>
+                            수정
+                          </Button>
+                        </Link>
+                        |
+                        <Button
+                          sx={{ color: "#000000", padding: "0px" }}
+                          onClick={() => deleteReview(review.reviewSeq)}
+                        >
+                          삭제
+                        </Button>
+                      </Stack>
+                    </TableCell>
+                  </TableRow>
+                  //   ))
+                  // : [...Array(4)].map((_, index) => (
+                  //     <TableRow
+                  //       key={`empty-${index}`}
+                  //       sx={{ height: "110px", borderBottom: "none" }}
+                  //     >
+                  //       <TableCell colSpan={5} />
+                  //     </TableRow>
+                ))
+               ) : 
+               (
+                <TableCell colSpan={6} style={{ textAlign: "center", borderBottom : "none" }}>
+                    <Typography variant="h6" sx={{mt : 3}} >
+                      리뷰 내역이 없습니다.
+                    </Typography>
                   </TableCell>
-                </TableRow>
-                //   ))
-                // : [...Array(4)].map((_, index) => (
-                //     <TableRow
-                //       key={`empty-${index}`}
-                //       sx={{ height: "110px", borderBottom: "none" }}
-                //     >
-                //       <TableCell colSpan={5} />
-                //     </TableRow>
-              ))}
+               )
+              }
             </TableBody>
           </Table>
         </TableContainer>
       </Paper>
-      <Box
-        sx={{
-          flex: 1,
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          marginTop: "2.5%",
-        }}
-      >
-        <Pagination
-          count={totalPages} // 총 페이지 수를 적용
-          page={currentPage + 1} // 현재 페이지 설정 (0부터 시작하므로 그대로 사용)
-          onChange={(event, newPage) => handlePageChange(event, newPage - 1)} // 페이지 변경 시 호출되는 함수 설정
-        />
-      </Box>
+      {review.length !== 0 && (
+        <Box
+          sx={{
+            flex: 1,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: "2.5%",
+          }}
+        >
+          <Pagination
+            count={totalPages} // 총 페이지 수를 적용
+            page={currentPage + 1} // 현재 페이지 설정 (0부터 시작하므로 그대로 사용)
+            onChange={(event, newPage) => handlePageChange(event, newPage - 1)} // 페이지 변경 시 호출되는 함수 설정
+          />
+        </Box>
+      )}
+      
     </Paper>
   );
 }

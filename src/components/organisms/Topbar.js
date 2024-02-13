@@ -276,6 +276,7 @@ const Topbar = () => {
           </Typography>
         </Link>
         <Input
+          id="search"
           disabled={false}
           placeholder="원하시는 상품을 검색해주세요"
           startDecorator={<SearchIcon />}
