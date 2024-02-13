@@ -49,7 +49,7 @@ export const ProductCard = ({ imageUrl, title, price, star, review, seq, categor
   return (
     <Link to={`/product/${seq}/상품상세`} data-cy={`product-card-link-${seq}`}>
       <SungjunCard data-cy={`product-card-${seq}`}>
-        <CardImage src={imageUrl} alt="카드 이미지" data-cy={`product-image-${seq}`} />
+        <CardImage src={imageUrl} alt="카드 이미지"/>
         <HoverCardContent data-cy={`hover-content-${seq}`}>
           <HoverCardTitle data-cy={`hover-title-${seq}`}>★ {(star ?? 0).toFixed(1)}</HoverCardTitle>
           <HoverCardButton 
