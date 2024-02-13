@@ -233,7 +233,7 @@ const SignUp = () => {
                 <StyleTextField
                   id="confirmPassword"
                   label="비밀번호 확인"
-                  type={isShowPw ? "text" : "password"}
+                  type={isShowPw ? "password" : "text"}
                   variant="outlined"
                   placeholder="비밀번호를 다시 입력하세요."
                   {...register("confirmPassword")}
