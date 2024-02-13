@@ -105,7 +105,7 @@ const SignUp = () => {
     formState: { errors },
   } = useForm();
   const [joinedDate, setJoinedDate] = useState(null);
-  const [isShowPw, setShowPwState] = useState(false);
+  const [isShowPw, setShowPwState] = useState(true);
 
   const password = watch("password");
   const comfirmPassword = watch("confirmPassword");
@@ -212,7 +212,7 @@ const SignUp = () => {
                 <StyleTextField
                   id="password"
                   label="비밀번호"
-                  type={isShowPw ? "text" : "password"}
+                  type={isShowPw ? "password" : "text"}
                   variant="outlined"
                   placeholder="비밀번호를 입력하세요."
                   {...register("password")}
