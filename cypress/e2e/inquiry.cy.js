@@ -72,7 +72,7 @@ describe("Cart test", () => {
     // 답변 입력
     cy.get('textarea[name="answer"]').type("등록해드릴게요!");
 
-    cy.get('button[type="submit"]').click();
+    cy.get('button[name="submit"]').click();
 
     // Swal 알림창에서 "확인" 버튼 클릭
     cy.get(".swal2-confirm").click();
@@ -80,7 +80,7 @@ describe("Cart test", () => {
     cy.wait(1000); // 0.5초 대기
 
     // 답변완료로 바뀌었는지 확인
-    cy.get("[data-cy='inquiry-status']").first().should("contain", "답변완료");
+    cy.get("[name='state']").first().should("contain", "답변완료");
   });
 
   it("사용자가 문의 답변을 확인한다.", () => {
@@ -106,7 +106,7 @@ describe("Cart test", () => {
     cy.wait(2000); // 1초 대기
 
     // 답변완료로 바뀌었는지 확인
-    cy.get("[class='MuiTableBody-root css-apqrd9-MuiTableBody-root']").first().should("contain", "답변완료");
+    cy.get("[name='state']").first().should("contain", "답변완료");
 
     cy.get('button').contains('보기').first().click();
   });

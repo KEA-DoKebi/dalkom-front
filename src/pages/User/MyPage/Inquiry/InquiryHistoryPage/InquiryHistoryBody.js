@@ -218,7 +218,7 @@ import CloseIcon from "@mui/icons-material/Close";
                       </Typography>
                     </TableCell>
   
-                    <TableCell style={{ width: "10%", textAlign: "center" }}>
+                    <TableCell style={{ width: "10%", textAlign: "center" }} name="state">
                     {inquiry.answerState === "Y" ? (
                           <Typography>답변완료</Typography>
                       ) : (

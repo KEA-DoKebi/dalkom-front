@@ -105,7 +105,7 @@ const SignUp = () => {
     formState: { errors },
   } = useForm();
   const [joinedDate, setJoinedDate] = useState(null);
-  const [isShowPw, setShowPwState] = useState(true);
+  const [isShowPw, setShowPwState] = useState(false);
 
   const password = watch("password");
   const comfirmPassword = watch("confirmPassword");
