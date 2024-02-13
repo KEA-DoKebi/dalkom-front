@@ -431,6 +431,7 @@ const ProductInquiryPage = () => {
             <Box display="flex" justifyContent="center" alignItems="center">
               <TextField
                 id="outlined-textarea"
+                name="answer"
                 defaultValue={selectedItem?.answerContent}
                 label={
                   selectedItem?.answerState === "Y"
