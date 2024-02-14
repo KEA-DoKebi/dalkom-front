@@ -46,7 +46,7 @@ export const ComparisonBody = () => {
         console.log("없는 인덱스 입니다.");
       }
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
   };
 

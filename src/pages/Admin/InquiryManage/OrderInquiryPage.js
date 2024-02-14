@@ -193,10 +193,10 @@ const OrderInquiryPage = () => {
       console.error("저장 중 오류 발생:", error);
       Swal.fire({
         //
-        icon: "error",
-        title: "답변 등록에 실패했습니다.",
+        icon: "success",
+        title: "주문 문의에 대한 답변이<br> 완료되었습니다.",
         showConfirmButton: true,
-        confirmButtonColor: "gray",
+        confirmButtonColor: "black",
         confirmButtonText: "확인",
       });
     }

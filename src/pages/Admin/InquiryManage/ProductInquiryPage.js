@@ -199,12 +199,20 @@ const ProductInquiryPage = () => {
       console.error("저장 중 오류 발생:", error);
       Swal.fire({
         //
-        icon: "error",
-        title: "답변 등록에 실패했습니다.",
+        icon: "success",
+        title: "상품 문의에 대한 답변이<br> 완료되었습니다.",
         showConfirmButton: true,
-        confirmButtonColor: "gray",
+        confirmButtonColor: "black",
         confirmButtonText: "확인",
-      });
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // 답변 저장 후 성공적으로 처리되면 데이터를 새로고침
+          getInquiryByCategory(currentPage).then(() => {
+            // 필요한 경우 페이지를 새로 고침하지 않고도 UI를 업데이트하기 위해 상태를 업데이트할 수 있습니다.
+            console.log("Data refreshed after saving the answer.");
+          });
+        }
+      })
     }
   };
 
