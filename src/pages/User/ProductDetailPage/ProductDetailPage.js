@@ -92,26 +92,6 @@ const ProductDetailPage = () => {
   };
 
   const handleAddToCart = () => {
-    if (
-      productInfo.price * Math.floor(amount) >
-      Number(localStorage.getItem("mileage"))
-    ) {
-      Swal.fire({
-        icon: "error", // 성공 아이콘 (success, error, warning, info 중 선택)
-        title: "마일리지가 부족합니다.",
-        showConfirmButton: true,
-        confirmButtonText: "충전",
-        buttonsStyling: true,
-        confirmButtonColor: "black",
-        showCancelButton: true,
-        cancelButtonText: "확인",
-        cancelButtonColor: "black",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          navigate("/mypage/mile");
-        }
-      });
-    } else {
       postCartData({
         productSeq: parseInt(productSeq),
         prdtOptionSeq: option.productOptionSeq,
@@ -132,7 +112,6 @@ const ProductDetailPage = () => {
           navigate("/cart");
         }
       });
-    }
   };
 
   useEffect(() => {
