@@ -53,27 +53,27 @@ export const ProductReview = ({ info }) => {
               {Number(info.productCompareDetailDto.price).toLocaleString()}
           </StyledTypoGraphy>
           <Typography
-            sx={{ fontSize: "15px", fontWeight: "bold", color: "#555555" }}
+            sx={{ fontSize: "15px", fontWeight: "bold", color: "#000000" }}
           >
             평점
           </Typography>
-          <StyledTypoGraphy style={{ color: "#000000" }}>
+          <StyledTypoGraphy style={{fontSize: "18px", color: "#575757" }}>
             {info.rating}
           </StyledTypoGraphy>
           <Typography
-            sx={{ fontSize: "15px", fontWeight: "bold", color: "#555555" }}
+            sx={{ fontSize: "15px", fontWeight: "bold", color: "#000000" }}
           >
             리뷰 수
           </Typography>
-          <StyledTypoGraphy style={{ color: "#000000" }}>
+          <StyledTypoGraphy style={{ fontSize: "18px",color: "#575757" }}>
             {info.reviewNum}
           </StyledTypoGraphy>
           <Typography
-            sx={{ fontSize: "15px", fontWeight: "bold", color: "#555555" }}
+            sx={{ fontSize: "15px", fontWeight: "bold", color: "#000000" }}
           >
             평점이 높은 리뷰
           </Typography>
-          <StyledTypoGraphy style={{ fontSize: "20px", color: "#9C9B9B" }}>
+          <StyledTypoGraphy style={{ fontSize: "18px", color: "#575757" }}>
             {/*{info.goodReviewSummery.split(",").map((review, index) => (*/}
             {/*  <span key={index}>*/}
             {/*    <div dangerouslySetInnerHTML={{ __html: review.trim() }} />*/}
@@ -84,11 +84,11 @@ export const ProductReview = ({ info }) => {
             {info.goodReviewSummery}
           </StyledTypoGraphy>
           <Typography
-            sx={{ fontSize: "15px", fontWeight: "bold", color: "#555555" }}
+            sx={{ fontSize: "15px", fontWeight: "bold", color: "#000000" }}
           >
             평점이 낮은 리뷰
           </Typography>
-          <StyledTypoGraphy style={{ fontSize: "20px", color: "#9C9B9B" }}>
+          <StyledTypoGraphy style={{ fontSize: "18px", color: "#575757" }}>
             {/*{info.badReviewSummery.split(",").map((review, index) => (*/}
             {/*  <span key={index}>*/}
             {/*    <div dangerouslySetInnerHTML={{ __html: review.trim() }} />*/}
