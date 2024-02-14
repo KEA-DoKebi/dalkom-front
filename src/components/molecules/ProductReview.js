@@ -73,7 +73,7 @@ export const ProductReview = ({ info }) => {
           >
             평점이 높은 리뷰
           </Typography>
-          <StyledTypoGraphy style={{ color: "#9C9B9B" }}>
+          <StyledTypoGraphy style={{ fontSize: "20px", color: "#9C9B9B" }}>
             {/*{info.goodReviewSummery.split(",").map((review, index) => (*/}
             {/*  <span key={index}>*/}
             {/*    <div dangerouslySetInnerHTML={{ __html: review.trim() }} />*/}
@@ -88,7 +88,7 @@ export const ProductReview = ({ info }) => {
           >
             평점이 낮은 리뷰
           </Typography>
-          <StyledTypoGraphy style={{ color: "#9C9B9B" }}>
+          <StyledTypoGraphy style={{ fontSize: "20px", color: "#9C9B9B" }}>
             {/*{info.badReviewSummery.split(",").map((review, index) => (*/}
             {/*  <span key={index}>*/}
             {/*    <div dangerouslySetInnerHTML={{ __html: review.trim() }} />*/}
