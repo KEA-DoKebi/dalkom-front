@@ -118,7 +118,8 @@ const MainBody = () => {
                               <Grid item xs={3} key={product.productSeq} data-cy={`product-card-${idx+1}`}>
                                 <MainProductCard 
                                   key={product.productSeq}
-                                  imageUrl={product.imageUrl.replace('d3tilqrki7dfvu.cloudfront.net', 'dalkom-image.s3.ap-northeast-2.amazonaws.com')}
+                                  // imageUrl={product.imageUrl.replace('d3tilqrki7dfvu.cloudfront.net', 'dalkom-image.s3.ap-northeast-2.amazonaws.com')}
+                                  imageUrl={`${product.imageUrl}?w=300&h=300&f=webp`}
                                   title={product.name}
                                   price={Number(product.price).toLocaleString()}
                                   star={product.rating}
