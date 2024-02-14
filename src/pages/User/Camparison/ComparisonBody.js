@@ -46,7 +46,9 @@ export const ComparisonBody = () => {
         console.log("없는 인덱스 입니다.");
       }
     } catch (e) {
+      console.log("비교에러 발생");
       console.error(e);
+      console.log(e);
     }
   };
 
