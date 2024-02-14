@@ -212,7 +212,7 @@ const SignUp = () => {
                 <StyleTextField
                   id="password"
                   label="비밀번호"
-                  type={isShowPw ? "password" : "text"}
+                  type={isShowPw ? "text" : "password"}
                   variant="outlined"
                   placeholder="비밀번호를 입력하세요."
                   {...register("password")}
@@ -220,7 +220,7 @@ const SignUp = () => {
                   helperText={errors.password ? errors.password.message : ""}
                 />
                 <Icon onClick={toggleHidePassword}>
-                  {isShowPw ? <FaEyeSlash /> : <FaEye />}
+                  {!isShowPw ? <FaEyeSlash /> : <FaEye />}
                 </Icon>
               </div>
               <div
@@ -233,7 +233,7 @@ const SignUp = () => {
                 <StyleTextField
                   id="confirmPassword"
                   label="비밀번호 확인"
-                  type={isShowPw ? "password" : "text"}
+                  type={isShowPw ? "text" : "password"}
                   variant="outlined"
                   placeholder="비밀번호를 다시 입력하세요."
                   {...register("confirmPassword")}
@@ -243,7 +243,7 @@ const SignUp = () => {
                   }
                 />
                 <Icon onClick={toggleHidePassword}>
-                  {isShowPw ? <FaEyeSlash /> : <FaEye />}
+                  {!isShowPw ? <FaEyeSlash /> : <FaEye />}
                 </Icon>
               </div>
               <StyleTextField
