@@ -15,6 +15,7 @@ import { AdminButton } from "components/atoms/AdminCommonButton";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { TokenAxios } from "apis/CommonAxios";
+import Swal from "sweetalert2";
 
 const UserRegisterPage = () => {
   // Declare selectedMenu and setSelectedMenu using useState
@@ -48,10 +49,19 @@ const UserRegisterPage = () => {
       const res = await TokenAxios.post("/api/admin/user", data);
       if (res.data.code === 200) {
         // 성공 메시지 설정
-        setAlertMessage("사용자 등록을 완료했습니다!");
-        setAlertSeverity("success");
-        setAlertOpen(true); // alert 열기
-        navigate("/admin/user/list");
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "사용자 등록이 완료되었습니다.",
+          showConfirmButton: true,
+          confirmButtonColor: "black",
+          confirmButtonText: "확인",
+        }).then(() => {
+          navigate("/admin/user/list");
+        })
+        // setAlertMessage("사용자 등록을 완료했습니다!");
+        // setAlertSeverity("success");
+        // setAlertOpen(true); // alert 열기
       } else {
         // 실패 메시지 설정 (API 응답에 따라 다를 수 있음)
         setAlertMessage("사용자 등록에 실패했습니다.");
