@@ -119,8 +119,9 @@ const MainBody = () => {
                                 <MainProductCard 
                                   key={product.productSeq}
                                   // imageUrl={product.imageUrl.replace('d3tilqrki7dfvu.cloudfront.net', 'dalkom-image.s3.ap-northeast-2.amazonaws.com')} // S3
-                                  imageUrl={product.imageUrl} // 그냥 CDN
-                                  // imageUrl={`${product.imageUrl}?w=300&h=300&f=webp`} // 포맷팅
+                                  // imageUrl={product.imageUrl} // 그냥 CDN
+
+                                  imageUrl={`${product.imageUrl}?w=300&h=300&f=webp`} // 포맷팅
                                   title={product.name}
                                   price={Number(product.price).toLocaleString()}
                                   star={product.rating}
