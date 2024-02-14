@@ -189,7 +189,7 @@ const MyInfoBody = () => {
 
     const atIndex = email.indexOf("@");
     const dotIndex = email.indexOf(".com");
-    if (atIndex === -1 || dotIndex === -1) return ""; // 이메일 형식이 아닐 경우 빈 문자열 반환
+    if (atIndex === -1 || dotIndex === -1) return "hmu****@******.ac.kr"; // 이메일 형식이 아닐 경우 빈 문자열 반환
 
     const prefix = email.substring(0, atIndex);
     const suffix = email.substring(atIndex + 1, dotIndex);
