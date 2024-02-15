@@ -25,9 +25,6 @@ export default function MileageApprovalBody() {
     Swal.fire({
       title: "얼마를 충전하시겠습니까?",
       input: "text",
-      inputAttributes: {
-        oninput: "this.value = this.value.replace(/[^0-9]/g, '').replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');"
-      },
       buttonsStyling: true,
       confirmButtonText: "충전하기",
       confirmButtonColor: "black",
