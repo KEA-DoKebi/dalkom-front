@@ -77,7 +77,7 @@ const InquiryWriteBody = () => {
             >
               <Option value="34">상품</Option>
               <Option value="35">주문</Option>
-              <Option value="36">결제</Option>
+              <Option value="36">마일리지</Option>
               <Option value="37">반품/환불</Option>
             </Select>
           </Grid>
