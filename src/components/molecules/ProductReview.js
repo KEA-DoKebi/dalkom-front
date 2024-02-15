@@ -1,9 +1,13 @@
 import { Box, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { styled } from "styled-components";
 
 export const ProductReview = ({ info }) => {
   console.log(info);
+
+  // useEffect(() => {
+
+  // },[])
 
   return (
     <div>
