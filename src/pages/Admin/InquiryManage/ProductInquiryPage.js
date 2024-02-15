@@ -229,7 +229,7 @@ const ProductInquiryPage = () => {
             <Typography variant="body1" sx={{ textAlign: "center" }}>
                 {formatDate(inquiry.createdAt)}
             </Typography>
-            <Typography variant="body1" sx={{ textAlign: "center" }}>
+            <Typography variant="body1" name="state" sx={{ textAlign: "center" }}>
                 {inquiry.answerStateName}
             </Typography>
             <div style={{display: "flex", justifyContent: "center"}}>
@@ -431,6 +431,7 @@ const ProductInquiryPage = () => {
             <Box display="flex" justifyContent="center" alignItems="center">
               <TextField
                 id="outlined-textarea"
+                name="answer"
                 defaultValue={selectedItem?.answerContent}
                 label={
                   selectedItem?.answerState === "Y"
@@ -456,7 +457,7 @@ const ProductInquiryPage = () => {
               }}
             >
               {!selectedItem?.answerContent && (
-                <AdminButton autoFocus onClick={handleModalSaveButton}>
+                <AdminButton autoFocus onClick={handleModalSaveButton} name="submit">
                   저장
                 </AdminButton>
               )}

@@ -144,6 +144,7 @@ const Topbar = () => {
 
   const getMileage = async () => {
     const res = await TokenAxios("/api/mileage/user");
+    console.log(res.data);
     setMileage(res.data.result.data);
     localStorage.setItem("mileage", res.data.result.data);
   };
@@ -275,6 +276,7 @@ const Topbar = () => {
           </Typography>
         </Link>
         <Input
+          id="search"
           disabled={false}
           placeholder="원하시는 상품을 검색해주세요"
           startDecorator={<SearchIcon />}

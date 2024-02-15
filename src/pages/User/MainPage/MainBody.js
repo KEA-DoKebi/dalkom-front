@@ -58,44 +58,40 @@ const MainBody = () => {
 
   return (
     <StyledBox>
-      <StyledCarousel animation={false}>
-        <StyledPaper sx={{ backgroundColor: "#FFF8DC", animation: "false" }}>
+      <StyledCarousel data-cy="carousel">
+        <StyledPaper sx={{ backgroundColor: "#FFF8DC" }} data-cy="carousel-item-1">
           <Link to="/cs/manual">
-            <BannerImage src="/images/MainPage/dokebiBanner1.png" />
+            <BannerImage src="/images/MainPage/dokebiBanner4.avif" data-cy="banner-image-1" />
           </Link>
         </StyledPaper>
 
-        <StyledPaper sx={{ backgroundColor: "#FEE300" }}>
+        <StyledPaper sx={{ backgroundColor: "#ffd1d2" }} data-cy="carousel-item-2">
           <Link to="/cs/manual">
-            <BannerImage src="/images/MainPage/dokebiBanner2.png" />
-          </Link>
-        </StyledPaper>
-
-        <StyledPaper sx={{ backgroundColor: "#494881" }}>
-          <Link to="/cs/manual">
-            <BannerImage src="/images/MainPage/dokebiBanner3.png" />
+            <BannerImage src="/images/MainPage/dokebiBanner5.avif" data-cy="banner-image-2" />
           </Link>
         </StyledPaper>
       </StyledCarousel>
 
-      <CategoryBox>
-        {categoryLists.map((category) => (
+      <CategoryBox data-cy="category-box">
+        {categoryLists.map((category, index) => (
           <StyledLink
             key={category.categorySeq}
             to={`/category/${category.categorySeq}?page=1`}
+            data-cy={`category-link-${index}`}
           >
-            <ImageBox>
+            <ImageBox data-cy={`category-image-box-${index}`}>
               <StyledAvartar
-                src={`/images/MainPage/category${category.categorySeq}.png`}
+                src={`/images/MainPage/category${category.categorySeq}.avif`}
+                data-cy={`category-avatar-${index}`}
               />
-              <Typography>{category.categoryName}</Typography>
+              <Typography data-cy={`category-name-${index}`}>{category.categoryName}</Typography>
             </ImageBox>
           </StyledLink>
         ))}
       </CategoryBox>
 
       <TableContainer>
-        <Table>
+        <Table data-cy="product-table">
           <TableBody>
             {Object.entries(productLists).map(
               ([categoryKey, productList], index) => {
@@ -107,9 +103,9 @@ const MainBody = () => {
                   : "";
 
                 return (
-                  <TableRow key={index}>
-                    <StyledTableCell>
-                      <Grid container spacing={1}>
+                  <TableRow key={index} data-cy={`product-row-${index}`}>
+                    <StyledTableCell data-cy={`product-cell-${index}`}>
+                      <Grid container spacing={1} data-cy={`product-grid-${index}`}>
                         <Grid item xs={0.5}></Grid>
                         <CenterGrid item xs={3}>
                           <StyleTypoGrapy>
@@ -118,11 +114,13 @@ const MainBody = () => {
                         </CenterGrid>
                         <StyledGrid item xs={8}>
                           <Grid container spacing={3}>
-                            {productList.map((product) => (
-                              <Grid item xs={3} key={product.productSeq}>
-                                <MainProductCard
+                            {productList.map((product, idx) => (
+                              <Grid item xs={3} key={product.productSeq} data-cy={`product-card-${idx+1}`}>
+                                <MainProductCard 
                                   key={product.productSeq}
-                                  imageUrl={product.imageUrl}
+                                  // imageUrl={product.imageUrl.replace('d3tilqrki7dfvu.cloudfront.net', 'dalkom-image.s3.ap-northeast-2.amazonaws.com')} // S3
+                                  // imageUrl={product.imageUrl} // 그냥 CDN
+                                  imageUrl={`${product.imageUrl}?w=300&h=300&f=webp`} // 포맷팅
                                   title={product.name}
                                   price={Number(product.price).toLocaleString()}
                                   star={product.rating}

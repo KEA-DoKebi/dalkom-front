@@ -20,7 +20,13 @@ export const CustomSelect = ({ options, onChange, value, size, sx }) => {
   const selectStyle = getSizeStyles(size);
 
   return (
-    <Select value={value} onChange={onChange} style={selectStyle} sx={sx}>
+    <Select 
+    data-testid="mui-select"
+    value={value} 
+    onChange={onChange} 
+    style={selectStyle} 
+    sx={sx}
+    >
       {options &&
         options.map((option, index) => (
           <MenuItem key={index} value={option.value}>

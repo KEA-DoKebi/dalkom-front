@@ -150,7 +150,7 @@ const OrderDetailBody = () => {
                     </td>
                     <td style={{ textAlign: "center", padding: "15px" }}>
                       {/* 주문 상태가 '구매확정(15)'인 경우만 리뷰 작성 가능 */}
-                      {orderDetail.ordrState === "15" && (
+                      {(orderDetail.ordrState === "15" || orderDetail.ordrState === "14") && (
                         <CustomButton
                           onClick={() =>
                             handleReviewButtonClick(orderDetail.ordrDetailSeq)
@@ -159,7 +159,7 @@ const OrderDetailBody = () => {
                           리뷰 작성
                         </CustomButton>
                       )}
-                      {orderDetail.ordrState !== "15" && (
+                      {(orderDetail.ordrState !== "15" && orderDetail.ordrState !== "14") && (
                         <Typography>-</Typography>
                       )}
                     </td>

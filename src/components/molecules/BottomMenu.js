@@ -1,5 +1,5 @@
 import { Box, Button, Grid, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { productImageStore } from "store/store";
 import { styled } from "styled-components";
@@ -16,7 +16,7 @@ export const BottomMenu = () => {
     setIsHovered(false); // 마우스가 컴포넌트를 벗어났을 때
   };
 
-  const { imageList, seqList, deleteImage, deleteSeq, subCategorySeq } =
+  const { imageList, seqList, deleteImage, deleteSeq, subCategorySeq, setSubCategorySeq } =
     productImageStore((state) => state);
 
   const navigate = useNavigate();
@@ -29,6 +29,13 @@ export const BottomMenu = () => {
   const handleCompareBtnClicked = () => {
     navigate(`/comparison/${subCategorySeq}`);
   };
+
+  useEffect(() => {
+    if(imageList.every(image => image === '/image/default.img')){
+      setSubCategorySeq(0);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[imageList])
 
   return (
     <StyledPopUpContainer
@@ -50,15 +57,19 @@ export const BottomMenu = () => {
         </Grid>
         <Grid item xs={1}></Grid>
         <Grid item xs={3}>
-          <ImageContainer>
+          <ImageContainer
+            data-cy="image-container-0"
+          >
             <StyledImage
               src={imageList[0] ? imageList[0] : "/images/defaultImage.png"}
+              data-cy={`product-image-0`}
             />
             <DeleteButton
               className="delete-btn"
               onClick={() => {
                 handleDeleteBtnClicked(imageList[0], seqList[0]);
               }}
+              data-cy={`delete-button-0`}
             >
               X
             </DeleteButton>
@@ -66,15 +77,19 @@ export const BottomMenu = () => {
         </Grid>
         <Grid item xs={0.5}></Grid>
         <Grid item xs={3}>
-          <ImageContainer>
+          <ImageContainer
+            data-cy="image-container-1"
+          >
             <StyledImage
               src={imageList[1] ? imageList[1] : "/images/defaultImage.png"}
+              data-cy={`product-image-1`}
             />
             <DeleteButton
               className="delete-btn"
               onClick={() => {
                 handleDeleteBtnClicked(imageList[1], seqList[1]);
               }}
+              data-cy={`delete-button-1`}
             >
               X
             </DeleteButton>
@@ -82,15 +97,19 @@ export const BottomMenu = () => {
         </Grid>
         <Grid item xs={0.5}></Grid>
         <Grid item xs={3}>
-          <ImageContainer>
+          <ImageContainer
+            data-cy="image-container-2"
+          >
             <StyledImage
               src={imageList[2] ? imageList[2] : "/images/defaultImage.png"}
+              data-cy={`product-image-2`}
             />
             <DeleteButton
               className="delete-btn"
               onClick={() => {
                 handleDeleteBtnClicked(imageList[2], seqList[2]);
               }}
+              data-cy={`delete-button-2`}
             >
               X
             </DeleteButton>

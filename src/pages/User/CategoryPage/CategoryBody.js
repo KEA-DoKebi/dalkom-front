@@ -12,6 +12,11 @@ import { ProductCard } from "components/molecules/ProductCard";
 import { BottomMenu } from "components/molecules/BottomMenu";
 import { searchStore } from "store/store";
 
+
+
+
+
+
 const CategoryBody = () => {
   // URL에 있는 값 가져오는 함수 (Router에 저장된 변수명으로 가져옴)
   const { categorySeq, subCategorySeq } = useParams();
@@ -23,6 +28,7 @@ const CategoryBody = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(searchPage);
   const [tabValue, setTabValue] = useState(1);
+  const [isProduct, setIsProduct] = useState(true);
   const [categoryNames] = useState([
     "패션/뷰티",
     "생활",
@@ -57,6 +63,7 @@ const CategoryBody = () => {
     try {
       if (categorySeq <= 6) {
         const res = await TokenAxios.get(`/api/category/${categorySeq}`);
+        console.log(res.data.result.data);
         setSubCategoryLists(res.data.result.data);
       }
     } catch (e) {
@@ -71,9 +78,11 @@ const CategoryBody = () => {
         `/api/product/category/${categorySeq}?page=${currentPage - 1}&size=12`,
       );
       console.log(res.data);
+      setIsProduct(true);
       setProductLists(res.data.result.data.content);
       setTotalPages(res.data.result.data.totalPages);
     } catch (e) {
+      setIsProduct(false);
       console.log(e);
     }
   };
@@ -85,9 +94,11 @@ const CategoryBody = () => {
         `/api/product/category/detail/${subCategorySeq}?page=${currentPage - 1}&size=12`,
       );
       console.log(res.data);
+      setIsProduct(true);
       setProductLists(res.data.result.data.page.content);
       setTotalPages(res.data.result.data.page.totalPages);
     } catch (e) {
+      setIsProduct(false);
       console.log(e);
     }
   };
@@ -110,8 +121,12 @@ const CategoryBody = () => {
   }, [currentPage]);
 
   useEffect(() => {
-    getSubProductLists();
+    if(subCategorySeq !== undefined){
+      getSubProductLists();
+    }
+    // getSubProductLists();
     setTabValue(Number(subCategorySeq));
+    // setSubCategorySeq(subCategorySeq);
     setPage("카테고리 검색결과");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [subCategorySeq, currentPage]);
@@ -127,6 +142,7 @@ const CategoryBody = () => {
           <StyleTypoGrapy
             onClick={getMainProductLists}
             sx={{ textAlign: "center", marginBottom: "2vh" }}
+            data-cy="category-title"
           >
             <StyledLink to={`/category/${categorySeq}?page=1`}>
               {categorySeq <= 6 && categoryNames[categorySeq - 1]}
@@ -158,6 +174,7 @@ const CategoryBody = () => {
                   key={subCategory.categorySeq}
                   label={subCategory.name}
                   value={subCategory.categorySeq}
+                  data-cy={`tab-${subCategory.categorySeq}`} // 각 탭을 선택하기 위한 용도
                   component={Link}
                   to={`/category/${categorySeq}/sub/${subCategory.categorySeq}?page=1`}
                 />
@@ -168,36 +185,47 @@ const CategoryBody = () => {
         <Grid item xs={2}></Grid>
       </Grid>
 
-      <Grid container spacing={1}>
-        <Grid item xs={2}></Grid>
-        <Grid item xs={8}>
-          <Grid container spacing={3}>
-            {productLists.map((product) => (
-              <Grid item xs={3} key={product.productSeq}>
-                <ProductCard
-                  key={product.productSeq}
-                  imageUrl={`${product.imageUrl}?w=300&h=300&f=webp`}
-                  title={product.name}
-                  price={product.price}
-                  star={product.rating}
-                  review={product.reviewAmount}
-                  seq={product.productSeq}
-                  state={product.state}
-                  categorySeq={subCategorySeq}
-                />
-              </Grid>
-            ))}
+      {isProduct 
+      ? 
+      <>
+        <Grid container spacing={1}>
+          <Grid item xs={2}></Grid>
+          <Grid item xs={8}>
+            <Grid container spacing={3}>
+              {productLists.map((product) => (
+                <Grid item xs={3} key={product.productSeq}>
+                  <ProductCard
+                    key={product.productSeq}
+                    imageUrl={`${product.imageUrl}?w=300&h=300&f=webp`} // 포맷팅
+                    title={product.name}
+                    price={product.price}
+                    star={product.rating}
+                    review={product.reviewAmount}
+                    seq={product.productSeq}
+                    state={product.state}
+                    categorySeq={product.subCategorySeq}
+                    data-cy={`product-card-${product.productSeq}`}
+                  />
+                </Grid>
+              ))}
+            </Grid>
           </Grid>
         </Grid>
+        <BottomMenu />
+        <CenterPaginationContainer>
+          <Pagination
+            count={totalPages}
+            page={currentPage}
+            onChange={handlePageChange}
+          />
+        </CenterPaginationContainer>
+      </>
+      :
+      <Grid item xs={12} style={{ display: "flex", justifyContent: "center" }}>
+        <img src="/images/ready_for_product.png" alt="상품준비중" style={{ maxWidth: "100%", maxHeight: "100%" }}/>
       </Grid>
-      <BottomMenu />
-      <CenterPaginationContainer>
-        <Pagination
-          count={totalPages}
-          page={currentPage}
-          onChange={handlePageChange}
-        />
-      </CenterPaginationContainer>
+      }
+      
     </StyledBox>
   );
 };

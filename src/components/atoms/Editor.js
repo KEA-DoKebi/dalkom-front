@@ -80,7 +80,7 @@ const EditorComponent = ({ onContentChange, placeholder, value }) => {
     <ReactQuill
       ref={quillRef}
       onChange={handleContentChange}
-      style={{ width: "100%", height: "400px" }}
+      style={{ width: "100%", height: "200px" }}
       modules={modules}
       placeholder={placeholder}
       value={value}

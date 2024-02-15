@@ -33,6 +33,7 @@ import OrderList from "pages/User/MyPage/Order/OrderListPage/OrderListPage";
 import Refund from "pages/User/MyPage/Order/RefundPage/RefundPage";
 import Review from "pages/User/MyPage/Review/ReviewPage/ReviewPage";
 import ReviewEdit from "pages/User/MyPage/Review/ReviewWritePage/ReviewEditPage";
+import ReviewDetail from "pages/User/MyPage/Review/ReviewWritePage/ReviewDetailPage";
 import ReviewWrite from "pages/User/MyPage/Review/ReviewWritePage/ReviewWritePage";
 import Payment from "pages/User/PaymentPage/PaymentPage";
 import Login from "pages/commonPage/Login";
@@ -49,6 +50,7 @@ import { FAQDetailPage } from "pages/User/CustomerServicePage/FAQDetailPage";
 import { NoticeDetailPage } from "pages/User/CustomerServicePage/NoticeDetailPage";
 
 import MileageInquiryPage from "pages/Admin/InquiryManage/MileageInquiryPage";
+import RouteChangeTracker from "./RouteChangeTracker";
 
 // eslint-disable-next-line no-unused-vars, no-undef
 const apm = initApm({
@@ -58,9 +60,14 @@ const apm = initApm({
   environment: "dalkom-front",
 });
 
+
+
 const Router = () => {
+
+
   return (
     <BrowserRouter>
+    <RouteChangeTracker />
       <AuthProvider>
         <ApmRoutes>
           {/* 사용자 */}
@@ -83,6 +90,10 @@ const Router = () => {
           <Route
             path="/mypage/review/edit/:reviewSeq"
             element={<ReviewEdit />}
+          />
+          <Route
+            path="/mypage/review/detail/:reviewSeq"
+            element={<ReviewDetail />}
           />
           <Route path="/mypage/myinfo" element={<MyInfo />} />
           <Route

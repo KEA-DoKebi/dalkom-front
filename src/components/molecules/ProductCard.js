@@ -47,18 +47,23 @@ export const ProductCard = ({ imageUrl, title, price, star, review, seq, categor
   };
 
   return (
-    <Link to={`/product/${seq}/상품상세`}>
-      <SungjunCard>
-        <CardImage src={imageUrl} alt="카드 이미지" />
-        <HoverCardContent>
-          <HoverCardTitle>★ {(star ?? 0).toFixed(1)}</HoverCardTitle>
-          <HoverCardButton variant="contained" onClick={handleAddButtonClick}>
+    <Link to={`/product/${seq}/상품상세`} data-cy={`product-card-link-${seq}`}>
+      <SungjunCard data-cy={`product-card-${seq}`}>
+        <CardImage src={imageUrl} alt="카드 이미지"/>
+        <HoverCardContent data-cy={`hover-content-${seq}`}>
+          <HoverCardTitle data-cy={`hover-title-${seq}`}>★ {(star ?? 0).toFixed(1)}</HoverCardTitle>
+          <HoverCardButton 
+            variant="contained" 
+            onClick={handleAddButtonClick}
+            data-cy={`compare-btn-${seq}`}  
+          >
             <Typography
               sx={{
                 fontSize: "15px",
                 fontWeight: "bold",
                 lineHeight: "normal",
               }}
+              data-cy={`compare-text-${seq}`}
             >
               ➕ 상품 비교
             </Typography>
@@ -109,12 +114,13 @@ export const ProductCard = ({ imageUrl, title, price, star, review, seq, categor
           </div>  
           }
           </CardDescription>
-          <CardDescription>
+          <CardDescription data-cy={`card-description-rating-${seq}`}>
             <StarRating
               star={Math.round(Number(star))}
               rating={star}
+              data-cy={`star-rating-${seq}`}
             ></StarRating>
-            <Typography>리뷰 : {review}</Typography>
+            <Typography data-cy={`review-count-${seq}`}>리뷰 : {review}</Typography>
           </CardDescription>
         </CardContent>
       </SungjunCard>

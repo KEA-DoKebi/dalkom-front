@@ -24,7 +24,7 @@ const ProductDetailPage = () => {
   const [productReviewList, setProductReviewList] = useState([]);
   const [option, setOption] = useState({});
   const [menuItems] = useState(["상품상세", "상품평", "상품안내"]);
-  const [amount, setAmount] = useState();
+  const [amount, setAmount] = useState("0");
   const { productSeq, menuName } = useParams();
   const navigate = useNavigate();
 
@@ -33,15 +33,15 @@ const ProductDetailPage = () => {
     console.log(event.target.value);
   };
 
-  const handleCountChange = (event) => {
-    const number = Number(event.target.value);
-    if (number > 0 && option.amount >= number) {
+  const handleCountChange = (event, value) => {
+    const number = event.target.value;
+    if ( number > 0 && (option.amount >= number) && !(number < 0)) {
       setAmount(number);
     }
     if (option.amount < number) {
       Swal.fire({
         icon: "error", // 성공 아이콘 (success, error, warning, info 중 선택)
-        title: "수량은 재고보다 많이 설정할 수 없습니다",
+        title: "수량은 재고보다 많이 설정할 수 없습니다.",
         showConfirmButton: true,
         confirmButtonText: "확인",
         buttonsStyling: true,
@@ -92,26 +92,6 @@ const ProductDetailPage = () => {
   };
 
   const handleAddToCart = () => {
-    if (
-      productInfo.price * Math.floor(amount) >
-      Number(localStorage.getItem("mileage"))
-    ) {
-      Swal.fire({
-        icon: "error", // 성공 아이콘 (success, error, warning, info 중 선택)
-        title: "마일리지가 부족합니다",
-        showConfirmButton: true,
-        confirmButtonText: "충전",
-        buttonsStyling: true,
-        confirmButtonColor: "black",
-        showCancelButton: true,
-        cancelButtonText: "확인",
-        cancelButtonColor: "black",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          navigate("/mypage/mile");
-        }
-      });
-    } else {
       postCartData({
         productSeq: parseInt(productSeq),
         prdtOptionSeq: option.productOptionSeq,
@@ -132,7 +112,6 @@ const ProductDetailPage = () => {
           navigate("/cart");
         }
       });
-    }
   };
 
   useEffect(() => {
@@ -195,6 +174,7 @@ const ProductDetailPage = () => {
                 <Select
                   labelId="product-option"
                   id="option"
+                  name="option"
                   label="옵션"
                   placeholder="옵션을 선택해주세요"
                   value={productInfo?.stockList}
@@ -237,6 +217,7 @@ const ProductDetailPage = () => {
                   type="number"
                   placeholder="수량을 입력해주세요"
                   value={amount}
+                  min="0"
                   onChange={handleCountChange}
                   sx={{
                     minHeight: "50px",

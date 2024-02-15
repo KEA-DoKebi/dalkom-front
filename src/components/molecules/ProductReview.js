@@ -39,31 +39,41 @@ export const ProductReview = ({ info }) => {
           >
             가격
           </Typography>
-          <StyledTypoGraphy style={{ fontWeight: "bold", color: "#203461" }}>
-            {Number(info.productCompareDetailDto.price).toLocaleString()}
+          <StyledTypoGraphy style={{ 
+            fontWeight: "bold", 
+            color: "#203461", 
+            textAlign: "center", 
+            display: "flex", 
+            alignItems: "center" }}>
+              <img
+                src="/images/M-1.png"
+                alt="마일리지"
+                style={{ width: "26px", height: "26px", marginRight: "5px" }}
+              />
+              {Number(info.productCompareDetailDto.price).toLocaleString()}
           </StyledTypoGraphy>
           <Typography
-            sx={{ fontSize: "15px", fontWeight: "bold", color: "#555555" }}
+            sx={{ fontSize: "15px", fontWeight: "bold", color: "#000000" }}
           >
             평점
           </Typography>
-          <StyledTypoGraphy style={{ color: "gold" }}>
+          <StyledTypoGraphy style={{fontSize: "18px", color: "#575757" }}>
             {info.rating}
           </StyledTypoGraphy>
           <Typography
-            sx={{ fontSize: "15px", fontWeight: "bold", color: "#555555" }}
+            sx={{ fontSize: "15px", fontWeight: "bold", color: "#000000" }}
           >
             리뷰 수
           </Typography>
-          <StyledTypoGraphy style={{ color: "#F6A0BD" }}>
+          <StyledTypoGraphy style={{ fontSize: "18px",color: "#575757" }}>
             {info.reviewNum}
           </StyledTypoGraphy>
           <Typography
-            sx={{ fontSize: "15px", fontWeight: "bold", color: "#555555" }}
+            sx={{ fontSize: "15px", fontWeight: "bold", color: "#000000" }}
           >
             평점이 높은 리뷰
           </Typography>
-          <StyledTypoGraphy style={{ color: "#00E676" }}>
+          <StyledTypoGraphy style={{ fontSize: "18px", color: "#575757" }}>
             {/*{info.goodReviewSummery.split(",").map((review, index) => (*/}
             {/*  <span key={index}>*/}
             {/*    <div dangerouslySetInnerHTML={{ __html: review.trim() }} />*/}
@@ -74,11 +84,11 @@ export const ProductReview = ({ info }) => {
             {info.goodReviewSummery}
           </StyledTypoGraphy>
           <Typography
-            sx={{ fontSize: "15px", fontWeight: "bold", color: "#555555" }}
+            sx={{ fontSize: "15px", fontWeight: "bold", color: "#000000" }}
           >
             평점이 낮은 리뷰
           </Typography>
-          <StyledTypoGraphy style={{ color: "#F44336" }}>
+          <StyledTypoGraphy style={{ fontSize: "18px", color: "#575757" }}>
             {/*{info.badReviewSummery.split(",").map((review, index) => (*/}
             {/*  <span key={index}>*/}
             {/*    <div dangerouslySetInnerHTML={{ __html: review.trim() }} />*/}

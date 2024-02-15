@@ -105,7 +105,7 @@ const SignUp = () => {
     formState: { errors },
   } = useForm();
   const [joinedDate, setJoinedDate] = useState(null);
-  const [isShowPw, setShowPwState] = useState(true);
+  const [isShowPw, setShowPwState] = useState(false);
 
   const password = watch("password");
   const comfirmPassword = watch("confirmPassword");
@@ -220,7 +220,7 @@ const SignUp = () => {
                   helperText={errors.password ? errors.password.message : ""}
                 />
                 <Icon onClick={toggleHidePassword}>
-                  {isShowPw ? <FaEyeSlash /> : <FaEye />}
+                  {!isShowPw ? <FaEyeSlash /> : <FaEye />}
                 </Icon>
               </div>
               <div
@@ -243,7 +243,7 @@ const SignUp = () => {
                   }
                 />
                 <Icon onClick={toggleHidePassword}>
-                  {isShowPw ? <FaEyeSlash /> : <FaEye />}
+                  {!isShowPw ? <FaEyeSlash /> : <FaEye />}
                 </Icon>
               </div>
               <StyleTextField

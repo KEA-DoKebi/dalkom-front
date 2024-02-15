@@ -20,6 +20,7 @@ export const TokenAxios = axios.create({
   },
 });
 
+// 항상 최신 상태의 token을 가져오기 위한 interceptor
 TokenAxios.interceptors.request.use(
   (config) => {
     const nextConfig = config;
