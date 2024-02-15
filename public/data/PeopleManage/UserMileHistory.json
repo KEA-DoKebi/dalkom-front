@@ -1,0 +1,74 @@
+{
+  "mileageHistroyList": [
+    {
+      "mileleageHistorySeq": 1,
+      "amount": 5000,
+      "balance": 300000,
+      "type": "충전",
+      "changeDate": "2024-01-08"
+    },
+    {
+      "mileleageHistorySeq": 2,
+      "amount": -5000,
+      "balance": 295000,
+      "type": "사용",
+      "changeDate": "2024-01-09"
+    },
+    {
+        "mileleageHistorySeq": 3,
+        "amount": 5000,
+        "balance": 300000,
+        "type": "충전",
+        "changeDate": "2024-01-08"
+      },
+      {
+        "mileleageHistorySeq": 4,
+        "amount": -5000,
+        "balance": 295000,
+        "type": "사용",
+        "changeDate": "2024-01-09"
+      },
+      {
+        "mileleageHistorySeq": 5,
+        "amount": 5000,
+        "balance": 300000,
+        "type": "충전",
+        "changeDate": "2024-01-08"
+      },
+      {
+        "mileleageHistorySeq": 6,
+        "amount": -5000,
+        "balance": 295000,
+        "type": "사용",
+        "changeDate": "2024-01-09"
+      },
+      {
+        "mileleageHistorySeq": 7,
+        "amount": 5000,
+        "balance": 300000,
+        "type": "충전",
+        "changeDate": "2024-01-08"
+      },
+      {
+        "mileleageHistorySeq": 8,
+        "amount": -5000,
+        "balance": 295000,
+        "type": "사용",
+        "changeDate": "2024-01-09"
+      },
+      {
+        "mileleageHistorySeq": 9,
+        "amount": 5000,
+        "balance": 300000,
+        "type": "충전",
+        "changeDate": "2024-01-08"
+      },
+      {
+        "mileleageHistorySeq": 10,
+        "amount": -5000,
+        "balance": 295000,
+        "type": "사용",
+        "changeDate": "2024-01-09"
+      }
+  ]
+}

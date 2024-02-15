@@ -1,0 +1,357 @@
+{
+    "패션/뷰티": [
+
+      { "productSeq" : 1,
+        "productName": "에어포스1",
+        "productPrice": 89000,
+        "productStar": "4.6",
+        "productReview": "950",
+        "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Ffashion1.jpg"
+      },
+      { "productSeq" : 2,
+        "productName": "나이키 후드티",
+        "productPrice": 60000,
+        "productStar": "4.2",
+        "productReview": "800",
+        "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Ffashion2.jpg"
+      },
+      { "productSeq" : 3,
+        "productName": "아디다스 운동화",
+        "productPrice": 120000,
+        "productStar": "4.8",
+        "productReview": "1200",
+        "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Ffashion3.jpg"
+      },
+      { "productSeq" : 4,
+        "productName": "카카오프렌즈 티셔츠",
+        "productPrice": 25000,
+        "productStar": "3.2",
+        "productReview": "500",
+        "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Ffashion4.jpg"
+      },
+      { "productSeq" : 5,
+        "productName": "패션 스니커즈",
+        "productPrice": 75000,
+        "productStar": "3.8",
+        "productReview": "700",
+        "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Ffashion5.jpg"
+      },
+      { "productSeq" : 6,
+        "productName": "롱패딩",
+        "productPrice": "150,000",
+        "productStar": "4.7",
+        "productReview": "1100",
+        "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Ffashion6.png"
+      },
+      { "productSeq" : 7,
+        "productName": "청바지",
+        "productPrice": "45,000",
+        "productStar": "4.9",
+        "productReview": "600",
+        "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Ffashion7.jpg"
+      },
+      { "productSeq" : 8,
+        "productName": "니트 스웨터",
+        "productPrice": "55,000",
+        "productStar": "2.3",
+        "productReview": "850",
+        "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Ffashion8.jpg"
+      }
+    ],
+
+    "생활": [
+      { "productSeq" : 9,
+        "productName": "프리미엄 침구 세트",
+        "productPrice": 150000,
+        "productStar": "4.7",
+        "productReview": "900",
+        "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Flife1.jpg"
+      },
+      { "productSeq" : 10,
+        "productName": "스테인리스 후라이팬",
+        "productPrice": "35,000",
+        "productStar": "4.2",
+        "productReview": "400",
+        "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Flife2.jpg"
+      },
+      { "productSeq" : 11,
+        "productName": "전기밥솥",
+        "productPrice": 100000,
+        "productStar": "4.5",
+        "productReview": "700",
+        "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Flife3.jpg"
+      },
+      { "productSeq" : 12,
+        "productName": "카페트",
+        "productPrice": "50,000",
+        "productStar": "4.0",
+        "productReview": "600",
+        "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Flife4.jpg"
+      },
+      { "productSeq" : 13,
+        "productName": "향기 나는 캔들",
+        "productPrice": "20,000",
+        "productStar": "4.8",
+        "productReview": "800",
+        "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Flife5.jpg"
+      },
+      { "productSeq" : 14,
+        "productName": "손목 시계",
+        "productPrice": "30,000",
+        "productStar": "4.3",
+        "productReview": "500",
+        "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Flife6.jpg"
+      },
+      { "productSeq" : 15,
+        "productName": "꽃병",
+        "productPrice": "10,000",
+        "productStar": "4.6",
+        "productReview": "750",
+        "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Flife7.jpg"
+      },
+      { "productSeq" : 16,
+        "productName": "행주 세트",
+        "productPrice": "15,000",
+        "productStar": "4.1",
+        "productReview": "300",
+        "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Flife8.png"
+      }
+    ],
+
+    "디지털/가전": [
+      { "productSeq" : 17,
+        "productName": "스마트폰",
+        "productPrice": "800,000",
+        "productStar": "4.7",
+        "productReview": "1500",
+        "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Fdigital1.jpg"
+      },
+      { "productSeq" : 18,
+        "productName": "노트북",
+        "productPrice": "2,750,000",
+        "productStar": "4.6",
+        "productReview": "1200",
+        "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Fdigital2.jpg"
+      },
+      { "productSeq" : 19,
+        "productName": "TV",
+        "productPrice": "2,500,000",
+        "productStar": "4.5",
+        "productReview": "1800",
+        "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Fdigital3.jpg"
+      },
+      { "productSeq" : 20,
+        "productName": "에어팟 프로",
+        "productPrice": "320,000",
+        "productStar": "4.8",
+        "productReview": "1000",
+        "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Fdigital4.jpg"
+      },
+      { "productSeq" : 21,
+        "productName": "게이밍 모니터",
+        "productPrice": "700,000",
+        "productStar": "4.4",
+        "productReview": "900",
+        "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Fdigital5.png"
+      },
+      { "productSeq" : 22,
+        "productName": "무선 이어폰",
+        "productPrice": "100,000",
+        "productStar": "4.2",
+        "productReview": "500",
+        "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Fdigital6.jpg"
+      },
+      { "productSeq" : 23,
+        "productName": "USB",
+        "productPrice": "5,000",
+        "productStar": "4.5",
+        "productReview": "700",
+        "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Fdigital7.jpg"
+      },
+      { "productSeq" : 24,
+        "productName": "스마트 워치",
+        "productPrice": "495,000",
+        "productStar": "4.3",
+        "productReview": "800",
+        "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Fdigital8.jpg"
+      }
+    ],
+
+    "출산/유아동": [
+      { "productSeq" : 25,
+        "productName": "유아 장난감 세트",
+        "productPrice": "50,000",
+        "productStar": "4.9",
+        "productReview": "1200",
+        "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Fbaby1.jpg"
+      },
+      { "productSeq" : 26,
+        "productName": "기저귀 패키지",
+        "productPrice": "30,000",
+        "productStar": "4.7",
+        "productReview": "900",
+        "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Fbaby2.jpg"
+      },
+      { "productSeq" : 27,
+        "productName": "아기 침대",
+        "productPrice": "100,000",
+        "productStar": "4.5",
+        "productReview": "700",
+        "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Fbaby3.jpg"
+      },
+      { "productSeq" : 28,
+        "productName": "유아용 학습 장난감",
+        "productPrice": "40,000",
+        "productStar": "4.6",
+        "productReview": "800",
+        "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Fbaby4.jpg"
+      },
+      { "productSeq" : 29,
+        "productName": "아기 옷 세트",
+        "productPrice": "25,000",
+        "productStar": "4.8",
+        "productReview": "1000",
+        "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Fbaby5.jpg"
+      },
+      { "productSeq" : 30,
+        "productName": "이유식용 조리기구",
+        "productPrice": "15,000",
+        "productStar": "4.2",
+        "productReview": "500",
+        "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Fbaby6.jpg"
+      },
+      { "productSeq" : 31,
+        "productName": "유모차",
+        "productPrice": "120,000",
+        "productStar": "4.4",
+        "productReview": "600",
+        "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Fbaby7.jpg"
+      },
+      { "productSeq" : 32,
+        "productName": "배이비 보낭",
+        "productPrice": "13,000",
+        "productStar": "4.3",
+        "productReview": "450",
+        "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Fbaby8.jpg"
+      }
+    ],
+
+    "스포츠/레저": [
+      { "productSeq" : 33,
+        "productName": "축구공",
+        "productPrice": "30,000",
+        "productStar": "4.6",
+        "productReview": "700",
+        "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Fsports1.jpg"
+      },
+      { "productSeq" : 34,
+        "productName": "골프 클럽 세트",
+        "productPrice": "500,000",
+        "productStar": "4.5",
+        "productReview": "800",
+        "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Fsports2.jpg"
+      },
+      { "productSeq" : 35,
+        "productName": "농구 공",
+        "productPrice": "25,000",
+        "productStar": "4.7",
+        "productReview": "900",
+        "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Fsports3.jpg"
+      },
+      { "productSeq" : 36,
+        "productName": "스케이트보드",
+        "productPrice": "80,000",
+        "productStar": "4.3",
+        "productReview": "600",
+        "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Fsports4.jpg"
+      },
+      { "productSeq" : 37,
+        "productName": "요가 매트",
+        "productPrice": "20,000",
+        "productStar": "4.8",
+        "productReview": "1000",
+        "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Fsports5.jpg"
+      },
+      { "productSeq" : 38,
+        "productName": "헬스 바벨 세트",
+        "productPrice": "150,000",
+        "productStar": "4.4",
+        "productReview": "750",
+        "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Fsports6.jpg"
+      },
+      { "productSeq" : 39,
+        "productName": "테니스 라켓",
+        "productPrice": "40,000",
+        "productStar": "4.2",
+        "productReview": "500",
+        "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Fsports7.jpg"
+      },
+      { "productSeq" : 40,
+        "productName": "자전거",
+        "productPrice": "200,000",
+        "productStar": "4.5",
+        "productReview": "850",
+        "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Fsports8.jpg"
+      }
+    ],
+
+    "카카오굿즈": [
+      { "productSeq" : 41,
+        "productName": "어피치 인형",
+        "productPrice": "20,000",
+        "productStar": "4.6",
+        "productReview": "300",
+        "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Fkakaofriends1.jpg"
+      },
+      { "productSeq" : 42,
+        "productName": "라이언 필통",
+        "productPrice": "10,000",
+        "productStar": "4.8",
+        "productReview": "250",
+        "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Fkakaofriends2.jpg"
+      },
+      { "productSeq" : 43,
+        "productName": "춘식이 캐리어",
+        "productPrice": "40,000",
+        "productStar": "4.5",
+        "productReview": "400",
+        "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Fkakaofriends3.jpg"
+      },
+      { "productSeq" : 44,
+        "productName": "튜브 머그컵",
+        "productPrice": "15,000",
+        "productStar": "4.7",
+        "productReview": "350",
+        "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Fkakaofriends4.jpg"
+      },
+      { "productSeq" : 45,
+        "productName": "카카오 프렌즈 텀블러",
+        "productPrice": "25,000",
+        "productStar": "4.4",
+        "productReview": "200",
+        "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Fkakaofriends5.jpg"
+      },
+      { "productSeq" : 46,
+        "productName": "죠르디 올인원 스탠드",
+        "productPrice": "30,000",
+        "productStar": "4.3",
+        "productReview": "300",
+        "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Fkakaofriends6.jpg"
+      },
+      { "productSeq" : 47,
+        "productName": "미니 제이지 인형",
+        "productPrice": "35,000",
+        "productStar": "4.5",
+        "productReview": "400",
+        "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Fkakaofriends7.jpg"
+      },
+      { "productSeq" : 48,
+        "productName": "코니 마우스패드",
+        "productPrice": "12,000",
+        "productStar": "4.2",
+        "productReview": "250",
+        "imageUrl" : "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/4242bfd38b474e3db4e62fa7923ca013/dokebi-image-storage/mainpage%2Fkakaofriends8.jpg"
+      }
+    ]
+  }
+  
