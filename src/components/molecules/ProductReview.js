@@ -41,7 +41,7 @@ export const ProductReview = ({ info }) => {
           </Typography>
           <StyledTypoGraphy style={{ 
             fontWeight: "bold", 
-            color: "#000000", 
+            color: "#203461", 
             textAlign: "center", 
             display: "flex", 
             alignItems: "center" }}>
