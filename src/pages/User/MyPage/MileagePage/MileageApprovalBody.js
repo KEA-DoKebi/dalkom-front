@@ -25,6 +25,9 @@ export default function MileageApprovalBody() {
     Swal.fire({
       title: "얼마를 충전하시겠습니까?",
       input: "text",
+      inputAttributes: {
+        oninput: "this.value = this.value.replace(/[^0-9]/g, '').replace(/\\B(?=(\\d{3})+(?!\\d))/g, ',');"
+      },
       buttonsStyling: true,
       confirmButtonText: "충전하기",
       confirmButtonColor: "black",
@@ -35,7 +38,7 @@ export default function MileageApprovalBody() {
         } else if (isNaN(mileage) || mileage < 0) {
           return "유효한 금액을 입력해주세요!";
         } else if (mileage >= 3000000) {
-          return "최대 2,999,999까지 충전 가능합니다.";
+          return "최대 3,000,000까지 충전 가능합니다.";
         }
       },
       preConfirm: async (mileage) => {
