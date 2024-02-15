@@ -25,6 +25,7 @@ import EditorComponent from "components/atoms/Editor";
 import Swal from "sweetalert2";
 import { useNavigate, useParams } from "react-router-dom";
 
+
 const ProductEditPage = () => {
   const navigate = useNavigate();
 

@@ -69,29 +69,28 @@ export const ProductCard = ({ imageUrl, title, price, star, review, seq, categor
             </Typography>
           </HoverCardButton>
         </HoverCardContent>
-        <CardContent data-cy={`card-content-${seq}`}>
-          <CardTitle data-cy={`card-title-${seq}`}>{title}</CardTitle>
-          <CardDescription data-cy={`card-description-price-${seq}`}>
+        <CardContent>
+          <CardTitle>{title}</CardTitle>
+          <CardDescription>
+            {/* <img src="/images/M-user.png" width="15px" height="15px"/>  {price} */}
             {state === "Y" ? 
             (
               <Typography
-                variant="body1"
-                sx={{
-                  textAlign: "center",
-                  display: "flex",
-                  alignItems: "center",
-                  marginBottom: "7px",
-                }}
-                data-cy={`card-price-${seq}`}
-              >
-                <img
-                  src="/images/M-1.png"
-                  alt="마일리지"
-                  style={{ width: "20px", height: "20px", marginRight: "5px" }}
-                  data-cy={`card-mileage-icon-${seq}`}
-                />
-                {Number(price).toLocaleString()}
-              </Typography>
+              variant="body1"
+              sx={{
+                textAlign: "center",
+                display: "flex",
+                alignItems: "center",
+                marginBottom: "7px",
+              }}
+            >
+              <img
+                src="/images/M-1.png"
+                alt="마일리지"
+                style={{ width: "20px", height: "20px", marginRight: "5px" }}
+              />
+              {Number(price).toLocaleString()}
+            </Typography>
             ) 
             :
             <div>

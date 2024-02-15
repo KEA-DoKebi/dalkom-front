@@ -2,7 +2,7 @@ import axios from "axios";
 
 // 개발 환경과 프로덕션 환경에 따라 다른 baseURL 설정
 const baseURL =
-  process.env.NODE_ENV === "production"
+  process.env.REACT_APP_NODE_ENV === "production"
     ? process.env.REACT_APP_SERVER_ADDRESS
     : "";
 
@@ -33,5 +33,3 @@ TokenAxios.interceptors.request.use(
     return Promise.reject(error);
   },
 );
-
-

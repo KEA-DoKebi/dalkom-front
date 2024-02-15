@@ -172,19 +172,6 @@ export default function MileageApprovalBody() {
               mb: "10px",
             }}
           >
-            {/* <TextField
-                            id="amount"
-                            placeholder="충전하기"
-                            variant="standard"
-                            {...register("amount")}
-                        />
-                        <Button
-                            type="submit"
-                            sx={{ color: "black" }}
-                            onClick={mileCharge}
-                        >
-                            <AddCardIcon />
-                        </Button> */}
             <Button
               style={{
                 backgroundColor: "gold",

@@ -192,10 +192,11 @@ const MileageInquiryPage = () => {
       // 오류 처리
       console.error("저장 중 오류 발생:", error);
       Swal.fire({
-        icon: "success",
-        title: "마일리지 문의에 대한 답변이<br> 완료되었습니다.",
+        //
+        icon: "error",
+        title: "답변 등록에 실패했습니다.",
         showConfirmButton: true,
-        confirmButtonColor: "black",
+        confirmButtonColor: "gray",
         confirmButtonText: "확인",
       });
     }

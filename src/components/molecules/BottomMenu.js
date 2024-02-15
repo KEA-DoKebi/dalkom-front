@@ -46,14 +46,12 @@ export const BottomMenu = () => {
         marginBottom: isHovered ? "0.5vh" : "-250px",
         transition: "margin-bottom 0.5s",
       }}
-      data-cy="bottom-menu-container"
     >
       <Grid container>
         <Grid
           item
           xs={12}
           sx={{ marginBottom: "0.5vh", textAlign: "center", padding: "20px" }}
-          data-cy="bottom-menu-title"
         >
           <StyledPopUpTitle>상품 비교하기</StyledPopUpTitle>
         </Grid>
@@ -127,11 +125,7 @@ export const BottomMenu = () => {
             marginBottom: "1.5vh",
           }}
         >
-          <StyledButton 
-            variant="contained" 
-            onClick={handleCompareBtnClicked}
-            data-cy="compare-button"
-          >
+          <StyledButton variant="contained" onClick={handleCompareBtnClicked}>
             비교하기
           </StyledButton>
         </Grid>

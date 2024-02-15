@@ -75,7 +75,7 @@ export const ComparisonBody = () => {
   }, [subCategorySeq]);
 
   return (
-    <Paper elevation={0} sx={{ padding: 2 }} data-cy="comparison-body">
+    <Paper elevation={0} sx={{ padding: 2 }}>
       <Typography
         sx={{
           textAlign: "center",
@@ -84,26 +84,23 @@ export const ComparisonBody = () => {
           fontSize: "30px",
           fontWeight: "900",
         }}
-        data-cy="comparison-title"
       >
         {selectedCategory} 상품 비교하기
       </Typography>
       <Grid container>
-        <Grid item xs={2} ></Grid>
-        <Grid item xs={2} data-cy="select-box-1">
+        <Grid item xs={2}></Grid>
+        <Grid item xs={2}>
           <SelectBox>
             <Select
               value={selectedProductSeqList[0]}
               onChange={(e) => handleSelectChange(e, 0)}
               sx={{ width: "15vw", marginBottom: "3vh" }}
-              data-cy="product-select-1"
               // disabled={!selectedCategory}
             >
               {subCategoryProductList.map((product) => (
                 <MenuItem
                   key={product.productSeq}
                   value={product.productSeq}
-                  data-cy={`product-option-1-${product.productSeq}`}
                   // disabled={Object.values(selectedProducts).includes(product.productSeq)}
                 >
                   {product.name}
@@ -113,20 +110,18 @@ export const ComparisonBody = () => {
           </SelectBox>
         </Grid>
         <Grid item xs={1}></Grid>
-        <Grid item xs={2} data-cy="select-box-2">
+        <Grid item xs={2}>
           <SelectBox>
             <Select
               value={selectedProductSeqList[1]}
               onChange={(e) => handleSelectChange(e, 1)}
               sx={{ width: "15vw", marginBottom: "3vh" }}
-              data-cy="product-select-2"
               // disabled={!selectedCategory}
             >
               {subCategoryProductList.map((product) => (
                 <MenuItem
                   key={product.productSeq}
                   value={product.productSeq}
-                  data-cy={`product-option-2-${product.productSeq}`}
                   // disabled={Object.values(selectedProducts).includes(product.productSeq)}
                 >
                   {product.name}
@@ -136,20 +131,18 @@ export const ComparisonBody = () => {
           </SelectBox>
         </Grid>
         <Grid item xs={1}></Grid>
-        <Grid item xs={2} data-cy="select-box-3">
+        <Grid item xs={2}>
           <SelectBox>
             <Select
               value={selectedProductSeqList[2]}
               onChange={(e) => handleSelectChange(e, 2)}
               sx={{ width: "15vw", marginBottom: "3vh" }}
-              data-cy="product-select-3"
               // disabled={!selectedCategory}
             >
               {subCategoryProductList.map((product) => (
                 <MenuItem
                   key={product.productSeq}
                   value={product.productSeq}
-                  data-cy={`product-option-3-${product.productSeq}`}
                   // disabled={Object.values(selectedProducts).includes(product.productSeq)}
                 >
                   {product.name}
