@@ -58,7 +58,7 @@ export const SearchBody = () => {
               {productDataList?.map((product, idx) => (
                 <Grid item xs={3} key={idx}>
                   <MainProductCard
-                    imageUrl={product.imageUrl}
+                    imageUrl={`${product.imageUrl}?w=300&h=300&f=webp`} // 포맷팅
                     title={product.name}
                     price={product.price}
                     star={product.rating}

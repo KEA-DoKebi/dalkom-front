@@ -61,13 +61,13 @@ const MainBody = () => {
       <StyledCarousel data-cy="carousel">
         <StyledPaper sx={{ backgroundColor: "#FFF8DC" }} data-cy="carousel-item-1">
           <Link to="/cs/manual">
-            <BannerImage src="/images/MainPage/dokebiBanner4.png" data-cy="banner-image-1" />
+            <BannerImage src="/images/MainPage/dokebiBanner4.avif" data-cy="banner-image-1" />
           </Link>
         </StyledPaper>
 
         <StyledPaper sx={{ backgroundColor: "#ffd1d2" }} data-cy="carousel-item-2">
           <Link to="/cs/manual">
-            <BannerImage src="/images/MainPage/dokebiBanner5.png" data-cy="banner-image-2" />
+            <BannerImage src="/images/MainPage/dokebiBanner5.avif" data-cy="banner-image-2" />
           </Link>
         </StyledPaper>
       </StyledCarousel>
@@ -81,7 +81,7 @@ const MainBody = () => {
           >
             <ImageBox data-cy={`category-image-box-${index}`}>
               <StyledAvartar
-                src={`/images/MainPage/category${category.categorySeq}.png`}
+                src={`/images/MainPage/category${category.categorySeq}.avif`}
                 data-cy={`category-avatar-${index}`}
               />
               <Typography data-cy={`category-name-${index}`}>{category.categoryName}</Typography>
@@ -120,7 +120,6 @@ const MainBody = () => {
                                   key={product.productSeq}
                                   // imageUrl={product.imageUrl.replace('d3tilqrki7dfvu.cloudfront.net', 'dalkom-image.s3.ap-northeast-2.amazonaws.com')} // S3
                                   // imageUrl={product.imageUrl} // 그냥 CDN
-
                                   imageUrl={`${product.imageUrl}?w=300&h=300&f=webp`} // 포맷팅
                                   title={product.name}
                                   price={Number(product.price).toLocaleString()}
