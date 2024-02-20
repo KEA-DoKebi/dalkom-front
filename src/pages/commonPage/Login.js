@@ -67,21 +67,35 @@ const CustomButton = muiStyled(Button)({
 });
 
 const Login = () => {
-  const { register, handleSubmit } = useForm({
+  const isAuthenticated = useAuth();
+  const [mode, setMode] = useState("user");
+  const [isShowPw, setShowPwState] = useState(true);
+
+
+  const { register, handleSubmit, reset } = useForm({
     defaultValues : {
       email : "temp@gmail.com",
       password : "123456a!",
     }
   });
 
-  const isAuthenticated = useAuth();
-  const [mode, setMode] = useState("user");
-  const [isShowPw, setShowPwState] = useState(true);
+ 
 
   const navigate = useNavigate();
 
   const handleModeChange = (isAdmin) => {
     setMode(isAdmin ? "admin" : "user");
+    if (isAdmin) {
+      reset({
+        email: "admin",
+        password: "1234a!"
+      });
+    } else {
+      reset({
+        email: "temp@gmail.com",
+        password: "123456a!"
+      });
+    }
   };
 
   const toggleHidePassword = () => {
@@ -172,13 +186,12 @@ const Login = () => {
 
           <Find>
             <TextButton left onClick={() => navigate("/signUp")} text="회원가입" />
-            <TextButton right text="관리자 아이디 / 비밀번호" 
+            <TextButton right text="아이디 / 비밀번호 찾기" 
             onClick={
               () => 
               Swal.fire({
                 icon: "info",
-                // title: "관리자에게 문의하세요.<br/> 📞 031-123-4567",
-                title : "아이디 : admin <br /> 비밀번호 : 1234a!",
+                title: "관리자에게 문의하세요.<br/> 📞 031-123-4567",
                 showConfirmButton: true,
                 confirmButtonColor: "gray",
                 confirmButtonText: "확인",
