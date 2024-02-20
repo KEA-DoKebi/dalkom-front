@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import LoginPage from "assets/images/LoginPage.jpg";
 import character from "assets/images/character.png";
@@ -14,6 +14,7 @@ import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
+import { useAuth } from "useAuth";
 
 const Base = styled.div`
   width: 1920px;
@@ -66,7 +67,14 @@ const CustomButton = muiStyled(Button)({
 });
 
 const Login = () => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit } = useForm({
+    defaultValues : {
+      email : "temp@gmail.com",
+      password : "123456a!",
+    }
+  });
+
+  const isAuthenticated = useAuth();
   const [mode, setMode] = useState("user");
   const [isShowPw, setShowPwState] = useState(true);
 
@@ -111,6 +119,12 @@ const Login = () => {
       console.log(e);
     }
   };
+
+  useEffect(() => {
+    if(isAuthenticated){
+      navigate("/");
+    }
+  },[navigate, isAuthenticated])
 
   return (
     <Base>
@@ -158,12 +172,13 @@ const Login = () => {
 
           <Find>
             <TextButton left onClick={() => navigate("/signUp")} text="회원가입" />
-            <TextButton right text="이메일 | 비밀번호 찾기" 
+            <TextButton right text="관리자 아이디 / 비밀번호" 
             onClick={
               () => 
               Swal.fire({
                 icon: "info",
-                title: "관리자에게 문의하세요.<br/> 📞 031-123-4567",
+                // title: "관리자에게 문의하세요.<br/> 📞 031-123-4567",
+                title : "아이디 : admin <br /> 비밀번호 : 1234a!",
                 showConfirmButton: true,
                 confirmButtonColor: "gray",
                 confirmButtonText: "확인",

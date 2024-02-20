@@ -9,21 +9,25 @@ export function useAuth() {
     const token = localStorage.getItem("accessToken");
     const role = localStorage.getItem("role"); // 역할 정보도 저장되어 있다고 가정
     const mileage = localStorage.getItem("mileage");
+    const path = window.location.pathname;
 
     if (token) {
       setIsAuthenticated(true);
 
       if (mileage) {
-        if (window.location.pathname.startsWith("/admin")) {
+        if (path.startsWith("/admin")) {
           navigate("/");
         }
       } else if (role) {
-        if (!window.location.pathname.startsWith("/admin")) {
+        if (!path.startsWith("/admin")) {
           navigate("/admin");
         }
       }
     } else {
-      setIsAuthenticated(true);
+      setIsAuthenticated(false);
+      if(!path.startsWith("/signUp")){
+        navigate("/login");
+      }
     }
   }, [navigate]);
 

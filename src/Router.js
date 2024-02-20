@@ -1,4 +1,4 @@
-import { ApmRoutes } from "@elastic/apm-rum-react";
+// import { ApmRoutes } from "@elastic/apm-rum-react";
 import AdminPage from "pages/Admin/AdminManage/AdminPage";
 import AdminListPage from "pages/Admin/AdminManage/AdminListPage";
 import AdminRegisterPage from "pages/Admin/AdminManage/AdminRegisterPage";
@@ -40,8 +40,8 @@ import Login from "pages/commonPage/Login";
 import SignUp from "pages/commonPage/SignUp";
 import ComparisonPage from "pages/User/Camparison/ComparisonPage";
 import React from "react";
-import { BrowserRouter, Route } from "react-router-dom";
-import { init as initApm } from "@elastic/apm-rum";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+// import { init as initApm } from "@elastic/apm-rum";
 import ProductDetailPage from "pages/User/ProductDetailPage/ProductDetailPage";
 import { AuthProvider } from "./AuthContext";
 import { SearchPage } from "pages/User/SearchPage/SearchPage";
@@ -53,12 +53,12 @@ import MileageInquiryPage from "pages/Admin/InquiryManage/MileageInquiryPage";
 import RouteChangeTracker from "./RouteChangeTracker";
 
 // eslint-disable-next-line no-unused-vars, no-undef
-const apm = initApm({
-  serviceName: "dalkom-front",
-  serverUrl: process.env.REACT_APP_APM_URL,
-  secretToken: process.env.REACT_APP_APM_TOKEN,
-  environment: "dalkom-front",
-});
+// const apm = initApm({
+//   serviceName: "dalkom-front",
+//   serverUrl: process.env.REACT_APP_APM_URL,
+//   secretToken: process.env.REACT_APP_APM_TOKEN,
+//   environment: "dalkom-front",
+// });
 
 
 
@@ -69,7 +69,8 @@ const Router = () => {
     <BrowserRouter>
     <RouteChangeTracker />
       <AuthProvider>
-        <ApmRoutes>
+        {/* <ApmRoutes> */}
+        <Routes>
           {/* 사용자 */}
 
           <Route path="/" element={<MainPage />} />
@@ -218,7 +219,8 @@ const Router = () => {
               element={<ComparisonPage />}
             />
           </Route>
-        </ApmRoutes>
+        {/* </ApmRoutes> */}
+        </Routes>
       </AuthProvider>
     </BrowserRouter>
   );
